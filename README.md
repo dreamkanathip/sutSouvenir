@@ -1,4 +1,4 @@
-# sutSouvenir - finalProject (ร้านขายของที่ระลึก มทส.)
+# sutSouvenir - seniorProject (ร้านขายของที่ระลึก มทส.)
 # Group Members
   ### 1.B6401894 - สิรภพ สิริอาภากุล       github name: SiraphopSS
   ### 2.B6414313 - ไชยนันต์ สีขจร         github name : chaiyanan-s
