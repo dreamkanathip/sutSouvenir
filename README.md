@@ -1,4 +1,4 @@
-# sutSouvenir - finalProject (ร้านขายของที่ระลึก มทส.)
+# sutSouvenir - seniorProject (ร้านขายของที่ระลึก มทส.)
 # Group Members
   ### 1.B6401894 - สิรภพ สิริอาภากุล       github name: SiraphopSS
   ### 2.B6414313 - ไชยนันต์ สีขจร         github name : chaiyanan-s
@@ -6,8 +6,10 @@
 # Project Setup
 
 ### Backend tools
-npm install express bcryptjs cookie-parser cors jsonwebtoken morgan env nodemon --save-dev
+npm install express bcryptjs cookie-parser cors jsonwebtoken morgan env nodemon --save-dev prisma@5.20.0 @prisma/client@5.20.0
 
 ### Frontend tools
 
-### Database 
+### Build prisma file
+npx prisma init
+
