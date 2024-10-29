@@ -1,40 +1,53 @@
 .container {
-    margin-top: 2%;
+    margin-top: 8%;
     margin-bottom: 2%;
-    /* background-color: blueviolet; */
+    font-family: 'SUT', sans-serif;
 }
 .row {
     justify-content: center;
 }
 .card {
     width: 16rem;
-    margin: 2%;
+    margin: 1.5%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
-.title {
-    height: 4rem;
-    text-overflow: ellipsis;
-}
-
 .card-img-top {
     padding: 5%;
 }
 .main-btn {
     background-color: #F36523;
     color: #fff;
-    font-weight: 700;
     margin-top: 10%;
+    font-size: 22px;
+    border-radius: 10px;
 }
 .to-fav.btn {
     margin-bottom: 10%;
     color: black
 }
+p { 
+    line-height: 1em; 
+}
+.title {
+    height: 3.5rem;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12%;
+}
+.price {
+    height: 2rem;
+    color: #F36523;
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 0.5rem;
+}
 .quantity {
     color: gray;
     margin-top: 0;
+    font-size: 22px;
 }
-.price {
-    height: 3rem;
-    color: #F36523;
-    font-weight: 700;
-    font-size: 24px;
+.add-to-fav {
+    margin-top: 1rem;
+    text-align: end;
+    color: #636363;
 }

@@ -1,3 +1,5 @@
 .container {
     max-width: 1920px;
+    font-family: 'SUT', sans-serif;
+    font-size: 24px;
 }

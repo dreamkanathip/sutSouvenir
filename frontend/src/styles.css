@@ -1,10 +1,6 @@
 @font-face {
     font-family: 'SUT';
-    src: url('/assets/fonts/SUT-Regular.otf') format('opentype');
+    src: url('./assets/fonts/SUT-Regular.otf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
-body {
-    font-family: 'SUT', sans-serif;
-  }

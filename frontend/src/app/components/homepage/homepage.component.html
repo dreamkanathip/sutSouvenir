@@ -3,16 +3,16 @@
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-8">
         <div class="card col" *ngFor="let item of productItems; index as i">
+            <div class="add-to-fav">
+                <i class='bx bx-heart bx-sm'></i>
+            </div>
             <img src="assets/SUT-Logo.png" class="card-img-top">
             <div class="card-body">
-                <h5 class="title">{{item.title}}</h5>
+                <p class="title">{{item.title}}</p>
                 <p class="price">฿{{item.price}}</p>
-                <h6 class="quantity">เหลือ: {{item.quantity}} ชิ้น</h6>
+                <p class="quantity">เหลือ: {{item.quantity}} ชิ้น</p>
                 <button type="button" class="btn main-btn w-100">
                     เพิ่มในรถเข็น
-                </button>
-                <button type="button" class="btn to-fav-btn btn-link">
-                    เพิ่มไปยังรายการโปรด
                 </button>
             </div>
         </div>

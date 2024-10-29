@@ -37,6 +37,7 @@
                 "output": "/"
               },
               "src/assets",
+              "src/assets",
               "src/favicon.ico"
             ],
             "styles": [
@@ -122,7 +123,7 @@
   "cli": {
     "analytics": "4a1ba9aa-7256-4170-bb30-90e83e7ef532",
     "cache": {
-      "enabled": false
+      "enabled": true
     }
   }
 }

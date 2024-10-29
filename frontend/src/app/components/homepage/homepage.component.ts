@@ -9,7 +9,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomepageComponent {
 
+  addToFav!: any;
   productItems!: Product[]; 
+
   constructor(private homepageService: HomepageService) {
     this.loadProducts()
   }
