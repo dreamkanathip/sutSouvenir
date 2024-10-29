@@ -1,0 +1,40 @@
+.container {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    /* background-color: blueviolet; */
+}
+.row {
+    justify-content: center;
+}
+.card {
+    width: 16rem;
+    margin: 2%;
+}
+.title {
+    height: 4rem;
+    text-overflow: ellipsis;
+}
+
+.card-img-top {
+    padding: 5%;
+}
+.main-btn {
+    background-color: #F36523;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 10%;
+}
+.to-fav.btn {
+    margin-bottom: 10%;
+    color: black
+}
+.quantity {
+    color: gray;
+    margin-top: 0;
+}
+.price {
+    height: 3rem;
+    color: #F36523;
+    font-weight: 700;
+    font-size: 24px;
+}

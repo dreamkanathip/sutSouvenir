@@ -1,5 +1,21 @@
+<!DOCTYPE html>
 <app-navbar></app-navbar>
-
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-8">
+        <div class="card col" *ngFor="let item of productItems; index as i">
+            <img src="assets/SUT-Logo.png" class="card-img-top">
+            <div class="card-body">
+                <h5 class="title">{{item.title}}</h5>
+                <p class="price">฿{{item.price}}</p>
+                <h6 class="quantity">เหลือ: {{item.quantity}} ชิ้น</h6>
+                <button type="button" class="btn main-btn w-100">
+                    เพิ่มในรถเข็น
+                </button>
+                <button type="button" class="btn to-fav-btn btn-link">
+                    เพิ่มไปยังรายการโปรด
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <app-footer></app-footer>
-
-

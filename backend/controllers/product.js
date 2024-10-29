@@ -3,7 +3,13 @@ const prisma = require("../config/prisma");
 exports.create = async (req, res) => {
   try {
     // code
-    const { title, description, price, quantity, categoryId, images } =
+    const { 
+      title, 
+      description, 
+      price, 
+      quantity, 
+      // categoryId, images
+     } =
       req.body;
     // console.log(title, description, price, quantity, images)
     const product = await prisma.product.create({
@@ -12,15 +18,15 @@ exports.create = async (req, res) => {
         description: description,
         price: parseFloat(price),
         quantity: parseInt(quantity),
-        categoryId: parseInt(categoryId),
-        images: {
-          create: images.map((item) => ({
-            asset_id: item.asset_id,
-            public_id: item.public_id,
-            url: item.url,
-            secure_url: item.secure_url,
-          })),
-        },
+        // categoryId: parseInt(categoryId),
+        // images: {
+        //   create: images.map((item) => ({
+        //     asset_id: item.asset_id,
+        //     public_id: item.public_id,
+        //     url: item.url,
+        //     secure_url: item.secure_url,
+        //   })),
+        // },
       },
     });
     res.send(product);
@@ -34,8 +40,8 @@ exports.list = async (req, res) => {
     // code
     const { count } = req.params;
     const products = await prisma.product.findMany({
-      take: parseInt(count),
-      orderBy: { createdAt: "desc" },
+      // take: parseInt(count),
+      orderBy: { createdAt: "asc" },
       include: {
         category: true,
         images: true,

@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
-
+import { HomepageService } from '../../services/homepage/homepage.service';
+import { Product } from '../../interfaces/products/products.model';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent {
 
+  productItems!: Product[]; 
+  constructor(private homepageService: HomepageService) {
+    this.loadProducts()
+  }
+
+  loadProducts() {
+    this.homepageService.getAllProducts().subscribe((result) => {
+      this.productItems = result;
+    })
+  }
 }
