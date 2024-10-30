@@ -7,14 +7,16 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FavouriteComponent } from './components/favourite/favourite.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     NavbarComponent,
     FooterComponent,
-    FavouriteComponent
-  ],
+    FavouriteComponent,
+    ProductDetailsComponent,
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

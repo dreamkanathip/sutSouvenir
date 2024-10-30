@@ -30,6 +30,7 @@
     color: white;
     cursor: pointer;
     border-radius: 65px;
+    border: none;
 }
 .search-input {
     border: 2px solid #F36523;
