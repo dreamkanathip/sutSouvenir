@@ -10,5 +10,5 @@ export class CartService {
 
   apiUrl = 'localhost:5000/api';
 
-  addItemToCart() 
+  // addItemToCart() 
 }
