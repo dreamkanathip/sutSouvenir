@@ -1,0 +1,109 @@
+<app-navbar></app-navbar>
+<div class="row edit-address-page">
+    <div class="col-md-4">
+        <div class="user-menu">
+            <div class="menu">
+                <h3 class="container-header">บัญชีผู้ใช้</h3>
+                <hr/>
+                <p>จัดการบัญชี</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="edit-address-container">
+            <h3 class="container-header">แก้ไขที่อยู่</h3>
+            <br />
+            <div class="form-container">
+                <form [formGroup]="editAddressForm" (ngSubmit)="submit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-field">
+                                <div class="form-group">
+                                    <h5>ชื่อ</h5>
+                                    <input type="search" class="input" id="firstName-input" formControlName="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <h5>ที่อยู่</h5>
+                                    <input type="search" class="input" id="address-input" formControlName="street">
+                                </div>
+                                <div class="form-group">
+                                    <h5>อำเภอ</h5>
+                                    <div class="dropdown">
+                                        <a 
+                                            class="btn dropdown-toggle input" 
+                                            role="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false">
+                                            {{ selectedDistrict || 'เลือกอำเภอ' }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li *ngFor="let district of filteredDistricts">
+                                                <a class="dropdown-item" (click)="districtSelect(district)">{{ district }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h5>เบอร์โทรศัพท์</h5>
+                                    <input type="search" class="input" id="phone-input" formControlName="phoneNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-field">
+                                <div class="form-group">
+                                    <h5>นามสกุล</h5>
+                                    <input type="search" class="input" id="lastName-input" formControlName="lastName">
+                                </div>
+                                <div class="form-group">
+                                    <h5>จังหวัด</h5>
+                                    <div class="dropdown">
+                                        <a 
+                                            class="btn dropdown-toggle input" 
+                                            role="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false">
+                                            {{ selectedProvince || 'เลือกจังหวัด' }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li *ngFor="let province of uniqueProvinces">
+                                                <a class="dropdown-item" (click)="provinceSelect(province)">{{ province }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h5>ตำบล</h5>
+                                    <div class="dropdown">
+                                        <a 
+                                            class="btn dropdown-toggle input" 
+                                            role="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false">
+                                            {{ selectedSubDistrict || 'เลือกตำบล' }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li *ngFor="let subDistrict of filteredSubDistricts">
+                                                <a class="dropdown-item" (click)="subDistrictSelect(subDistrict)">{{ subDistrict }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h5>รหัสไปรษณีย์</h5>
+                                    <input type="search" class="input" id="postal-input" formControlName="postalCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-submit-container">
+                        <button type="button" class="cancel-btn" (click)="cancel()">ยกเลิก</button>
+                        <button type="submit" class="submit-btn">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+<div class="row mx-auto address-page">
+    <div class="col-md-4">
+        <div class="user-menu">
+            <div class="menu">
+                <h3 class="container-header">บัญชีผู้ใช้</h3>
+                <hr/>
+                <p>จัดการบัญชี</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="my-address-container">
+            <h3 class="container-header">ที่อยู่ของฉัน</h3>
+            <br/>
+            <div class="address-table border border-bottom-0">
+                <table class="table table-inverse">
+                    <thead class="thead thead-inverse">
+                        <tr>
+                            <th>ชื่อ</th>
+                            <th>ที่อยู่</th>
+                            <th>เบอร์โทรศัพท์</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of allAddress; index as i">
+                            <td>{{item.firstName}} {{item.lastName}}</td>
+                            <td>{{item.street}} {{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>
+                                <p>ตั้งค่าเป็นที่อยู่จัดส่ง</p>
+                            </td>
+                            <td>
+                                <button (click)="editAddressNavigate(item.id)">แก้ไข</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
