@@ -17,7 +17,7 @@ import {
   provideHttpClient,
   withFetch,
 } from '@angular/common/http';
-import { FavoriteComponent } from './components/favorite/favorite.component';
+import { FavoriteComponent } from './components/favourite/favourite.component';
 
 @NgModule({
   declarations: [
