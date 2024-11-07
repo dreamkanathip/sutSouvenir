@@ -17,7 +17,7 @@ import {
   provideHttpClient,
   withFetch,
 } from '@angular/common/http';
-import { FavoriteComponent } from './components/favorite/favorite.component';
+import { FavouriteComponent } from './components/favourite/favourite.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +25,10 @@ import { FavoriteComponent } from './components/favorite/favorite.component';
     HomepageComponent,
     NavbarComponent,
     FooterComponent,
-    FavoriteComponent,
     ProductDetailsComponent,
     LoginComponent,
     RegisterComponent,
+    FavouriteComponent,
   ],
   imports: [
     BrowserModule,
