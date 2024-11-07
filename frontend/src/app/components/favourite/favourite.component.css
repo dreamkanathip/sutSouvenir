@@ -11,8 +11,9 @@ body {
 }
 
 .main-wrapper {
-  display: block; /* เปลี่ยนเป็น block แทนที่จะใช้ Flexbox */
-  padding: 20px; /* เพิ่มระยะห่างจากขอบ */
+  display: block;
+  padding: 20px;
+  margin-top: 135px; /* เพิ่มระยะห่างจาก navbar */
 }
 
 .wrapper-left {
