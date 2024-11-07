@@ -1,14 +1,22 @@
-// import ....
 const express = require("express");
 const router = express.Router();
-// import controller
+
+// Import Controller
 const { register, login, currentUser } = require("../controllers/auth");
-// import Middleware
+
+// Import Middleware
 const { authCheck, adminCheck } = require("../middlewares/authCheck");
 
+// Route สำหรับการลงทะเบียน
 router.post("/register", register);
+
+// Route สำหรับการเข้าสู่ระบบ
 router.post("/login", login);
+
+// Route สำหรับดึงข้อมูลผู้ใช้ปัจจุบัน (จำเป็นต้องเข้าสู่ระบบก่อน)
 router.post("/current-user", authCheck, currentUser);
+
+// Route สำหรับดึงข้อมูลผู้ดูแลระบบ (ต้องเข้าสู่ระบบและเป็นผู้ดูแลระบบ)
 router.post("/current-admin", authCheck, adminCheck, currentUser);
 
 module.exports = router;

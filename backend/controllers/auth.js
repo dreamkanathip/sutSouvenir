@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   try {
     //code
-    const { email, password } = req.body;
+    const { firstName, lastName, email, password, gender } = req.body;
 
     // Step 1 Validate body
     if (!email) {
@@ -87,7 +87,7 @@ exports.currentUser = async (req, res) => {
       select: {
         id: true,
         email: true,
-        name: true,
+        firstname: true,
         role: true,
       },
     });

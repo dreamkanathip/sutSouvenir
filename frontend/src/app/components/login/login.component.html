@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="login.component.css" />
+  </head>
+  <body>
+    <div class="ext-box">
+      <div class="wrapper">
+        <div class="container">
+          <div class="row">
+            <!-- Sidebar image section -->
+            <div class="col-md-6 side-image"></div>
+
+            <!-- Login form section -->
+            <div class="col-md-6 right">
+              <div class="input-box">
+                <header class="header">Sign in</header>
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <div class="input-field">
+                    <input
+                      formControlName="email"
+                      type="email"
+                      class="input"
+                      id="login-email"
+                      required
+                      autocomplete="off"
+                    />
+                    <label for="login-email">Email</label>
+                  </div>
+
+                  <div class="input-field">
+                    <input
+                      formControlName="password"
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="input"
+                      id="login-password"
+                      required
+                    />
+                    <label for="login-password">Password</label>
+                    <i
+                      class="fa fa-eye password-toggle"
+                      [class.fa-eye-slash]="showPassword"
+                      (click)="togglePasswordVisibility()"
+                    ></i>
+                  </div>
+
+                  <div class="input-field">
+                    <button type="submit" class="submit">Sign In</button>
+                  </div>
+
+                  <div class="signin">
+                    <span>
+                      Don't have an account?
+                      <a routerLink="/register">Register here</a>
+                    </span>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

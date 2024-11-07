@@ -1,0 +1,296 @@
+* {
+  font-family: url("../../../assets/fonts/SUT-Light.otf");
+}
+body {
+  background-image: url("../../../assets/bgtemp-login-regis.jpg");
+  background-size: cover; /* ทำให้ภาพพื้นหลังขยายเต็มพื้นที่ */
+  background-position: center; /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */
+  background-repeat: no-repeat; /* ป้องกันการทำซ้ำของภาพพื้นหลัง */
+  overflow: hidden;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.header {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+.ext-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+/* สำหรับ .wrapper ให้อยู่ตรงกลางและกำหนดขนาดที่แน่นอน */
+.wrapper {
+  width: 8000px;
+  padding: 0;
+}
+
+/* สำหรับ .container ให้อยู่ตรงกลางภายใน wrapper และสามารถปรับขนาดได้ */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* ใช้ความกว้างเต็มของ wrapper */
+  max-width: 100%; /* จำกัดความกว้างสูงสุดให้ไม่เกินขนาดของ wrapper */
+  padding: 20px; /* เพิ่ม padding สำหรับ container */
+  box-sizing: border-box; /* รวม padding และ border ไว้ในขนาดของกล่อง */
+}
+
+.side-image {
+  background-image: url("../../../assets/logo.jpg");
+  background-position: center;
+  background-size: auto; /* ให้แสดงในขนาดจริง */
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 10px 0 0 10px; /* เพิ่มเฉพาะมุมของฝั่งรูปภาพ */
+  margin: 0; /* นำ margin ออกเพื่อให้รูปภาพชิดกับ box */
+}
+
+.img {
+  width: 35px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+.row {
+  width: 900px;
+  height: 550px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* ทำให้เนื้อหาที่เกินจาก box ถูกตัด */
+}
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.text p {
+  color: #fff;
+  font-size: 18px;
+}
+i {
+  font-weight: 400;
+  font-size: 15px;
+}
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.input-box {
+  width: 330px;
+  box-sizing: border-box;
+}
+
+.input-box-header {
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 10px; /* เพิ่ม padding เพื่อให้มีพื้นที่รอบ ๆ input */
+  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง input-field */
+}
+
+.input {
+  height: 45px; /* ความสูงของ input */
+  width: 100%; /* ใช้ความกว้างเต็มของ input-field */
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  outline: none;
+  color: #40414a;
+  box-sizing: border-box; /* รวม padding และ border ไว้ในขนาดของ input */
+}
+
+.input-box .input-field label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+  transition: 0.5s;
+  color: #aaa; /* สีของ label ในตอนเริ่มต้น */
+}
+
+.input-field .input:focus ~ label,
+.input-field .input:valid ~ label {
+  top: -10px;
+  font-size: 13px;
+  color: #5d5076;
+}
+
+.input-field .input:focus,
+.input-field .input {
+  border-bottom: 1px solid #f26522; /* สีของขอบเมื่อมีการโฟกัส */
+}
+
+.submit {
+  width: 100%; /* ใช้ความกว้างเต็มของ input-box */
+  height: 45px;
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+}
+
+.submit:hover {
+  background: rgba(37, 95, 156, 0.1);
+  color: #fff;
+}
+
+.signin {
+  text-align: center;
+  font-size: small;
+  margin-top: 25px;
+}
+
+span a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #000;
+  transition: 0.5s;
+}
+
+span a:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+@media only screen and (max-width: 768px) {
+  .side-image {
+    border-radius: 10px 10px 0 0;
+  }
+  img {
+    width: 35px;
+    position: absolute;
+    left: 47%;
+  }
+  .text {
+    position: absolute;
+    top: 70%;
+    text-align: center;
+  }
+
+  .text p,
+  .text i {
+    font-size: 17px;
+  }
+
+  .row {
+    max-width: 420px;
+    width: 100%;
+  }
+}
+.gender-container {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.gender-options {
+  display: flex;
+  justify-content: center; /* จัดให้อยู่ตรงกลาง */
+  align-items: center;
+}
+
+.gender-option {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* Space between the radio buttons */
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+}
+
+.gender-option input[type="radio"] {
+  display: none; /* ซ่อน radio button แต่ยังให้ label คลิกได้ */
+}
+
+.gender-option-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 2.5em; /* เพิ่มพื้นที่ให้กับปุ่ม radio */
+  margin-left: 10px; /* ขยับปุ่ม radio ไปทางขวา */
+}
+
+.gender-option-label::before {
+  content: "";
+  display: inline-block;
+  height: 1em; /* ขนาดของ radio button */
+  width: 1em; /* ขนาดของ radio button */
+  border: 2px solid #aaa; /* สีขอบของ radio button เริ่มต้น */
+  border-radius: 50%; /* ทำให้เป็นวงกลม */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%); /* จัดแนวกลาง */
+}
+
+input[type="radio"]#male:checked + .gender-option-label::before {
+  background-color: #4189e0; /* สีฟ้าสำหรับ Male */
+  border-color: #4189e0;
+}
+
+input[type="radio"]#female:checked + .gender-option-label::before {
+  background-color: #ff69b4; /* สีชมพูสำหรับ Female */
+  border-color: #ff69b4;
+}
+/* Add this to your existing CSS */
+
+/* General container for the eye icon */
+.input-field {
+  position: relative;
+}
+
+/* Adjust the position of the eye icon */
+.input-field .fa-eye,
+.input-field .fa-eye-slash {
+  position: absolute;
+  right: 10px; /* Align it to the right of the input */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa; /* Default color for the eye icon */
+  transition: color 0.3s ease;
+}
+
+/* Eye icon hover effect */
+.input-field .fa-eye:hover,
+.input-field .fa-eye-slash:hover {
+  color: #f26522; /* Change color on hover */
+}
+
+/* Move eye icon up along with label on focus or valid */
+.input-field .input:focus ~ i,
+.input-field .input:valid ~ i {
+  top: -10px;
+  font-size: 13px;
+  color: #f26522; /* Color change */
+  transform: translateY(0); /* Adjust translation */
+}
+
+/* Handle error message and adjust spacing for eye icon */
+.input-field .input:focus:invalid ~ i,
+.input-field .input:invalid ~ i {
+  color: #f26522; /* Change eye icon color to red on validation error */
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  top: 55px; /* Adjust position so it doesn't overlap the icon */
+}

@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif; /* ตั้งค่าแบบอักษร */
+  background-color: #ffddbe;
+}
+
+.fav-title {
+  font-weight: bold; /* ทำให้ข้อความหนาขึ้น */
+  margin: 10px 0; /* เว้นระยะห่างจากขอบด้านบนและด้านล่าง */
+  padding: 10px; /* เพิ่มระยะห่างภายในจากขอบ */
+}
+
+.main-wrapper {
+  display: block; /* เปลี่ยนเป็น block แทนที่จะใช้ Flexbox */
+  padding: 20px; /* เพิ่มระยะห่างจากขอบ */
+}
+
+.wrapper-left {
+  width: 550px; /* กำหนดความกว้างให้ชัดเจนมากขึ้น */
+  height: 300px; /* ตั้งความสูงให้ชัดเจน */
+  padding: 20px; /* เพิ่มระยะห่างภายใน */
+  background-color: #f0f0f0; /* สีพื้นหลังสำหรับฝั่งซ้าย */
+  border-radius: 8px; /* มุมที่โค้งมน */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
+  float: left; /* ให้ฝั่งซ้ายอยู่ทางซ้าย */
+  margin-right: 20px; /* เพิ่มระยะห่างระหว่างฝั่งซ้ายและขวา */
+}
+
+.wrapper-right {
+  width: 900px; /* กำหนดความกว้างให้มากกว่าฝั่งซ้าย */
+  height: 500px; /* ตั้งความสูงให้มากกว่าฝั่งซ้าย */
+  padding: 20px; /* เพิ่มระยะห่างภายใน */
+  background-color: #ffffff;
+  border-radius: 8px; /* มุมที่โค้งมน */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
+  overflow: auto; /* ถ้ามีเนื้อหามากเกินไป จะมี scrollbar */
+}
+
+/* ปรับแต่ง scrollbar */
+.wrapper-right::-webkit-scrollbar {
+  width: 7px; /* กำหนดความกว้างของ scrollbar */
+}
+
+.wrapper-right::-webkit-scrollbar-track {
+  background: #f9f9f9; /* สีพื้นหลังของ track (สีอ่อน) */
+  border-radius: 8px; /* มุมที่โค้งมนของ track */
+}
+
+.wrapper-right::-webkit-scrollbar-thumb {
+  background: #e0e0e0; /* สีของ scrollbar (สีหลักที่ดูอ่อนกว่า) */
+  border-radius: 8px; /* มุมที่โค้งมนของ thumb */
+}
+
+.wrapper-right::-webkit-scrollbar-thumb:hover {
+  background: #d3d3d3; /* สีของ scrollbar เมื่อ hover (สีเข้มกว่า) */
+}
+
+.container-right {
+  display: flex; /* ใช้ Flexbox */
+  flex-direction: column; /* ให้รายการในแนวตั้ง */
+  gap: 20px; /* เว้นระยะห่างระหว่างการ์ด */
+  align-items: center; /* จัดแนวการ์ดให้อยู่กลางในแนวนอน */
+}
+
+.card-group {
+  display: flex; /* ใช้ Flexbox สำหรับการจัดเรียงการ์ด */
+  flex-wrap: wrap; /* ให้การ์ดอยู่ในบรรทัดใหม่เมื่อไม่พอ */
+  gap: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
+  justify-content: center; /* จัดการ์ดให้อยู่กลางในแนวนอน */
+}
+
+.card {
+  flex: 1 0 18rem; /* ยืดได้ตามพื้นที่ที่มีอยู่โดยมีขนาดเริ่มต้นเป็น 18rem */
+  max-width: 18rem; /* กำหนดความกว้างสูงสุดของการ์ด */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
+  border-radius: 8px; /* มุมที่โค้งมน */
+}
+
+.card-img-top {
+  border-top-left-radius: 8px; /* โค้งมนมุมซ้ายบน */
+  border-top-right-radius: 8px; /* โค้งมนมุมขวาบน */
+}

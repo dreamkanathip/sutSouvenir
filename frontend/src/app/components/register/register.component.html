@@ -1,0 +1,125 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
+<body>
+  <div class="ext-box">
+    <div class="wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 side-image"></div>
+          <div class="col-md-6 right">
+            <div>
+              <div class="input-box">
+                <header class="header">Create account</header>
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="input"
+                      id="register-firstname"
+                      formControlName="firstName"
+                      required
+                    />
+                    <label for="register-firstname">First Name</label>
+                  </div>
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="input"
+                      id="register-lastname"
+                      formControlName="lastName"
+                      required
+                    />
+                    <label for="register-lastname">Last Name</label>
+                  </div>
+
+                  <div class="input-field">
+                    <input
+                      formControlName="email"
+                      type="email"
+                      class="input"
+                      id="register-email"
+                      required
+                      autocomplete="off"
+                    />
+                    <label for="register-email">Email</label>
+                    <div *ngIf="form.get('email')?.hasError('invalidDomain')">
+                      <span class="error">
+                        Only specific domains are allowed (gmail.com,
+                        hotmail.com, hotmail.co.th, outlook.com)
+                      </span>
+                    </div>
+                  </div>
+                  <div class="input-field">
+                    <input
+                      formControlName="password"
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="input"
+                      id="password"
+                      required
+                    />
+                    <label for="password">Password</label>
+                    <i
+                      class="fa"
+                      [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                      (click)="togglePasswordVisibility()"
+                    ></i>
+                    <div
+                      *ngIf="
+                        form.get('password')?.hasError('minlength') &&
+                        form.get('password')?.touched
+                      "
+                    >
+                      <span class="error"
+                        >Password must be at least 6 characters long.</span
+                      >
+                    </div>
+                  </div>
+                  <div class="gender-container">
+                    <div class="gender-options">
+                      <div class="gender-option">
+                        <input
+                          type="radio"
+                          id="male"
+                          value="male"
+                          formControlName="gender"
+                          name="gender"
+                        />
+                        <label for="male" class="gender-option-label"
+                          >Male</label
+                        >
+                      </div>
+                      <div class="gender-option">
+                        <input
+                          type="radio"
+                          id="female"
+                          value="female"
+                          formControlName="gender"
+                          name="gender"
+                        />
+                        <label for="female" class="gender-option-label"
+                          >Female</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="input-field">
+                    <button type="submit" class="submit">Sign Up</button>
+                  </div>
+                  <div class="signin">
+                    <span>
+                      Already have an account?
+                      <a href="/login">Log in here</a>
+                    </span>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

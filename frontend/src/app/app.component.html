@@ -1,3 +1,8 @@
 <main>
-    <router-outlet></router-outlet>
+  <!-- ใช้ ngSkipHydration เฉพาะเมื่อจำเป็น และกำหนดเงื่อนไขให้แยกกัน -->
+  <app-register *ngIf="isRegisterPage" ngSkipHydration></app-register>
+  <app-login *ngIf="!isRegisterPage && isLoginPage" ngSkipHydration></app-login>
+
+  <!-- แสดง <router-outlet> เมื่อไม่ใช่หน้า Register หรือ Login -->
+  <router-outlet *ngIf="!isRegisterPage && !isLoginPage"></router-outlet>
 </main>
