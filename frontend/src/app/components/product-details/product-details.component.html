@@ -1,16 +1,15 @@
 <app-navbar></app-navbar>
-
 <div class="container">
     <div class="row">
         <div class="card col-5 img-container">
             <img src="assets/SUT-Logo.png" class="product-image">
         </div>
         <div class="col-1"></div>
-        <div class="col-5">
-            <h1 class="title">Untrustable Souvenir</h1>
-            <h1 class="price">฿1900</h1>
-            <h2 class="amount">จำนวน</h2>
-            <h2 class="review">รีวิว</h2>
+        <div class="col-5" *ngIf="product">
+            <h1 class="title">{{product.title}}</h1>
+            <h1 class="price">฿{{product.price}}</h1>
+            <p class="amount">มีสินค้าทัั้งหมด {{product.quantity}} ชิ้น</p>
+            <!-- <h2 class="review">รีวิว</h2> -->
             <button type="button" class="main-btn">
                 เพิ่มในรถเข็น
             </button>

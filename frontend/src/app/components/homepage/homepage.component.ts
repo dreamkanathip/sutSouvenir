@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HomepageService } from '../../services/homepage/homepage.service';
 import { Product } from '../../interfaces/products/products.model';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -11,6 +12,7 @@ export class HomepageComponent {
 
   addToFav!: any;
   productItems!: Product[]; 
+
 
   constructor(private homepageService: HomepageService) {
     this.loadProducts()

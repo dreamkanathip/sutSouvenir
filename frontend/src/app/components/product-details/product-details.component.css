@@ -42,3 +42,14 @@ h1 {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+.title {
+    font-size: 62px;
+}
+.price {
+    color: #F36523;    
+    font-size: 62px;
+}
+.amount {
+    font-size: 28px;
+    color: gray;
+}
