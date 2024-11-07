@@ -17,8 +17,10 @@ model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
   password   String?
-  name       String?
+  firstname  String?
+  lastname   String?
   picture    String?
+  gender     String?
   role       Role        @default(USER)
   enabled    Boolean     @default(true)
   orders     Order[]
