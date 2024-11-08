@@ -38,22 +38,23 @@ exports.deleteCart = async(req, res) => {
 exports.addItemToCart = async(req, res) => {
     try {
         const { userId, productId, quantity } = req.body
+        console.log("check backend", Number(productId))
         const product = await prisma.product.findUnique({
             where: {
-                id: productId
+                id: Number(productId)
             }
         })
         const cart = await prisma.cart.findFirst({
             where: {
-                userId: userId
+                userId: Number(userId)
             }
         })
 
         //check if item exist
         const checkItem = await prisma.productOnCart.findFirst({
             where: {
-                productId: productId,
-                cartId: cart.id
+                productId: Number(productId),
+                cartId: Number(cart.id)
             }
         })
 
@@ -63,11 +64,11 @@ exports.addItemToCart = async(req, res) => {
             const [updateAmount, updateCartTotal] = await prisma.$transaction([
                 prisma.productOnCart.update({
                     where: {
-                        id: checkItem.id
+                        id: Number(checkItem.id)
                     },
                     data: {
                         quantity: {
-                            increment: quantity
+                            increment: Number(quantity)
                         },
                         price: {
                             increment: product.price*quantity
@@ -76,7 +77,7 @@ exports.addItemToCart = async(req, res) => {
                 }),
                 prisma.cart.update({
                     where: {
-                        id: cart.id
+                        id: Number(cart.id)
                     },
                     data: {
                         cartTotal: {
@@ -94,7 +95,7 @@ exports.addItemToCart = async(req, res) => {
         const [addItem, updateCartTotal] = await prisma.$transaction([
             prisma.productOnCart.create({
                 data: {
-                    cartId: cart.id,
+                    cartId: Number(cart.id),
                     productId: productId,
                     quantity: quantity,
                     price: product.price*quantity
@@ -102,7 +103,7 @@ exports.addItemToCart = async(req, res) => {
             }),
             prisma.cart.update({
                 where: {
-                    id: cart.id
+                    id: Number(cart.id)
                 },
                 data: {
                     cartTotal: {

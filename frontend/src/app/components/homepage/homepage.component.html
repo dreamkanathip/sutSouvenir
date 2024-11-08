@@ -2,20 +2,24 @@
 <app-navbar></app-navbar>
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-8">
-        <div class="card col" *ngFor="let item of productItems; index as i" [routerLink]="['/details', item.id]">
-            <div class="add-to-fav">
-                <i class='bx bx-heart bx-sm'></i>
-            </div>
-            <img src="assets/SUT-Logo.png" class="card-img-top">
-            <div class="card-body">
-                <p class="title">{{item.title}}</p>
-                <p class="price">฿{{item.price}}</p>
-                <p class="quantity">เหลือ: {{item.quantity}} ชิ้น</p>
-                <button type="button" class="main-btn w-100">
-                    เพิ่มในรถเข็น
-                </button>
-            </div>
+        <div class="card col" *ngFor="let item of productItems; index as i">
+            <form [formGroup]="dataForm" (ngSubmit)="addItemToCart(item.id)">
+                <div class="add-to-fav">
+                    <i class='bx bx-heart bx-sm'></i>
+                </div>
+                <img src="assets/SUT-Logo.png" class="card-img-top">
+                <div class="card-body">
+                    <p class="title">{{item.title}}</p>
+                    <p class="price">฿{{item.price}}</p>
+                    <p class="quantity">เหลือ: {{item.quantity}} ชิ้น</p>
+                    <div class="form-group">
+                        <button type="submit" class="main-btn w-100">
+                            เพิ่มในรถเข็น
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-  </div>
+</div>
 <app-footer></app-footer>
