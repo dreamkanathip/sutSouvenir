@@ -20,6 +20,7 @@ import {
 import { FavouriteComponent } from './components/favourite/favourite.component';
 import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AddAddressComponent } from './components/address/add-address/add-addres
     FavouriteComponent,
     AddressComponent,
     AddAddressComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

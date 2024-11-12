@@ -1,0 +1,47 @@
+.container {
+    margin-top: 8%;
+    margin-bottom: 2%;
+    font-family: 'SUT', sans-serif;
+}
+
+.card {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.card-img {
+    width: 90px;
+    height: auto;
+}
+.main-btn {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+.main-btn:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+.select-items {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.checkbox, .item-title, .price, .sum-price, .quantity, .delete {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.delete :hover {
+    cursor: pointer;
+}

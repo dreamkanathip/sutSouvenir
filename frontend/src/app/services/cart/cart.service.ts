@@ -12,7 +12,14 @@ export class CartService {
   apiUrl = 'http://localhost:5000/api';
 
   addItemToCart(data: any): Observable<any>{
-    console.log(data)
-    return this.http.post<any>('http://localhost:5000/api/addToCart', data)
+    return this.http.post<any>(`${this.apiUrl}/addToCart`, data)
+  }
+
+  getProductOnCart(userId: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/itemsOnCart/${userId}`)
+  }
+
+  getCartById(userId: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/cart/${userId}`)
   }
 }

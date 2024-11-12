@@ -39,6 +39,8 @@ exports.addItemToCart = async(req, res) => {
     try {
         const { userId, productId, quantity } = req.body
         console.log("check backend", Number(productId))
+
+        //find certain cart and product for certain user
         const product = await prisma.product.findUnique({
             where: {
                 id: Number(productId)
@@ -97,7 +99,7 @@ exports.addItemToCart = async(req, res) => {
                 data: {
                     cartId: Number(cart.id),
                     productId: productId,
-                    quantity: quantity,
+                    quantity: Number(quantity),
                     price: product.price*quantity
                 }
             }),
@@ -132,6 +134,22 @@ exports.getAllCarts = async(req, res) => {
     }
 }
 
+exports.getCartById = async(req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const cart = await prisma.cart.findFirst({
+            where: {
+                userId: userId
+            }
+        })
+        res.send(cart)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 //to see product on specify cart
 exports.getItemsOnCart = async(req, res) => {
     try {
@@ -149,6 +167,36 @@ exports.getItemsOnCart = async(req, res) => {
 
         res.send(itemsOnCart)
     } catch(err) {
+        console.log(err)
+        res.status(500).json({message: "Server error"})
+    }
+}
+exports.deleteItemFromCart =  async(req, res) => {
+    try {
+        const { userId, productId} = req.body
+
+        //find certain cart for certain user
+        const cart = await prisma.cart.findFirst({
+            where: {
+                userId: Number(userId)
+            }
+        })
+
+        const itemOnCart = await prisma.productOnCart.findFirst({
+            where: {
+                productId: Number(productId),
+                cartId: Number(cart.id)
+            }
+        })
+
+        const remove = await prisma.productOnCart.delete({
+            where: {
+                id: Number(itemOnCart.id)
+            }
+        })
+        res.send(remove)
+
+    } catch (err) {
         console.log(err)
         res.status(500).json({message: "Server error"})
     }

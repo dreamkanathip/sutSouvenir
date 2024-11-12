@@ -6,14 +6,18 @@ const {
     getItemsOnCart,
     getAllCarts,
     initial,
-    deleteCart
+    deleteCart,
+    getCartById,
+    deleteItemFromCart
 } = require('../controllers/cart');
 
 
 router.get('/itemsOnCart/:id', getItemsOnCart);
 router.get('/allCarts', getAllCarts);
+router.get('/cart/:id', getCartById)
 router.post('/initialCart', initial);
 router.delete('/cart/:id', deleteCart);
+router.delete('/deleteItemFromCart', deleteItemFromCart)
 router.post('/addToCart', addItemToCart);
 
 module.exports = router

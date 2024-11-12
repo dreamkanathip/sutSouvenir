@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="card shadow-sm card-body">
+        <!-- <table class="table">
+          <tbody class="thead thead-inverse">
+            <tr>
+              <th></th>
+              <th></th>
+              <th>ชื่อสินค้า</th>
+              <th>ราคา</th>
+              <th>จำนวน</th>
+              <th>ราคารวม</th>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr *ngFor="let item of productOnCart; index as i">
+              <td class="checkbox-container">
+                  <input class="select-items" type="checkbox" value="" id="flexCheckChecked" checked>
+              </td>
+              <td>
+                <img src="assets/SUT-Logo.png" class="card-img">
+              </td>
+              <td>{{ item.product.title }}</td>
+              <td>{{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.price.toLocaleString('en', {useGrouping:true}) }}</td>
+            </tr>
+          </tbody>
+        </table> -->
+        <div class="row">
+          <div class="col-1 checkbox">
+            <input class="select-items" type="checkbox" value="" id="flexCheckChecked"
+              (change)="toggleSelectAll()" [checked]="selectAll"  
+            >
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-1 checkbox">
+              <input class="select-items" type="checkbox" id="flexCheckChecked" 
+                [checked]="item.selected"
+                (change)="individualSelect(item.productId)"
+                (change)="checkIndividualSelect()"
+              >
+            </div>
+            <div class="col-2">
+              <img src="assets/SUT-Logo.png" class="card-img">
+            </div>
+            <div class="col-3 item-title">{{ item.product.title }}</div>
+            <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-1 quantity">{{ item.selected }}</div>
+            <div class="col-2 sum-price">{{ item.price.toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-1 delete">
+              <i class='bx bx-trash'></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
+          <div *ngIf="cart" class="d-flex justify-content-between">
+            <p>ราคาสินค้า</p>
+            {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
+          </div>
+          <div class="d-flex justify-content-between">
+            <p>ค่าส่ง</p>
+            <p>50</p>
+          </div>
+          <hr class="mt-1 mb-1" />
+          <div *ngIf="cart" class="d-flex justify-content-between">
+            <p>รวมทั้งสิ้น</p>
+            {{(cart.cartTotal + 50).toLocaleString('en', {useGrouping:true})}}
+          </div>
+          <button type="submit" class="main-btn w-100">
+            ชำระเงิน
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
