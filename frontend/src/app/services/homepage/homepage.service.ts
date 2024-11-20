@@ -14,4 +14,7 @@ export class HomepageService {
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products`);
   }
+  getProductById(id: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/product/${id}`)
+  }
 }

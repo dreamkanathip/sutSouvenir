@@ -18,6 +18,8 @@ import {
   withFetch,
 } from '@angular/common/http';
 import { FavouriteComponent } from './components/favourite/favourite.component';
+import { AddressComponent } from './components/address/address.component';
+import { AddAddressComponent } from './components/address/add-address/add-address.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { FavouriteComponent } from './components/favourite/favourite.component';
     LoginComponent,
     RegisterComponent,
     FavouriteComponent,
+    AddressComponent,
+    AddAddressComponent,
   ],
   imports: [
     BrowserModule,

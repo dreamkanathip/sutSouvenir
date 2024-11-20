@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
       // categoryId, images
     } = req.body;
     // console.log(title, description, price, quantity, images)
-    const product = await prisma.product.create({
+    const product = await prisma.product.create({ 
       data: {
         title: title,
         description: description,

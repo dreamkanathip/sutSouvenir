@@ -4,14 +4,22 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FavouriteComponent } from './components/favourite/favourite.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { AddressComponent } from './components/address/address.component';
+import { AddAddressComponent } from './components/address/add-address/add-address.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' }, // หน้าแรก redirect ไป login
-  { path: 'login', component: LoginComponent }, // หน้า login
-  { path: 'home', component: HomepageComponent }, // หน้า home
-  { path: 'favourite', component: FavouriteComponent }, // หน้า favourite
-  { path: 'register', component: RegisterComponent }, // หน้า register
-  { path: '**', redirectTo: 'login' }, // ถ้า path ไม่ถูกต้อง redirect ไป login
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomepageComponent },
+  { path: '', component: FavouriteComponent, pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'details/:id', component: ProductDetailsComponent },
+  { path: 'favourite', component: FavouriteComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'address', component: AddressComponent },
+  { path: 'addAddress', component: AddAddressComponent },
 ];
 
 @NgModule({
