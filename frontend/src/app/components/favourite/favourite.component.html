@@ -1,12 +1,14 @@
 <app-navbar></app-navbar>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>รายการโปรด</title>
     <link rel="stylesheet" href="favourite.component.css" />
   </head>
+
   <body>
     <div class="main-wrapper">
       <div class="wrapper-left">
@@ -18,61 +20,14 @@
       <div class="wrapper-right">
         <p class="fav-title">รายการที่ชอบ</p>
         <div class="container-right">
-          <!-- เพิ่มหัวข้อสำหรับรายการการ์ด -->
           <div class="card-group">
+            <!-- Loop through favouriteItems and display each card -->
             <div class="card">
-              <img src="..." class="card-img-top" alt="..." />
+              <img />
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="..." class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="..." class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="..." class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="..." class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <button class="btn btn-danger">ลบจากรายการโปรด</button>
               </div>
             </div>
           </div>
@@ -81,4 +36,5 @@
     </div>
   </body>
 </html>
+
 <app-footer></app-footer>

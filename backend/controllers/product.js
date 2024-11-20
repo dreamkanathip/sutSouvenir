@@ -3,14 +3,13 @@ const prisma = require("../config/prisma");
 exports.create = async (req, res) => {
   try {
     // code
-    const { 
-      title, 
-      description, 
-      price, 
-      quantity, 
+    const {
+      title,
+      description,
+      price,
+      quantity,
       // categoryId, images
-     } =
-      req.body;
+    } = req.body;
     // console.log(title, description, price, quantity, images)
     const product = await prisma.product.create({
       data: {
@@ -38,7 +37,6 @@ exports.create = async (req, res) => {
 exports.list = async (req, res) => {
   try {
     // code
-    const { count } = req.params;
     const products = await prisma.product.findMany({
       // take: parseInt(count),
       orderBy: { createdAt: "asc" },

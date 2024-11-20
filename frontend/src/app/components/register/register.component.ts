@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 export class RegisterComponent implements OnInit {
   form!: FormGroup;
   showPassword: boolean = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -21,11 +20,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      firstName: [
+      firstname: [
         '',
         [Validators.required, Validators.minLength(2)], // ตรวจสอบให้มีความยาวขั้นต่ำ 2 ตัวอักษร
       ],
-      lastName: [
+      lastname: [
         '',
         [Validators.required, Validators.minLength(2)], // ตรวจสอบให้มีความยาวขั้นต่ำ 2 ตัวอักษร
       ],
@@ -40,55 +39,39 @@ export class RegisterComponent implements OnInit {
 
   submit(): void {
     if (this.form.invalid) {
-      // แสดงข้อความผิดพลาดหากฟอร์มไม่ถูกต้อง
-      Swal.fire('Error', 'Please fill out all required fields.', 'error');
+      // Display error message for all invalid fields
+      Swal.fire('ไม่สามารถลงทะเบียนได้', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
       return;
     }
 
-    const user = this.form.getRawValue(); // นำค่าจากฟอร์มมาเป็นอ็อบเจกต์
+    const user = this.form.getRawValue(); // Get form data as an object
     console.log(user);
 
-    // ส่งข้อมูลไปที่ API
     this.http
       .post('http://localhost:5000/api/register', user, {
         withCredentials: true,
-        responseType: 'text',
       })
       .subscribe(
-        (response: string) => {
-          // เช็คข้อความที่ได้รับ
-          if (response === 'Register Success') {
-            Swal.fire('Success', 'Registration Successful', 'success');
-            this.router.navigate(['/login']);
-          } else {
-            Swal.fire('Error', response, 'error');
-          }
+        () => {
+          Swal.fire('ลงทะเบียนสำเร็จ', 'บัญชีของคุรพร้อมใช้งานแล้ว', 'success');
+          this.router.navigate(['/login']); // Redirect to login page on success
         },
         (err) => {
-          console.error('Error:', err);
-          Swal.fire('Error', 'An error occurred during registration.', 'error');
+          // Handle specific server errors (if provided by API)
+          if (err.error && err.error.message) {
+            Swal.fire('ลงทะเบียนไม่สำเร็จ', err.error.message, 'error');
+          } else {
+            // ข้อความแสดงข้อผิดพลาดทั่วไปในกรณีเกิดข้อผิดพลาดที่ไม่คาดคิด
+            Swal.fire(
+              'เกิดข้อผิดพลาด',
+              'ไม่สามารถลงทะเบียนได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
+              'error'
+            );
+          }
         }
       );
   }
-
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
-  }
-
-  // การแสดงข้อผิดพลาดของฟอร์ม
-  get firstName() {
-    return this.form.get('firstName');
-  }
-  get lastName() {
-    return this.form.get('lastName');
-  }
-  get email() {
-    return this.form.get('email');
-  }
-  get password() {
-    return this.form.get('password');
-  }
-  get gender() {
-    return this.form.get('gender');
   }
 }

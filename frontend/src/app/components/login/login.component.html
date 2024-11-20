@@ -3,70 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <meta name="description" content="Login page for user authentication" />
+    <title>User Login</title>
+    <!-- Font Awesome for icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <!-- External CSS -->
     <link rel="stylesheet" href="login.component.css" />
   </head>
   <body>
-    <div class="ext-box">
-      <div class="wrapper">
+    <main class="ext-box">
+      <section class="wrapper">
         <div class="container">
           <div class="row">
             <!-- Sidebar image section -->
-            <div class="col-md-6 side-image"></div>
-
+            <aside class="side-image">
+              <!-- Image content can be added via CSS background-image -->
+            </aside>
             <!-- Login form section -->
-            <div class="col-md-6 right">
+            <section class="right">
               <div class="input-box">
-                <header class="header">Sign in</header>
-                <form [formGroup]="form" (ngSubmit)="submit()">
+                <header class="header">ล็อคอินผู้ใช้งาน</header>
+                <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+                  <!-- Email field -->
                   <div class="input-field">
                     <input
-                      formControlName="email"
                       type="email"
-                      class="input"
+                      formControlName="email"
                       id="login-email"
+                      class="input"
                       required
-                      autocomplete="off"
+                      autocomplete="email"
                     />
-                    <label for="login-email">Email</label>
+                    <label for="login-email">อีเมลล์</label>
                   </div>
-
+                  <!-- Password field -->
                   <div class="input-field">
                     <input
-                      formControlName="password"
                       [type]="showPassword ? 'text' : 'password'"
-                      class="input"
+                      formControlName="password"
                       id="login-password"
+                      class="input"
                       required
+                      autocomplete="current-password"
                     />
-                    <label for="login-password">Password</label>
+                    <label for="login-password">พาสเวิร์ด</label>
                     <i
                       class="fa fa-eye password-toggle"
                       [class.fa-eye-slash]="showPassword"
                       (click)="togglePasswordVisibility()"
                     ></i>
                   </div>
-
+                  <!-- Submit button -->
                   <div class="input-field">
-                    <button type="submit" class="submit">Sign In</button>
+                    <button type="submit" class="submit">เข้าสู่ระบบ</button>
                   </div>
-
+                  <!-- Registration link -->
                   <div class="signin">
-                    <span>
-                      Don't have an account?
-                      <a routerLink="/register">Register here</a>
-                    </span>
+                    <p class="ask">
+                      คุณยังไม่ได้สมัครบัญชีใช่หรือไม่?
+                      <a routerLink="/register" class="register-link"
+                        >ลงทะเบียนที่นี่</a
+                      >
+                    </p>
                   </div>
                 </form>
               </div>
-            </div>
+            </section>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </body>
 </html>

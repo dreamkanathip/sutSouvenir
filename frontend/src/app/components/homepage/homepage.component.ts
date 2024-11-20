@@ -5,20 +5,19 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent {
-
   addToFav!: any;
-  productItems!: Product[]; 
+  productItems!: Product[];
 
   constructor(private homepageService: HomepageService) {
-    this.loadProducts()
+    this.loadProducts();
   }
 
   loadProducts() {
     this.homepageService.getAllProducts().subscribe((result) => {
       this.productItems = result;
-    })
+    });
   }
 }

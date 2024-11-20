@@ -1,55 +1,69 @@
-// authCheck.js (middleware สำหรับตรวจสอบการเข้าสู่ระบบ)
 const jwt = require("jsonwebtoken");
-const prisma = require("../config/prisma"); // หรือแหล่งข้อมูลของคุณ
+const prisma = require("../config/prisma");
 
+// ฟังก์ชันสำหรับดึง token จาก header หรือ cookie
+const getToken = (req) => {
+  // ตรวจสอบใน headers.authorization
+  const headerToken = req.headers.authorization;
+  if (headerToken) {
+    return headerToken.split(" ")[1];
+  }
+
+  // ตรวจสอบใน cookies["jwt"]
+  const cookieToken = req.cookies["jwt"];
+  if (cookieToken) {
+    return cookieToken;
+  }
+
+  // หากไม่มี token ในทั้งสองที่
+  return null;
+};
+
+// Middleware สำหรับตรวจสอบการเข้าสู่ระบบ
 exports.authCheck = async (req, res, next) => {
   try {
-    const token =
-      req.headers.authorization && req.headers.authorization.split(" ")[1];
+    const token = getToken(req);
     if (!token) {
-      return res
-        .status(403)
-        .json({ message: "No token, authorization denied" });
+      return res.status(401).json({ message: "Authentication token required" });
     }
 
-    // ตรวจสอบและดึงข้อมูลผู้ใช้จาก token
-    const decoded = jwt.verify(token, process.env.SECRET);
+    // ตรวจสอบความถูกต้องของ token
+    const decode = jwt.verify(token, process.env.SECRET);
+    req.user = decode;
+
+    // ตรวจสอบว่า user มีอยู่ในระบบและ enabled หรือไม่
     const user = await prisma.user.findFirst({
-      where: { id: decoded.id },
+      where: {
+        email: req.user.email,
+      },
     });
-    const authCheck = (req, res, next) => {
-      const token = req.cookies.token; // อ่านคุกกี้จากฝั่ง Client
-      if (!token) {
-        return res
-          .status(403)
-          .json({ message: "Authorization denied, no token" });
-      }
-
-      try {
-        const decoded = jwt.verify(token, process.env.SECRET); // ยืนยัน token
-        req.user = decoded; // ใส่ข้อมูลผู้ใช้ใน request
-        next(); // ไปยัง middleware หรือ route ถัดไป
-      } catch (err) {
-        return res.status(403).json({ message: "Invalid token" });
-      }
-    };
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (!user || !user.enabled) {
+      return res.status(403).json({ message: "This account cannot access" });
     }
 
-    req.user = user; // เพิ่มข้อมูลผู้ใช้ลงใน request
-    next(); // ถ้าทุกอย่างถูกต้องให้ไปที่ controller ต่อไป
+    req.user = user; // เพิ่ม user object เข้า req
+    next();
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    res.status(401).json({ message: "Invalid authentication token" });
   }
 };
 
-// adminCheck.js (middleware สำหรับตรวจสอบการเข้าสู่ระบบของผู้ดูแลระบบ)
-exports.adminCheck = (req, res, next) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Admin resources access denied" });
+// Middleware สำหรับตรวจสอบการเป็น Admin
+exports.adminCheck = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const adminUser = await prisma.user.findFirst({
+      where: { email: email },
+    });
+
+    if (!adminUser || adminUser.role !== "admin") {
+      return res.status(403).json({ message: "Access Denied: Admin Only" });
+    }
+
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error Admin access denied" });
   }
-  next();
 };

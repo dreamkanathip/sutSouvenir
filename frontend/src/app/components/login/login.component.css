@@ -17,14 +17,25 @@ body {
   min-height: 100vh;
 }
 .header {
-  margin-bottom: 20px;
+  position: relative;
+  top: -20px; /* ขยับขึ้นไปข้างบน */
   font-size: 20px;
+  margin-left: 6px;
 }
+
 .ext-box {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+section span {
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+  background: #000;
+  z-index: 3;
 }
 /* สำหรับ .wrapper ให้อยู่ตรงกลางและกำหนดขนาดที่แน่นอน */
 .wrapper {
@@ -49,8 +60,8 @@ body {
   background-size: auto;
   background-repeat: no-repeat;
   position: relative;
-  border-radius: 10px 0 0 10px; /* เพิ่มเฉพาะมุมของฝั่งรูปภาพ */
-  margin: 0; /* นำ margin ออกเพื่อให้รูปภาพชิดกับ box */
+  border-radius: 10px 0 0 10px;
+  margin: 0;
 }
 .img {
   width: 35px;
@@ -59,7 +70,7 @@ body {
   left: 30px;
 }
 .row {
-  width: 900px;
+  width: 500px;
   height: 550px;
   border-radius: 10px;
   background: #fff;
@@ -102,7 +113,7 @@ i {
   flex-direction: column;
   position: relative;
   padding: 0 10px; /* เพิ่ม padding เพื่อให้มีพื้นที่รอบ ๆ input */
-  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง input-field */
+  margin-bottom: 10px; /* เพิ่มระยะห่างระหว่าง input-field */
 }
 
 .input {
@@ -147,7 +158,7 @@ i {
 }
 
 .submit:hover {
-  background: rgba(37, 95, 156, 0.1);
+  background: #f26522;
   color: #fff;
 }
 
@@ -157,7 +168,7 @@ i {
   margin-top: 25px;
 }
 
-span a {
+a {
   text-decoration: none;
   font-weight: 700;
   color: #000;

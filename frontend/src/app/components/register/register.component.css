@@ -17,6 +17,7 @@ body {
 .header {
   margin-bottom: 20px;
   font-size: 20px;
+  margin-left: 6px;
 }
 .ext-box {
   display: flex;
@@ -146,7 +147,7 @@ i {
 }
 
 .submit:hover {
-  background: rgba(37, 95, 156, 0.1);
+  background: #f26522;
   color: #fff;
 }
 
@@ -229,24 +230,28 @@ span a:hover {
 .gender-option-label::before {
   content: "";
   display: inline-block;
-  height: 1em; /* ขนาดของ radio button */
-  width: 1em; /* ขนาดของ radio button */
-  border: 2px solid #aaa; /* สีขอบของ radio button เริ่มต้น */
+  height: 1em;
+  width: 1em;
+  border: 2px solid #f26522; /* สีขอบ */
   border-radius: 50%; /* ทำให้เป็นวงกลม */
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%); /* จัดแนวกลาง */
+  transform: translateY(-50%);
+  background-color: transparent; /* ไม่มีสีพื้นหลัง */
 }
 
-input[type="radio"]#male:checked + .gender-option-label::before {
-  background-color: #4189e0; /* สีฟ้าสำหรับ Male */
-  border-color: #4189e0;
-}
-
-input[type="radio"]#female:checked + .gender-option-label::before {
-  background-color: #ff69b4; /* สีชมพูสำหรับ Female */
-  border-color: #ff69b4;
+.gender-option input[type="radio"]:checked + .gender-option-label::after {
+  content: "";
+  display: inline-block;
+  height: 0.5em; /* ขนาดของจุด */
+  width: 0.5em; /* ขนาดของจุด */
+  background-color: #f26522; /* สีของจุด */
+  border-radius: 50%; /* ทำให้จุดเป็นวงกลม */
+  position: absolute;
+  left: 0.25em; /* จัดให้อยู่ตรงกลางวงกลม */
+  top: 50%;
+  transform: translateY(-50%);
 }
 /* Add this to your existing CSS */
 
@@ -270,7 +275,7 @@ input[type="radio"]#female:checked + .gender-option-label::before {
 /* Eye icon hover effect */
 .input-field .fa-eye:hover,
 .input-field .fa-eye-slash:hover {
-  color: #f26522; /* Change color on hover */
+  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Change color on hover */
 }
 
 /* Move eye icon up along with label on focus or valid */
@@ -278,14 +283,14 @@ input[type="radio"]#female:checked + .gender-option-label::before {
 .input-field .input:valid ~ i {
   top: -10px;
   font-size: 13px;
-  color: #f26522; /* Color change */
+  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Color change */
   transform: translateY(0); /* Adjust translation */
 }
 
 /* Handle error message and adjust spacing for eye icon */
 .input-field .input:focus:invalid ~ i,
 .input-field .input:invalid ~ i {
-  color: #f26522; /* Change eye icon color to red on validation error */
+  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Change eye icon color to red on validation error */
 }
 
 .error {

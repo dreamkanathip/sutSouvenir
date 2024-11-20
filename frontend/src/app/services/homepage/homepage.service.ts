@@ -4,15 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HomepageService {
+  apiUrl = 'http://localhost:5000/api';
 
-  apiUrl = "http://localhost:5000/api"
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`)
+    return this.http.get<Product[]>(`${this.apiUrl}/products`);
   }
 }

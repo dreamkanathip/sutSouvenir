@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -37,6 +37,7 @@ import { FavouriteComponent } from './components/favourite/favourite.component';
     HttpClientModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],
 })
 export class AppModule {}
