@@ -9,16 +9,9 @@ import { AddressModel } from '../../../interfaces/address/address.model';
   templateUrl: './edit-address.component.html',
   styleUrls: ['./edit-address.component.css']
 })
-export class EditAddressComponent implements OnInit{
+export class EditAddressComponent implements OnInit {
 
-  testData: any[] = [
-    { province: "นครราชสีมา", district: "เมืองนครราชสีมา", subDistrict: "โคกกรวด", postalCode: "30280" },
-    { province: "นครราชสีมา", district: "เมืองนครราชสีมา", subDistrict: "จอหอ", postalCode: "30000" },
-    { province: "นครราชสีมา", district: "วังน้ำเขียว", subDistrict: "วังน้ำเขียว", postalCode: "30370" },
-    { province: "ขอนแก่น", district: "โนนศิลา", subDistrict: "โนนศิลา", postalCode: "40110" },
-    { province: "ขอนแก่น", district: "โนนศิลา", subDistrict: "โนนแดง", postalCode: "40110" }
-  ];
-
+  ThaiData: any[] = [];
   uniqueProvinces: string[] = [];
   filteredDistricts: string[] = [];
   filteredSubDistricts: string[] = [];
@@ -34,7 +27,6 @@ export class EditAddressComponent implements OnInit{
     private router: Router,
     private addressService: AddressService,
   ) {
-
     this.editAddressForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -45,14 +37,19 @@ export class EditAddressComponent implements OnInit{
       phoneNumber: ['', [Validators.required]],
       postalCode: ['', [Validators.required]]
     });
-
-    this.uniqueProvinces = [...new Set(this.testData.map(item => item.province))];
-    this.filteredDistricts = [... new Set(this.testData.map(item => item.district))]
-    this.filteredSubDistricts = [... new Set(this.testData.map(item => item.subDistrict))]
   }
 
   ngOnInit(): void {
-    
+    this.addressService.fetchThaiData().subscribe((result: any[]) => {
+      this.ThaiData = result;
+
+      // ดึงข้อมูลจังหวัด
+      this.uniqueProvinces = [
+        ...new Set(this.ThaiData.map(item => item.name_th))
+      ];
+    });
+
+    this.getAddressData();
   }
 
   getAddressData() {
@@ -68,7 +65,6 @@ export class EditAddressComponent implements OnInit{
         postalCode: result.postalCode
       });
 
-      // Auto-Select
       this.provinceSelect(result.province);
       this.districtSelect(result.district);
       this.subDistrictSelect(result.subDistrict);
@@ -80,20 +76,8 @@ export class EditAddressComponent implements OnInit{
     this.selectedDistrict = undefined;
     this.selectedSubDistrict = undefined;
 
-    // เลือกจังหวัดแล้ว ทำการกรองอำเภอ
-    this.filteredDistricts = [
-      ...new Set(this.testData
-        .filter(item => item.province === province)
-        .map(item => item.district)
-      )
-    ];
-    
-    this.filteredSubDistricts = [
-      ...new Set(this.testData
-        .filter(item => item.province === province)
-        .map(item => item.subDistrict)
-      )
-    ];
+    const selectedProvinceData = this.ThaiData.find(p => p.name_th === province);
+    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th) : [];
 
     this.editAddressForm.patchValue({
       province: this.selectedProvince,
@@ -106,19 +90,9 @@ export class EditAddressComponent implements OnInit{
     this.selectedDistrict = district;
     this.selectedSubDistrict = undefined;
 
-    // เลือกอำเภอแล้ว เลือกจังหวัดให้ด้วย
-    const province = this.testData.find(item => item.district === district)?.province;
-    if (province) {
-      this.selectedProvince = province;
-      this.editAddressForm.patchValue({
-        province: this.selectedProvince
-      });
-    }
-
-    // เลือกอำเภอแล้ว ทำการกรองตำบล
-    this.filteredSubDistricts = this.testData
-      .filter(item => item.province === this.selectedProvince && item.district === district)
-      .map(item => item.subDistrict);
+    const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
+    const selectedDistrictData = provinceData?.amphure.find((a: any) => a.name_th === district);
+    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((t: any) => t.name_th) : [];
 
     this.editAddressForm.patchValue({
       district: this.selectedDistrict,
@@ -129,31 +103,29 @@ export class EditAddressComponent implements OnInit{
   subDistrictSelect(subDistrict: string) {
     this.selectedSubDistrict = subDistrict;
 
-    // เลือกอำเภอแล้ว เลือกจังหวัดและอำเภอให้
-    const province = this.testData.find(item => item.subDistrict === subDistrict)?.province;
-    const district = this.testData.find(item => item.subDistrict === subDistrict)?.district;
-    const postalCode = this.testData.find(item => item.subDistrict === subDistrict)?.postalCode;
+    const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
+    const districtData = provinceData?.amphure.find((a: any) => a.name_th === this.selectedDistrict);
+    const selectedSubDistrictData = districtData?.tambon.find((t: any) => t.name_th === subDistrict);
 
-    if (province && district) {
-    this.selectedProvince = province;
-    this.selectedDistrict = district;
+    const postalCode = selectedSubDistrictData?.zip_code || '';
 
     this.editAddressForm.patchValue({
-      province: this.selectedProvince,
-      district: this.selectedDistrict,
       subDistrict: this.selectedSubDistrict,
       postalCode: postalCode
     });
   }
-  }
 
   submit() {
-    // patch
+    if (this.editAddressForm.valid) {
+      const updatedAddress: AddressModel = this.editAddressForm.value;
+      // this.addressService.updateAddress(updatedAddress).subscribe(() => {
+      //   this.router.navigate(['/address']);
+      // });
+    }
   }
 
   cancel() {
-    this.editAddressForm.reset()
+    this.editAddressForm.reset();
     this.router.navigate(['/address']);
   }
-
 }
