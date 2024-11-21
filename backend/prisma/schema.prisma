@@ -35,14 +35,15 @@ model User {
 }
 model Address {
   id            Int      @id @default(autoincrement())
-  firstName     String
-  lastName      String
+  firstname     String
+  lastname      String
   phoneNumber   String
   street        String
   subDistrict   String
   district      String
   province      String
   postalCode    String
+  default       Boolean  @default(false)
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        Int
   createdAt     DateTime @default(now())

@@ -9,4 +9,5 @@ export interface AddressModel {
     province: string,
     postalCode: string,
     userID: number,
+    default?: boolean,
 }

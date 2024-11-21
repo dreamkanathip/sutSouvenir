@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddressService } from '../../../services/address/address.service';
 import { AddressModel } from '../../../interfaces/address/address.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-address',
@@ -21,6 +22,8 @@ export class EditAddressComponent implements OnInit {
   selectedSubDistrict?: string;
 
   editAddressForm: FormGroup;
+
+  addressId: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +67,8 @@ export class EditAddressComponent implements OnInit {
         phoneNumber: result.phoneNumber,
         postalCode: result.postalCode
       });
+
+      this.addressId = result.id
 
       this.provinceSelect(result.province);
       this.districtSelect(result.district);
@@ -118,14 +123,57 @@ export class EditAddressComponent implements OnInit {
   submit() {
     if (this.editAddressForm.valid) {
       const updatedAddress: AddressModel = this.editAddressForm.value;
-      // this.addressService.updateAddress(updatedAddress).subscribe(() => {
-      //   this.router.navigate(['/address']);
-      // });
+
+      Swal.fire({
+        title: "ต้องการบันทึกการเปลี่ยนแปลง?",
+        showCancelButton: true,
+        confirmButtonText: "บันทึก",
+        cancelButtonText: "ยกเลิก",
+        icon: "warning",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "กำลังบันทึกข้อมูล...",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+    
+          this.addressService.updateAddress(updatedAddress, 1, this.addressId).subscribe({
+            next: () => {
+              Swal.close();
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "บันทึกที่อยู่เรียบร้อยแล้ว",
+                showConfirmButton: true,
+              });
+              this.editAddressForm.reset();
+              this.addressNavigate();
+            },
+            error: (error) => {
+              Swal.close();
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+                showConfirmButton: true,
+              });
+              console.error("API error:", error);
+            }
+          });
+        }
+      })
     }
   }
 
   cancel() {
     this.editAddressForm.reset();
+    this.router.navigate(['/address']);
+  }
+
+  addressNavigate(){
     this.router.navigate(['/address']);
   }
 }

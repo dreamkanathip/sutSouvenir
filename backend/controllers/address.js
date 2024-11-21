@@ -35,13 +35,13 @@ exports.create = async (req, res) => {
         subDistrict: subDistrict,
         district: district,
         province: province,
-        postalCode: postalCode,
+        postalCode: String(postalCode),
         user: {
           connect: { id:user.id }
         }
       },
     });
-    res.send(address);
+    res.status(200).json({ message: "Address Created Successfully" });
 
   } catch (err) {
     console.log(err);
@@ -86,7 +86,6 @@ exports.read = async (req, res) => {
 
 exports.remove = async (req, res) => {
     try {
-      // code
       const { id } = req.params;
 
       await prisma.address.delete({
@@ -95,9 +94,91 @@ exports.remove = async (req, res) => {
         },
       });
   
-      res.send("Address Deleted Success");
+      res.status(200).json({ message: "Address Deleted Successfully" });
     } catch (err) {
       console.log(err);
       res.status(500).json({ message: "Server error" });
     }
-};  
+};
+
+exports.update = async (req, res) => {
+  try {
+    const { uid, id } = req.params;
+
+    const { 
+      firstName,
+      lastName,
+      phoneNumber,
+      street,
+      subDistrict,
+      district,
+      province,
+      postalCode,
+  } = req.body;
+
+  const user = await prisma.user.findFirst({
+    where: {
+        id: Number(uid),
+    },
+    });
+
+    if (!user || !user.enabled) {
+    return res.status(400).json({ message: "User Not found or not Enabled" });
+    }
+
+    await prisma.address.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        street: street,
+        subDistrict: subDistrict,
+        district: district,
+        province: province,
+        postalCode: String(postalCode),
+        user: {
+          connect: { id:user.id }
+        }
+      }
+    })
+
+    res.status(200).json({ message: "Address Updated Successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+exports.defaultAddress = async () => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body
+
+    const address = await prisma.address.findFirst({
+      where: {
+        id : Number(id)
+      }
+    })
+
+    if (!address) {
+      return res.status(400).json({ message: "Address not found" });
+    }
+
+    const setDefault = await prisma.address.update({
+      where: {
+        id : Number(id)
+      },
+      data: {
+        default: status
+      }
+    })
+    res.status(500).json("Default Address update process success")
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
