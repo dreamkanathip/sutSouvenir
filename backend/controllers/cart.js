@@ -7,8 +7,8 @@ exports.initial = async(req, res) => {
         const { userId, cartTotal } = req.body;
         const cart = await prisma.cart.create({
             data: {
-                userId: parseInt(userId),
-                cartTotal: parseFloat(cartTotal)
+                userId: Number(userId),
+                cartTotal: Number(cartTotal)
             }
         });
         res.send(cart)
@@ -59,11 +59,9 @@ exports.addItemToCart = async(req, res) => {
                 cartId: Number(cart.id)
             }
         })
-
         //if found, update amount instead
         if(checkItem) {
-
-            const [updateAmount, updateCartTotal] = await prisma.$transaction([
+            const [updateAmount, updateCartTotal, updateProductAmount] = await prisma.$transaction([
                 prisma.productOnCart.update({
                     where: {
                         id: Number(checkItem.id)
@@ -86,15 +84,25 @@ exports.addItemToCart = async(req, res) => {
                             increment: product.price*quantity
                         }
                     }
+                }),
+                prisma.product.update({
+                    where: {
+                        id: Number(productId)
+                    },
+                    data: {       
+                        quantity: {
+                            decrement: Number(quantity)
+                        }
+                    }
                 })
             ])
 
            return res.json({
-                updateAmount, updateCartTotal
+                updateAmount, updateCartTotal, updateProductAmount
             })
         }
 
-        const [addItem, updateCartTotal] = await prisma.$transaction([
+        const [addItem, updateCartTotal, updateProductAmount] = await prisma.$transaction([
             prisma.productOnCart.create({
                 data: {
                     cartId: Number(cart.id),
@@ -112,16 +120,71 @@ exports.addItemToCart = async(req, res) => {
                         increment: product.price*quantity
                     }
                 }
+            }),
+            prisma.product.update({
+                where: {
+                    id: Number(productId)
+                },
+                data: {       
+                    quantity: {
+                        decrement: Number(quantity)
+                    }
+                }
             })
         ])
         res.json({
-            addItem, updateCartTotal
+            addItem, updateCartTotal, updateProductAmount
         });  
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Server error" });
     }
 }
+exports.decreaseProductOnCart = async(req, res) => {
+    try {
+        const { userId, productId} = req.body
+        const cart = await prisma.cart.findFirst({
+            where: {
+                userId: Number(userId)
+            }
+        })
+        const productOnCart = await prisma.productOnCart.findFirst({
+            where: {
+                cartId: Number(cart.id),
+                productId: productId
+            }
+        })
+        const [decreaseProductOnCart, increaseProductQuantity] = await prisma.$transaction([
+            prisma.productOnCart.update({
+                where: {
+                    id: Number(productOnCart.id)
+                },
+                data: {
+                    quantity: {
+                        decrement: Number(1)
+                    }
+                }
+            }),
+            prisma.product.update({
+                where: {
+                    id: Number(productId)
+                },
+                data: {
+                    quantity: {
+                        increment: Number(1)
+                    }
+                }
+            })
+        ])
+        res.json({
+            decreaseProductOnCart, increaseProductQuantity
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 
 //to see all of the carts
 exports.getAllCarts = async(req, res) => {
@@ -163,14 +226,14 @@ exports.getItemsOnCart = async(req, res) => {
                 product: true
             }
         })
-
-
         res.send(itemsOnCart)
     } catch(err) {
         console.log(err)
         res.status(500).json({message: "Server error"})
     }
 }
+
+
 exports.deleteItemFromCart =  async(req, res) => {
     try {
         const { userId, productId} = req.body

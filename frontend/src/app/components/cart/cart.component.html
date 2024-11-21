@@ -52,10 +52,14 @@
             </div>
             <div class="col-3 item-title">{{ item.product.title }}</div>
             <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
-            <div class="col-1 quantity">{{ item.selected }}</div>
+            <div class="col-1 quantity d-flex align-items-center">
+              <button (click)="decreaseQuantity(item)" class="btn btn-outline-secondary btn-sm">-</button>
+                <span class="mx-2">{{ item.quantity }}</span>
+              <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
+            </div>
             <div class="col-2 sum-price">{{ item.price.toLocaleString('en', {useGrouping:true}) }}</div>
             <div class="col-1 delete">
-              <i class='bx bx-trash'></i>
+              <i class='bx bx-trash' (click)="removeProductOnCart(item.productId)"></i>
             </div>
           </div>
         </div>
@@ -76,9 +80,9 @@
           <hr class="mt-1 mb-1" />
           <div *ngIf="cart" class="d-flex justify-content-between">
             <p>รวมทั้งสิ้น</p>
-            {{(cart.cartTotal + 50).toLocaleString('en', {useGrouping:true})}}
+            {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
-          <button type="submit" class="main-btn w-100">
+          <button type="submit" class="main-btn w-100" >
             ชำระเงิน
           </button>
         </div>

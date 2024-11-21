@@ -5,11 +5,11 @@ import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
 import { Carts } from '../../interfaces/carts/carts';
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  selector: 'app-payment',
+  templateUrl: './payment.component.html',
+  styleUrl: './payment.component.css'
 })
-export class CartComponent implements OnInit {
+export class PaymentComponent {
 
   dataForm = new FormGroup({
     userID: new FormControl(''),

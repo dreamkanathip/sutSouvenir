@@ -14,12 +14,13 @@ export class CartService {
   addItemToCart(data: any): Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/addToCart`, data)
   }
-
   getProductOnCart(userId: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/itemsOnCart/${userId}`)
   }
-
   getCartById(userId: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/cart/${userId}`)
+  }
+  removeProductOnCart(data: any) {
+    return this.http.delete<any>(`${this.apiUrl}/deleteItemFromCart`, { body: data })
   }
 }

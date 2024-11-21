@@ -21,7 +21,7 @@ export class HomepageComponent {
     quantity: new FormControl('')
   })
 
-  constructor(private homepageService: HomepageService, private cartService: CartService) {
+  constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
     this.loadProducts()
   }
 
@@ -50,5 +50,8 @@ export class HomepageComponent {
     this.cartService.addItemToCart(data).subscribe((res) => {
       console.log(res)
     })
+  }
+  goToDetails(itemId: number) {
+    this.router.navigate(['/details', itemId]);
   }
 }

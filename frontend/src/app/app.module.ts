@@ -21,6 +21,7 @@ import { FavouriteComponent } from './components/favourite/favourite.component';
 import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
 import { CartComponent } from './components/cart/cart.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CartComponent } from './components/cart/cart.component';
     FavouriteComponent,
     AddressComponent,
     AddAddressComponent,
-    CartComponent
+    CartComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

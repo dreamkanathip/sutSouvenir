@@ -8,6 +8,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
 import { CartComponent } from './components/cart/cart.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,6 +22,8 @@ const routes: Routes = [
   { path: 'address', component: AddressComponent },
   { path: 'addAddress', component: AddAddressComponent },
   { path: 'cart', component: CartComponent },
+  { path: 'payment', component: PaymentComponent },
+
 ];
 
 @NgModule({
