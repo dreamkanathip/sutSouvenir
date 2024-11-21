@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -22,6 +22,7 @@ import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
 import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PaymentComponent } from './components/payment/payment.component';
     AddressComponent,
     AddAddressComponent,
     CartComponent,
-    PaymentComponent
+    PaymentComponent,
+    EditAddressComponent  
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     HttpClientModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],
 })
 export class AppModule {}

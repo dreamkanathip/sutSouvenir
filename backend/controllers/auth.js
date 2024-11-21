@@ -2,99 +2,141 @@ const prisma = require("../config/prisma");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// Register
 exports.register = async (req, res) => {
   try {
-    //code
-    const { firstName, lastName, email, password, gender } = req.body;
+    const { firstname, lastname, email, password, gender } = req.body;
 
-    // Step 1 Validate body
-    if (!email) {
-      return res.status(400).json({ message: "Email is required!!!" });
-    }
-    if (!password) {
-      return res.status(400).json({ message: "Password is required!!!" });
+    // Validate input
+    if (!email || !password || !firstname || !lastname || !gender) {
+      return res.status(400).json({ message: "All fields are required!" });
     }
 
-    // Step 2 Check Email in DB already ?
-    const user = await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
+    // Check if email already exists
+    const existingUser = await prisma.user.findFirst({
+      where: { email },
     });
-    if (user) {
-      return res.status(400).json({ message: "Email already exits!!" });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered!" });
     }
-    // Step 3 HashPassword
-    const hashPassword = await bcrypt.hash(password, 10);
 
-    // Step 4 Register
-    await prisma.user.create({
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user
+    const newUser = await prisma.user.create({
       data: {
-        email: email,
-        password: hashPassword, 
+        firstname,
+        lastname,
+        email,
+        password: hashedPassword,
+        gender,
+        enabled: true,
       },
     });
 
-    res.send("Register Success");
+    res.status(201).json({
+      message: "Registration successful",
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        firstname: newUser.firstname,
+        lastname: newUser.lastname,
+        gender: newUser.gender,
+      },
+    });
   } catch (err) {
-    // err
-    console.log(err);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Registration error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
+// Login
 exports.login = async (req, res) => {
   try {
-    //code
     const { email, password } = req.body;
-    // Step 1 Check Email
+
+    // Check if user exists
     const user = await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
+      where: { email },
     });
     if (!user || !user.enabled) {
-      return res.status(400).json({ message: "User Not found or not Enabled" });
+      return res.status(404).json({ message: "User not found or disabled" });
     }
-    // Step 2 Check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Password Invalid!!!" });
+
+    // Validate password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid password" });
     }
-    // Step 3 Create Payload
-    const payload = {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    };
-    // Step 4 Generate Token
-    jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" }, (err, token) => {
-      if (err) {
-        return res.status(500).json({ message: "Server Error" });
-      }
-      res.json({ payload, token });
+
+    // Generate token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 1 day
+    res.status(200).json({
+      message: "Login successful",
+      token,
     });
   } catch (err) {
-    // err
-    console.log(err);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
+// Current User
 exports.currentUser = async (req, res) => {
   try {
-    //code
     const user = await prisma.user.findFirst({
       where: { email: req.user.email },
       select: {
         id: true,
         email: true,
         firstname: true,
+        lastname: true,
+        gender: true,
         role: true,
       },
     });
-    res.json({ user });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
   } catch (err) {
-    //err
-    console.log(err);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Error fetching current user:", err);
+    res.status(500).json({ message: "Server error" });
   }
+};
+
+// Logout
+exports.logout = (req, res) => {
+  try {
+    res.clearCookie("jwt", { httpOnly: true }); // ลบ JWT จาก Cookies
+    res.status(200).json({ message: "Logout successful" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ message: "Server error during logout" });
+  }
+};
+
+// Validate Token (Optional)
+exports.getToken = (req, res) => {
+  const token = req.cookies.jwt; // Get the token from the HTTP-only cookie
+  if (!token) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  jwt.verify(token, process.env.SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    res.status(200).json({ message: "Authenticated", user });
+  });
 };

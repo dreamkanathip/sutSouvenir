@@ -32,12 +32,12 @@ export class AddressComponent implements OnInit{
   }
 
   addNavigate() {
-    this.router.navigate(['/addAddress']);
+    this.router.navigate(['/address/add']);
   }
 
   editAddressNavigate(id: number) {
     this.addressService.selectedEditAddress(id)
-    this.router.navigate(['/editAddress']);
+    this.router.navigate(['/address/edit']);
   }
 
   setDefaultAddress(){

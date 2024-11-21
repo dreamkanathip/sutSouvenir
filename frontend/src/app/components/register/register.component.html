@@ -11,27 +11,27 @@
           <div class="col-md-6 right">
             <div>
               <div class="input-box">
-                <header class="header">Create account</header>
+                <header class="header">สมัครบัญชีผู้ใช้งาน</header>
                 <form [formGroup]="form" (ngSubmit)="submit()">
                   <div class="input-field">
                     <input
                       type="text"
                       class="input"
                       id="register-firstname"
-                      formControlName="firstName"
+                      formControlName="firstname"
                       required
                     />
-                    <label for="register-firstname">First Name</label>
+                    <label for="register-firstname">ชื่อ</label>
                   </div>
                   <div class="input-field">
                     <input
                       type="text"
                       class="input"
                       id="register-lastname"
-                      formControlName="lastName"
+                      formControlName="lastname"
                       required
                     />
-                    <label for="register-lastname">Last Name</label>
+                    <label for="register-lastname">นามสกุล</label>
                   </div>
 
                   <div class="input-field">
@@ -43,11 +43,11 @@
                       required
                       autocomplete="off"
                     />
-                    <label for="register-email">Email</label>
+                    <label for="register-email">อีเมลล์</label>
                     <div *ngIf="form.get('email')?.hasError('invalidDomain')">
                       <span class="error">
-                        Only specific domains are allowed (gmail.com,
-                        hotmail.com, hotmail.co.th, outlook.com)
+                        สามารถลงท้ายได้แค่ gmail.com, hotmail.com, hotmail.co.th
+                        และ outlook.com
                       </span>
                     </div>
                   </div>
@@ -59,7 +59,7 @@
                       id="password"
                       required
                     />
-                    <label for="password">Password</label>
+                    <label for="password">รหัสผ่าน</label>
                     <i
                       class="fa"
                       [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
@@ -71,9 +71,7 @@
                         form.get('password')?.touched
                       "
                     >
-                      <span class="error"
-                        >Password must be at least 6 characters long.</span
-                      >
+                      <span class="error">รหัสผ่านต้องมากกว่า 6 ตัวอักษร</span>
                     </div>
                   </div>
                   <div class="gender-container">
@@ -87,7 +85,7 @@
                           name="gender"
                         />
                         <label for="male" class="gender-option-label"
-                          >Male</label
+                          >ชาย</label
                         >
                       </div>
                       <div class="gender-option">
@@ -99,19 +97,19 @@
                           name="gender"
                         />
                         <label for="female" class="gender-option-label"
-                          >Female</label
+                          >หญิง</label
                         >
                       </div>
                     </div>
                   </div>
 
                   <div class="input-field">
-                    <button type="submit" class="submit">Sign Up</button>
+                    <button type="submit" class="submit">ลงทะเบียน</button>
                   </div>
                   <div class="signin">
                     <span>
-                      Already have an account?
-                      <a href="/login">Log in here</a>
+                      คุณมีบัญชีผู้ใช้งานอยู่แล้ว?
+                      <a href="/login">เข้าสู่ระบบเพื่อใช้งาน ที่นี่</a>
                     </span>
                   </div>
                 </form>

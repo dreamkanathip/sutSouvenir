@@ -12,14 +12,7 @@ import { AddressModel } from '../../../interfaces/address/address.model';
 })
 export class AddAddressComponent implements OnInit {
 
-  testData: any[] = [
-    { province: "นครราชสีมา", district: "เมืองนครราชสีมา", subDistrict: "โคกกรวด", postalCode: "30280" },
-    { province: "นครราชสีมา", district: "เมืองนครราชสีมา", subDistrict: "จอหอ", postalCode: "30000" },
-    { province: "นครราชสีมา", district: "วังน้ำเขียว", subDistrict: "วังน้ำเขียว", postalCode: "30370" },
-    { province: "ขอนแก่น", district: "โนนศิลา", subDistrict: "โนนศิลา", postalCode: "40110" },
-    { province: "ขอนแก่น", district: "โนนศิลา", subDistrict: "โนนแดง", postalCode: "40110" }
-  ];
-
+  ThaiData: any[] = [];
   uniqueProvinces: string[] = [];
   filteredDistricts: string[] = [];
   filteredSubDistricts: string[] = [];
@@ -41,34 +34,25 @@ export class AddAddressComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       postalCode: ['', [Validators.required]]
     });
-
-    this.uniqueProvinces = [...new Set(this.testData.map(item => item.province))];
-    this.filteredDistricts = [... new Set(this.testData.map(item => item.district))]
-    this.filteredSubDistricts = [... new Set(this.testData.map(item => item.subDistrict))]
-
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.addressService.fetchThaiData().subscribe((result: any[]) => {
+      this.ThaiData = result;
+
+      // สร้างรายการจังหวัด
+      this.uniqueProvinces = [...new Set(this.ThaiData.map(item => item.name_th))];
+    });
+  }
 
   provinceSelect(province: string) {
     this.selectedProvince = province;
     this.selectedDistrict = undefined;
     this.selectedSubDistrict = undefined;
 
-    // เลือกจังหวัดแล้ว ทำการกรองอำเภอ
-    this.filteredDistricts = [
-      ...new Set(this.testData
-        .filter(item => item.province === province)
-        .map(item => item.district)
-      )
-    ];
-    
-    this.filteredSubDistricts = [
-      ...new Set(this.testData
-        .filter(item => item.province === province)
-        .map(item => item.subDistrict)
-      )
-    ];
+    // กรองอำเภอตามจังหวัด
+    const selectedProvinceData = this.ThaiData.find(p => p.name_th === province);
+    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th) : [];
 
     this.addressForm.patchValue({
       province: this.selectedProvince,
@@ -81,19 +65,10 @@ export class AddAddressComponent implements OnInit {
     this.selectedDistrict = district;
     this.selectedSubDistrict = undefined;
 
-    // เลือกอำเภอแล้ว เลือกจังหวัดให้ด้วย
-    const province = this.testData.find(item => item.district === district)?.province;
-    if (province) {
-      this.selectedProvince = province;
-      this.addressForm.patchValue({
-        province: this.selectedProvince
-      });
-    }
-
-    // เลือกอำเภอแล้ว ทำการกรองตำบล
-    this.filteredSubDistricts = this.testData
-      .filter(item => item.province === this.selectedProvince && item.district === district)
-      .map(item => item.subDistrict);
+    // กรองตำบลตามจังหวัดและอำเภอ
+    const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
+    const selectedDistrictData = provinceData?.amphure.find((a: any) => a.name_th === district);
+    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((t: any) => t.name_th) : [];
 
     this.addressForm.patchValue({
       district: this.selectedDistrict,
@@ -103,28 +78,23 @@ export class AddAddressComponent implements OnInit {
 
   subDistrictSelect(subDistrict: string) {
     this.selectedSubDistrict = subDistrict;
-
-    // เลือกอำเภอแล้ว เลือกจังหวัดและอำเภอให้
-    const province = this.testData.find(item => item.subDistrict === subDistrict)?.province;
-    const district = this.testData.find(item => item.subDistrict === subDistrict)?.district;
-    const postalCode = this.testData.find(item => item.subDistrict === subDistrict)?.postalCode;
-
-    if (province && district) {
-    this.selectedProvince = province;
-    this.selectedDistrict = district;
-
+  
+    // กำหนดรหัสไปรษณีย์อัตโนมัติ
+    const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
+    const districtData = provinceData?.amphure.find((a: any) => a.name_th === this.selectedDistrict);
+    const selectedSubDistrictData = districtData?.tambon.find((t: any) => t.name_th === subDistrict);
+    const postalCode = selectedSubDistrictData?.zip_code || '';
+  
+    // อัปเดตค่ารหัสไปรษณีย์ในฟอร์ม
     this.addressForm.patchValue({
-      province: this.selectedProvince,
-      district: this.selectedDistrict,
       subDistrict: this.selectedSubDistrict,
       postalCode: postalCode
     });
   }
-  }
+  
 
   submit() {
     if (this.addressForm.valid) {
-      console.log("data sent:", this.addressForm.value)
       const newAddress: AddressModel = {
         id: 0,
         firstName: this.addressForm.get('firstName')?.value,
@@ -137,7 +107,7 @@ export class AddAddressComponent implements OnInit {
         postalCode: this.addressForm.get('postalCode')?.value,
         userID: 1,
       };
-  
+
       Swal.fire({
         title: "Do you want to save the changes?",
         showCancelButton: true,
@@ -145,12 +115,11 @@ export class AddAddressComponent implements OnInit {
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.addressService.createAddress(newAddress, 1).subscribe((result: any) => {
-            console.log('Post response:', result);
+          this.addressService.createAddress(newAddress, 1).subscribe(() => {
             Swal.fire({
               icon: "success",
               title: "Success",
-              text: "Category has been updated!",
+              text: "Address has been added!",
               showConfirmButton: true,
             });
             this.addressForm.reset();
@@ -161,10 +130,9 @@ export class AddAddressComponent implements OnInit {
       console.log("Form is invalid", this.addressForm.value);
     }
   }
-  
 
   cancel() {
-    this.addressForm.reset()
+    this.addressForm.reset();
     this.router.navigate(['/address']);
   }
 }

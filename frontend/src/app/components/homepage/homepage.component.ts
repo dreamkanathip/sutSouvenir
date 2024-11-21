@@ -8,18 +8,17 @@ import { CartService } from '../../services/cart/cart.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent {
-
   addToFav!: any;
-  productItems!: Product[]; 
+  productItems!: Product[];
 
   dataForm = new FormGroup({
     userId: new FormControl(''),
     productId: new FormControl(''),
-    quantity: new FormControl('')
-  })
+    quantity: new FormControl(''),
+  });
 
   constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
     this.loadProducts()
@@ -28,28 +27,27 @@ export class HomepageComponent {
   loadProducts() {
     this.homepageService.getAllProducts().subscribe((result) => {
       this.productItems = result;
-    })
+    });
   }
 
   addItemToCart(productId: any) {
-
     this.dataForm.patchValue({
       userId: '1',
       productId: productId,
-      quantity: '1'
+      quantity: '1',
     });
-  
+
     const data = {
       userId: this.dataForm.get('userId')?.value ?? '',
       productId: this.dataForm.get('productId')?.value ?? '',
-      quantity: this.dataForm.get('quantity')?.value ?? ''
-    }
+      quantity: this.dataForm.get('quantity')?.value ?? '',
+    };
 
     console.log('Data to send:', data);
-    
+
     this.cartService.addItemToCart(data).subscribe((res) => {
-      console.log(res)
-    })
+      console.log(res);
+    });
   }
   goToDetails(itemId: number) {
     this.router.navigate(['/details', itemId]);
