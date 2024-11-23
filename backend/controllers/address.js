@@ -152,19 +152,23 @@ exports.update = async (req, res) => {
   }
 }
 
-exports.defaultAddress = async () => {
+exports.defaultAddress = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body
+    const { default: isDefault } = req.body;
 
-    const address = await prisma.address.findFirst({
+    if (typeof isDefault !== "boolean") {
+      return res.status(400).json({ message: "Invalid status format", isDefault });
+    }
+
+    const address = await prisma.address.findUnique({
       where: {
         id : Number(id)
       }
     })
 
     if (!address) {
-      return res.status(400).json({ message: "Address not found" });
+      return res.status(404).json({ message: "Address not found" });
     }
 
     const setDefault = await prisma.address.update({
@@ -172,10 +176,10 @@ exports.defaultAddress = async () => {
         id : Number(id)
       },
       data: {
-        default: status
+        default: isDefault
       }
     })
-    res.status(500).json("Default Address update process success")
+    res.status(200).json("Default Address update success")
 
   } catch (err) {
     console.log(err);
