@@ -88,24 +88,52 @@ export class AddressComponent implements OnInit{
   }
 
   setDefaultAddress(id: number){
-    let errorCheck: boolean = true
     // ปรับ Default Address เก่าออก
     if (this.defaultAddress) {
       this.addressService.setDefaultAddress(this.defaultAddress, false).subscribe({
-        error: (error) => {
-          errorCheck = false
-          console.error("Error Occured:", error)
-        }
-      })
-    }
-    // set Default Address อันใหม่
-    if (errorCheck) {
-      this.addressService.setDefaultAddress(id, true).subscribe({
         next: () => {
-          this.getAllAddress()
+          this.setNewAddress(id)
+        },
+        error: (error) => {
+          console.error("Error Occured:", error)
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+            showConfirmButton: true,
+          });
         }
       })
+    } else {
+      this.setNewAddress(id); // หากไม่มีที่อยู่เดิม ให้ตั้งค่าที่อยู่ใหม่โดยตรง
     }
+  }
+
+  setNewAddress(id: number) {
+    // set Default Address อันใหม่
+    const status = true
+    this.addressService.setDefaultAddress(id, status).subscribe({
+      next: () => {
+        console.log("success!")
+        this.getAllAddress()
+        Swal.fire({
+          icon: "success",
+          title: "สำเร็จ",
+          text: "ที่อยู่เริ่มต้นถูกตั้งค่าเรียบร้อยแล้ว",
+          showConfirmButton: true,
+        });
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+          showConfirmButton: true,
+        });
+        console.error("Error Occured:", error)
+      }
+    })
+    console.log("New Address Done!")
   }
 
 }

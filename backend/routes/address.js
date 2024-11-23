@@ -14,7 +14,7 @@ const {
 router.post("/address/:uid", create);
 router.get("/listAddress/:uid", list);
 router.get("/address/:id", read);
-router.patch("/address/:id", defaultAddress);
+router.patch("/address/default/:id", defaultAddress);
 router.put("/address/:uid/:id", update);
 router.delete("/address/:id", remove);
 

@@ -35,7 +35,9 @@
                                     <span>ที่อยู่สำหรับจัดส่ง</span>
                                 </ng-container>
                                 <ng-template #setDefault>
-                                    <a (click)="setDefaultAddress(item.id)">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
+                                    <div>
+                                        <a (click)="setDefaultAddress(item.id)" class="set-default-link">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
+                                    </div>
                                 </ng-template>
                             </td>
                             <td>

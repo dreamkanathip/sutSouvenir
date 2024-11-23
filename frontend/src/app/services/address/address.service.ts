@@ -43,7 +43,7 @@ export class AddressService {
   }
 
   setDefaultAddress(id: number, status: boolean){
-    return this.http.patch<any>(`${this.apiUrl}/address/${id}`, status)
+    return this.http.patch(`${this.apiUrl}/address/default/${id}`, { default: status })
   }
 
   fetchThaiData() {
