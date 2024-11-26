@@ -19,7 +19,6 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.checkAuthentication(); // เช็คสถานะการ login เมื่อเริ่มต้น
   }
 
   login(credentials: { username: string; password: string }): Observable<any> {
@@ -41,24 +40,5 @@ export class AuthService {
         // ใช้ route logout แทน check-auth
         this.authStatusSubject.next(false); // เปลี่ยนสถานะการ login เป็น false
       });
-  }
-
-  checkAuthentication(): void {
-    this.http
-      .get<any>(`${this.apiUrl}/auth-check`, { withCredentials: true }) // ตรวจสอบคุกกี้
-      .subscribe(
-        (response) => {
-          this.authStatusSubject.next(true); // ผู้ใช้เข้าสู่ระบบ
-        },
-        (error) => {
-          this.authStatusSubject.next(false); // ผู้ใช้ไม่ได้เข้าสู่ระบบ
-          console.error('Authentication failed', error);
-        }
-      );
-  }
-
-  isAuthenticated(): boolean {
-    this.checkAuthentication(); // เรียกตรวจสอบสถานะการ login
-    return this.authStatusSubject.getValue(); // ส่งค่าปัจจุบันของสถานะการ login
   }
 }

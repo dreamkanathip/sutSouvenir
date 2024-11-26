@@ -12,15 +12,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductManagementComponent implements OnInit {
   form: FormGroup;
+  submitted = false;
+  selectedFile: File | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private router: Router,
     private productManagementService: ProductManagementService
   ) {
     this.form = this.formBuilder.group({
-      // ฟอร์มสินค้า
       title: ['', [Validators.required, Validators.minLength(2)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       price: ['', [Validators.required, Validators.min(0.01)]],
@@ -28,38 +28,77 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // เริ่มต้นข้อมูลอื่นๆ ที่จำเป็น
+  // Accessor methods for form controls
+  get title() {
+    return this.form.get('title');
+  }
+  get quantity() {
+    return this.form.get('quantity');
+  }
+  get price() {
+    return this.form.get('price');
+  }
+  get description() {
+    return this.form.get('description');
   }
 
-  // ฟังก์ชั่นการบันทึกข้อมูลสินค้า
-  submit(): void {
+  ngOnInit(): void {
+    // Initialization logic if needed
+  }
+
+  // Submit function to handle form submission
+  submit() {
+    this.submitted = true; // Track that the form has been submitted
     if (this.form.invalid) {
-      alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-      return;
+      console.log('Form is invalid');
+      return; // If form is invalid, stop submission
     }
 
-    const product = this.form.getRawValue(); // ดึงข้อมูลจากฟอร์ม
-    console.log(product); // ตรวจสอบข้อมูลที่ดึงจากฟอร์ม
+    // Create FormData for product submission
+    const formData = new FormData();
+    formData.append('title', this.form.get('title')?.value ?? '');
+    formData.append('quantity', this.form.get('quantity')?.value ?? '');
+    formData.append('price', this.form.get('price')?.value ?? '');
+    formData.append('description', this.form.get('description')?.value ?? '');
 
-    // บันทึกข้อมูลสินค้า
-    this.http
-      .post('http://localhost:5000/api/product', product, {
-        withCredentials: true,
-      })
-      .subscribe(
-        () => {
-          Swal.fire('บันทึกสินค้าสำเร็จ');
-          this.router.navigate(['/home']);
-        },
-        (err) => {
-          Swal.fire('เกิดข้อผิดพลาด ไม่สามารถบันทึกสินค้าได้ในขณะนี้');
-        }
-      );
-  }
+    // Log the form data to console
+    console.log('Form Data:', {
+      title: this.form.get('title')?.value,
+      quantity: this.form.get('quantity')?.value,
+      price: this.form.get('price')?.value,
+      description: this.form.get('description')?.value,
+    });
 
-  cancel() {
-    this.form.reset();
-    this.router.navigate(['/home']);
+    // Show confirmation dialog before saving
+    Swal.fire({
+      title: 'Do you want to save the changes?',
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call service to save the product
+        this.productManagementService.addProduct(formData).subscribe(
+          () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Product has been saved!',
+              showConfirmButton: true,
+            });
+            // Navigate to favorite page after successful save
+            this.router.navigate(['/favorite']);
+          },
+          (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Failed to save the product!',
+              showConfirmButton: true,
+            });
+          }
+        );
+      }
+    });
   }
 }

@@ -9,20 +9,33 @@ import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
-  { path: '', component: FavouriteComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'details/:id', component: ProductDetailsComponent },
-  { path: 'favourite', component: FavouriteComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'favourite',
+    component: FavouriteComponent,
+  },
+  {
+    path: 'details/:id',
+    component: ProductDetailsComponent,
+  },
   { path: 'address', component: AddressComponent },
-  { path: 'address/add', component: AddAddressComponent },
-  { path: 'address/edit', component: EditAddressComponent },
-  { path: 'managements', component: ProductManagementComponent },
+  {
+    path: 'address/add',
+    component: AddAddressComponent,
+  },
+  {
+    path: 'address/edit',
+    component: EditAddressComponent,
+  },
+  {
+    path: 'managements',
+    component: ProductManagementComponent,
+  },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

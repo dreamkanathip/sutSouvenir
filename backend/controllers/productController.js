@@ -1,4 +1,4 @@
-const prisma = require("../config/prisma");
+const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
       // categoryId, images
     } = req.body;
     // console.log(title, description, price, quantity, images)
-    const product = await prisma.product.create({ 
+    const product = await prisma.product.create({
       data: {
         title: title,
         description: description,
@@ -74,8 +74,7 @@ exports.read = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     // code
-    const { title, description, price, quantity, categoryId, images } =
-      req.body;
+    const { title, description, price, quantity } = req.body;
     // console.log(title, description, price, quantity, images)
 
     await prisma.image.deleteMany({
@@ -114,8 +113,6 @@ exports.remove = async (req, res) => {
   try {
     // code
     const { id } = req.params;
-
-    // หนังชีวิต
 
     await prisma.product.delete({
       where: {

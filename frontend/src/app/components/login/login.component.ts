@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         .subscribe(
           (res) => {
             Swal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success'); // แก้ข้อความเป็นภาษาไทย
-            this.router.navigate(['/favourite']);
+            this.router.navigate(['/home']);
           },
           (err) => {
             Swal.fire(

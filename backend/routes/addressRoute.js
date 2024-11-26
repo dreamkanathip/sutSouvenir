@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    create,
-    list,
-    read,
-    defaultAddress,
-    update,
-    remove,
-}  = require("../controllers/address");
+  create,
+  list,
+  read,
+  defaultAddress,
+  update,
+  remove,
+} = require("../controllers/addressController");
 
 // @ENDPOINT http://localhost:5000/api/address
 router.post("/address/:uid", create);

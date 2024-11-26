@@ -1,4 +1,4 @@
-const prisma = require("../config/prisma");
+const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
   try {
