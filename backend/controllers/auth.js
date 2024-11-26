@@ -1,9 +1,11 @@
 const prisma = require("../config/prisma");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+// โหลด dotenv เพื่อให้สามารถใช้งานตัวแปรจาก .env ได้
+require("dotenv").config();
 
 // Register
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { firstname, lastname, email, password, gender } = req.body;
 
@@ -53,7 +55,7 @@ exports.register = async (req, res) => {
 };
 
 // Login
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -74,11 +76,17 @@ exports.login = async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
-      process.env.SECRET,
+      process.env.SECRET, // ใช้ค่า secret จาก .env
       { expiresIn: "1d" }
     );
 
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 1 day
+    res.cookie("jwt", token, {
+      httpOnly: true, // ป้องกันการเข้าถึงจาก JavaScript
+      maxAge: 24 * 60 * 60 * 1000, // 1 วัน
+      secure: process.env.NODE_ENV === "production", // ใช้ secure cookie เมื่อใช้ HTTPS
+      sameSite: "Strict", // ป้องกันการส่งคุกกี้จากโดเมนอื่น
+    });
+
     res.status(200).json({
       message: "Login successful",
       token,
@@ -90,7 +98,7 @@ exports.login = async (req, res) => {
 };
 
 // Current User
-exports.currentUser = async (req, res) => {
+const currentUser = async (req, res) => {
   try {
     const user = await prisma.user.findFirst({
       where: { email: req.user.email },
@@ -116,7 +124,7 @@ exports.currentUser = async (req, res) => {
 };
 
 // Logout
-exports.logout = (req, res) => {
+const logout = (req, res) => {
   try {
     res.clearCookie("jwt", { httpOnly: true }); // ลบ JWT จาก Cookies
     res.status(200).json({ message: "Logout successful" });
@@ -127,7 +135,7 @@ exports.logout = (req, res) => {
 };
 
 // Validate Token (Optional)
-exports.getToken = (req, res) => {
+const getToken = (req, res) => {
   const token = req.cookies.jwt; // Get the token from the HTTP-only cookie
   if (!token) {
     return res.status(401).json({ message: "Not authenticated" });
@@ -140,3 +148,18 @@ exports.getToken = (req, res) => {
     res.status(200).json({ message: "Authenticated", user });
   });
 };
+
+// Get User Info
+const getUser = (req, res) => {
+  try {
+    // Assume req.user contains the authenticated user after JWT verification
+    const { password, ...userData } = req.user; // กำจัดรหัสผ่านจากข้อมูลที่ส่ง
+    res.status(200).json(userData);
+  } catch (err) {
+    console.error("Error fetching user info:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Export the functions
+module.exports = { register, login, currentUser, logout, getToken, getUser };

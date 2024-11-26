@@ -3,6 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const { readdirSync } = require("fs");
 const cors = require("cors");
+const cookieParser = require("cookie-parser"); // นำเข้า cookie-parser
 
 // Step 1: CORS configuration
 const corsOptions = {
@@ -13,6 +14,7 @@ const corsOptions = {
 };
 
 // middleware
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors(corsOptions)); // ใช้ CORS middleware พร้อมกับการตั้งค่า

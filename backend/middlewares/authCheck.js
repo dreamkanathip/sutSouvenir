@@ -11,6 +11,7 @@ const getToken = (req) => {
 
   // ตรวจสอบใน cookies["jwt"]
   const cookieToken = req.cookies["jwt"];
+  console.log("Cookie Token:", cookieToken); // เพิ่มการดีบัก
   if (cookieToken) {
     return cookieToken;
   }
@@ -20,16 +21,16 @@ const getToken = (req) => {
 };
 
 // Middleware สำหรับตรวจสอบการเข้าสู่ระบบ
-exports.authCheck = async (req, res, next) => {
+const authCheck = async (req, res, next) => {
   try {
-    const token = getToken(req);
+    const token = getToken(req); // เรียกใช้ฟังก์ชัน getToken เพื่อตรวจสอบใน headers หรือ cookies
     if (!token) {
       return res.status(401).json({ message: "Authentication token required" });
     }
 
     // ตรวจสอบความถูกต้องของ token
     const decode = jwt.verify(token, process.env.SECRET);
-    req.user = decode;
+    req.user = decode; // กำหนด user ที่ decode จาก token ลงใน req
 
     // ตรวจสอบว่า user มีอยู่ในระบบและ enabled หรือไม่
     const user = await prisma.user.findFirst({
@@ -37,21 +38,27 @@ exports.authCheck = async (req, res, next) => {
         email: req.user.email,
       },
     });
+
     if (!user || !user.enabled) {
       return res.status(403).json({ message: "This account cannot access" });
     }
 
-    req.user = user; // เพิ่ม user object เข้า req
+    req.user = user; // เพิ่มข้อมูลผู้ใช้งานจากฐานข้อมูลลงใน req
     next();
   } catch (err) {
-    console.error(err);
+    console.error("Error in authCheck middleware:", err); // เพิ่มข้อความผิดพลาดเพื่อการดีบัก
     res.status(401).json({ message: "Invalid authentication token" });
   }
 };
 
 // Middleware สำหรับตรวจสอบการเป็น Admin
-exports.adminCheck = async (req, res, next) => {
+const adminCheck = async (req, res, next) => {
   try {
+    // ตรวจสอบว่า req.user ถูกตั้งค่าไว้หรือไม่
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized: No user data" });
+    }
+
     const { email } = req.user;
     const adminUser = await prisma.user.findFirst({
       where: { email: email },
@@ -61,9 +68,16 @@ exports.adminCheck = async (req, res, next) => {
       return res.status(403).json({ message: "Access Denied: Admin Only" });
     }
 
-    next();
+    next(); // ถ้าทุกอย่างถูกต้อง, ดำเนินการต่อไป
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error Admin access denied" });
   }
+};
+
+// ส่งออกฟังก์ชันที่ใช้งาน
+module.exports = {
+  authCheck,
+  adminCheck,
+  getToken,
 };
