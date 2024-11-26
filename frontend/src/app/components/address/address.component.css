@@ -1,25 +1,36 @@
 .address-page {
+    display: flex;
+    align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    flex-wrap: wrap;
     background-color: #FFDDBE;
-    justify-content: flex;
+    padding-top: calc(var(--navbar-height, 70px));
+    max-width: 1920px;
+}
+
+.address-page > [class^="col-"] {
+    display: flex; /* ใช้ flex เพื่อจัดการ layout ภายใน */
+    flex-direction: column; /* เนื้อหาภายในจะเรียงจากบนลงล่าง */
 }
 
 .user-menu {
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
     padding: 20px;
     max-width: 450px;
     background-color: white;
-    margin-top: 20%;
+    margin-top: 90px;
     margin-left: 25%;
 }
 
 .my-address-container {
     align-items: center;
+    justify-content: flex-start;
     padding: 20px;
-    max-width: 1000px;
+    max-width: 1050px;
     background-color: white;
-    margin-top: 10%;
+    margin-top: 90px;
     margin-left: 3%;
-    margin-bottom: 5%;
+    margin-bottom: 50px;
 }
 
 .add-button-btn {
@@ -28,4 +39,16 @@
     padding: 5px;
     background-color: #F36523;
     color: white;
+}
+
+.set-default-link {
+    color: #007bff; /* สีฟ้า */
+    text-decoration: underline; /* ขีดเส้นใต้เพื่อเน้นว่าเป็นลิงก์ */
+    cursor: pointer; /* เปลี่ยนเมาส์เป็น pointer เมื่อชี้ */
+    align-items: center;
+}
+
+.set-default-link:hover {
+    color: #0056b3; /* สีที่เข้มขึ้นเมื่อ hover */
+    text-decoration: none; /* เอาขีดเส้นใต้ออกเมื่อ hover */
 }

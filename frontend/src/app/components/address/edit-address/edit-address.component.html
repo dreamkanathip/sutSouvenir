@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="row edit-address-page">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="user-menu">
             <div class="menu">
                 <h3 class="container-header">บัญชีผู้ใช้</h3>
@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="edit-address-container">
             <h3 class="container-header">แก้ไขที่อยู่</h3>
             <br />
@@ -36,7 +36,7 @@
                                             aria-expanded="false">
                                             {{ selectedDistrict || 'เลือกอำเภอ' }}
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 150px;">
                                             <li *ngFor="let district of filteredDistricts">
                                                 <a class="dropdown-item" (click)="districtSelect(district)">{{ district }}</a>
                                             </li>
@@ -65,7 +65,7 @@
                                             aria-expanded="false">
                                             {{ selectedProvince || 'เลือกจังหวัด' }}
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 150px;">
                                             <li *ngFor="let province of uniqueProvinces">
                                                 <a class="dropdown-item" (click)="provinceSelect(province)">{{ province }}</a>
                                             </li>
@@ -82,7 +82,7 @@
                                             aria-expanded="false">
                                             {{ selectedSubDistrict || 'เลือกตำบล' }}
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 150px;">
                                             <li *ngFor="let subDistrict of filteredSubDistricts">
                                                 <a class="dropdown-item" (click)="subDistrictSelect(subDistrict)">{{ subDistrict }}</a>
                                             </li>
