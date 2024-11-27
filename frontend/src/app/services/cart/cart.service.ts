@@ -23,4 +23,10 @@ export class CartService {
   removeProductOnCart(data: any) {
     return this.http.delete<any>(`${this.apiUrl}/deleteItemFromCart`, { body: data })
   }
+  increaseProductOnCart(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/increaseProductOnCart`, data)
+  }
+  decreaseProductOnCart(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/decreaseProductOnCart`, data)
+  }
 }

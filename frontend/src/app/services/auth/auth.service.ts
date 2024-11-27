@@ -18,7 +18,7 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.checkAuthentication();
+    // this.checkAuthentication();
   }
 
   login(credentials: { username: string; password: string }): Observable<any> {
@@ -38,7 +38,7 @@ export class AuthService {
 
   checkAuthentication(): void {
     this.http
-      .get<any>(`${this.apiUrl}/check-auth`, { withCredentials: true })
+      .get<any>(`${this.apiUrl}/check-auth`,)
       .subscribe(
         (response) => {
           this.authStatusSubject.next(true);

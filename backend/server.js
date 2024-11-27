@@ -7,7 +7,7 @@ const cors = require("cors");
 // Step 1: CORS configuration
 const corsOptions = {
   origin: "http://localhost:4200", // กำหนดต้นทางที่อนุญาต (จะต้องเป็น URL ของ frontend)
-  methods: ["GET", "POST", "PUT", "DELETE"], // กำหนดวิธีการที่อนุญาต
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // กำหนดวิธีการที่อนุญาต
   allowedHeaders: ["Content-Type", "Authorization"], // กำหนด headers ที่อนุญาต
   credentials: true, // เปิดใช้งานการส่ง credentials (cookies หรือ HTTP authentication headers)
 };

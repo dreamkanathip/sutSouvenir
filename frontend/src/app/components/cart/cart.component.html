@@ -3,32 +3,6 @@
   <div class="row">
     <div class="col-8">
       <div class="card shadow-sm card-body">
-        <!-- <table class="table">
-          <tbody class="thead thead-inverse">
-            <tr>
-              <th></th>
-              <th></th>
-              <th>ชื่อสินค้า</th>
-              <th>ราคา</th>
-              <th>จำนวน</th>
-              <th>ราคารวม</th>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr *ngFor="let item of productOnCart; index as i">
-              <td class="checkbox-container">
-                  <input class="select-items" type="checkbox" value="" id="flexCheckChecked" checked>
-              </td>
-              <td>
-                <img src="assets/SUT-Logo.png" class="card-img">
-              </td>
-              <td>{{ item.product.title }}</td>
-              <td>{{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.price.toLocaleString('en', {useGrouping:true}) }}</td>
-            </tr>
-          </tbody>
-        </table> -->
         <div class="row">
           <div class="col-1 checkbox">
             <input class="select-items" type="checkbox" value="" id="flexCheckChecked"
@@ -57,7 +31,7 @@
                 <span class="mx-2">{{ item.quantity }}</span>
               <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
             </div>
-            <div class="col-2 sum-price">{{ item.price.toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-2 sum-price">{{ (item.product.price*item.quantity).toLocaleString('en', {useGrouping:true}) }}</div>
             <div class="col-1 delete">
               <i class='bx bx-trash' (click)="removeProductOnCart(item.productId)"></i>
             </div>
@@ -82,7 +56,7 @@
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
-          <button type="submit" class="main-btn w-100" >
+          <button type="submit" class="main-btn w-100" [routerLink]="['/payment']">
             ชำระเงิน
           </button>
         </div>

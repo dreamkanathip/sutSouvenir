@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
@@ -27,15 +27,24 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProductOnCart(1)
-    this.getCartById(1)
+    this.getProductOnCart(1) //passing userId
+    this.getCartById(1) //passing userId
     this.toggleSelectAll()
   }
 
   getProductOnCart(userId: any) {
+    const selectedMap = new Map(
+      this.productOnCart?.map((item) => [item.productId, item.selected])
+    );
+  
     this.cartService.getProductOnCart(userId).subscribe((res) => {
-      this.productOnCart = res.map((item: any) => ({...item, selected: false}))
-    })
+      this.productOnCart = res.map((item: any) => ({
+        ...item,
+        selected: selectedMap.get(item.productId) || false,
+      }));
+  
+      this.updateTotalPrice();
+    });
   }
   getCartById(userId: any) {
     this.cartService.getCartById(userId).subscribe((res) => {
@@ -52,28 +61,6 @@ export class CartComponent implements OnInit {
   checkIndividualSelect() {
     this.selectAll = this.productOnCart.every((i) => i.selected);
   }
-
-  calculateSumItemPrice(){
-    const selectedItem = this.productOnCart.filter((i) => i.selected === true)
-    if(selectedItem){
-      this.sumItemPrice = selectedItem.reduce((acc, curr) => acc + curr.price, 0)
-    } 
-  }
-  increaseQuantity(item: any){
-    item.quantity++;
-    this.updateTotalPrice();
-  }
-  
-  decreaseQuantity(item: any){
-    if (item.quantity > 1) {
-      item.quantity--;
-      this.updateTotalPrice();
-    }
-  }
-  updateTotalPrice(): void {
-    this.sumItemPrice = this.productOnCart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  }
-  
   toggleSelectAll() {
     if(this.productOnCart){
       const newSelectState = !this.selectAll;
@@ -84,7 +71,41 @@ export class CartComponent implements OnInit {
       console.log("No Product")
     }
   }
+  calculateSumItemPrice(){
+    const selectedItem = this.productOnCart.filter((i) => i.selected === true)
+    if(selectedItem){
+      this.sumItemPrice = selectedItem.reduce((acc, curr) => acc + curr.price, 0)
+    } 
+  }
 
+  increaseQuantity(item: any){
+    const data = {
+      userId: 1,
+      productId: item.productId
+    }
+    this.cartService.increaseProductOnCart(data).subscribe((res) => {
+      console.log(res)
+      this.getProductOnCart(data.userId)
+    })
+  }
+
+  decreaseQuantity(item: any){
+    const data = {
+      userId: 1,
+      productId: item.productId
+    }
+    if(item.quantity > 1) {
+      this.cartService.decreaseProductOnCart(data).subscribe((res) => {
+        console.log(res)
+        this.getProductOnCart(data.userId)
+      })
+    }
+  }
+
+  updateTotalPrice(): void {
+    this.sumItemPrice = this.productOnCart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  }
+  
   removeProductOnCart(productId: any) {
     const data = {
       userId: 1,

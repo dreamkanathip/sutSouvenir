@@ -47,6 +47,7 @@ export class HomepageComponent {
 
     this.cartService.addItemToCart(data).subscribe((res) => {
       console.log(res);
+      this.loadProducts()
     });
   }
   goToDetails(itemId: number) {

@@ -9,7 +9,8 @@ const {
     deleteCart,
     getCartById,
     deleteItemFromCart,
-    decreaseProductOnCart
+    decreaseProductOnCart,
+    increaseProductOnCart
 } = require('../controllers/cart');
 
 
@@ -20,6 +21,8 @@ router.post('/initialCart', initial);
 router.delete('/cart/:id', deleteCart);
 router.delete('/deleteItemFromCart', deleteItemFromCart)
 router.post('/addToCart', addItemToCart);
-router.patch('/decre', decreaseProductOnCart)
+router.patch('/decreaseProductOnCart', decreaseProductOnCart)
+router.patch('/increaseProductOnCart', increaseProductOnCart)
+
 
 module.exports = router

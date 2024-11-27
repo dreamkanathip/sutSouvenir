@@ -1,5 +1,4 @@
 const prisma = require('../config/prisma');
-const { read } = require('./product');
 
 //initial cart for user
 exports.initial = async(req, res) => {
@@ -38,6 +37,7 @@ exports.deleteCart = async(req, res) => {
 exports.addItemToCart = async(req, res) => {
     try {
         const { userId, productId, quantity } = req.body
+        
         console.log("check backend", Number(productId))
 
         //find certain cart and product for certain user
@@ -51,7 +51,13 @@ exports.addItemToCart = async(req, res) => {
                 userId: Number(userId)
             }
         })
-
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+        
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
         //check if item exist
         const checkItem = await prisma.productOnCart.findFirst({
             where: {
@@ -184,7 +190,50 @@ exports.decreaseProductOnCart = async(req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 }
-
+exports.increaseProductOnCart = async(req, res) => {
+    try {
+        const { userId, productId} = req.body
+        const cart = await prisma.cart.findFirst({
+            where: {
+                userId: Number(userId)
+            }
+        })
+        const productOnCart = await prisma.productOnCart.findFirst({
+            where: {
+                cartId: Number(cart.id),
+                productId: productId
+            }
+        })
+        const [increaseProductOnCart, decreaseProductQuantity] = await prisma.$transaction([
+            prisma.productOnCart.update({
+                where: {
+                    id: Number(productOnCart.id)
+                },
+                data: {
+                    quantity: {
+                        increment: Number(1)
+                    }
+                }
+            }),
+            prisma.product.update({
+                where: {
+                    id: Number(productId)
+                },
+                data: {
+                    quantity: {
+                        decrement: Number(1)
+                    }
+                }
+            })
+        ])
+        res.json({
+            increaseProductOnCart, decreaseProductQuantity
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error" });
+    }
+}
 
 //to see all of the carts
 exports.getAllCarts = async(req, res) => {
@@ -233,7 +282,6 @@ exports.getItemsOnCart = async(req, res) => {
     }
 }
 
-
 exports.deleteItemFromCart =  async(req, res) => {
     try {
         const { userId, productId} = req.body
@@ -252,13 +300,20 @@ exports.deleteItemFromCart =  async(req, res) => {
             }
         })
 
-        const remove = await prisma.productOnCart.delete({
-            where: {
-                id: Number(itemOnCart.id)
-            }
-        })
-        res.send(remove)
-
+        const [removeItem, restoreStock] = await prisma.$transaction([
+            prisma.productOnCart.delete({
+                where: {
+                    id: Number(itemOnCart.id)
+                }
+            }),
+            prisma.product.update({
+                where: { id: Number(productId) },
+                data: {
+                    quantity: { increment: itemOnCart.quantity }
+                }
+            })
+        ])
+        res.json({ message: "Item removed from cart", removeItem, restoreStock });
     } catch (err) {
         console.log(err)
         res.status(500).json({message: "Server error"})

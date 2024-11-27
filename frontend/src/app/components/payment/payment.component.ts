@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
 import { Carts } from '../../interfaces/carts/carts';
+import { CartComponent } from '../cart/cart.component';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.css'
 })
-export class PaymentComponent {
+export class PaymentComponent implements OnInit{
 
+  @ViewChild(CartComponent) cartComponent!: CartComponent;
+  
   dataForm = new FormGroup({
     userID: new FormControl(''),
     productId: new FormControl(''),
@@ -22,14 +25,13 @@ export class PaymentComponent {
   selectAll: boolean = false;
   sumItemPrice: number = 0;
 
-
   constructor(private cartService: CartService) {
+    this.getSelectedProductOnCart()
   }
 
   ngOnInit(): void {
     this.getProductOnCart(1)
     this.getCartById(1)
-    this.toggleSelectAll()
   }
 
   getProductOnCart(userId: any) {
@@ -59,41 +61,13 @@ export class PaymentComponent {
       this.sumItemPrice = selectedItem.reduce((acc, curr) => acc + curr.price, 0)
     } 
   }
-  increaseQuantity(item: any){
-    item.quantity++;
-    this.updateTotalPrice();
-  }
-  
-  decreaseQuantity(item: any){
-    if (item.quantity > 1) {
-      item.quantity--;
-      this.updateTotalPrice();
-    }
-  }
+
   updateTotalPrice(): void {
     this.sumItemPrice = this.productOnCart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   }
-  
-  toggleSelectAll() {
-    if(this.productOnCart){
-      const newSelectState = !this.selectAll;
-      this.productOnCart.forEach((i) => i.selected = newSelectState);
-      this.selectAll = newSelectState; 
-      this.calculateSumItemPrice()
-    } else {
-      console.log("No Product")
-    }
-  }
 
-  removeProductOnCart(productId: any) {
-    const data = {
-      userId: 1,
-      productId: productId
-    }
-    console.log(data)
-    this.cartService.removeProductOnCart(data).subscribe((res) => {
-      console.log(res)
-      this.getProductOnCart(data.userId)
-    })
+  getSelectedProductOnCart() {
+    const selectedItem = this.cartComponent.productOnCart.filter((i) => i.selected === true)
+    this.productOnCart = selectedItem
   }
 }
