@@ -23,6 +23,7 @@ import { AddAddressComponent } from './components/address/add-address/add-addres
 import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
+import { ProductManagementComponent } from './components/product-management/product-management.component';
 
 @NgModule({
   declarations: [

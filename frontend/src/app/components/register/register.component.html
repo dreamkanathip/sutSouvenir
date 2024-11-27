@@ -17,21 +17,21 @@
                     <input
                       type="text"
                       class="input"
-                      id="register-firstname"
-                      formControlName="firstname"
+                      id="registerPage-firstname"
+                      formControlName="firstName"
                       required
                     />
-                    <label for="register-firstname">ชื่อ</label>
+                    <label for="registerPage-firstname">ชื่อ</label>
                   </div>
                   <div class="input-field">
                     <input
                       type="text"
                       class="input"
-                      id="register-lastname"
-                      formControlName="lastname"
+                      id="registerPage-lastname"
+                      formControlName="lastName"
                       required
                     />
-                    <label for="register-lastname">นามสกุล</label>
+                    <label for="registerPage-lastname">นามสกุล</label>
                   </div>
 
                   <div class="input-field">
@@ -39,11 +39,11 @@
                       formControlName="email"
                       type="email"
                       class="input"
-                      id="register-email"
+                      id="registerPage-email"
                       required
                       autocomplete="off"
                     />
-                    <label for="register-email">อีเมลล์</label>
+                    <label for="registerPage-email">อีเมลล์</label>
                     <div *ngIf="form.get('email')?.hasError('invalidDomain')">
                       <span class="error">
                         สามารถลงท้ายได้แค่ gmail.com, hotmail.com, hotmail.co.th
@@ -56,10 +56,10 @@
                       formControlName="password"
                       [type]="showPassword ? 'text' : 'password'"
                       class="input"
-                      id="password"
+                      id="registerPage-password"
                       required
                     />
-                    <label for="password">รหัสผ่าน</label>
+                    <label for="registerPage-password">รหัสผ่าน</label>
                     <i
                       class="fa"
                       [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
@@ -79,24 +79,28 @@
                       <div class="gender-option">
                         <input
                           type="radio"
-                          id="male"
+                          id="registerPage-male"
                           value="male"
                           formControlName="gender"
                           name="gender"
                         />
-                        <label for="male" class="gender-option-label"
+                        <label
+                          for="registerPage-male"
+                          class="gender-option-label"
                           >ชาย</label
                         >
                       </div>
                       <div class="gender-option">
                         <input
                           type="radio"
-                          id="female"
+                          id="registerPage-female"
                           value="female"
                           formControlName="gender"
                           name="gender"
                         />
-                        <label for="female" class="gender-option-label"
+                        <label
+                          for="registerPage-female"
+                          class="gender-option-label"
                           >หญิง</label
                         >
                       </div>

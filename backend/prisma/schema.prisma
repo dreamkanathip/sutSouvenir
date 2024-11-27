@@ -16,11 +16,10 @@ datasource db {
 model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
-  password   String?
-  firstName  String?
-  lastName   String?
-  picture    String?
-  gender     String?
+  password   String
+  firstName  String
+  lastName   String
+  gender     String
   role       Role        @default(USER)
   enabled    Boolean     @default(true)
   orders     Order[]
@@ -43,6 +42,7 @@ model Address {
   district      String
   province      String
   postalCode    String
+  default       Boolean  @default(false)
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        Int
   createdAt     DateTime @default(now())

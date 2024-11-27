@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { create, list, remove } = require("../controllers/category");
+const { create, list, remove } = require("../controllers/categoryController");
 
 // @ENDPOINT http://localhost:5000/api/category
 router.post("/category", create);

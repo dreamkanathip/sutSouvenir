@@ -22,6 +22,7 @@
                             <th>เบอร์โทรศัพท์</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,16 +31,33 @@
                             <td>{{item.street}} {{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td>
-                                <p>ตั้งค่าเป็นที่อยู่จัดส่ง</p>
+                                <ng-container *ngIf="item.id === defaultAddress; else setDefault">
+                                    <span>ที่อยู่สำหรับจัดส่ง</span>
+                                </ng-container>
+                                <ng-template #setDefault>
+                                    <div>
+                                        <a (click)="setDefaultAddress(item.id)" class="set-default-link">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
+                                    </div>
+                                </ng-template>
                             </td>
                             <td>
                                 <button (click)="editAddressNavigate(item.id)">แก้ไข</button>
                             </td>
+                            <td><button (click)="deleteAddress(item.id)">ลบ</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+        </div>
+    </div>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Update</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          {{updateMessage}}
         </div>
     </div>
 </div>

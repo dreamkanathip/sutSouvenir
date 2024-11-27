@@ -2,9 +2,10 @@
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191) NULL,
-    `name` VARCHAR(191) NULL,
-    `picture` VARCHAR(191) NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `firstName` VARCHAR(191) NOT NULL,
+    `lastName` VARCHAR(191) NOT NULL,
+    `gender` VARCHAR(191) NOT NULL,
     `role` ENUM('ADMIN', 'USER') NOT NULL DEFAULT 'USER',
     `enabled` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -17,11 +18,15 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Address` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `firstName` VARCHAR(191) NOT NULL,
+    `lastName` VARCHAR(191) NOT NULL,
+    `phoneNumber` VARCHAR(191) NOT NULL,
     `street` VARCHAR(191) NOT NULL,
-    `city` VARCHAR(191) NOT NULL,
-    `state` VARCHAR(191) NOT NULL,
+    `subDistrict` VARCHAR(191) NOT NULL,
+    `district` VARCHAR(191) NOT NULL,
+    `province` VARCHAR(191) NOT NULL,
     `postalCode` VARCHAR(191) NOT NULL,
-    `country` VARCHAR(191) NOT NULL,
+    `default` BOOLEAN NOT NULL DEFAULT false,
     `userId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -61,6 +66,7 @@ CREATE TABLE `Review` (
     `comment` VARCHAR(191) NULL,
     `userId` INTEGER NOT NULL,
     `productId` INTEGER NOT NULL,
+    `star` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -120,7 +126,7 @@ CREATE TABLE `Cart` (
     `cartTotal` DOUBLE NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `orderedById` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -130,7 +136,7 @@ CREATE TABLE `ProductOnCart` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `cartId` INTEGER NOT NULL,
     `productId` INTEGER NOT NULL,
-    `count` INTEGER NOT NULL,
+    `quantity` INTEGER NOT NULL,
     `price` DOUBLE NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -220,7 +226,7 @@ ALTER TABLE `ProductOnOrder` ADD CONSTRAINT `ProductOnOrder_productId_fkey` FORE
 ALTER TABLE `ProductOnOrder` ADD CONSTRAINT `ProductOnOrder_orderId_fkey` FOREIGN KEY (`orderId`) REFERENCES `Order`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Cart` ADD CONSTRAINT `Cart_orderedById_fkey` FOREIGN KEY (`orderedById`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Cart` ADD CONSTRAINT `Cart_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProductOnCart` ADD CONSTRAINT `ProductOnCart_cartId_fkey` FOREIGN KEY (`cartId`) REFERENCES `Cart`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

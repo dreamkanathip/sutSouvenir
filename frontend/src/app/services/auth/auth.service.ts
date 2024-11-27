@@ -12,7 +12,8 @@ export class AuthService {
   authStatus$ = this.authStatusSubject.asObservable();
 
   private isBrowser: boolean;
-  apiUrl = 'http://localhost:5000/api';
+  apiUrl = 'http://localhost:5000/api'; // ตรวจสอบให้แน่ใจว่า URL ถูกต้อง
+
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -20,37 +21,24 @@ export class AuthService {
     this.isBrowser = isPlatformBrowser(this.platformId);
     // this.checkAuthentication();
   }
-
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response) => {
-        // No need to store the token in localStorage; it will be in an HTTP-only cookie
-        this.authStatusSubject.next(true); // Set the authenticated status
-      })
-    );
-  }
-
-  logout(): void {
-    this.http.post(`${this.apiUrl}/check-auth`, {}).subscribe(() => {
-      this.authStatusSubject.next(false); // Update the authentication status
-    });
-  }
-
-  checkAuthentication(): void {
-    this.http
-      .get<any>(`${this.apiUrl}/check-auth`,)
-      .subscribe(
-        (response) => {
-          this.authStatusSubject.next(true);
-        },
-        (error) => {
-          this.authStatusSubject.next(false);
-        }
+    return this.http
+      .post<any>(`${this.apiUrl}/login`, credentials, { withCredentials: true })
+      .pipe(
+        // เพิ่ม { withCredentials: true } เพื่อส่งคุกกี้
+        tap((response) => {
+          this.authStatusSubject.next(true); // กำหนดสถานะการ login เป็น true
+        })
       );
   }
 
-  isAuthenticated(): boolean {
-    this.checkAuthentication();
-    return this.authStatusSubject.getValue();
+  logout(): void {
+    // คำขอ logout ที่จะทำการลบ JWT cookie
+    this.http
+      .post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+      .subscribe(() => {
+        // ใช้ route logout แทน check-auth
+        this.authStatusSubject.next(false); // เปลี่ยนสถานะการ login เป็น false
+      });
   }
 }

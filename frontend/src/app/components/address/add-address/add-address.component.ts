@@ -109,23 +109,46 @@ export class AddAddressComponent implements OnInit {
       };
 
       Swal.fire({
-        title: "Do you want to save the changes?",
+        title: "ต้องการเพิ่มข้อมูลหรือไม่",
         showCancelButton: true,
-        confirmButtonText: "Save",
+        confirmButtonText: "บันทึก",
+        cancelButtonText: "ยกเลิก",
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.addressService.createAddress(newAddress, 1).subscribe(() => {
-            Swal.fire({
-              icon: "success",
-              title: "Success",
-              text: "Address has been added!",
-              showConfirmButton: true,
-            });
-            this.addressForm.reset();
+          Swal.fire({
+            title: "กำลังบันทึกข้อมูล...",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+    
+          this.addressService.createAddress(newAddress, 1).subscribe({
+            next: () => {
+              Swal.close();
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "เพิ่มข้อมูลที่อยู่เรียบร้อยแล้ว",
+                showConfirmButton: true,
+              });
+              this.addressForm.reset();
+              this.addressNavigate();
+            },
+            error: (error) => {
+              Swal.close();
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+                showConfirmButton: true,
+              });
+              console.error("API error:", error);
+            }
           });
         }
-      });
+      })
     } else {
       console.log("Form is invalid", this.addressForm.value);
     }
@@ -133,6 +156,10 @@ export class AddAddressComponent implements OnInit {
 
   cancel() {
     this.addressForm.reset();
+    this.router.navigate(['/address']);
+  }
+
+  addressNavigate(){
     this.router.navigate(['/address']);
   }
 }

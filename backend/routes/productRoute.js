@@ -9,7 +9,7 @@ const {
   remove,
   listby,
   searchFilters,
-} = require("../controllers/product");
+} = require("../controllers/productController");
 
 // @ENDPOINT http://localhost:5000/api/product
 router.post("/product", create);

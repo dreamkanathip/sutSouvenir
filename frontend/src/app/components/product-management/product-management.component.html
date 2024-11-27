@@ -1,0 +1,77 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
+<body>
+  <div class="ext-box">
+    <div class="wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 right">
+            <div>
+              <div class="input-box">
+                <header class="header">จัดการสินค้า</header>
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <!-- ชื่อสินค้า -->
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="input"
+                      id="title"
+                      formControlName="title"
+                      required
+                    />
+                    <label for="title">ชื่อสินค้า</label>
+                  </div>
+                  <!-- จำนวนสินค้า -->
+                  <div class="input-field">
+                    <input
+                      type="number"
+                      class="input"
+                      id="quantity"
+                      formControlName="quantity"
+                      required
+                      min="1"
+                    />
+                    <label for="quantity">จำนวนสินค้า</label>
+                  </div>
+
+                  <!-- ราคา -->
+                  <div class="input-field">
+                    <input
+                      type="number"
+                      class="input"
+                      id="price"
+                      formControlName="price"
+                      required
+                      min="0.01"
+                      step="0.01"
+                    />
+                    <label for="price">ราคา</label>
+                  </div>
+
+                  <!-- คำอธิบาย -->
+                  <div class="input-field">
+                    <textarea
+                      class="input"
+                      id="description"
+                      formControlName="description"
+                      required
+                      rows="4"
+                    ></textarea>
+                    <label for="description">คำอธิบาย</label>
+                  </div>
+
+                  <!-- ปุ่มบันทึกสินค้า -->
+                  <div class="input-field">
+                    <button type="submit" class="submit">บันทึกสินค้า</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

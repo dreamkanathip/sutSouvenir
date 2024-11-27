@@ -22,9 +22,16 @@ export class AddressService {
     return this.http.get<AddressModel>(`${this.apiUrl}/address/${id}`);
   }
 
-
   createAddress(address: any, uid: number): Observable<AddressModel[]> {
     return this.http.post<AddressModel[]>(`${this.apiUrl}/address/${uid}`, address)
+  }
+
+  updateAddress(address: any, uid: number, id: number): Observable<AddressModel[]> {
+    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${uid}/${id}`, address);
+  }
+
+  deleteAddress(id: number): Observable<AddressModel> {
+    return this.http.delete<AddressModel>(`${this.apiUrl}/address/${id}`);
   }
 
   selectedEditAddress(id: number) {
@@ -33,6 +40,10 @@ export class AddressService {
   
   getEditAddressId() {
     return this.editAddress
+  }
+
+  setDefaultAddress(id: number, status: boolean){
+    return this.http.patch(`${this.apiUrl}/address/default/${id}`, { default: status })
   }
 
   fetchThaiData() {
