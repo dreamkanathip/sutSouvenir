@@ -20,6 +20,8 @@ import {
 import { FavouriteComponent } from './components/favourite/favourite.component';
 import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
+import { CartComponent } from './components/cart/cart.component';
+import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 
@@ -35,8 +37,9 @@ import { ProductManagementComponent } from './components/product-management/prod
     FavouriteComponent,
     AddressComponent,
     AddAddressComponent,
-    EditAddressComponent,
-    ProductManagementComponent,
+    CartComponent,
+    PaymentComponent,
+    EditAddressComponent  
   ],
   imports: [
     BrowserModule,

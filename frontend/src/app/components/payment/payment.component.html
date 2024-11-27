@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="card shadow-sm card-body">
+      </div>
+
+      <!-- gonna deal it later, fetch from order or payment or something -->
+      <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <img src="assets/SUT-Logo.png" class="card-img">
+            </div>
+            <div class="col-5 item-title">{{ item.product.title }}</div>
+            <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-1 quantity d-flex align-items-center">
+                <span class="mx-2">{{ item.quantity }}</span>
+            </div>
+            <div class="col-2 sum-price">{{ item.price.toLocaleString('en', {useGrouping:true}) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2>
+            ที่อยู่ในการจัดส่ง
+          </h2>
+          <div class="d-flex justify-content-between">
+            <div class="name">
+              สมบัติ ทับทอง ** mockedup **
+            </div>
+            <div class="change-address">
+              <u>เปลี่ยน</u>
+            </div>
+          </div>
+          <div class="address">
+            หอพักสุรนิเวศ 7 มหาวิทยาลัยเทคโนโลยีสุรนารี  ** mockedup **
+            สุรนารี เมืองนครราชสีมา นครราชสีมา 30000
+          </div>
+          <hr class="mt-1 mb-1" />
+          <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
+          <div *ngIf="cart" class="d-flex justify-content-between">
+            <p>ราคาสินค้า</p>
+            {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
+          </div>
+          <div class="d-flex justify-content-between">
+            <p>ค่าส่ง</p>
+            <p>50</p>
+          </div>
+          <hr class="mt-1 mb-1" />
+          <div *ngIf="cart" class="d-flex justify-content-between">
+            <p>รวมทั้งสิ้น</p>
+            {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
+          </div>
+          <button type="submit" class="main-btn w-100" >
+            ชำระเงิน
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

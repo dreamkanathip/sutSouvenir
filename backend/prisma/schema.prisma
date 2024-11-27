@@ -96,8 +96,8 @@ model Order {
   orderStatus  OrderStatus      @default(NOT_PROCESSED)
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
-  orderedBy    User             @relation(fields: [orderedById], references: [id])
-  orderedById  Int
+  user    User             @relation(fields: [userId], references: [id])
+  userId  Int
   payment      Payment?        
 }
 
