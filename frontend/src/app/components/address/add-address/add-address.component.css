@@ -42,9 +42,52 @@
     padding: 4px;
 }
 
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 0;
+    border: 1px solid #ddd;
+}
+
+.input-field .form-group input,
+.input-field .form-group .dropdown a {
+  height: 40px;
+  line-height: 1.5;
+}
+
+.input-field .form-group {
+  margin-bottom: 20px;
+}
+
+.input-field .dropdown .dropdown-toggle {
+    height: 40px;
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .input-field .form-group input,
+    .input-field .form-group .dropdown a {
+      height: 30px;
+    }
+}
+
+
 .form-submit-container {
     display: flex;
     justify-content: flex-end;
     gap: 10px; /* ระยะห่าง */
     margin-top: 20px;
+}
+
+.add-btn {
+    width: 75px;
+    max-width: 100%;
+    padding: 5px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
 }

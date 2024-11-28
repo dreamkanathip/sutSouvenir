@@ -24,6 +24,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { UserComponent } from './components/user/user.component';
 import { FormsModule } from '@angular/forms'; // เพิ่มที่นี่
 
 @NgModule({
@@ -42,6 +43,7 @@ import { FormsModule } from '@angular/forms'; // เพิ่มที่นี�
     PaymentComponent,
     EditAddressComponent,
     ProductManagementComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

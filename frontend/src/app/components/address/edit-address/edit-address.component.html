@@ -36,7 +36,7 @@
                                             aria-expanded="false">
                                             {{ selectedDistrict || 'เลือกอำเภอ' }}
                                         </a>
-                                        <ul class="dropdown-menu" style="max-height: 150px;">
+                                        <ul class="dropdown-menu">
                                             <li *ngFor="let district of filteredDistricts">
                                                 <a class="dropdown-item" (click)="districtSelect(district)">{{ district }}</a>
                                             </li>
@@ -65,7 +65,7 @@
                                             aria-expanded="false">
                                             {{ selectedProvince || 'เลือกจังหวัด' }}
                                         </a>
-                                        <ul class="dropdown-menu" style="max-height: 150px;">
+                                        <ul class="dropdown-menu">
                                             <li *ngFor="let province of uniqueProvinces">
                                                 <a class="dropdown-item" (click)="provinceSelect(province)">{{ province }}</a>
                                             </li>
@@ -82,7 +82,7 @@
                                             aria-expanded="false">
                                             {{ selectedSubDistrict || 'เลือกตำบล' }}
                                         </a>
-                                        <ul class="dropdown-menu" style="max-height: 150px;">
+                                        <ul class="dropdown-menu">
                                             <li *ngFor="let subDistrict of filteredSubDistricts">
                                                 <a class="dropdown-item" (click)="subDistrictSelect(subDistrict)">{{ subDistrict }}</a>
                                             </li>
@@ -97,8 +97,8 @@
                         </div>
                     </div>
                     <div class="form-submit-container">
-                        <button type="button" class="cancel-btn" (click)="cancel()">ยกเลิก</button>
-                        <button type="submit" class="submit-btn">ยืนยัน</button>
+                        <button type="button" class="edit-btn" (click)="cancel()">ยกเลิก</button>
+                        <button type="submit" class="edit-btn">ยืนยัน</button>
                     </div>
                 </form>
             </div>

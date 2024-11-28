@@ -5,7 +5,14 @@
             <div class="menu">
                 <h3 class="container-header">บัญชีผู้ใช้</h3>
                 <hr/>
-                <p>จัดการบัญชี</p>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/user">ข้อมูลส่วนตัว</a>
+                    </li>
+                    <li class="nav-item">
+                        <p>ที่อยู่</p>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -28,7 +35,7 @@
                     <tbody>
                         <tr *ngFor="let item of allAddress; index as i">
                             <td>{{item.firstName}} {{item.lastName}}</td>
-                            <td>{{item.street}} {{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
+                            <td class="address-column">{{item.street}} ตำบล{{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td>
                                 <ng-container *ngIf="item.id === defaultAddress; else setDefault">
@@ -41,24 +48,35 @@
                                 </ng-template>
                             </td>
                             <td>
-                                <button (click)="editAddressNavigate(item.id)">แก้ไข</button>
+                                <div>
+                                    <a (click)="editAddressNavigate(item.id)" class="edit-btn">แก้ไข</a>
+                                </div>
                             </td>
-                            <td><button (click)="deleteAddress(item.id)">ลบ</button></td>
+                            <td>
+                                <div>
+                                    <a (click)="deleteAddress(item.id)" class="edit-btn">ลบ</a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+            <div class="add-btn">
+                <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+            </div>
         </div>
     </div>
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="me-auto">Update</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          {{updateMessage}}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" #toast>
+            <div class="toast-header">
+                <strong class="me-auto">แจ้งเตือน</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ updateMessage }}
+            </div>
         </div>
     </div>
+    
 </div>
 <app-footer></app-footer>

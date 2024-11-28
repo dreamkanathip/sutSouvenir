@@ -20,17 +20,18 @@
     background-color: white;
     margin-top: 90px;
     margin-left: 25%;
+    border-radius: 10px
 }
 
 .edit-address-container {
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    max-width: 800px;
+    max-width: 850px;
     background-color: white;
     margin-top: 90px;
-    margin-left: 3%;
     margin-bottom: 50px;
+    border-radius: 10px
 }
 
 .form-container {
@@ -42,9 +43,51 @@
     padding: 4px;
 }
 
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 0;
+    border: 1px solid #ddd;
+}
+
+.input-field .form-group input,
+.input-field .form-group .dropdown a {
+  height: 40px;
+  line-height: 1.5;
+}
+
+.input-field .form-group {
+  margin-bottom: 20px;
+}
+
+.input-field .dropdown .dropdown-toggle {
+    height: 40px;
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .input-field .form-group input,
+    .input-field .form-group .dropdown a {
+      height: 30px;
+    }
+}
+
 .form-submit-container {
     display: flex;
     justify-content: flex-end;
     gap: 10px; /* ระยะห่าง */
     margin-top: 20px;
+}
+
+.edit-btn {
+    width: 75px;
+    max-width: 100%;
+    padding: 5px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
 }
