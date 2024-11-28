@@ -22,6 +22,7 @@ import { AddressComponent } from './components/address/address.component';
 import { AddAddressComponent } from './components/address/add-address/add-address.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { FormsModule } from '@angular/forms'; // เพิ่มที่นี่
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ProductManagementComponent } from './components/product-management/prod
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA

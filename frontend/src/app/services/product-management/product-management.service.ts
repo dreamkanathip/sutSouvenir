@@ -36,9 +36,7 @@ export class ProductManagementService implements OnInit {
 
   // เพิ่มสินค้าใหม่
   addProduct(product: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/product`, product, {
-      withCredentials: true,
-    });
+    return this.http.post(`${this.apiUrl}/product`, product);
   }
 
   // อัปเดตข้อมูลสินค้า
