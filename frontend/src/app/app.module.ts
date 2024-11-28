@@ -40,7 +40,8 @@ import { FormsModule } from '@angular/forms'; // เพิ่มที่นี�
     AddAddressComponent,
     CartComponent,
     PaymentComponent,
-    EditAddressComponent  
+    EditAddressComponent,
+    ProductManagementComponent,
   ],
   imports: [
     BrowserModule,

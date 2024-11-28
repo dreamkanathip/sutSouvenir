@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-management',
@@ -9,69 +9,61 @@ import { ProductManagementService } from './../../services/product-management/pr
   styleUrls: ['./product-management.component.css'],
 })
 export class ProductManagementComponent implements OnInit {
-  // Define form structure with initial values
-  form = {
-    title: '',
-    quantity: 1,
-    price: 0.01,
-    description: '',
-  };
+  form!: FormGroup;
 
   constructor(
-    private router: Router,
+    private fb: FormBuilder,
     private productManagementService: ProductManagementService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      title: ['', [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      description: ['', [Validators.required]],
+    });
+  }
 
-  // Submit function to handle form submission
   submit(): void {
-    // Check if the form is invalid
+    if (this.form.invalid) {
+      console.log('ฟอร์มไม่ถูกต้อง');
+      return;
+    }
 
-    // Show confirmation dialog before saving
     Swal.fire({
-      title: 'Do you want to save the changes?',
+      title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,
-      confirmButtonText: 'Save',
+      confirmButtonText: 'บันทึก',
       icon: 'warning',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Call service to save the product
-        this.productManagementService.addProduct(this.form).subscribe(
+        this.productManagementService.addProduct(this.form.value).subscribe(
           () => {
             Swal.fire({
               icon: 'success',
-              title: 'Success',
-              text: 'Product has been saved!',
-              showConfirmButton: true,
+              title: 'สำเร็จ',
+              text: 'สินค้าถูกบันทึกแล้ว!',
             }).then(() => {
-              // Reset form on success
-              this.resetForm();
+              // รีเซ็ตฟอร์มหลังจากบันทึกสำเร็จ
+              this.form.reset({
+                title: '',
+                quantity: 1,
+                price: 0.01,
+                description: '',
+              });
             });
           },
           (error) => {
-            console.error('Error saving product:', error);
+            console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า:', error);
             Swal.fire({
               icon: 'error',
-              title: 'Error',
-              text: 'Failed to save the product!',
-              showConfirmButton: true,
+              title: 'ข้อผิดพลาด',
+              text: 'ไม่สามารถบันทึกสินค้าได้!',
             });
           }
         );
       }
     });
-  }
-
-  // Check if the form is valid
-
-  // Reset form after successful submission
-  resetForm(): void {
-    this.form = {
-      title: 'sda',
-      quantity: 1,
-      price: 0.01,
-      description: 'asdsad',
-    };
   }
 }
