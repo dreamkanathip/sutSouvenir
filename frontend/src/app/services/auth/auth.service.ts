@@ -19,8 +19,8 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    // this.checkAuthentication();
   }
-
   login(credentials: { username: string; password: string }): Observable<any> {
     return this.http
       .post<any>(`${this.apiUrl}/login`, credentials, { withCredentials: true })
