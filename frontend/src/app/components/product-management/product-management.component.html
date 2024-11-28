@@ -1,8 +1,4 @@
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-/>
-<body>
+<div class="body">
   <div class="ext-box">
     <div class="wrapper">
       <div class="container">
@@ -13,7 +9,7 @@
                 <header class="header">จัดการสินค้า</header>
                 <form [formGroup]="form" (ngSubmit)="submit()">
                   <!-- ชื่อสินค้า -->
-                  <div class="input-field">
+                  <div class="input-field form-group">
                     <input
                       type="text"
                       class="input"
@@ -23,8 +19,9 @@
                     />
                     <label for="title">ชื่อสินค้า</label>
                   </div>
+
                   <!-- จำนวนสินค้า -->
-                  <div class="input-field">
+                  <div class="input-field form-group">
                     <input
                       type="number"
                       class="input"
@@ -37,7 +34,7 @@
                   </div>
 
                   <!-- ราคา -->
-                  <div class="input-field">
+                  <div class="input-field form-group">
                     <input
                       type="number"
                       class="input"
@@ -51,7 +48,7 @@
                   </div>
 
                   <!-- คำอธิบาย -->
-                  <div class="input-field">
+                  <div class="input-field form-group">
                     <textarea
                       class="input"
                       id="description"
@@ -63,9 +60,18 @@
                   </div>
 
                   <!-- ปุ่มบันทึกสินค้า -->
-                  <div class="input-field">
-                    <button type="submit" class="submit">บันทึกสินค้า</button>
+                  <div class="input-field form-group">
+                    <button
+                      type="submit"
+                      class="submit"
+                      [disabled]="form.invalid"
+                    >
+                      บันทึกสินค้า
+                    </button>
                   </div>
+
+                  <!-- แสดงข้อมูลฟอร์ม -->
+                  <pre>{{ form.value | json }}</pre>
                 </form>
               </div>
             </div>
@@ -74,4 +80,4 @@
       </div>
     </div>
   </div>
-</body>
+</div>

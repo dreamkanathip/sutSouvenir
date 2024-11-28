@@ -25,6 +25,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
+import { FormsModule } from '@angular/forms'; // เพิ่มที่นี่
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { UserComponent } from './components/user/user.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA

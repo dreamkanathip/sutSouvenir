@@ -53,7 +53,6 @@ model Product {
   title        String
   description  String
   price        Float
-  sold         Int              @default(0)
   quantity     Int
   orderItems   ProductOnOrder[]
   cartItems    ProductOnCart[]
