@@ -65,7 +65,6 @@ export class EditAddressComponent implements OnInit {
         district: result.district,
         subDistrict: result.subDistrict,
         phoneNumber: result.phoneNumber,
-        postalCode: result.postalCode
       });
 
       this.addressId = result.id

@@ -24,6 +24,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { ProductManagementComponent } from './components/product-management/prod
     AddAddressComponent,
     CartComponent,
     PaymentComponent,
-    EditAddressComponent  
+    EditAddressComponent,
+    ProductManagementComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

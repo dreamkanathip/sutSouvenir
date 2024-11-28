@@ -1,4 +1,4 @@
-const prisma = require('../config/prisma');
+const prisma = require("../configs/prisma");
 
 //initial cart for user
 exports.initial = async(req, res) => {

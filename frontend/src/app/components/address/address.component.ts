@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../../services/address/address.service';
 import { AddressModel } from '../../interfaces/address/address.model';
 import Swal from 'sweetalert2';
-import { error } from 'node:console';
+
+declare const bootstrap: any;
+
+
 
 @Component({
   selector: 'app-address',
@@ -15,6 +18,8 @@ export class AddressComponent implements OnInit{
   allAddress?: AddressModel[]
   updateMessage?: String
   defaultAddress?: number
+
+  @ViewChild('toast', { static: true }) toastElement!: ElementRef;
 
   constructor(private router: Router, private addressService: AddressService) {
     this.getAllAddress()
@@ -112,28 +117,24 @@ export class AddressComponent implements OnInit{
   setNewAddress(id: number) {
     // set Default Address อันใหม่
     const status = true
-    this.addressService.setDefaultAddress(id, status).subscribe({
+    this.addressService.setDefaultAddress(id, true).subscribe({
       next: () => {
-        console.log("success!")
         this.getAllAddress()
-        Swal.fire({
-          icon: "success",
-          title: "สำเร็จ",
-          text: "ที่อยู่เริ่มต้นถูกตั้งค่าเรียบร้อยแล้ว",
-          showConfirmButton: true,
-        });
+        this.updateMessage = 'ที่อยู่เริ่มต้นถูกอัปเดตเรียบร้อย!';
+        this.showToast();
       },
-      error: (error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
-          showConfirmButton: true,
-        });
-        console.error("Error Occured:", error)
+      error: () => {
+        this.updateMessage = 'เกิดข้อผิดพลาดในการอัปเดตที่อยู่เริ่มต้น โปรดลองใหม่อีกครั้ง';
+        this.showToast();
       }
-    })
-    console.log("New Address Done!")
+    });
+  }
+
+  showToast() {
+    const toast = new bootstrap.Toast(this.toastElement.nativeElement, {
+      delay: 3000 // แสดงผล 3 วินาที
+    });
+    toast.show();
   }
 
 }
