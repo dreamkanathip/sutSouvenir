@@ -3,7 +3,7 @@ import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -39,12 +39,14 @@ import { ProductManagementComponent } from './components/product-management/prod
     AddAddressComponent,
     CartComponent,
     PaymentComponent,
-    EditAddressComponent  
+    EditAddressComponent,
+    ProductManagementComponent  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],

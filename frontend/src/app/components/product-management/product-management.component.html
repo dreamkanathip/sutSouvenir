@@ -2,7 +2,7 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
 />
-<body>
+<div class="bg">
   <div class="ext-box">
     <div class="wrapper">
       <div class="container">
@@ -11,9 +11,10 @@
             <div>
               <div class="input-box">
                 <header class="header">จัดการสินค้า</header>
-                <form [formGroup]="form" (ngSubmit)="submit()">
+                <form [formGroup]="formS" (ngSubmit)="submit()">
                   <!-- ชื่อสินค้า -->
                   <div class="input-field">
+                    <div class="form-group">
                     <input
                       type="text"
                       class="input"
@@ -23,8 +24,11 @@
                     />
                     <label for="title">ชื่อสินค้า</label>
                   </div>
+                  </div>
                   <!-- จำนวนสินค้า -->
                   <div class="input-field">
+                    <div class="form-group">
+
                     <input
                       type="number"
                       class="input"
@@ -34,13 +38,16 @@
                       min="1"
                     />
                     <label for="quantity">จำนวนสินค้า</label>
+                    </div>
                   </div>
 
                   <!-- ราคา -->
                   <div class="input-field">
+                    <div class="form-group">
+
                     <input
                       type="number"
-                      class="input"
+                      class="input form-control"
                       id="price"
                       formControlName="price"
                       required
@@ -49,9 +56,12 @@
                     />
                     <label for="price">ราคา</label>
                   </div>
+                  </div>
 
                   <!-- คำอธิบาย -->
                   <div class="input-field">
+                    <div class="form-group">
+
                     <textarea
                       class="input"
                       id="description"
@@ -60,12 +70,14 @@
                       rows="4"
                     ></textarea>
                     <label for="description">คำอธิบาย</label>
+                    </div>
                   </div>
 
                   <!-- ปุ่มบันทึกสินค้า -->
-                  <div class="input-field">
+                  <div class="form-group">
                     <button type="submit" class="submit">บันทึกสินค้า</button>
                   </div>
+                  {{formS.value|json}}
                 </form>
               </div>
             </div>
@@ -74,4 +86,4 @@
       </div>
     </div>
   </div>
-</body>
+</div>

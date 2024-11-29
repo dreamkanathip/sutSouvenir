@@ -2,7 +2,7 @@
   font-family: url("../../../assets/fonts/SUT-Light.otf");
 }
 
-body {
+.bg {
   background-image: url("../../../assets/bgtemp-login-regis.jpg");
   background-size: cover; /* ทำให้ภาพพื้นหลังขยายเต็มพื้นที่ */
   background-position: center; /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */

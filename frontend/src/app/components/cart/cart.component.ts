@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
 import { Carts } from '../../interfaces/carts/carts';
+import { OrderService } from '../../services/order/order.service';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -11,19 +13,13 @@ import { Carts } from '../../interfaces/carts/carts';
 })
 export class CartComponent implements OnInit {
 
-  dataForm = new FormGroup({
-    userID: new FormControl(''),
-    productId: new FormControl(''),
-    quantity: new FormControl('')
-  })
-
   productOnCart!: ProductOnCart[];
   cart!: Carts
   selectAll: boolean = false;
   sumItemPrice: number = 0;
+  orderId!: number
 
-
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private orderService: OrderService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -52,14 +48,14 @@ export class CartComponent implements OnInit {
     })
   }
   individualSelect(productId: any) {
-    const item = this.productOnCart.find((i) => i.productId === productId)
+    const item = this.productOnCart?.find((i) => i.productId === productId)
     if(item) {
       item.selected = !item.selected
       this.calculateSumItemPrice()
     }
   }
   checkIndividualSelect() {
-    this.selectAll = this.productOnCart.every((i) => i.selected);
+    this.selectAll = this.productOnCart?.every((i) => i.selected);
   }
   toggleSelectAll() {
     if(this.productOnCart){
@@ -72,10 +68,9 @@ export class CartComponent implements OnInit {
     }
   }
   calculateSumItemPrice(){
-    const selectedItem = this.productOnCart.filter((i) => i.selected === true)
-    if(selectedItem){
-      this.sumItemPrice = selectedItem.reduce((acc, curr) => acc + curr.price, 0)
-    } 
+    this.sumItemPrice = this.productOnCart
+      .filter((i) => i.selected)
+      .reduce((acc, curr) => acc + curr.price, 0) || 0
   }
 
   increaseQuantity(item: any){
@@ -83,10 +78,16 @@ export class CartComponent implements OnInit {
       userId: 1,
       productId: item.productId
     }
-    this.cartService.increaseProductOnCart(data).subscribe((res) => {
-      console.log(res)
-      this.getProductOnCart(data.userId)
-    })
+    this.cartService.increaseProductOnCart(data).subscribe({
+      next: () => {
+        const product = this.productOnCart.find((p) => p.productId === item.productId);
+        if (product) {
+          product.quantity += 1;
+          this.updateTotalPrice();
+        }
+      },
+      error: (err) => console.error('Error increasing quantity:', err),
+    });
   }
 
   decreaseQuantity(item: any){
@@ -94,16 +95,22 @@ export class CartComponent implements OnInit {
       userId: 1,
       productId: item.productId
     }
-    if(item.quantity > 1) {
-      this.cartService.decreaseProductOnCart(data).subscribe((res) => {
-        console.log(res)
-        this.getProductOnCart(data.userId)
-      })
+    if (item.quantity > 1) {
+      this.cartService.decreaseProductOnCart(data).subscribe({
+        next: () => {
+          const product = this.productOnCart.find((p) => p.productId === item.productId);
+          if (product) {
+            product.quantity -= 1;
+            this.updateTotalPrice();
+          }
+        },
+        error: (err) => console.error('Error decreasing quantity:', err),
+      });
     }
   }
 
   updateTotalPrice(): void {
-    this.sumItemPrice = this.productOnCart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    this.sumItemPrice = this.productOnCart?.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   }
   
   removeProductOnCart(productId: any) {
@@ -112,9 +119,46 @@ export class CartComponent implements OnInit {
       productId: productId
     }
     console.log(data)
-    this.cartService.removeProductOnCart(data).subscribe((res) => {
-      console.log(res)
-      this.getProductOnCart(data.userId)
-    })
+    this.cartService.removeProductOnCart(data).subscribe({
+      next: () => {
+        this.productOnCart = this.productOnCart.filter((p) => p.productId !== productId); // Remove product locally
+        this.updateTotalPrice();
+      },
+      error: (err) => console.error('Error removing product:', err),
+    });
   }
+
+  async goToPayment() {
+
+    try {
+      const data = {
+        userId: 1,
+        cartTotal: this.sumItemPrice,
+      };
+      const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
+  
+      const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
+      this.orderId = initialOrderResponse.id;
+  
+      for (const item of selectedItem) {
+        const detail = {
+          productId: item.productId,
+          orderId: this.orderId,
+          quantity: item.quantity,
+          total: item.product.price * item.quantity,
+        };
+        await firstValueFrom(this.orderService.addOrderDetail(detail));
+      }
+      console.log('Order and details processed successfully!');
+
+      await this.router.navigate(['/payment', this.orderId])
+
+    } catch (error) {
+      console.error('Error during payment process:', error);
+    }
+
+  }
+
+
+
 }

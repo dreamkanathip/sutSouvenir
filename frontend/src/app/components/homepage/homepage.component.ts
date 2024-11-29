@@ -30,10 +30,10 @@ export class HomepageComponent {
     });
   }
 
-  addItemToCart(productId: any) {
+  addItemToCart(item: any) {
     this.dataForm.patchValue({
       userId: '1',
-      productId: productId,
+      productId: item.id,
       quantity: '1',
     });
 
@@ -46,11 +46,13 @@ export class HomepageComponent {
     console.log('Data to send:', data);
 
     this.cartService.addItemToCart(data).subscribe((res) => {
-      console.log(res);
-      this.loadProducts()
+      const product = this.productItems.find((i) => i.id === item.id)
+      if(product) {
+        item.quantity -=1
+      }
     });
   }
-  goToDetails(itemId: number) {
-    this.router.navigate(['/details', itemId]);
+  goToDetails(item: any) {
+    this.router.navigate(['/details', item.id]);
   }
 }

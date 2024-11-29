@@ -1,4 +1,4 @@
-const prisma = require('../config/prisma');
+const prisma = require('../configs/prisma');
 
 //initial cart for user
 exports.initial = async(req, res) => {
@@ -152,12 +152,15 @@ exports.decreaseProductOnCart = async(req, res) => {
         const cart = await prisma.cart.findFirst({
             where: {
                 userId: Number(userId)
-            }
+            },
         })
         const productOnCart = await prisma.productOnCart.findFirst({
             where: {
                 cartId: Number(cart.id),
                 productId: productId
+            },
+            include: {
+                product: true
             }
         })
         const [decreaseProductOnCart, increaseProductQuantity] = await prisma.$transaction([
@@ -168,8 +171,12 @@ exports.decreaseProductOnCart = async(req, res) => {
                 data: {
                     quantity: {
                         decrement: Number(1)
+                    },
+                    price: {
+                        decrement: Number(productOnCart.product.price)
                     }
                 }
+                
             }),
             prisma.product.update({
                 where: {
@@ -202,8 +209,12 @@ exports.increaseProductOnCart = async(req, res) => {
             where: {
                 cartId: Number(cart.id),
                 productId: productId
+            },
+            include: {
+                product: true
             }
         })
+
         const [increaseProductOnCart, decreaseProductQuantity] = await prisma.$transaction([
             prisma.productOnCart.update({
                 where: {
@@ -212,6 +223,9 @@ exports.increaseProductOnCart = async(req, res) => {
                 data: {
                     quantity: {
                         increment: Number(1)
+                    },
+                    price: {
+                        increment: Number(productOnCart.product.price)
                     }
                 }
             }),

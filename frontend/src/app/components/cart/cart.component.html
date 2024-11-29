@@ -56,7 +56,7 @@
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
-          <button type="submit" class="main-btn w-100" [routerLink]="['/payment']">
+          <button type="submit" (click)="goToPayment()" class="main-btn w-100">
             ชำระเงิน
           </button>
         </div>
