@@ -45,12 +45,21 @@ export class HomepageComponent {
 
     console.log('Data to send:', data);
 
-    this.cartService.addItemToCart(data).subscribe((res) => {
-      const product = this.productItems.find((i) => i.id === item.id)
-      if(product) {
-        item.quantity -=1
+    // init cart first 
+    this.cartService.getCartById(1).subscribe((res) => { // passing user id
+      if(!res) {
+        this.cartService.initialCart({userId: 1, cartTotal: 0}).subscribe(res => {
+          console.log("create new cart", res)
+        })
+      } else {
+        this.cartService.addItemToCart(data).subscribe((res) => {
+          const product = this.productItems.find((i) => i.id === item.id)
+          if(product) {
+            item.quantity -=1
+          }
+        });
       }
-    });
+    }) 
   }
   goToDetails(item: any) {
     this.router.navigate(['/details', item.id]);

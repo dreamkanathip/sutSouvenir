@@ -1,5 +1,6 @@
 const prisma = require("../configs/prisma");
 
+
 exports.initOrder = async(req, res) => {
     try {
         const { userId, cartTotal } = req.body;

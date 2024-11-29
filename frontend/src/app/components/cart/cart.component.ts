@@ -150,7 +150,8 @@ export class CartComponent implements OnInit {
         await firstValueFrom(this.orderService.addOrderDetail(detail));
       }
       console.log('Order and details processed successfully!');
-
+      await firstValueFrom(this.cartService.deleteCart(data.userId))
+      console.log('delete cart !')
       await this.router.navigate(['/payment', this.orderId])
 
     } catch (error) {
