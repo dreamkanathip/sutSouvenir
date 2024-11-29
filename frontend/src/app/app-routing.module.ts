@@ -14,7 +14,7 @@ import { ProductManagementComponent } from './components/product-management/prod
 import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'payment', component: PaymentComponent },
+  { path: 'payment/:id', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'favourite', component: FavouriteComponent },
