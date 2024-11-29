@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
-import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-management',
@@ -11,95 +9,73 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./product-management.component.css'],
 })
 export class ProductManagementComponent implements OnInit {
-  formS = new FormGroup({
-    title: new FormControl(''),
-    quantity: new FormControl(''),
-    price: new FormControl(''),
-    description: new FormControl(''),
-  })
-  submitted = false;
-  selectedFile: File | null = null;
+  form!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
+    private fb: FormBuilder,
     private productManagementService: ProductManagementService
-  ) {
-    
-  }
-
-  // Accessor methods for form controls
-  get title() {
-    return this.formS.get('title');
-  }
-  get quantity() {
-    return this.formS.get('quantity');
-  }
-  get price() {
-    return this.formS.get('price');
-  }
-  get description() {
-    return this.formS.get('description');
-  }
+  ) {}
 
   ngOnInit(): void {
-    // this.form = this.formBuilder.group({
-    //   title: ['', [Validators.required, Validators.minLength(2)]],
-    //   quantity: ['', [Validators.required, Validators.min(1)]],
-    //   price: ['', [Validators.required, Validators.min(0.01)]],
-    //   description: ['', [Validators.required, Validators.minLength(10)]],
-    // });
+    this.form = this.fb.group({
+      title: ['', [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      description: ['', [Validators.required]],
+    });
   }
 
-  // Submit function to handle form submission
-  submit() {
-    this.submitted = true; // Track that the form has been submitted
-    if (this.formS.invalid) {
-      console.log('Form is invalid');
-      return; // If form is invalid, stop submission
+  submit(): void {
+    if (this.form.invalid) {
+      console.log('ฟอร์มไม่ถูกต้อง');
+      return;
     }
 
     // Create FormData for product submission
     const formData = new FormData();
-    formData.append('title', this.formS.get('title')?.value ?? '');
-    formData.append('quantity', this.formS.get('quantity')?.value ?? '');
-    formData.append('price', this.formS.get('price')?.value ?? '');
-    formData.append('description', this.formS.get('description')?.value ?? '');
+    formData.append('title', this.form.get('title')?.value ?? '');
+    formData.append('quantity', this.form.get('quantity')?.value ?? '');
+    formData.append('price', this.form.get('price')?.value ?? '');
+    formData.append('description', this.form.get('description')?.value ?? '');
 
     // Log the form data to console
     console.log('Form Data:', {
-      title: this.formS.get('title')?.value,
-      quantity: this.formS.get('quantity')?.value,
-      price: this.formS.get('price')?.value,
-      description: this.formS.get('description')?.value,
+      title: this.form.get('title')?.value,
+      quantity: this.form.get('quantity')?.value,
+      price: this.form.get('price')?.value,
+      description: this.form.get('description')?.value,
     });
 
     // Show confirmation dialog before saving
     Swal.fire({
-      title: 'Do you want to save the changes?',
+      title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,
-      confirmButtonText: 'Save',
+      confirmButtonText: 'บันทึก',
       icon: 'warning',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Call service to save the product
-        this.productManagementService.addProduct(formData).subscribe(
+        this.productManagementService.addProduct(this.form.value).subscribe(
           () => {
             Swal.fire({
               icon: 'success',
-              title: 'Success',
-              text: 'Product has been saved!',
-              showConfirmButton: true,
+              title: 'สำเร็จ',
+              text: 'สินค้าถูกบันทึกแล้ว!',
+            }).then(() => {
+              // รีเซ็ตฟอร์มหลังจากบันทึกสำเร็จ
+              this.form.reset({
+                title: '',
+                quantity: 1,
+                price: 0.01,
+                description: '',
+              });
             });
-            // Navigate to favorite page after successful save
-            this.router.navigate(['/favorite']);
           },
           (error) => {
+            console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า:', error);
             Swal.fire({
               icon: 'error',
-              title: 'Error',
-              text: 'Failed to save the product!',
-              showConfirmButton: true,
+              title: 'ข้อผิดพลาด',
+              text: 'ไม่สามารถบันทึกสินค้าได้!',
             });
           }
         );

@@ -24,6 +24,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ProductManagementComponent } from './components/product-management/prod
     CartComponent,
     PaymentComponent,
     EditAddressComponent,
-    ProductManagementComponent  
+    ProductManagementComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { ProductManagementComponent } from './components/product-management/prod
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [provideClientHydration(), provideHttpClient(withFetch())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA

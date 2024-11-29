@@ -11,6 +11,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'favourite', component: FavouriteComponent },
   { path: 'managements', component: ProductManagementComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'user', component: UserComponent }
 ];
 
 @NgModule({
