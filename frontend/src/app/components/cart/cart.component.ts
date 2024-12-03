@@ -129,7 +129,6 @@ export class CartComponent implements OnInit {
   }
 
   async goToPayment() {
-
     try {
       const data = {
         userId: 1,
@@ -140,15 +139,17 @@ export class CartComponent implements OnInit {
       const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
       this.orderId = initialOrderResponse.id;
   
-      for (const item of selectedItem) {
+      const orderDetailsPromises = selectedItem.map((item) => {
         const detail = {
           productId: item.productId,
           orderId: this.orderId,
           quantity: item.quantity,
           total: item.product.price * item.quantity,
         };
-        await firstValueFrom(this.orderService.addOrderDetail(detail));
-      }
+        return firstValueFrom(this.orderService.addOrderDetail(detail));
+      });
+      await Promise.all(orderDetailsPromises);
+      
       console.log('Order and details processed successfully!');
       await firstValueFrom(this.cartService.deleteCart(data.userId))
       console.log('delete cart !')
@@ -157,9 +158,9 @@ export class CartComponent implements OnInit {
     } catch (error) {
       console.error('Error during payment process:', error);
     }
-
   }
 
-
-
+  toHome() {
+    this.router.navigate(["/home"])
+  }
 }

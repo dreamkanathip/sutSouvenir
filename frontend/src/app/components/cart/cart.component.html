@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
-    <div class="col-8">
+    <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate">
       <div class="card shadow-sm card-body">
         <div class="row">
           <div class="col-1 checkbox">
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-4" *ngIf="productOnCart && productOnCart.length > 0">
       <div class="card shadow-sm">
         <div class="card-body">
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
@@ -60,9 +60,15 @@
             ชำระเงิน
           </button>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+<ng-template #emptyCartTemplate>
+  <div class="containter text-center mt-5">
+    <img src="assets/no-cart.png" alt="No Items in Cart" class="no-cart-img">
+    <h3 class="mt-3 text-muted">ไม่มีสินค้าในรถเข็นของคุณ</h3>
+    <button class="no-cart-shopping mt-5" (click)="toHome()">เลือกซื้อสินค้าเลย</button>
+  </div>
+</ng-template>
 <app-footer></app-footer>

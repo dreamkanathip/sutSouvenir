@@ -48,3 +48,18 @@ input[type="checkbox"] {
 .delete :hover {
     cursor: pointer;
 }
+.no-cart-shopping {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    width: 15%;
+    height: 15%;
+    letter-spacing: 1px;
+}
+.no-cart-img {
+    max-width: 200px;
+}
