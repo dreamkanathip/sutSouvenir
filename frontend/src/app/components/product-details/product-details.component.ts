@@ -10,7 +10,7 @@ import { ProductDetailsService } from '../../services/product-details/product-de
 })
 export class ProductDetailsComponent implements OnInit {
   product!: Product;
-
+  quantityToOrder: number = 1;
   constructor(
     private productDetails: ProductDetailsService,
     private route: ActivatedRoute
@@ -26,5 +26,17 @@ export class ProductDetailsComponent implements OnInit {
     this.productDetails.getProductById(id).subscribe((result) => {
       this.product = result;
     });
+  }
+
+  decreaseQuantity() {
+    if (this.quantityToOrder > 1) {
+      this.quantityToOrder--;
+    }
+  }
+
+  increaseQuantity() {
+    if (this.quantityToOrder < this.product?.quantity) {
+      this.quantityToOrder++;
+    }
   }
 }

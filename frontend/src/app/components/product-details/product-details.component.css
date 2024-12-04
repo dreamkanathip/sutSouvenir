@@ -53,3 +53,23 @@ h1 {
     font-size: 28px;
     color: gray;
 }
+.quantity {
+    display: inline;
+    align-items: center;
+  }
+.quantity-input {
+    width: 60px;
+}
+.add-to-fav {
+    margin-top: 1rem;
+    text-align: end;
+    color: #636363;
+    cursor: pointer;
+}
+.review-summary {
+    margin-top: 1rem;
+    text-align: end;
+    color: #636363;
+    cursor: pointer;
+    font-size: 28px;
+}

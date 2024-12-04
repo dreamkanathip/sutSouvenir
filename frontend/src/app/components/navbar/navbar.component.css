@@ -58,7 +58,6 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .user-dropdown {
     text-decoration: none;
-    display: inline-flex; /*มีส่วนทำให้ icon inline with text*/
     align-items: center;
     padding: 10px 15px;
     color: #333;
