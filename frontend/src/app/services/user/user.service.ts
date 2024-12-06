@@ -14,4 +14,8 @@ export class UserService {
   getUserData(): Observable<UserModel> {
     return this.http.get<UserModel>(`${this.apiUrl}/user/profile`, { withCredentials: true });
   }
+
+  updateUser(user: UserModel): Observable<UserModel> {
+    return this.http.put<UserModel>(`${this.apiUrl}/user/update`, user, { withCredentials: true });
+  }
 }

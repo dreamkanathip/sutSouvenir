@@ -83,3 +83,62 @@
     justify-content: flex-end;
     width: 75px;
 }
+
+.edit-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit-button-btn {
+    margin-top: 10px;
+    width: 120px;
+    max-width: 100%;
+    padding: 5px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* ให้ backdrop อยู่ด้านหลัง modal */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+  
+.modal.show .modal-backdrop {
+    opacity: 1;
+}
+  
+.modal.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+  
+.modal.show {
+    opacity: 1;
+}
+
+.form-submit-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* ระยะห่าง */
+    margin-top: 20px;
+}
+
+.edit-modal-btn {
+    width: 75px;
+    max-width: 100%;
+    padding: 5px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+  

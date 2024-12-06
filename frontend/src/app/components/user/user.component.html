@@ -26,53 +26,101 @@
                         <tr>
                             <th></th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="topic">ชื่อ - สกุล</td>
-                            <td>{{user?.firstname}} {{user?.lastname}}</td>
-                            <td class="change">
-                                <a>
-                                    เปลี่ยน
-                                </a>
-                            </td>
+                            <td>{{user?.firstName}} {{user?.lastName}}</td>
                         </tr>
                         <tr>
                             <td>อีเมล</td>
                             <td>{{user?.email}}</td>
-                            <td>
-                                <a>
-                                    เปลี่ยน
-                                </a>
-                            </td>
                         </tr>
                         <tr>
                             <td>เพศ</td>
-                            <td>ชาย</td>
-                            <td>
-                                <a>
-                                    เปลี่ยน
-                                </a>
-                            </td>
+                            <td>{{showGender()}}</td>
                         </tr>
                         <tr>
                             <td>รหัสผ่าน</td>
                             <td>
                                 ********
                             </td>
-                            <td>
-                                <a>
-                                    เปลี่ยน
-                                </a>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="edit-btn">
+                <button class="edit-button-btn" (click)="openModal()">แก้ไขข้อมูล</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Backdrop -->
+<div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
+
+<!-- Modal -->
+<div *ngIf="ModalOpen" class="modal fade show" tabindex="-1" style="display: block;">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">แก้ไขข้อมูลผู้ใช้งาน</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editedUser" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="firstname" class="form-label">ชื่อ</label>
+            <input
+              id="firstname"
+              type="text"
+              class="form-control"
+              formControlName="firstname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">นามสกุล</label>
+            <input
+              id="lastname"
+              type="text"
+              class="form-control"
+              formControlName="lastname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">อีเมล</label>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              formControlName="email"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">เพศ</label>
+            <select id="gender" class="form-select" formControlName="gender">
+              <option value="Male">ชาย</option>
+              <option value="Female">หญิง</option>
+              <option value="Other">อื่นๆ</option>
+            </select>
+          </div>
+          <div class="form-submit-container">
+            <button type="button" class="edit-button-btn" (click)="closeModal()">
+                ยกเลิก
+            </button>
+            <button type="submit" class="edit-button-btn">
+                บันทึก
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+  
 
 <app-footer></app-footer>

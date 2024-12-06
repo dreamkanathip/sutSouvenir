@@ -37,4 +37,6 @@ router.get(
   userController.getUser
 );
 
+router.put("/user/update", authenticateToken, userController.updateUser);
+
 module.exports = router;
