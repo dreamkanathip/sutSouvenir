@@ -59,6 +59,7 @@ h1 {
   }
 .quantity-input {
     width: 60px;
+    font-size: 22px;
 }
 .add-to-fav {
     margin-top: 1rem;

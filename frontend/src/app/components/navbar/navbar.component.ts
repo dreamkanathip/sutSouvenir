@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class NavbarComponent {
   authenticated = false;
+  cartItemCount: number = 5;
   constructor(private http: HttpClient, private authService: AuthService) {}
   ngOnInit(): void {
     Emitters.authEmitter.subscribe((auth: boolean) => {

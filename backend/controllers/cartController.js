@@ -43,8 +43,6 @@ exports.deleteCart = async(req, res) => {
 exports.addItemToCart = async(req, res) => {
     try {
         const { userId, productId, quantity } = req.body
-        
-        console.log("check backend", Number(productId))
 
         const cart = await prisma.cart.findFirst({
             where: {
@@ -341,6 +339,7 @@ exports.deleteItemFromCart =  async(req, res) => {
                 }
             })
         ])
+        
         res.json({ message: "Item removed from cart", removeItem, restoreStock });
     } catch (err) {
         console.log(err)

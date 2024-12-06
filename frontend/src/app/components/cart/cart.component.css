@@ -3,7 +3,6 @@
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
 }
-
 .card {
     margin-top: 2%;
     margin-bottom: 2%;
@@ -37,10 +36,30 @@ input[type="checkbox"] {
     justify-content: center;
     display: flex;
 }
-.checkbox, .item-title, .price, .sum-price, .quantity, .delete {
+.select-items-label {
+    cursor: pointer;
+}
+.checkbox, .price, .sum-price, .quantity, .delete {
     align-items: center;
     justify-content: center;
     display: flex;
+    font-size: 20px;
+}
+.item-title {
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+.product-quantity {
+    text-align: left;
+    color: gray;
+}
+.quantity-input {
+    width: 60px;
 }
 .sum-price {
     color: #F36523;
