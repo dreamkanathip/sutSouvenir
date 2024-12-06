@@ -31,6 +31,22 @@ export class ProductManagementComponent implements OnInit {
       return;
     }
 
+    // Create FormData for product submission
+    const formData = new FormData();
+    formData.append('title', this.form.get('title')?.value ?? '');
+    formData.append('quantity', this.form.get('quantity')?.value ?? '');
+    formData.append('price', this.form.get('price')?.value ?? '');
+    formData.append('description', this.form.get('description')?.value ?? '');
+
+    // Log the form data to console
+    console.log('Form Data:', {
+      title: this.form.get('title')?.value,
+      quantity: this.form.get('quantity')?.value,
+      price: this.form.get('price')?.value,
+      description: this.form.get('description')?.value,
+    });
+
+    // Show confirmation dialog before saving
     Swal.fire({
       title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,

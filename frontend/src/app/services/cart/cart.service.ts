@@ -29,4 +29,10 @@ export class CartService {
   decreaseProductOnCart(data: any): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/decreaseProductOnCart`, data)
   }
+  deleteCart(userId: any): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/cart/${userId}`)
+  }
+  initialCart(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/initialCart`, data)
+  }
 }

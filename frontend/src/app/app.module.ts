@@ -3,7 +3,7 @@ import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -25,7 +25,6 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
-import { FormsModule } from '@angular/forms'; // เพิ่มที่นี่
 
 @NgModule({
   declarations: [
@@ -49,6 +48,7 @@ import { FormsModule } from '@angular/forms'; // เพิ่มที่นี�
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     FormsModule,
   ],
