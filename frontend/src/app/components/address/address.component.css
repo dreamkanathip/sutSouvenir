@@ -4,7 +4,12 @@
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
-    max-width: 1920px;
+    overflow: hidden;
+    scrollbar-width: none;
+    width: 1920px;
+    max-width: 100%;
+    height: 694px;
+    max-height: 100%;
 }
 
 .address-page > [class^="col-"] {
@@ -24,7 +29,8 @@
 }
 
 .nav-item {
-    color:#333
+    color:#333;
+    padding: 10px;
 }
 
 .my-address-container {

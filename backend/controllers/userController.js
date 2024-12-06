@@ -23,4 +23,42 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser };
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.user.id; // ดึง user id จาก middleware (authenticateToken)
+    const { firstname, lastname, gender, email, phone } = req.body;
+
+    if (!firstname && !email && !phone) {
+      return res
+        .status(400)
+        .send({ message: "กรุณาระบุข้อมูลที่ต้องการอัปเดต" });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(firstname && { firstname }),
+        ...(lastname && { lastname }),
+        ...(gender && { gender }),
+        ...(email && { email }),
+        ...(phone && { phone }),
+      },
+    });
+
+    res.status(200).send({
+      message: "อัปเดตข้อมูลสำเร็จ",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+
+    if (error.code === "P2025") {
+      // Prisma error code for record not found
+      return res.status(404).send({ message: "ไม่พบข้อมูลผู้ใช้" });
+    }
+
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการอัปเดตข้อมูล" });
+  }
+};
+
+module.exports = { getUser, updateUser };
