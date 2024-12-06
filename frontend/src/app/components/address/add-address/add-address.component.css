@@ -65,6 +65,9 @@
     line-height: 50px;
     display: flex;
     align-items: center;
+    border: 1px solid #000;
+    width: 120px;
+    max-width: 100%;
 }
 
 @media (max-width: 768px) {

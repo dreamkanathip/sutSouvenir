@@ -4,7 +4,12 @@
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
-    max-width: 1920px;
+    overflow: hidden;
+    scrollbar-width: none;
+    width: 1920px;
+    max-width: 100%;
+    height: 694px;
+    max-height: 100%;
 }
 
 .user-page > [class^="col-"] {
@@ -21,6 +26,11 @@
     margin-top: 90px;
     margin-left: 25%;
     border-radius: 10px
+}
+
+.nav-item {
+    color:#333;
+    padding: 10px;
 }
 
 .user-container {
@@ -44,4 +54,32 @@
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+  white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
+  overflow-wrap: break-word; /* รองรับการตัดคำในกรณีที่มีคำยาวๆ */
+}
+
+.table th:first-child,
+.table td:first-child {
+  border-radius: 10px 0 0 10px; /* มุมซ้าย */
+}
+
+.table th:last-child,
+.table td:last-child {
+  border-radius: 0 10px 10px 0; /* มุมขวา */
+}
+
+.table td.topic {
+    width: 250px;
+}
+
+.table td.change {
+    justify-content: flex-end;
+    width: 75px;
 }

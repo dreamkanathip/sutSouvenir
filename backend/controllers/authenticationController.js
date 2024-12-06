@@ -53,7 +53,7 @@ const login = async (req, res) => {
       return res.status(400).send({ message: "รหัสผ่านไม่ถูกต้อง" });
 
     const token = jwt.sign({ _id: user.id }, "secret", { expiresIn: "1d" });
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 1 วัน
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000}); // 1 วัน
 
     res.status(200).send({ message: "เข้าสู่ระบบสำเร็จ" });
   } catch (err) {

@@ -61,4 +61,4 @@ const authenticateUser = (req, res, next) => {
     .send({ message: "การเข้าถึงถูกปฏิเสธ. สำหรับผู้ใช้ทั่วไปเท่านั้น" });
 };
 
-module.exports = { authenticateToken, authenticateAdmin, authenticateUser };
+module.exports = {  authenticateToken, authenticateAdmin, authenticateUser };
