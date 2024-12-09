@@ -14,7 +14,7 @@ export class PaymentComponent implements OnInit{
   
   productOnOrder!: ProductOnOrder[];
   sumItemPrice: number = 0;
-  defaultAddress!: AddressModel
+  defaultAddress?: AddressModel
   constructor(
     private orderService: OrderService, 
     private activatedRoute: ActivatedRoute,
@@ -34,8 +34,9 @@ export class PaymentComponent implements OnInit{
       this.defaultAddress = res
     })
   }
-
-
+  defaultAddressChanged() {
+    this.getDefaultAddress()
+  }
   getProductOnOrder(id: any): void {
     console.log(id)
     this.orderService.getProductOnOrderById(id).subscribe({

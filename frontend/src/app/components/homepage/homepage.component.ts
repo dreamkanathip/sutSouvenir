@@ -33,7 +33,7 @@ export class HomepageComponent {
       quantity: '1',
     };
 
-    this.cartService.getCartById(1).pipe(
+    this.cartService.getCartById(this.userId).pipe(
       switchMap((checkCart) => {
         if (!checkCart) {
           return this.cartService.initialCart({ userId: this.userId, cartTotal: 0 }).pipe(

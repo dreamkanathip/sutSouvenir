@@ -2,7 +2,7 @@
   <div class="container container-fluid">
     <a class="navbar-brand" href="#">
       <img
-        src="assets/SUT-Logo.png"
+        src="assets/logo.jpg"
         class="logo d-inline-block align-text-top"
       />
     </a>
@@ -39,7 +39,9 @@
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <div *ngIf="cartItemCount > 0" class="badge position-relative translate-middle">
+          <div class="badge position-relative translate-middle" 
+            [ngStyle]="{ visibility: cartItemCount === 0 ? 'hidden' : 'visible' }"
+            >
             {{ cartItemCount }}
           </div>
         </a>

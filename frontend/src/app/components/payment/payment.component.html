@@ -30,16 +30,16 @@
           </h2>
           <div class="d-flex justify-content-between">
             <div class="name">
-              {{defaultAddress.firstName}} {{defaultAddress.lastName}}
+              {{defaultAddress?.firstName}} {{defaultAddress?.lastName}}
             </div>
-            <div class="change-address">
+            <div class="change-address" data-bs-toggle="modal" data-bs-target="#add-menu-modal">
               <a>เปลี่ยน</a>
             </div>
           </div>
           <div class="address">
-            {{defaultAddress.street}} {{defaultAddress.subDistrict}}
-            {{defaultAddress.district}} {{defaultAddress.province}}
-            {{defaultAddress.postalCode}} {{defaultAddress.phoneNumber}}
+            {{defaultAddress?.street}} {{defaultAddress?.subDistrict}}
+            {{defaultAddress?.district}} {{defaultAddress?.province}}
+            {{defaultAddress?.postalCode}} {{defaultAddress?.phoneNumber}}
             <!-- หอพักสุรนิเวศ 7 มหาวิทยาลัยเทคโนโลยีสุรนารี  ** mockedup **
             สุรนารี เมืองนครราชสีมา นครราชสีมา 30000 -->
           </div>
@@ -67,3 +67,4 @@
   </div>
 </div>
 <app-footer></app-footer>
+<app-change-address-modal class="modal fade" id="add-menu-modal" (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
