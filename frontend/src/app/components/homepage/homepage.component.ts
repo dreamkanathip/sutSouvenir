@@ -14,6 +14,7 @@ import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 export class HomepageComponent {
   addToFav!: any;
   productItems!: Product[];
+  userId: number = 1;
 
   constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
     this.loadProducts()
@@ -27,7 +28,7 @@ export class HomepageComponent {
 
   addItemToCart(item: Product) {
     const data = {
-      userId: '1',
+      userId: this.userId,
       productId: item.id,
       quantity: '1',
     };
@@ -35,7 +36,7 @@ export class HomepageComponent {
     this.cartService.getCartById(1).pipe(
       switchMap((checkCart) => {
         if (!checkCart) {
-          return this.cartService.initialCart({ userId: 1, cartTotal: 0 }).pipe(
+          return this.cartService.initialCart({ userId: this.userId, cartTotal: 0 }).pipe(
             switchMap(() => this.cartService.addItemToCart(data))
           );
         }
@@ -52,6 +53,7 @@ export class HomepageComponent {
           if (product && product.quantity > 0) {
             product.quantity -= 1; // Update quantity only on success
           }
+          this.cartService.updateCartItemCount(this.userId)
           console.log('Item added to cart:', response);
         }
       });

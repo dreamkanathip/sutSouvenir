@@ -39,9 +39,9 @@
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <span class="badge position-relative translate-middle">
+          <div *ngIf="cartItemCount > 0" class="badge position-relative translate-middle">
             {{ cartItemCount }}
-          </span>
+          </div>
         </a>
       </div>
       <div class="vr"></div>

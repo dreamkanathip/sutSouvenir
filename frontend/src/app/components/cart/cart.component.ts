@@ -6,6 +6,7 @@ import { OrderService } from '../../services/order/order.service';
 import { Router } from '@angular/router';
 import { catchError, firstValueFrom, of, pipe, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { count } from 'node:console';
 
 @Component({
   selector: 'app-cart',
@@ -20,13 +21,14 @@ export class CartComponent implements OnInit {
   sumItemPrice: number = 0;
   orderId!: number
   selectedQuantity: number = 0;
+  userId: number = 1;
 
   constructor(private cartService: CartService, private orderService: OrderService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.getProductOnCart(1) //passing userId
-    this.getCartById(1) //passing userId
+    this.getProductOnCart(this.userId) //passing userId
+    this.getCartById(this.userId) //passing userId
     this.toggleSelectAll()
     this.calculateSelectedQuantity()
   }
@@ -76,12 +78,12 @@ export class CartComponent implements OnInit {
       .reduce((acc, curr) => acc + curr.price, 0) || 0
   }
   calculateSelectedQuantity() {
-    this.selectedQuantity = this.productOnCart.filter((i) => i.selected).length
+    this.selectedQuantity = this.productOnCart? this.productOnCart.reduce((count, item) => count + (item.selected? 1:0), 0) : 0
   }
 
   increaseQuantity(item: any) {
     const data = {
-      userId: 1,
+      userId: this.userId,
       productId: item.productId
     }
     this.cartService.increaseProductOnCart(data).subscribe({
@@ -121,7 +123,7 @@ export class CartComponent implements OnInit {
 
   removeProductOnCart(productId: any) {
     const data = {
-      userId: 1,
+      userId: this.userId,
       productId: productId
     }
     console.log(data)
@@ -135,6 +137,7 @@ export class CartComponent implements OnInit {
           );
           this.updateTotalPrice();
           this.calculateSelectedQuantity();
+          this.cartService.updateCartItemCount(this.userId);
         }),
         catchError((err) => {
           console.error('Error during delete:', err);
@@ -147,7 +150,7 @@ export class CartComponent implements OnInit {
   async goToPayment() {
     try {
       const data = {
-        userId: 1,
+        userId: this.userId,
         cartTotal: this.sumItemPrice,
       };
       const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
@@ -226,7 +229,7 @@ export class CartComponent implements OnInit {
           this.removeProductOnCart(item.productId)
         );
         await Promise.all(removePromises);
-        await firstValueFrom(this.cartService.deleteCart(1));
+        await firstValueFrom(this.cartService.deleteCart(this.userId));
         Swal.fire("สำเร็จ", "ลบรายการสินค้าทั้งหมดเรียบร้อย", "success");
       } catch (error) {
         Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");

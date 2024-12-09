@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as bootstrap from 'bootstrap';
 
 
 @Component({
