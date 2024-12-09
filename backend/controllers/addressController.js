@@ -190,7 +190,7 @@ exports.defaultAddress = async (req, res) => {
         default: isDefault,
       },
     });
-    res.status(200).json("Default Address update success");
+    res.status(200).json({message: "Default Address update success", setDefault});
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });

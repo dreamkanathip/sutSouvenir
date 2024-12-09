@@ -14,6 +14,7 @@ export class ProductDetailsComponent implements OnInit {
 
   product!: Product;
   quantityToOrder: number = 1;
+  userId: number = 1;
 
   constructor(
     private productDetails: ProductDetailsService,
@@ -47,7 +48,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addItemToCart() {
     const data = {
-      userId: '1',
+      userId: this.userId,
       productId: this.product.id,
       quantity: this.quantityToOrder,
     };
@@ -71,6 +72,7 @@ export class ProductDetailsComponent implements OnInit {
           if (this.product && this.product.quantity > 0) {
             this.product.quantity -= this.quantityToOrder; // Update quantity only on success
           }
+          this.cartService.updateCartItemCount(this.userId)
           console.log('Item added to cart:', response);
         }
       });
