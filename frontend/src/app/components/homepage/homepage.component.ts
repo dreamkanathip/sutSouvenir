@@ -4,6 +4,7 @@ import { Product } from '../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart/cart.service';
+import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-homepage',
@@ -13,12 +14,7 @@ import { CartService } from '../../services/cart/cart.service';
 export class HomepageComponent {
   addToFav!: any;
   productItems!: Product[];
-
-  dataForm = new FormGroup({
-    userId: new FormControl(''),
-    productId: new FormControl(''),
-    quantity: new FormControl(''),
-  });
+  userId: number = 1;
 
   constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
     this.loadProducts()
@@ -30,37 +26,39 @@ export class HomepageComponent {
     });
   }
 
-  addItemToCart(item: any) {
-    this.dataForm.patchValue({
-      userId: '1',
+  addItemToCart(item: Product) {
+    const data = {
+      userId: this.userId,
       productId: item.id,
       quantity: '1',
-    });
-
-    const data = {
-      userId: this.dataForm.get('userId')?.value ?? '',
-      productId: this.dataForm.get('productId')?.value ?? '',
-      quantity: this.dataForm.get('quantity')?.value ?? '',
     };
 
-    console.log('Data to send:', data);
-
-    // init cart first 
-    this.cartService.getCartById(1).subscribe((res) => { // passing user id
-      if(!res) {
-        this.cartService.initialCart({userId: 1, cartTotal: 0}).subscribe(res => {
-          console.log("create new cart", res)
+    this.cartService.getCartById(1).pipe(
+      switchMap((checkCart) => {
+        if (!checkCart) {
+          return this.cartService.initialCart({ userId: this.userId, cartTotal: 0 }).pipe(
+            switchMap(() => this.cartService.addItemToCart(data))
+          );
+        }
+        return this.cartService.addItemToCart(data);
+        }),
+        catchError((err) => {
+          console.error('Error during add to cart:', err);
+          return of(null); // Handle errors gracefully
         })
-      } else {
-        this.cartService.addItemToCart(data).subscribe((res) => {
-          const product = this.productItems.find((i) => i.id === item.id)
-          if(product) {
-            item.quantity -=1
+      )
+      .subscribe((response) => {
+        if (response) {
+          const product = this.productItems.find((i) => i.id === item.id);
+          if (product && product.quantity > 0) {
+            product.quantity -= 1; // Update quantity only on success
           }
-        });
-      }
-    }) 
+          this.cartService.updateCartItemCount(this.userId)
+          console.log('Item added to cart:', response);
+        }
+      });
   }
+  
   goToDetails(item: any) {
     this.router.navigate(['/details', item.id]);
   }

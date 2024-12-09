@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row row-cols-1 row-cols-md-3 g-8">
     <div class="card col" *ngFor="let item of productItems; index as i">
-      <form [formGroup]="dataForm" (ngSubmit)="addItemToCart(item)">
+      <form (ngSubmit)="addItemToCart(item)">
         <div (click)="goToDetails(item)">
           <div class="add-to-fav">
             <i class='bx bx-heart bx-sm'></i>

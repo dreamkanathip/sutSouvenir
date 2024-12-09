@@ -23,26 +23,23 @@ exports.addOrderDetail = async(req, res) => {
     try {
         const { orderId, productId, quantity, total } = req.body
 
-        const [addOrderDetail, updateOrderTotalPrice] = await prisma.$transaction([
-            prisma.productOnOrder.create({
+        const addOrderDetail = await prisma.productOnOrder.create({
                 data: {
                     productId: Number(productId),
                     orderId: Number(orderId),
                     count: Number(quantity),
                     price: Number(total)
                 }
-            }),
-            prisma.order.update({
+            })
+
+        const updateOrderTotalPrice = await prisma.order.update({
                 where: {
                     id: Number(orderId)
                 },
                 data: {
-                    cartTotal: {
-                        increment: Number(total)
-                    }
+                    cartTotal: { increment: Number(total) }
                 }
             })
-        ])
         res.json({
             addOrderDetail, updateOrderTotalPrice
         })

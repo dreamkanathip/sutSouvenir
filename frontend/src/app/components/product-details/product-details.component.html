@@ -6,11 +6,32 @@
     </div>
     <div class="col-1"></div>
     <div class="col-5" *ngIf="product">
-      <h1 class="title">{{ product.title }}</h1>
+      <div class="title">
+        <h1 class="title">{{ product.title }}</h1>
+      </div>
+      <div class="d-flex justify-content-start align-items-center">
+        <div class="review-summary">** REVIEW SUMMARY **</div>
+        <div class="add-to-fav ms-5">
+          <i class='bx bx-heart bx-sm'></i>
+        </div>
+      </div>
+      
+      
       <h1 class="price">฿{{ product.price }}</h1>
-      <p class="amount">มีสินค้าทัั้งหมด {{ product.quantity }} ชิ้น</p>
+
+      <div class="d-flex justify-content-start align-items-center">
+        <div class="quantity d-flex align-items-center me-3">
+          <button (click)="decreaseQuantity()" class="btn btn-outline-secondary btn-sm">-</button>
+          <input type="input" [(ngModel)]="quantityToOrder" class="form-control mx-2 text-center quantity-input"
+            [min]="1" [max]="product.quantity" />
+          <button (click)="increaseQuantity()" class="btn btn-outline-secondary btn-sm">+</button>
+        </div>
+        <div class="amount">
+          มีสินค้าทัั้งหมด {{ product.quantity }} ชิ้น
+        </div>
+      </div>
       <!-- <h2 class="review">รีวิว</h2> -->
-      <button type="button" class="main-btn">เพิ่มในรถเข็น</button>
+      <button type="button" class="main-btn mt-5" (click)="addItemToCart()">เพิ่มในรถเข็น</button>
     </div>
   </div>
 </div>
