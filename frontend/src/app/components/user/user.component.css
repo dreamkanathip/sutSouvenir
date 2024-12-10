@@ -9,7 +9,7 @@
     width: 1920px;
     max-width: 100%;
     height: 694px;
-    max-height: 100%;
+    /* max-height: 100%; */
 }
 
 .user-page > [class^="col-"] {
@@ -53,7 +53,7 @@
 .user-table {
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
 .table th,
@@ -87,6 +87,7 @@
 .edit-btn {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
 }
 
 .edit-button-btn {
@@ -128,14 +129,14 @@
 .form-submit-container {
     display: flex;
     justify-content: flex-end;
-    gap: 10px; /* ระยะห่าง */
+    gap: 10px;
     margin-top: 20px;
 }
 
 .edit-modal-btn {
     width: 75px;
     max-width: 100%;
-    padding: 5px;
+    padding: 10px;
     background-color: #F36523;
     color: white;
     border: hidden;

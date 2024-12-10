@@ -33,10 +33,12 @@ router.get(
 router.get(
   "/user/profile",
   authenticateToken,
-  authenticateUser,
+  // authenticateUser,
   userController.getUser
 );
 
 router.put("/user/update", authenticateToken, userController.updateUser);
+
+router.patch("/user/password",authenticateToken, userController.updateUserPassword);
 
 module.exports = router;
