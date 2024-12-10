@@ -1,5 +1,6 @@
 // controllers/userController.js
 const prisma = require("../configs/prisma"); // เรียกใช้ PrismaClient จากไฟล์ config
+const bcrypt = require("bcryptjs");
 
 // Get User Info - รองรับทั้ง USER และ ADMIN
 const getUser = async (req, res) => {
@@ -25,26 +26,25 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = req.user.id; // ดึง user id จาก middleware (authenticateToken)
-    const { firstname, lastname, gender, email, phone } = req.body;
+    const userId = 1; // ดึง user id จาก middleware (authenticateToken)
+    const { firstName, lastName, gender, email } = req.body;
 
-    if (!firstname && !email && !phone) {
+    if (!firstName && !lastName && !email && !gender) {
       return res
         .status(400)
         .send({ message: "กรุณาระบุข้อมูลที่ต้องการอัปเดต" });
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: userId },
+      where: { id: Number(userId) },
       data: {
-        ...(firstname && { firstname }),
-        ...(lastname && { lastname }),
-        ...(gender && { gender }),
-        ...(email && { email }),
-        ...(phone && { phone }),
+        firstName:  firstName ,
+        lastName: lastName,
+        gender: gender,
+        email: email,
       },
     });
-
+    console.log(updatedUser)
     res.status(200).send({
       message: "อัปเดตข้อมูลสำเร็จ",
       user: updatedUser,
@@ -61,4 +61,46 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser };
+const updateUserPassword = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: Number(userId),
+      },
+    });
+
+    if (!user || !user.enabled) {
+      return res.status(400).json({ message: "User Not found or not Enabled" });
+    }
+
+    const compareOldPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!compareOldPassword) {
+      return res.status(403).send({ message: "รหัสผ่านไม่ถูกต้อง" })
+    }
+
+    // เข้ารหัสรหัสผ่าน
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const setNewPassword = await prisma.user.update({
+      where: {
+        id: Number(userId),
+      },
+      data: {
+        password: hashedPassword
+      },
+    });
+
+    res.status(200).send({
+      message: "อัปเดตข้อมูลสำเร็จ"
+    });
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการอัปเดตข้อมูล" });
+  }
+}
+
+module.exports = { getUser, updateUser, updateUserPassword };

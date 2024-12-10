@@ -3,7 +3,11 @@ const prisma = require("../configs/prisma");
 
 // Middleware สำหรับตรวจสอบ token
 const authenticateToken = async (req, res, next) => {
-  const token = req.cookies["jwt"];
+  // const token = req.cookies["jwt"];
+
+  // Fix Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczMzgwOTE3NywiZXhwIjoxNzMzODk1NTc3fQ.EvqYGfNCeog7aqbcLXf557YezP3GhzqXa7vGS2eCeyc"
+  
   if (!token) {
     return res
       .status(401)

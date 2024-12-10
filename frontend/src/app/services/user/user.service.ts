@@ -16,6 +16,11 @@ export class UserService {
   }
 
   updateUser(user: UserModel): Observable<UserModel> {
-    return this.http.put<UserModel>(`${this.apiUrl}/user/update`, user, { withCredentials: true });
+    console.log("update")
+    return this.http.put<UserModel>(`${this.apiUrl}/user/update`, user);
+  }
+
+  updateUserPassword(password: any) : Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/user/password`, password, { withCredentials: true });
   }
 }
