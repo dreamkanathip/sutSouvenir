@@ -3,7 +3,6 @@
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
 }
-
 .card {
     margin-top: 2%;
     margin-bottom: 2%;
@@ -37,14 +36,49 @@ input[type="checkbox"] {
     justify-content: center;
     display: flex;
 }
-.checkbox, .item-title, .price, .sum-price, .quantity, .delete {
+.select-items-label {
+    cursor: pointer;
+}
+.checkbox, .price, .sum-price, .quantity, .delete {
     align-items: center;
     justify-content: center;
     display: flex;
+    font-size: 20px;
+}
+.item-title {
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+.product-quantity {
+    text-align: left;
+    color: gray;
+}
+.quantity-input {
+    width: 60px;
 }
 .sum-price {
     color: #F36523;
 }
 .delete :hover {
     cursor: pointer;
+}
+.no-cart-shopping {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    width: 15%;
+    height: 15%;
+    letter-spacing: 1px;
+}
+.no-cart-img {
+    max-width: 200px;
 }

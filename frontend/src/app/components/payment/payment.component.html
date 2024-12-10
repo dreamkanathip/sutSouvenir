@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
-    <div class="col-6">
+    <div class="col-7">
       <!-- <div class="card shadow-sm card-body">
       </div> -->
       <div *ngFor="let item of productOnOrder; index as i" class="card p-3 shadow-sm" style="width: 100%;">
@@ -10,7 +10,9 @@
             <div class="col-2">
               <img src="assets/SUT-Logo.png" class="card-img">
             </div>
-            <div class="col-5 item-title">{{ item.product.title }}</div>
+            <div class="col-5 item-title">
+              <span class="product-title">{{ item.product.title }}</span>
+            </div>
             <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
             <div class="col-1 quantity d-flex align-items-center">
                 <span class="mx-2">{{ item.count }}</span>
@@ -20,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-5">
       <div class="card shadow-sm">
         <div class="card-body">
           <h2>
@@ -28,28 +30,31 @@
           </h2>
           <div class="d-flex justify-content-between">
             <div class="name">
-              สมบัติ ทับทอง ** mockedup **
+              {{defaultAddress?.firstName}} {{defaultAddress?.lastName}}
             </div>
-            <div class="change-address">
-              <u>เปลี่ยน</u>
+            <div class="change-address" data-bs-toggle="modal" data-bs-target="#add-menu-modal">
+              <a>เปลี่ยน</a>
             </div>
           </div>
           <div class="address">
-            หอพักสุรนิเวศ 7 มหาวิทยาลัยเทคโนโลยีสุรนารี  ** mockedup **
-            สุรนารี เมืองนครราชสีมา นครราชสีมา 30000
+            {{defaultAddress?.street}} {{defaultAddress?.subDistrict}}
+            {{defaultAddress?.district}} {{defaultAddress?.province}}
+            {{defaultAddress?.postalCode}} {{defaultAddress?.phoneNumber}}
+            <!-- หอพักสุรนิเวศ 7 มหาวิทยาลัยเทคโนโลยีสุรนารี  ** mockedup **
+            สุรนารี เมืองนครราชสีมา นครราชสีมา 30000 -->
           </div>
           <hr class="mt-1 mb-1" />
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
-          <div *ngIf="productOnOrder" class="d-flex justify-content-between">
+          <div *ngIf="productOnOrder" class="d-flex justify-content-between price-summary">
             <p>ราคาสินค้า</p>
             {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
           </div>
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between shipping-cost">
             <p>ค่าส่ง</p>
             <p>50</p>
           </div>
           <hr class="mt-1 mb-1" />
-          <div *ngIf="productOnOrder" class="d-flex justify-content-between">
+          <div *ngIf="productOnOrder" class="d-flex justify-content-between summary-sum-price">
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
@@ -62,3 +67,4 @@
   </div>
 </div>
 <app-footer></app-footer>
+<app-change-address-modal class="modal fade" id="add-menu-modal" (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>

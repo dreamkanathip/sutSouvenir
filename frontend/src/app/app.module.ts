@@ -25,6 +25,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
+import { ChangeAddressModalComponent } from './components/address/change-address-modal/change-address-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { UserComponent } from './components/user/user.component';
     EditAddressComponent,
     ProductManagementComponent,
     UserComponent,
+    ChangeAddressModalComponent
   ],
   imports: [
     BrowserModule,

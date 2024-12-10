@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+<<<<<<< HEAD
 import Swal from 'sweetalert2';
+=======
+
+>>>>>>> d12c5a371915efb3d7665d6f38ee5ea1086f5598
 
 @Component({
   selector: 'app-user',
