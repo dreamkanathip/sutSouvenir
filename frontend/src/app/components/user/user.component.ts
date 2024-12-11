@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-<<<<<<< HEAD
 import Swal from 'sweetalert2';
-=======
-
->>>>>>> d12c5a371915efb3d7665d6f38ee5ea1086f5598
 
 @Component({
   selector: 'app-user',
@@ -48,7 +44,6 @@ export class UserComponent implements OnInit{
     this.userService.getUserData().subscribe({
       next: (result: UserModel) => {
         if (result) {
-          console.log("User:", result)
           this.user = result;
           this.editUserUpdate()
         }
@@ -146,6 +141,15 @@ export class UserComponent implements OnInit{
       })
       return;
     }
+
+    if (this.editedUser.get('email')?.value === this.user?.email) {
+      Swal.fire({
+        title: "อีเมลนี้ซ้ำกับอีเมลที่คุณกำลังใช้งานอยู่",
+        icon: "error",
+      });
+      return;
+    }
+    
     const updatedData = this.editedUser.value;
     Swal.fire({
       title: "ต้องการบันทึกการเปลี่ยนแปลง?",
@@ -179,13 +183,20 @@ export class UserComponent implements OnInit{
           },
           error: (error) => {
             Swal.close();
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
-              showConfirmButton: true,
-            });
-            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+            if (error.status === 409) {
+              Swal.fire({
+                icon: "error",
+                title: "อีเมลนี้มีผู้ใช้งานแล้ว",
+                showConfirmButton: true,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+                showConfirmButton: true,
+              });
+            }
           }
         });
       }

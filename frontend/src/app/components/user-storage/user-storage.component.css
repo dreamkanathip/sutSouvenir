@@ -1,0 +1,95 @@
+.user-page {
+    display: flex;
+    align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    flex-wrap: wrap;
+    background-color: #FFDDBE;
+    padding-top: calc(var(--navbar-height, 70px));
+    overflow: hidden;
+    scrollbar-width: none;
+    width: 1920px;
+    max-width: 100%;
+    height: 694px;
+    /* max-height: 100%; */
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+}
+
+.user-page > [class^="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-storage {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* width: 1050px;
+    max-width: 100%;
+    height: 500px;
+    max-height: 100%; */
+    min-width: 600px;
+    background-color: white;
+    margin-top: 90px;
+    margin-left: 2%;
+    margin-bottom: 50px;
+    overflow-y: fixed;
+    scrollbar-width: none;
+    border-radius: 10px;
+}
+
+.item-card {
+    width: 75%; /* กำหนดความกว้าง */
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลาง */
+    border-radius: 10px; /* ทำให้มุมการ์ดโค้ง */
+    background-color: #fff; /* สีพื้นหลัง */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
+    transition: transform 0.3s, box-shadow 0.3s; /* เพิ่มเอฟเฟกต์เมื่อ hover */
+}
+
+.item-card:hover {
+    transform: translateY(-5px); /* ยกการ์ดขึ้นเล็กน้อย */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ hover */
+}
+
+
+.no-storage-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+    text-align: center;
+    /* background-color: #FFDDBE; */
+}
+
+.no-user-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+    text-align: center;
+    background-color: #FFDDBE;
+}
+
+.no-user-login {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    width: 150px;
+    height: 50px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.no-user-login:hover {
+    transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเมื่อ hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* เงาเมื่อ hover */
+}
