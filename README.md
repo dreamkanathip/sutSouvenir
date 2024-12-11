@@ -9,6 +9,7 @@
 npm install express bcryptjs cookie-parser cors jsonwebtoken morgan env nodemon --save-dev prisma@5.20.0 @prisma/client@5.20.0
 
 ### Frontend tools
+npm i flatpickr --save
 
 ### Build prisma file
 npx prisma init
