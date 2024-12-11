@@ -36,6 +36,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BankComponent } from './components/bank/bank.component';
 import { AddComponent } from './components/bank/add/add.component';
 import { UpdateComponent } from './components/bank/update/update.component';
+import { UserStorageComponent } from './components/user-storage/user-storage.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { UpdateComponent } from './components/bank/update/update.component';
     UploadReceiptComponent,
     BankComponent,
     AddComponent,
-    UpdateComponent
+    UpdateComponent,
+    UserStorageComponent
   ],
   imports: [
     BrowserModule,

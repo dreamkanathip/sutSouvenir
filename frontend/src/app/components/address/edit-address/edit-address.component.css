@@ -5,6 +5,8 @@
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
     max-width: 1920px;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
 }
 
 .edit-address-page > [class^="col-"] {
@@ -63,12 +65,14 @@
 
 .input-field .dropdown .dropdown-toggle {
     height: 40px;
-    line-height: 50px;
-    display: flex;
+    line-height: 40px;
+    display: inline-flex; /* ปรับตามเนื้อหา */
     align-items: center;
     border: 1px solid #000;
-    width: 120px;
-    max-width: 100%;
+    min-width: 120px;
+    width: auto;
+    max-width: 175px;
+    white-space: nowrap; /* ไม่ตัดข้อความเป็นบรรทัดใหม่ */
 }
 
 @media (max-width: 768px) {

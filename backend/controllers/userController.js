@@ -1,5 +1,6 @@
 // controllers/userController.js
 const prisma = require("../configs/prisma"); // เรียกใช้ PrismaClient จากไฟล์ config
+const bcrypt = require("bcryptjs");
 
 // Get User Info - รองรับทั้ง USER และ ADMIN
 const getUser = async (req, res) => {
@@ -25,26 +26,36 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = req.user.id; // ดึง user id จาก middleware (authenticateToken)
-    const { firstname, lastname, gender, email, phone } = req.body;
+    const userId = req.user.id;
+    const { firstName, lastName, gender, email } = req.body;
 
-    if (!firstname && !email && !phone) {
+    if (!firstName && !lastName && !email && !gender) {
       return res
         .status(400)
         .send({ message: "กรุณาระบุข้อมูลที่ต้องการอัปเดต" });
     }
 
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        ...(firstname && { firstname }),
-        ...(lastname && { lastname }),
-        ...(gender && { gender }),
-        ...(email && { email }),
-        ...(phone && { phone }),
+    const uniqueEmail = await prisma.user.findFirst({
+      where: {
+        email: email,
+        NOT: { id: userId }, // ID ต้องไม่ตรงกับผู้ใช้คนนี้
       },
     });
 
+    if (uniqueEmail) {
+      return res.status(409).send({ message: "อีเมลผู้ใช้งานซ้ำกัน" })
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: Number(userId) },
+      data: {
+        firstName:  firstName ,
+        lastName: lastName,
+        gender: gender,
+        email: email,
+      },
+    });
+    console.log(updatedUser)
     res.status(200).send({
       message: "อัปเดตข้อมูลสำเร็จ",
       user: updatedUser,
@@ -61,4 +72,76 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser };
+const updateUserPassword = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: Number(userId),
+      },
+    });
+
+    if (!user || !user.enabled) {
+      return res.status(400).json({ message: "User Not found or not Enabled" });
+    }
+
+    const compareOldPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!compareOldPassword) {
+      return res.status(403).send({ message: "รหัสผ่านไม่ถูกต้อง" })
+    }
+
+    // เข้ารหัสรหัสผ่าน
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const setNewPassword = await prisma.user.update({
+      where: {
+        id: Number(userId),
+      },
+      data: {
+        password: hashedPassword
+      },
+    });
+
+    res.status(200).send({
+      message: "อัปเดตข้อมูลสำเร็จ"
+    });
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการอัปเดตข้อมูล" });
+  }
+}
+
+const getUserStorage = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: Number(userId),
+        // orderStatus: "Success",
+      },
+      include: {
+        products: {
+          include: {
+            product: true, // ดึงข้อมูลสินค้าผ่าน ProductOnOrder
+          }
+        },
+      },
+    });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).send({ message: "ไม่พบประวัติการสั่งซื้อ" });
+    }
+
+    return res.status(200).send({ orders });
+
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:', error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
+  }
+};
+
+module.exports = { getUser, updateUser, updateUserPassword, getUserStorage };

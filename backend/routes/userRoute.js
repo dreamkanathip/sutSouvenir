@@ -33,10 +33,14 @@ router.get(
 router.get(
   "/user/profile",
   authenticateToken,
-  authenticateUser,
+  // authenticateUser,
   userController.getUser
 );
 
 router.put("/user/update", authenticateToken, userController.updateUser);
+
+router.patch("/user/password", authenticateToken, userController.updateUserPassword);
+
+router.get("/user/storage", authenticateToken, userController.getUserStorage);
 
 module.exports = router;
