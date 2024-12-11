@@ -1,1 +1,70 @@
-<p>bank works!</p>
+<div class="container">
+    <div class="row g-8">
+        <div class="col-8">
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th scope="col">ธนาคาร</th>
+                        <th scope="col">ชื่อบัญชี</th>
+                        <th scope="col">หมายเลขบัญชี</th>
+                        <th scope="col">สาขา</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let bank of destBank; index as i">
+                        <!-- <th scope="row">1</th> -->
+                        <td>{{bank.bank}}</td>
+                        <td>{{bank.name}}</td>
+                        <td>{{bank.bankNumber}}</td>
+                        <td>{{bank.branch}}</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#update-bank" class="me-2">
+                                แก้ไข
+                            </button>
+                            <button>
+                                ลบ
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="div" class="d-flex justify-content-end">
+                <button data-bs-toggle="modal" data-bs-target="#add-bank" (click)="openDestBank()">
+                    เพิ่มธนาคารปลายทาง
+                </button>
+            </div>
+        </div>
+        <div class="col-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ธนาคาร</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let bank of originBank; index as i">
+                        <td>{{bank.bank}}</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#update-bank" class="me-2">
+                                แก้ไข
+                            </button>
+                            <button>
+                                ลบ
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="div" class="d-flex justify-content-end">
+                <button data-bs-toggle="modal" data-bs-target="#add-bank" (click)="openOriginBank()">
+                    เพิ่มธนาคารต้นทาง
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-add class="modal fade" id="add-bank" (reloadBankData)="getBank()" [destBank]="isDestBank"></app-add>
+<app-update class="modal fade" id="update-bank"></app-update>

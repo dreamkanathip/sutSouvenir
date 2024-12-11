@@ -13,6 +13,7 @@ import { EditAddressComponent } from './components/address/edit-address/edit-add
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
+import { BankComponent } from './components/bank/bank.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'user', component: UserComponent },
   { path: 'user/storage', component: UserStorageComponent},
+  { path: 'bank', component: BankComponent}
 ];
 
 @NgModule({

@@ -2,6 +2,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import flatpickr from 'flatpickr';
 import { Inject, PLATFORM_ID } from '@angular/core';
+import { BankService } from '../../../services/bank/bank.service';
+import { DestBank } from '../../../interfaces/bank/dest-bank';
+import { OriginBank } from '../../../interfaces/bank/origin-bank';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -16,8 +19,12 @@ export class UploadReceiptComponent implements AfterViewInit {
   date!: string;
   hr: string = '00';
   min: string = '00';
+  destBank!: DestBank[];
+  originBank!: OriginBank[];
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private bankService: BankService) {
+    this.getBank()
+  }
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -31,5 +38,14 @@ export class UploadReceiptComponent implements AfterViewInit {
         },
       });
     }
+  }
+
+  getBank() {
+    this.bankService.getDestBank().subscribe(res => {
+      this.destBank = res
+    })
+    this.bankService.getOriginBank().subscribe(res => {
+      this.originBank = res
+    })
   }
 }
