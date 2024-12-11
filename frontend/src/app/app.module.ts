@@ -26,6 +26,7 @@ import { EditAddressComponent } from './components/address/edit-address/edit-add
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
 import { ChangeAddressModalComponent } from './components/address/change-address-modal/change-address-modal.component';
+import { UserStorageComponent } from './components/user-storage/user-storage.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ChangeAddressModalComponent } from './components/address/change-address
     EditAddressComponent,
     ProductManagementComponent,
     UserComponent,
-    ChangeAddressModalComponent
+    ChangeAddressModalComponent,
+    UserStorageComponent
   ],
   imports: [
     BrowserModule,

@@ -23,4 +23,8 @@ export class UserService {
   updateUserPassword(password: any) : Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/user/password`, password, { withCredentials: true });
   }
+
+  getUserStorage(): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/user/storage`)
+  }
 }

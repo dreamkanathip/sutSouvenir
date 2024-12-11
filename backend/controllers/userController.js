@@ -26,13 +26,24 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = 1; // ดึง user id จาก middleware (authenticateToken)
+    const userId = req.user.id;
     const { firstName, lastName, gender, email } = req.body;
 
     if (!firstName && !lastName && !email && !gender) {
       return res
         .status(400)
         .send({ message: "กรุณาระบุข้อมูลที่ต้องการอัปเดต" });
+    }
+
+    const uniqueEmail = await prisma.user.findFirst({
+      where: {
+        email: email,
+        NOT: { id: userId }, // ID ต้องไม่ตรงกับผู้ใช้คนนี้
+      },
+    });
+
+    if (uniqueEmail) {
+      return res.status(409).send({ message: "อีเมลผู้ใช้งานซ้ำกัน" })
     }
 
     const updatedUser = await prisma.user.update({
@@ -103,4 +114,34 @@ const updateUserPassword = async (req, res) => {
   }
 }
 
-module.exports = { getUser, updateUser, updateUserPassword };
+const getUserStorage = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: Number(userId),
+        // orderStatus: "Success",
+      },
+      include: {
+        products: {
+          include: {
+            product: true, // ดึงข้อมูลสินค้าผ่าน ProductOnOrder
+          }
+        },
+      },
+    });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).send({ message: "ไม่พบประวัติการสั่งซื้อ" });
+    }
+
+    return res.status(200).send({ orders });
+
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:', error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
+  }
+};
+
+module.exports = { getUser, updateUser, updateUserPassword, getUserStorage };

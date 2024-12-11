@@ -39,6 +39,8 @@ router.get(
 
 router.put("/user/update", authenticateToken, userController.updateUser);
 
-router.patch("/user/password",authenticateToken, userController.updateUserPassword);
+router.patch("/user/password", authenticateToken, userController.updateUserPassword);
+
+router.get("/user/storage", authenticateToken, userController.getUserStorage);
 
 module.exports = router;

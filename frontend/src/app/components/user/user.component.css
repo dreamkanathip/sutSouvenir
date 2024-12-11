@@ -10,6 +10,8 @@
     max-width: 100%;
     height: 694px;
     /* max-height: 100%; */
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
 }
 
 .user-page > [class^="col-"] {
@@ -45,34 +47,46 @@
     margin-top: 90px;
     margin-left: 3%;
     margin-bottom: 50px;
-    overflow-y: auto;
+    overflow-y: fixed;
     scrollbar-width: none;
     border-radius: 10px;
 }
 
+.user-container::-webkit-scrollbar, .user-page::-webkit-scrollbar {
+    display: none;
+  }
+  
+
 .user-table {
     overflow: hidden;
     border-radius: 10px;
-    /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-collapse: collapse;
+    margin: 0 auto;
 }
 
-.table th,
 .table td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   word-wrap: break-word;
-  white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
-  overflow-wrap: break-word; /* รองรับการตัดคำในกรณีที่มีคำยาวๆ */
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
-.table th:first-child,
+/* white-space : อนุญาตให้ขึ้นบรรทัดใหม่ */
+/* overflow-warp : รองรับการตัดคำในกรณีที่มีคำยาวๆ */
+
+
+/* มุมซ้าย */
 .table td:first-child {
-  border-radius: 10px 0 0 10px; /* มุมซ้าย */
+  border-radius: 10px 0 0 10px;
 }
 
-.table th:last-child,
+
+ /* มุมขวา */
 .table td:last-child {
-  border-radius: 0 10px 10px 0; /* มุมขวา */
+  border-radius: 0 10px 10px 0;
 }
 
 .table td.topic {
@@ -142,4 +156,39 @@
     border: hidden;
     border-radius: 10px
 }
-  
+
+.edit-button-btn:hover, .edit-modal-btn:hover {
+    background-color: #d9531e; /* สี hover */
+    cursor: pointer;
+}
+
+.no-user-page {
+    display: flex; /* ใช้ Flexbox */
+    flex-direction: column; /* จัดเรียงในแนวตั้ง */
+    align-items: center; /* จัดกึ่งกลางแนวนอน */
+    justify-content: center; /* จัดกึ่งกลางแนวตั้ง */
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
+    background-color: #FFDDBE; /* กำหนดสีพื้นหลังเหมือนกับ user-page */
+}
+
+.no-user-login {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    width: 200px; /* กำหนดขนาดปุ่มที่เหมาะสม */
+    height: 50px;
+    letter-spacing: 1px;
+    margin-top: 20px; /* เว้นระยะห่างจากข้อความ */
+    cursor: pointer;
+}
+
+.no-user-login:hover {
+    transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเมื่อ hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* เงาเมื่อ hover */
+}

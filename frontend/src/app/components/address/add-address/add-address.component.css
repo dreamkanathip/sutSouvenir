@@ -5,6 +5,8 @@
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
     max-width: 1920px;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
 }
 
 .add-address-page > [class^="col-"] {
