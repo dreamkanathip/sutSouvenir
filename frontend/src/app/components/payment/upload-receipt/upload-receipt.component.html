@@ -41,11 +41,17 @@
       <div class="row ">
         <div class="col-md-6">
           ธนาคารต้นทาง:
-          <input type="text" class="origin-bank">
+          <!-- <input type="text" class="origin-bank"> -->
+          <select id="origin-bank" name="origin-bank" class="origin-bank">
+            <option *ngFor="let bank of originBank" >{{ bank.bank }}</option>
+          </select>
         </div>
         <div class="col-md-6">
           ธนาคารปลายทาง:
-          <input type="text" class="destination-bank">
+          <!-- <input type="text" class="destination-bank"> -->
+          <select id="destination-bank" name="destination-bank" class="destination-bank">
+            <option *ngFor="let bank of destBank" >{{ bank.bank }}</option>
+          </select>
         </div>
       </div>
       <div class="row">

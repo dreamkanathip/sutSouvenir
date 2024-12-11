@@ -1,1 +1,39 @@
-<p>add works!</p>
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body" >
+        <div *ngIf="destBank">
+            <form [formGroup]="destBankData" (ngSubmit)="addBank()">
+                <div class="bank form-group">
+                    ธนาคาร: <input formControlName="bank">
+                </div>
+                <div class="name form-group">
+                    ชื่อบัญชี: <input formControlName="name">
+                </div>
+                <div class="bank-number form-group">
+                    หมายเลขบัญชี: <input formControlName="bankNumber">
+                </div>
+                <div class="branch form-group">
+                    สาขา: <input formControlName="branch">
+                </div>
+            </form>
+        </div>
+        <div *ngIf="!destBank">
+          <form [formGroup]="originBankData" (ngSubmit)="addBank()">
+            <div class="bank">
+                ธนาคาร: <input formControlName="bank">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" (click)="addBank()">Save changes</button>
+      </div>
+    </div>
+  </div>
