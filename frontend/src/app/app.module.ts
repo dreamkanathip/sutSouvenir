@@ -1,4 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NativeDateAdapter} from '@angular/material/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -26,6 +31,11 @@ import { EditAddressComponent } from './components/address/edit-address/edit-add
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
 import { ChangeAddressModalComponent } from './components/address/change-address-modal/change-address-modal.component';
+import { UploadReceiptComponent } from './components/payment/upload-receipt/upload-receipt.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BankComponent } from './components/bank/bank.component';
+import { AddComponent } from './components/bank/add/add.component';
+import { UpdateComponent } from './components/bank/update/update.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 
 @NgModule({
@@ -46,6 +56,10 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
     ProductManagementComponent,
     UserComponent,
     ChangeAddressModalComponent,
+    UploadReceiptComponent,
+    BankComponent,
+    AddComponent,
+    UpdateComponent,
     UserStorageComponent
   ],
   imports: [
@@ -55,8 +69,17 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
     FormsModule,
     HttpClientModule,
     FormsModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    NoopAnimationsModule
   ],
-  providers: [provideClientHydration(), provideHttpClient(withFetch())],
+  providers: [
+    provideClientHydration(), 
+    provideHttpClient(withFetch()),
+    NativeDateAdapter
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],
 })

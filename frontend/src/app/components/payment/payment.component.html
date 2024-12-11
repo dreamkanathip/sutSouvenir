@@ -32,8 +32,8 @@
             <div class="name">
               {{defaultAddress?.firstName}} {{defaultAddress?.lastName}}
             </div>
-            <div class="change-address" data-bs-toggle="modal" data-bs-target="#add-menu-modal">
-              <a>เปลี่ยน</a>
+            <div class="change-address" data-bs-toggle="modal" data-bs-target="#change-address">
+              <button class="btn btn-primary"> เปลี่ยน </button>
             </div>
           </div>
           <div class="address">
@@ -58,7 +58,7 @@
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
-          <button type="submit" class="main-btn w-100" >
+          <button type="submit" class="main-btn w-100" data-bs-toggle="modal" data-bs-target="#upload-receipt">
             ชำระเงิน
           </button>
         </div>
@@ -67,4 +67,5 @@
   </div>
 </div>
 <app-footer></app-footer>
-<app-change-address-modal class="modal fade" id="add-menu-modal" (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
+<app-change-address-modal class="modal fade" id="change-address" (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
+<app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice"></app-upload-receipt>

@@ -19,8 +19,8 @@ export class ProductManagementComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      price: ['', [Validators.required, Validators.min(0.01)]],
       description: ['', [Validators.required]],
     });
   }

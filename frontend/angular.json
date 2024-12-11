@@ -40,7 +40,9 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
@@ -114,7 +116,7 @@
   "cli": {
     "analytics": "4a1ba9aa-7256-4170-bb30-90e83e7ef532",
     "cache": {
-      "enabled": true
+      "enabled": false
     }
   }
 }

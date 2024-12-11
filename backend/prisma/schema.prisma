@@ -102,12 +102,20 @@ model Order {
 
 model Payment {
   id         Int       @id @default(autoincrement())
-  amount     Float
+  total      Float
   status     PaymentStatus @default(PENDING)
+
   order      Order     @relation(fields: [orderId], references: [id]) // One-to-one relationship with Order
   orderId    Int       @unique
   user       User      @relation(fields: [userId], references: [id])
   userId     Int
+  originBank OriginBank @relation(fields: [originBankId], references: [id])
+  originBankId Int
+  destBank   DestinationBank @relation(fields: [destBankId], references: [id])
+  destBankId Int
+
+  lastFourDigits String
+
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
@@ -193,6 +201,25 @@ model StockRecord {
   quantityAdded Int
   quantitySold  Int
   updatedAt     DateTime  @default(now())
+}
+
+model DestinationBank {
+  id            Int       @id @default(autoincrement())
+  bank          String
+  bankNumber    String
+  name          String
+  branch        String
+  payments      Payment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model OriginBank {
+  id            Int       @id @default(autoincrement())
+  bank          String
+  payments      Payment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 // Enums for roles and statuses

@@ -1,0 +1,67 @@
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalLabel">แจ้งผลการชำระเงิน</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="total d-flex align-items-center">
+        <span class="total-description me-3">ยอดเงินที่ต้องชำระ: </span>
+        <span class="total-money">
+          {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
+        </span>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          วันที่โอน: <input id="date" type="text" class="date" placeholder="วว-ดด-ปปปป">
+        </div>
+        <div class="col-md-6 d-flex flex-column">
+          <label for="hr">เวลาที่โอน:</label>
+          <div>
+            <select id="hr" name="hr" class="hr" [(ngModel)]="hr">
+              <option *ngFor="let i of hrArray" [value]="i">{{ i }}</option>
+            </select>
+            <span class="m-2">:</span>
+            <select id="min" name="min" class="min" [(ngModel)]="min">
+              <option *ngFor="let i of minArray" [value]="i">{{ i }}</option>
+            </select>
+          </div>
+        </div>
+        <!-- <input type="date"  [(ngModel)]="date"> -->
+      </div>
+      <div class="receipt m-2">
+        อัพโหลดหลักฐาน:
+        <label class="btn btn-primary upload-btn" for="menu-image">
+          เลือกไฟล์:
+        </label>
+        <input type="file" class="form-control-file" id="menu-image" appImage />
+      </div>
+      <div class="row ">
+        <div class="col-md-6">
+          ธนาคารต้นทาง:
+          <input type="text" class="origin-bank">
+        </div>
+        <div class="col-md-6">
+          ธนาคารปลายทาง:
+          <input type="text" class="destination-bank">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          จำนวนเงิน:
+          <input type="text" value="{{sumItemPrice}}" class="total-text">
+        </div>
+        <div class="col-md-6">
+          4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:
+          <input type="text" class="four-digits">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="secondary-btn" data-bs-dismiss="modal">ยกเลิก</button>
+      <button type="button" class="main-btn">ยืนยัน</button>
+    </div>
+  </div>
+</div>
