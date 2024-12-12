@@ -1,31 +1,24 @@
 <app-navbar></app-navbar>
 <div class="user-page">
     <div class="user-storage" *ngIf="user; else noUserTemplate">
-        <div class="storage" *ngIf="storage; else noStorageTemplate">
-            <h3 class="storage-header text-center">รายการสินค้า</h3>
-            <div class="card all-item shadow-sm card-body">
-                <div class="card item-card p-3 shadow-sm">
-                    <div class="card-body" *ngFor="let item of storage; index as i">
-                        <div class="row">
-                            <div class="col-3">
-                                <img src="assets/SUT-Logo.png" class="card-img">
-                            </div>
-                            <div class="col-5 item-title">
-                                <span class="product-title">{{item.title}}</span>
-                            </div>
-                            <div class="col-2 repeat-buy">
-                                <button><i class="bx bx-cart-alt"></i> สั่งซื้อ</button>
-                            </div>
-                            <div class="col-2 review">
-                                <button>
-                                    รีวิวสินค้า
-                                </button>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="storage-history" *ngIf="storage; else noStorageTemplate">
+            <nav id="navbar" class="navbar bg-body-tertiary px-3 mb-3">
+                <ul class="nav">
+                    <li class="nav-item storage-nav">
+                        <a class="nav-link" (click)="openStorage()">รายการสินค้าของคุณ</a>
+                    </li>
+                    <li class="nav-item storage-nav">
+                        <a class="nav-link" (click)="openHistory()">ประวัติการสั่งซื้อ</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Storage / History -->
+            <div class="storage" *ngIf="storageOpen else historyTemplate">
+                <app-storage></app-storage>
             </div>
+            <ng-template #historyTemplate class="history">
+                <app-history></app-history>
+            </ng-template>
         </div>
         <ng-template #noStorageTemplate>
             <div class="no-storage-page text-center">
