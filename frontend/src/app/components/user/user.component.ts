@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,7 +21,7 @@ export class UserComponent implements OnInit{
   emailModalOpen = false
   passwordModalOpen = false
 
-  constructor(private userService: UserService, private fb: FormBuilder,) {
+  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) {
     this.editedUser = this.fb.group({
       id: 0,
       firstName: ['', [Validators.required]],
@@ -303,6 +304,10 @@ export class UserComponent implements OnInit{
   passwordModal(){
     this.ModalOpen = !this.ModalOpen
     this.passwordModalOpen = !this.passwordModalOpen
+  }
+
+  userLogin(){
+    this.router.navigate(['/login']);
   }
 
 }

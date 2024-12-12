@@ -1,10 +1,15 @@
+.container {
+    width: 1920px;
+}
+
 .user-page {
     display: flex;
     align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    justify-content: center;
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
-    overflow: hidden;
+    overflow: auto;
     scrollbar-width: none;
     width: 1920px;
     max-width: 100%;
@@ -26,7 +31,7 @@
     max-width: 450px;
     background-color: white;
     margin-top: 90px;
-    margin-left: 25%;
+    margin-left: 20%;
     border-radius: 10px
 }
 
@@ -163,14 +168,15 @@
 }
 
 .no-user-page {
-    display: flex; /* ใช้ Flexbox */
-    flex-direction: column; /* จัดเรียงในแนวตั้ง */
-    align-items: center; /* จัดกึ่งกลางแนวนอน */
-    justify-content: center; /* จัดกึ่งกลางแนวตั้ง */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     font-family: 'SUT', sans-serif;
     font-size: larger;
-    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
-    background-color: #FFDDBE; /* กำหนดสีพื้นหลังเหมือนกับ user-page */
+    text-align: center;
+    background-color: #FFDDBE;
 }
 
 .no-user-login {

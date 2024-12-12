@@ -37,6 +37,8 @@ import { BankComponent } from './components/bank/bank.component';
 import { AddComponent } from './components/bank/add/add.component';
 import { UpdateComponent } from './components/bank/update/update.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
+import { StorageComponent } from './components/user-storage/storage/storage.component';
+import { HistoryComponent } from './components/user-storage/history/history.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
     BankComponent,
     AddComponent,
     UpdateComponent,
-    UserStorageComponent
+    UserStorageComponent,
+    StorageComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,58 @@
+<h3 class="history-header text-center">ประวัติการสั่งซื้อ</h3>
+<div class="card all-item shadow-sm card-body">
+    <table class="table table-sm">
+        <thead>
+          <tr>
+            <th class="order-time">วันที่สั่งซื้อ</th>
+            <th class="order-price">ราคา</th>
+            <th class="order-status">สถานะคำสั่งซื้อ</th>
+            <th class="order-detail"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order">
+            <td>{{ item?.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</td>
+            <td>{{ item?.cartTotal }} บาท</td>
+            <td>{{ showStatus(item?.orderStatus) }}</td>
+            <td>
+              <a class="history-detail" (click)="viewHistory(item?.id)">
+                รายละเอียด
+              </a>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+<!-- History Modal -->
+  <div *ngIf="historyModal" class="modal fade show" tabindex="-1" style="display: block;">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">รายละเอียดการสั่งซื้อ</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeHistory()"></button>
+        </div>
+        <div class="modal-body">
+          <p>วัน-เวลาที่สั่งซื้อ : {{ selectedHistoryDetail.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</p>
+          <p>ราคา : {{ selectedHistoryDetail.cartTotal }}</p>
+          <p>สถานะคำสั่งซื้อ : {{ showStatus(selectedHistoryDetail.orderStatus) }}</p>
+          <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>รายการสินค้า</th>
+                    <th>จำนวน</th>
+                    <th>ราคา (บาท)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of selectedHistoryProducts">
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                  </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- End of History Modal-->
+</div>

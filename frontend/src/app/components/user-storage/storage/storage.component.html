@@ -1,0 +1,25 @@
+<!-- Storage คลังสินค้า -->
+<h3 class="storage-header text-center">รายการสินค้าของคุณ</h3>
+<div class="card col" *ngFor="let item of storage; index as i">
+    <form>
+      <div>
+        <div class="add-to-fav">
+          <i class='bx bx-heart bx-sm'></i>
+        </div>
+        <img src="assets/SUT-Logo.png" class="card-img-top">
+        <div class="card-body">
+          <p class="title">{{item.title}}</p>
+          <p class="price">฿{{item.price}}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="main-btn w-100">
+          สั่งซื้อ
+        </button>
+        <button class="main-btn w-100">
+            รีวิวสินค้า
+        </button>
+      </div>
+    </form>
+  </div>
+<!-- End of Storage -->

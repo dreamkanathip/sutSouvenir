@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AddressService } from '../../services/address/address.service';
 import { AddressModel } from '../../interfaces/address/address.model';
 import Swal from 'sweetalert2';
+import { UserModel } from '../../interfaces/user/user.model';
+import { UserService } from '../../services/user/user.service';
 
 declare const bootstrap: any;
 
@@ -15,18 +17,34 @@ declare const bootstrap: any;
 })
 export class AddressComponent implements OnInit{
 
+  user?: UserModel
+
   allAddress?: AddressModel[]
   updateMessage?: String
   defaultAddress?: number
 
   @ViewChild('toast', { static: true }) toastElement!: ElementRef;
 
-  constructor(private router: Router, private addressService: AddressService) {
-    this.getAllAddress()
+  constructor(private router: Router, private userService: UserService, private addressService: AddressService) {
+    
   }
 
   ngOnInit(): void {
-    
+    this.getUserData()
+    this.getAllAddress()
+  }
+
+  getUserData() {
+    this.userService.getUserData().subscribe({
+      next: (result: UserModel) => {
+        if (result) {
+          this.user = result;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching user data', err);
+      }
+    });
   }
 
   getAllAddress(){
