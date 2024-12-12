@@ -27,27 +27,29 @@ model User {
   dashboards Dashboard[] @relation("AdminDashboards")
   payments   Payment[]
   bookmarks  Bookmark[]
-  addresses  Address[]   // New relation to Address model
-  reviews    Review[]    // New relation to Review model
+  addresses  Address[] // New relation to Address model
+  reviews    Review[] // New relation to Review model
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
+
 model Address {
-  id            Int      @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  phoneNumber   String
-  street        String
-  subDistrict   String
-  district      String
-  province      String
-  postalCode    String
-  default       Boolean  @default(false)
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  phoneNumber String
+  street      String
+  subDistrict String
+  district    String
+  province    String
+  postalCode  String
+  default     Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
+
 model Product {
   id           Int              @id @default(autoincrement())
   title        String
@@ -63,61 +65,62 @@ model Product {
   categoryId   Int?
   status       ProductStatus    @default(AVAILABLE)
   stockRecords StockRecord[]
-  bookmarks    Bookmark[]       // New relation to Bookmark model
-  reviews      Review[]         // New relation to Review model
+  bookmarks    Bookmark[] // New relation to Bookmark model
+  reviews      Review[] // New relation to Review model
 }
 
 model Bookmark {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  Int
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  comment    String?
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  Int
+  id        Int      @id @default(autoincrement())
+  comment   String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
   star      Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
-  id           Int              @id @default(autoincrement())
-  products     ProductOnOrder[]
-  cartTotal    Float
-  orderStatus  OrderStatus      @default(NOT_PROCESSED)
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  user    User             @relation(fields: [userId], references: [id])
-  userId  Int
-  payment      Payment?        
+  id          Int              @id @default(autoincrement())
+  products    ProductOnOrder[]
+  cartTotal   Float
+  orderStatus OrderStatus      @default(NOT_PROCESSED)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  user        User             @relation(fields: [userId], references: [id])
+  userId      Int
+  payment     Payment[]
 }
 
 model Payment {
-  id         Int       @id @default(autoincrement())
-  total      Float
-  status     PaymentStatus @default(PENDING)
+  id             Int           @id @default(autoincrement())
+  total          Float
+  status         PaymentStatus @default(PENDING)
 
-  order      Order     @relation(fields: [orderId], references: [id]) // One-to-one relationship with Order
-  orderId    Int       @unique
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int
-  originBank OriginBank @relation(fields: [originBankId], references: [id])
-  originBankId Int
-  destBank   DestinationBank @relation(fields: [destBankId], references: [id])
-  destBankId Int
-
+  order          Order           @relation(fields: [orderId], references: [id]) // One-to-one relationship with Order
+  orderId        Int             @unique
+  user           User            @relation(fields: [userId], references: [id])
+  userId         Int
+  originBank     OriginBank      @relation(fields: [originBankId], references: [id])
+  originBankId   Int
+  destBank       DestinationBank @relation(fields: [destBankId], references: [id])
+  destBankId     Int
+  receipt        String
   lastFourDigits String
+  transferAt     DateTime
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model ProductOnOrder {
@@ -139,13 +142,13 @@ model Category {
 }
 
 model Cart {
-  id          Int             @id @default(autoincrement())
-  products    ProductOnCart[]
-  cartTotal   Float
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  user   User            @relation(fields: [userId], references: [id])
-  userId Int
+  id        Int             @id @default(autoincrement())
+  products  ProductOnCart[]
+  cartTotal Float
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  user      User            @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 model ProductOnCart {
@@ -171,15 +174,15 @@ model Image {
 }
 
 model Dashboard {
-  id             Int           @id @default(autoincrement())
-  title          String
-  description    String?
-  createdBy      User          @relation("AdminDashboards", fields: [createdById], references: [id])
-  createdById    Int
-  reports        Report[]
-  stockRecords   StockRecord[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @default(now())
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String?
+  createdBy    User          @relation("AdminDashboards", fields: [createdById], references: [id])
+  createdById  Int
+  reports      Report[]
+  stockRecords StockRecord[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
 }
 
 model Report {
@@ -196,30 +199,30 @@ model StockRecord {
   id            Int       @id @default(autoincrement())
   product       Product   @relation(fields: [productId], references: [id])
   productId     Int
-  dashboard     Dashboard   @relation(fields: [dashboardId], references: [id])
-  dashboardId     Int
+  dashboard     Dashboard @relation(fields: [dashboardId], references: [id])
+  dashboardId   Int
   quantityAdded Int
   quantitySold  Int
   updatedAt     DateTime  @default(now())
 }
 
 model DestinationBank {
-  id            Int       @id @default(autoincrement())
-  bank          String
-  bankNumber    String
-  name          String
-  branch        String
-  payments      Payment[]
+  id         Int       @id @default(autoincrement())
+  bank       String
+  bankNumber String
+  name       String
+  branch     String
+  payments   Payment[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
 
 model OriginBank {
-  id            Int       @id @default(autoincrement())
-  bank          String
-  payments      Payment[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        Int       @id @default(autoincrement())
+  bank      String
+  payments  Payment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // Enums for roles and statuses

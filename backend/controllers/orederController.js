@@ -1,5 +1,14 @@
 const prisma = require("../configs/prisma");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
+const s3Client = new S3Client({
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY,
+    },
+    region: process.env.AWS_REGION
+});
+const CLOUDFRONT_URL = process.env.CLOUDFRONT_URL;
 
 exports.initOrder = async(req, res) => {
     try {
@@ -63,6 +72,45 @@ exports.getProductOnOrder = async(req, res) => {
         })
         res.send(productOnOrder)
     } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error" });
+    }
+}
 
+exports.uploadReceipt = async(req, res) => {
+    try {
+        const { total, orderId, userId, originBankId, destBankId, lastFourDigits, transferAt } = req.body
+
+        let receiptUrl = null;
+
+        if (req.file) {
+            const uniqueKey = `images/${Date.now()}-${req.file.originalname}`;
+
+            const params = {
+                Bucket: 'sutsouvenir-seniorproject',
+                Key: uniqueKey,
+                Body: req.file.buffer,
+                ContentType: req.file.mimetype,
+                // ACL: 'public-read'
+            };
+            await s3Client.send(new PutObjectCommand(params));
+            receiptUrl = uniqueKey
+        }
+        const upload = await prisma.payment.create({
+            data: {
+                total: Number(total),
+                orderId: Number(orderId),
+                userId: Number(userId),
+                originBankId: Number(originBankId),
+                destBankId: Number(destBankId),
+                lastFourDigits: lastFourDigits,
+                transferAt: new Date(transferAt),
+                receipt: receiptUrl
+            }
+        })
+        res.send(upload)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error", err });
     }
 }

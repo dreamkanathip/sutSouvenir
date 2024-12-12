@@ -17,7 +17,7 @@ ALTER TABLE `payment` DROP COLUMN `amount`,
     ADD COLUMN `total` DOUBLE NOT NULL;
 
 -- AlterTable
-ALTER TABLE `product` DROP COLUMN `sold`;
+-- ALTER TABLE `product` DROP COLUMN `sold`;
 
 -- CreateTable
 CREATE TABLE `DestinationBank` (
