@@ -1,38 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from '../../interfaces/user/user.model';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
-  selector: 'app-user-storage',
-  templateUrl: './user-storage.component.html',
-  styleUrls: ['./user-storage.component.css']
+  selector: 'app-storage',
+  templateUrl: './storage.component.html',
+  styleUrl: './storage.component.css'
 })
-export class UserStorageComponent implements OnInit {
+export class StorageComponent implements OnInit{
 
-  user?: UserModel;
   order: any[] = []
   storage: any[] = [];
 
-  storageOpen: boolean = false
-
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
-    this.getUserData();
+  ngOnInit() {
     this.getUserStorageItem();
-  }
-
-  getUserData() {
-    this.userService.getUserData().subscribe({
-      next: (result: UserModel) => {
-        if (result) {
-          this.user = result;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching user data', err);
-      }
-    });
   }
 
   getUserStorageItem() {
@@ -63,11 +45,4 @@ export class UserStorageComponent implements OnInit {
     });
   }
 
-  openStorage(){
-    this.storageOpen = true
-  }
-
-  openHistory() {
-    this.storageOpen = false
-  }
 }
