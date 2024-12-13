@@ -12,9 +12,10 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/managements', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'favourite', component: FavouriteComponent },
   { path: 'managements', component: ProductManagementComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user', component: UserComponent }
+  { path: 'user', component: UserComponent },
+  { path: 'managements/add', component: AddProductComponent },
 ];
 
 @NgModule({

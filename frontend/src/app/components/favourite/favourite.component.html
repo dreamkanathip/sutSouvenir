@@ -1,40 +1,35 @@
+<!-- favourites.component.html -->
 <app-navbar></app-navbar>
 
-<!DOCTYPE html>
-<html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>รายการโปรด</title>
-    <link rel="stylesheet" href="favourite.component.css" />
-  </head>
-
-  <body>
-    <div class="main-wrapper">
-      <div class="wrapper-left">
-        <div class="container-left">
-          <p>แถบการทำรายการข้างซ้าย</p>
-        </div>
+<div class="body">
+  <div class="main-wrapper">
+    <div class="wrapper-left">
+      <div class="container-left">
+        <p>แถบการทำรายการข้างซ้าย</p>
       </div>
+    </div>
 
-      <div class="wrapper-right">
-        <p class="fav-title">รายการที่ชอบ</p>
-        <div class="container-right">
-          <div class="card-group">
-            <!-- Loop through favouriteItems and display each card -->
-            <div class="card">
-              <img />
-              <div class="card-body">
-                <h5 class="card-title"></h5>
-                <p class="card-text"></p>
-                <button class="btn btn-danger">ลบจากรายการโปรด</button>
-              </div>
+    <div class="wrapper-right">
+      <p class="fav-title">รายการที่ชอบ</p>
+      <div class="container-right">
+        <div class="card-group">
+          <!-- Loop through favouriteItems and display each card -->
+          <div class="card" *ngFor="let item of likedProducts">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">฿{{ item.price }}</p>
+              <button
+                class="btn btn-danger"
+                (click)="removeFromFavourites(item.id)"
+              >
+                ลบจากรายการโปรด
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+</div>
 
 <app-footer></app-footer>

@@ -18,14 +18,12 @@
       <section class="wrapper">
         <div class="container">
           <div class="row">
-            <!-- Sidebar image section -->
-            <aside class="side-image">
-              <!-- Image content can be added via CSS background-image -->
-            </aside>
             <!-- Login form section -->
-            <section class="right">
+            <section class="right full-width">
               <div class="input-box">
-                <header class="header">ล็อคอินผู้ใช้งาน</header>
+                <header class="header" style="color: #f26522">
+                  กรุณาเข้าสู่ระบบ
+                </header>
                 <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
                   <!-- Email field -->
                   <div class="input-field">
@@ -37,7 +35,7 @@
                       required
                       autocomplete="email"
                     />
-                    <label for="login-email">อีเมลล์</label>
+                    <label for="login-email">อีเมล</label>
                   </div>
                   <!-- Password field -->
                   <div class="input-field">
@@ -49,7 +47,7 @@
                       required
                       autocomplete="current-password"
                     />
-                    <label for="login-password">พาสเวิร์ด</label>
+                    <label for="login-password">รหัสผ่าน</label>
                     <i
                       class="fa fa-eye password-toggle"
                       [class.fa-eye-slash]="showPassword"

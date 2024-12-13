@@ -4,6 +4,7 @@ import { Product } from '../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart/cart.service';
+import { FavouriteService } from '../../services/favourite/favourite.service';
 
 @Component({
   selector: 'app-homepage',
@@ -11,7 +12,6 @@ import { CartService } from '../../services/cart/cart.service';
   styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent {
-  addToFav!: any;
   productItems!: Product[];
 
   dataForm = new FormGroup({
@@ -20,8 +20,13 @@ export class HomepageComponent {
     quantity: new FormControl(''),
   });
 
-  constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
-    this.loadProducts()
+  constructor(
+    private homepageService: HomepageService,
+    private favouriteService: FavouriteService,
+    private cartService: CartService,
+    private router: Router
+  ) {
+    this.loadProducts();
   }
 
   loadProducts() {
@@ -34,7 +39,6 @@ export class HomepageComponent {
     this.dataForm.patchValue({
       userId: '1',
       productId: productId,
-      quantity: '1',
     });
 
     const data = {
@@ -47,10 +51,24 @@ export class HomepageComponent {
 
     this.cartService.addItemToCart(data).subscribe((res) => {
       console.log(res);
-      this.loadProducts()
+      this.loadProducts();
     });
   }
+
   goToDetails(itemId: number) {
     this.router.navigate(['/details', itemId]);
+  }
+
+  // ฟังก์ชันสำหรับกดถูกใจสินค้า
+  likeProduct(userId: number, productId: number): void {
+    this.homepageService.likeProduct(userId, productId).subscribe(
+      (response) => {
+        console.log('Product liked successfully', response);
+        this.loadProducts(); // อัพเดตรายการสินค้าที่ถูกกดถูกใจ
+      },
+      (error) => {
+        console.error('Error liking product', error);
+      }
+    );
   }
 }

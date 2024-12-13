@@ -1,9 +1,3 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif; /* ตั้งค่าแบบอักษร */
-  background-color: #ffddbe;
-}
-
 .fav-title {
   font-weight: bold; /* ทำให้ข้อความหนาขึ้น */
   margin: 10px 0; /* เว้นระยะห่างจากขอบด้านบนและด้านล่าง */
@@ -80,4 +74,9 @@ body {
 .card-img-top {
   border-top-left-radius: 8px; /* โค้งมนมุมซ้ายบน */
   border-top-right-radius: 8px; /* โค้งมนมุมขวาบน */
+}
+.body {
+  margin: 0;
+  font-family: Arial, sans-serif; /* ตั้งค่าแบบอักษร */
+  background-color: #ffddbe;
 }

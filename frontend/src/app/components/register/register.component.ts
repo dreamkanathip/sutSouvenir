@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
       })
       .subscribe(
         () => {
-          Swal.fire('ลงทะเบียนสำเร็จ', 'บัญชีของคุรพร้อมใช้งานแล้ว', 'success');
+          Swal.fire('ลงทะเบียนสำเร็จ', 'บัญชีของคุณพร้อมใช้งานแล้ว', 'success');
           this.router.navigate(['/login']); // Redirect to login page on success
         },
         (err) => {
