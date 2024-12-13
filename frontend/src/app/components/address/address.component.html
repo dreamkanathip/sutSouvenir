@@ -1,82 +1,92 @@
 <app-navbar></app-navbar>
-<div class="row mx-auto address-page">
-    <div class="col-md-4">
-        <div class="user-menu">
-            <div class="menu">
-                <h3 class="container-header">บัญชีผู้ใช้</h3>
-                <hr/>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="/user">ข้อมูลส่วนตัว</a>
-                    </li>
-                    <li class="nav-item">
-                        <p>ที่อยู่</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<div class="no-user" *ngIf="!user; else userTemplate">
+    <div class="address-page">
+        <div class="no-user-page text-center">
+            <h3 class="mt-3 text-muted">ไม่พบข้อมูลผู้ใช้งาน</h3>
+            <h5 class="mt-5 text-muted">กรุณาเข้าสู่ระบบ</h5>
+            <button class="no-user-login">เข้าสู่ระบบ</button>
+          </div>
     </div>
-    <div class="col-md-8">
-        <div class="my-address-container">
-            <h3 class="container-header">ที่อยู่ของฉัน</h3>
-            <br/>
-            <div class="address-table border border-bottom-0">
-                <table class="table table-inverse">
-                    <thead class="thead thead-inverse">
-                        <tr>
-                            <th>ชื่อ</th>
-                            <th>ที่อยู่</th>
-                            <th>เบอร์โทรศัพท์</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of allAddress; index as i">
-                            <td>{{item.firstName}} {{item.lastName}}</td>
-                            <td class="address-column">{{item.street}} ตำบล{{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
-                            <td>{{item.phoneNumber}}</td>
-                            <td>
-                                <ng-container *ngIf="item.id === defaultAddress; else setDefault">
-                                    <span>ที่อยู่สำหรับจัดส่ง</span>
-                                </ng-container>
-                                <ng-template #setDefault>
-                                    <div>
-                                        <a (click)="setDefaultAddress(item.id)" class="set-default-link">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
-                                    </div>
-                                </ng-template>
-                            </td>
-                            <td>
-                                <div>
-                                    <a (click)="editAddressNavigate(item.id)" class="edit-btn">แก้ไข</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <a (click)="deleteAddress(item.id)" class="edit-btn">ลบ</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="add-btn">
-                <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
-            </div>
-        </div>
-    </div>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" #toast>
-            <div class="toast-header">
-                <strong class="me-auto">แจ้งเตือน</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                {{ updateMessage }}
-            </div>
-        </div>
-    </div>
-    
 </div>
+<ng-template #userTemplate>
+    <div class="row mx-auto address-page">
+        <div class="col-md-4">
+            <div class="user-menu">
+                <div class="menu">
+                    <h3 class="container-header">บัญชีผู้ใช้</h3>
+                    <hr/>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="/user">ข้อมูลส่วนตัว</a>
+                        </li>
+                        <li class="nav-item">
+                            <p>ที่อยู่</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="my-address-container">
+                <h3 class="container-header">ที่อยู่ของฉัน</h3>
+                <br/>
+                <div class="address-table card shadow-sm">
+                    <table class="table table-sm">
+                        <thead class="thead thead-inverse">
+                            <tr>
+                                <th>ชื่อ</th>
+                                <th>ที่อยู่</th>
+                                <th>เบอร์โทรศัพท์</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of allAddress; index as i">
+                                <td>{{item.firstName}} {{item.lastName}}</td>
+                                <td class="address-column">{{item.street}} ตำบล{{item.subDistrict}} อำเภอ{{item.district}} จังหวัด{{item.province}}</td>
+                                <td>{{item.phoneNumber}}</td>
+                                <td>
+                                    <ng-container *ngIf="item.id === defaultAddress; else setDefault">
+                                        <span>ที่อยู่สำหรับจัดส่ง</span>
+                                    </ng-container>
+                                    <ng-template #setDefault>
+                                        <div>
+                                            <a (click)="setDefaultAddress(item.id)" class="set-default-link">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
+                                        </div>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div>
+                                        <a (click)="editAddressNavigate(item.id)" class="edit-btn">แก้ไข</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <a (click)="deleteAddress(item.id)" class="edit-btn">ลบ</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="add-btn">
+                    <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+                </div>
+            </div>
+        </div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" #toast>
+                <div class="toast-header">
+                    <strong class="me-auto">แจ้งเตือน</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ updateMessage }}
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
 <app-footer></app-footer>

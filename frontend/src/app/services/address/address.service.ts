@@ -22,6 +22,10 @@ export class AddressService {
     return this.http.get<AddressModel>(`${this.apiUrl}/address/${id}`);
   }
 
+  getDefaultAddress(uid: number): Observable<AddressModel> {
+    return this.http.get<AddressModel>(`${this.apiUrl}/address/getDefaultAddr/${uid}`);
+  }
+
   createAddress(address: any, uid: number): Observable<AddressModel[]> {
     return this.http.post<AddressModel[]>(`${this.apiUrl}/address/${uid}`, address)
   }

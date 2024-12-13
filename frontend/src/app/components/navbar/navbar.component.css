@@ -58,7 +58,6 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .user-dropdown {
     text-decoration: none;
-    display: inline-flex; /*มีส่วนทำให้ icon inline with text*/
     align-items: center;
     padding: 10px 15px;
     color: #333;
@@ -87,7 +86,6 @@ input[type="search"]::-webkit-search-cancel-button {
     display: flex; /*มีส่วนทำให้ icon inline with text*/
     align-items: center; /*มีส่วนทำให้ icon inline with text*/
     cursor: pointer;
-    
 }
 .cart {
     display: flex; /*มีส่วนทำให้ icon inline with text*/
@@ -99,4 +97,16 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .cart i{
     font-size: 2rem;
+}
+.badge {
+    font-size: 1rem;
+    top: -1px;
+    right: 9px;
+    background: #F36523;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
 }

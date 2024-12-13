@@ -12,6 +12,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
+import { BankComponent } from './components/bank/bank.component';
 import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 
 const routes: Routes = [
@@ -24,13 +25,14 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'payment', component: PaymentComponent },
+  { path: 'payment/:id', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'favourite', component: FavouriteComponent },
   { path: 'managements', component: ProductManagementComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user', component: UserComponent },
+  { path: 'bank', component: BankComponent },
   { path: 'managements/add', component: AddProductComponent },
 ];
 

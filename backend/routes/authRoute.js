@@ -30,11 +30,11 @@ router.get(
 );
 
 // Route สำหรับดึงข้อมูลผู้ใช้ (เฉพาะ USER)
-router.get(
-  "/user/profile",
-  authenticateToken,
-  authenticateUser,
-  userController.getUser
-);
+// router.get(
+//   "/user/profile",
+//   authenticateToken,
+//   authenticateUser,
+//   userController.getUser
+// );
 
 module.exports = router;

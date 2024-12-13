@@ -1,0 +1,53 @@
+/* Storage Card */
+.card {
+    width: 16rem;
+    margin: 1.5%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+.card:hover {
+    transform: scale(1.05); /* Enlarges the card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
+}
+
+.add-to-fav {
+    margin-top: 1rem;
+    text-align: end;
+    color: #636363;
+    cursor: pointer;
+}
+.card-img-top {
+    padding: 5%;
+}
+.title {
+    text-align: center;
+    height: 3.5rem;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5%;
+}
+.price {
+    text-align: center;
+    height: 2rem;
+    color: #F36523;
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 5%;
+}
+
+.main-btn {
+    background-color: #F36523;
+    color: #fff;
+    margin-bottom: 3%;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+.main-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+/* End of Storage Card */

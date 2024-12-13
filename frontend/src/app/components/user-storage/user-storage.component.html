@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+<div class="user-page">
+    <div class="user-storage" *ngIf="user; else noUserTemplate">
+        <div class="storage-history" *ngIf="storage; else noStorageTemplate">
+            <nav id="navbar" class="navbar bg-body-tertiary px-3 mb-3">
+                <ul class="nav">
+                    <li class="nav-item storage-nav">
+                        <a class="nav-link" (click)="openStorage()">รายการสินค้าของคุณ</a>
+                    </li>
+                    <li class="nav-item storage-nav">
+                        <a class="nav-link" (click)="openHistory()">ประวัติการสั่งซื้อ</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Storage / History -->
+            <div class="storage" *ngIf="storageOpen else historyTemplate">
+                <app-storage></app-storage>
+            </div>
+            <ng-template #historyTemplate class="history">
+                <app-history></app-history>
+            </ng-template>
+        </div>
+        <ng-template #noStorageTemplate>
+            <div class="no-storage-page text-center">
+                <h3 class="mt-3 text-muted">ไม่พบประวัติสินค้า</h3>
+                <button class="no-user-login">สั่งซื้อสินค้า</button>
+              </div>
+        </ng-template>
+    </div>
+</div>
+<ng-template #noUserTemplate>
+    <div class="no-user-page text-center">
+      <h3 class="mt-3 text-muted">ไม่พบข้อมูลผู้ใช้งาน</h3>
+      <h5 class="mt-5 text-muted">กรุณาเข้าสู่ระบบ</h5>
+      <button class="no-user-login">เข้าสู่ระบบ</button>
+    </div>
+</ng-template>
+
+<app-footer></app-footer>

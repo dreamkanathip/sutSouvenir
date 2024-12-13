@@ -1,73 +1,53 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
-import { CartService } from '../../services/cart/cart.service';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
-import { Carts } from '../../interfaces/carts/carts';
-import { CartComponent } from '../cart/cart.component';
+import { Component, OnInit} from '@angular/core';
+import { OrderService } from '../../services/order/order.service';
+import { ProductOnOrder } from '../../interfaces/order/product-on-order';
+import { ActivatedRoute } from '@angular/router';
+import { AddressModel } from '../../interfaces/address/address.model';
+import { AddressService } from '../../services/address/address.service';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit{
-
-  @ViewChild(CartComponent) cartComponent!: CartComponent;
   
-  dataForm = new FormGroup({
-    userID: new FormControl(''),
-    productId: new FormControl(''),
-    quantity: new FormControl('')
-  })
-
-  productOnCart!: ProductOnCart[];
-  cart!: Carts
-  selectAll: boolean = false;
+  productOnOrder!: ProductOnOrder[];
   sumItemPrice: number = 0;
-
-  constructor(private cartService: CartService) {
-    this.getSelectedProductOnCart()
+  defaultAddress?: AddressModel
+  constructor(
+    private orderService: OrderService, 
+    private activatedRoute: ActivatedRoute,
+    private addressService: AddressService
+  ) {  
   }
 
   ngOnInit(): void {
-    this.getProductOnCart(1)
-    this.getCartById(1)
-  }
+    const routeParams = this.activatedRoute.snapshot.paramMap;
+    const id = Number(routeParams.get('id'));
+    this.getProductOnOrder(id);
 
-  getProductOnCart(userId: any) {
-    this.cartService.getProductOnCart(userId).subscribe((res) => {
-      this.productOnCart = res.map((item: any) => ({...item, selected: false}))
+    this.getDefaultAddress()
+  }
+  getDefaultAddress() {
+    this.addressService.getDefaultAddress(1).subscribe(res => {
+      this.defaultAddress = res
     })
   }
-  getCartById(userId: any) {
-    this.cartService.getCartById(userId).subscribe((res) => {
-      this.cart = res
-    })
+  defaultAddressChanged() {
+    this.getDefaultAddress()
   }
-  individualSelect(productId: any) {
-    const item = this.productOnCart.find((i) => i.productId === productId)
-    if(item) {
-      item.selected = !item.selected
-      this.calculateSumItemPrice()
-    }
+  getProductOnOrder(id: any): void {
+    console.log(id)
+    this.orderService.getProductOnOrderById(id).subscribe({
+      next: (res) => {
+        this.productOnOrder = res;
+        this.sumItemPrice = res.reduce((sum, item) => sum + item.price, 0)
+      },
+      error: (err) => {
+        console.error('Failed to fetch products:', err);
+      }
+    });
   }
-  checkIndividualSelect() {
-    this.selectAll = this.productOnCart.every((i) => i.selected);
-  }
-
-  calculateSumItemPrice(){
-    const selectedItem = this.productOnCart.filter((i) => i.selected === true)
-    if(selectedItem){
-      this.sumItemPrice = selectedItem.reduce((acc, curr) => acc + curr.price, 0)
-    } 
-  }
-
-  updateTotalPrice(): void {
-    this.sumItemPrice = this.productOnCart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  }
-
-  getSelectedProductOnCart() {
-    const selectedItem = this.cartComponent.productOnCart.filter((i) => i.selected === true)
-    this.productOnCart = selectedItem
-  }
+  
 }

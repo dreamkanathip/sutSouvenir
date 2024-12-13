@@ -1,10 +1,18 @@
 .address-page {
     display: flex;
     align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    justify-content: center;
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
-    max-width: 1920px;
+    overflow: auto;
+    scrollbar-width: none;
+    width: 1920px;
+    max-width: 100%;
+    height: 694px;
+    /* max-height: 100%; */
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
 }
 
 .address-page > [class^="col-"] {
@@ -19,12 +27,13 @@
     max-width: 450px;
     background-color: white;
     margin-top: 90px;
-    margin-left: 25%;
+    margin-left: 20%;
     border-radius: 10px
 }
 
 .nav-item {
-    color:#333
+    color:#333;
+    padding: 10px;
 }
 
 .my-address-container {
@@ -48,6 +57,8 @@
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-collapse: collapse;
 }
 
 .table th,
@@ -140,4 +151,35 @@
 
 .btn-close:hover {
     filter: invert(0.8);
+}
+
+.no-user-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+    text-align: center;
+    background-color: #FFDDBE;
+}
+
+.no-user-login {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    width: 150px;
+    height: 50px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.no-user-login:hover {
+    transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเมื่อ hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* เงาเมื่อ hover */
 }

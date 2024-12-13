@@ -77,6 +77,21 @@ exports.read = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+exports.getDefaultAddress = async(req, res) => {
+  try {
+    const { uid } = req.params;
+    const address = await prisma.address.findFirst({
+      where: {
+        userId: Number(uid),
+        default: true
+      },
+    });
+    res.send(address);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 
 exports.remove = async (req, res) => {
   try {
@@ -175,7 +190,7 @@ exports.defaultAddress = async (req, res) => {
         default: isDefault,
       },
     });
-    res.status(200).json("Default Address update success");
+    res.status(200).json({message: "Default Address update success", setDefault});
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });

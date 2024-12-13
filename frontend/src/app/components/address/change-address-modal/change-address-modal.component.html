@@ -1,0 +1,46 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-inverse">
+                <thead class="thead thead-inverse">
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>ที่อยู่</th>
+                        <th>รหัสไปรษณีย์</th>
+                        <th>หมายเลขโทรศัพท์</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allAddress; index as i">
+                        <td>{{item.firstName}} {{item.lastName}}</td>
+                        <td>
+                            {{item.street}} {{item.subDistrict}}
+                            {{item.district}} {{item.province}}
+                        </td>
+                        <td>{{item.postalCode}}</td>
+                        <td>{{item.phoneNumber}}</td>
+                        <td>
+                            <ng-container *ngIf="item.default === true; else setDefault">
+                                <span>ที่อยู่สำหรับจัดส่ง</span>
+                            </ng-container>
+                            <ng-template #setDefault>
+                                <div>
+                                    <a (click)="toDefaultAddress(item)"
+                                        class="set-default-link">ตั้งค่าเป็นที่อยู่จัดส่ง</a>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

@@ -48,3 +48,33 @@ input[type="checkbox"] {
 .delete :hover {
     cursor: pointer;
 }
+.name, .change-address, .address, .price-summary, .shipping-cost {
+    font-size: 20px;
+}
+.change-address {
+    cursor: pointer;
+}
+.summary-sum-price {
+    font-size: 42px;
+    font-weight: bold;
+    color: #F36523;
+}
+.checkbox, .price, .sum-price, .quantity, .delete {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 20px;
+}
+.item-title {
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+.btn-primary {
+    background-color: gray;
+    border: none;
+}

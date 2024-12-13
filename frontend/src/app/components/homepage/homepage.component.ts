@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart/cart.service';
 import { FavouriteService } from '../../services/favourite/favourite.service';
+import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-homepage',
@@ -13,12 +14,7 @@ import { FavouriteService } from '../../services/favourite/favourite.service';
 })
 export class HomepageComponent {
   productItems!: Product[];
-
-  dataForm = new FormGroup({
-    userId: new FormControl(''),
-    productId: new FormControl(''),
-    quantity: new FormControl(''),
-  });
+  userId: number = 1;
 
   constructor(
     private homepageService: HomepageService,
@@ -42,9 +38,9 @@ export class HomepageComponent {
     });
 
     const data = {
-      userId: this.dataForm.get('userId')?.value ?? '',
-      productId: this.dataForm.get('productId')?.value ?? '',
-      quantity: this.dataForm.get('quantity')?.value ?? '',
+      userId: this.userId,
+      productId: item.id,
+      quantity: '1',
     };
 
     console.log('Data to send:', data);

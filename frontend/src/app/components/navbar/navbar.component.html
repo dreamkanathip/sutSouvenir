@@ -2,7 +2,7 @@
   <div class="container container-fluid">
     <a class="navbar-brand" href="#">
       <img
-        src="assets/SUT-Logo.png"
+        src="assets/logo.jpg"
         class="logo d-inline-block align-text-top"
       />
     </a>
@@ -23,7 +23,7 @@
           <input
             class="me-2 search-input"
             type="search"
-            placeholder="Search"
+            placeholder="ค้นหา"
             aria-label="Search"
           />
           <button class="search-btn" type="submit">
@@ -38,7 +38,12 @@
       </div>
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
-          <span class="cart"><i class="bx bx-cart-alt"></i></span>
+          <i class="bx bx-cart-alt"></i>
+          <div class="badge position-relative translate-middle" 
+            [ngStyle]="{ visibility: cartItemCount === 0 ? 'hidden' : 'visible' }"
+            >
+            {{ cartItemCount }}
+          </div>
         </a>
       </div>
       <div class="vr"></div>
@@ -56,13 +61,12 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
+              <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
+              <a class="dropdown-item" href="/user/storage">ประวัติการสั่งซื้อ</a>
               <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
               <a routerLink="/login" (click)="logout()" class="dropdown-item"
                 >Logout</a
               >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
             </li>
           </ul>
         </li>

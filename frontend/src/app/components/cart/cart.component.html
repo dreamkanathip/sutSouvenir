@@ -1,16 +1,34 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
-    <div class="col-8">
+    <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate">
       <div class="card shadow-sm card-body">
-        <div class="row">
-          <div class="col-1 checkbox">
-            <input class="select-items" type="checkbox" value="" id="flexCheckChecked"
-              (change)="toggleSelectAll()" [checked]="selectAll"  
-            >
+          <div class="d-flex justify-content-between checkbox ms-4 me-4">
+            <input class="select-items me-2" type="checkbox" value="" id="flexCheckChecked"
+              (change)="toggleSelectAll()" (change)="calculateSelectedQuantity()" [checked]="selectAll">
+              <label for="flexCheckChecked" class="mb-0 select-items-label">เลือกทั้งหมด ({{selectedQuantity}} รายการ)</label>
+            <div class="delete ms-auto" (click)="removeAllProductOnCart()">
+              <i class='bx bx-trash me-1'></i><a>ลบทั้งหมด</a>
+            </div>
           </div>
         </div>
-      </div>
+        <!-- <div class="card shadow-sm card-body">
+          <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-3 item-title"> ชื่อสินค้า
+            </div>
+            <div class="col-1 price"> ราคา/หน่วย</div>
+            <div class="col-3 quantity"> 
+              จำนวน
+            </div>
+            <div class="col-1 sum-price">ราคารวม</div>
+            <div class="col-1 delete">             
+            </div>
+          </div>
+        </div> -->
       <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
         <div class="card-body">
           <div class="row">
@@ -19,27 +37,32 @@
                 [checked]="item.selected"
                 (change)="individualSelect(item.productId)"
                 (change)="checkIndividualSelect()"
+                (change)="calculateSelectedQuantity()"
               >
             </div>
             <div class="col-2">
               <img src="assets/SUT-Logo.png" class="card-img">
             </div>
-            <div class="col-3 item-title">{{ item.product.title }}</div>
-            <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
-            <div class="col-1 quantity d-flex align-items-center">
+            <div class="col-3 item-title">
+              <span class="product-title">{{ item.product.title }}</span>
+              <span class="product-quantity">จำนวนที่มี: {{ item.product.quantity }}</span>
+            </div>
+            <div class="col-1 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-3 quantity d-flex align-items-center">
               <button (click)="decreaseQuantity(item)" class="btn btn-outline-secondary btn-sm">-</button>
-                <span class="mx-2">{{ item.quantity }}</span>
+              <input type="input" [(ngModel)]="item.quantity" class="form-control mx-2 text-center quantity-input"
+              [min]="1" [max]="item.quantity" />
               <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
             </div>
-            <div class="col-2 sum-price">{{ (item.product.price*item.quantity).toLocaleString('en', {useGrouping:true}) }}</div>
+            <div class="col-1 sum-price">{{ (item.product.price*item.quantity).toLocaleString('en', {useGrouping:true}) }}</div>
             <div class="col-1 delete">
-              <i class='bx bx-trash' (click)="removeProductOnCart(item.productId)"></i>
+              <i class='bx bx-trash' (click)="removeItem(item.productId)"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-4" *ngIf="productOnCart && productOnCart.length > 0">
       <div class="card shadow-sm">
         <div class="card-body">
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
@@ -56,13 +79,19 @@
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>
-          <button type="submit" class="main-btn w-100" [routerLink]="['/payment']">
+          <button type="submit" (click)="goToPayment()" class="main-btn w-100">
             ชำระเงิน
           </button>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+<ng-template #emptyCartTemplate>
+  <div class="containter text-center mt-5">
+    <img src="assets/no-cart.png" alt="No Items in Cart" class="no-cart-img">
+    <h3 class="mt-3 text-muted">ไม่มีสินค้าในรถเข็นของคุณ</h3>
+    <button class="no-cart-shopping mt-5" (click)="toHome()">เลือกซื้อสินค้าเลย</button>
+  </div>
+</ng-template>
 <app-footer></app-footer>
