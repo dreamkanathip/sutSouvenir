@@ -1,8 +1,7 @@
-<app-navbar></app-navbar>
 <div class="container">
   <div class="row row-cols-1 row-cols-md-3 g-8">
     <div class="card col" *ngFor="let item of productItems; index as i">
-      <form [formGroup]="dataForm" (ngSubmit)="addItemToCart(item.id)">
+      <!-- <form [formGroup]="dataForm" (ngSubmit)="addItemToCart(item.id)">
         <div class="add-to-fav">
           <i class="bx bx-heart bx-sm" (click)="likeProduct(1, item.id)"> </i>
         </div>
@@ -17,7 +16,7 @@
         <div class="form-group">
           <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>
         </div>
-      </form>
+      </form> -->
     </div>
   </div>
 </div>

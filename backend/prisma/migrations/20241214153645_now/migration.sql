@@ -88,10 +88,15 @@ CREATE TABLE `Order` (
 -- CreateTable
 CREATE TABLE `Payment` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `amount` DOUBLE NOT NULL,
+    `total` DOUBLE NOT NULL,
     `status` ENUM('PENDING', 'COMPLETED', 'FAILED') NOT NULL DEFAULT 'PENDING',
     `orderId` INTEGER NOT NULL,
     `userId` INTEGER NOT NULL,
+    `originBankId` INTEGER NOT NULL,
+    `destBankId` INTEGER NOT NULL,
+    `receipt` VARCHAR(191) NOT NULL,
+    `lastFourDigits` VARCHAR(191) NOT NULL,
+    `transferAt` DATETIME(3) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -192,6 +197,29 @@ CREATE TABLE `StockRecord` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `DestinationBank` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `bank` VARCHAR(191) NOT NULL,
+    `bankNumber` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `branch` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `OriginBank` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `bank` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Address` ADD CONSTRAINT `Address_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -218,6 +246,12 @@ ALTER TABLE `Payment` ADD CONSTRAINT `Payment_orderId_fkey` FOREIGN KEY (`orderI
 
 -- AddForeignKey
 ALTER TABLE `Payment` ADD CONSTRAINT `Payment_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Payment` ADD CONSTRAINT `Payment_originBankId_fkey` FOREIGN KEY (`originBankId`) REFERENCES `OriginBank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Payment` ADD CONSTRAINT `Payment_destBankId_fkey` FOREIGN KEY (`destBankId`) REFERENCES `DestinationBank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProductOnOrder` ADD CONSTRAINT `ProductOnOrder_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

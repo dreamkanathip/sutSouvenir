@@ -11,7 +11,12 @@ import Swal from 'sweetalert2';
 })
 export class AddProductComponent implements OnInit {
   form!: FormGroup;
-  products!: []; // ตัวแปรเก็บข้อมูลสินค้าที่กรอก
+  products!: {
+    title: string;
+    quantity: number;
+    price: number;
+    description: string;
+  }[];
   constructor(
     private fb: FormBuilder,
     private productManagementService: ProductManagementService,

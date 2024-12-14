@@ -31,28 +31,43 @@ export class HomepageComponent {
     });
   }
 
-  addItemToCart(productId: any) {
-    this.dataForm.patchValue({
-      userId: '1',
-      productId: productId,
-    });
-
+  addItemToCart(item: Product) {
     const data = {
       userId: this.userId,
       productId: item.id,
       quantity: '1',
     };
 
-    console.log('Data to send:', data);
-
-    this.cartService.addItemToCart(data).subscribe((res) => {
-      console.log(res);
-      this.loadProducts();
-    });
+    this.cartService
+      .getCartById(this.userId)
+      .pipe(
+        switchMap((checkCart) => {
+          if (!checkCart) {
+            return this.cartService
+              .initialCart({ userId: this.userId, cartTotal: 0 })
+              .pipe(switchMap(() => this.cartService.addItemToCart(data)));
+          }
+          return this.cartService.addItemToCart(data);
+        }),
+        catchError((err) => {
+          console.error('Error during add to cart:', err);
+          return of(null); // Handle errors gracefully
+        })
+      )
+      .subscribe((response) => {
+        if (response) {
+          const product = this.productItems.find((i) => i.id === item.id);
+          if (product && product.quantity > 0) {
+            product.quantity -= 1; // Update quantity only on success
+          }
+          this.cartService.updateCartItemCount(this.userId);
+          console.log('Item added to cart:', response);
+        }
+      });
   }
 
-  goToDetails(itemId: number) {
-    this.router.navigate(['/details', itemId]);
+  goToDetails(item: any) {
+    this.router.navigate(['/details', item.id]);
   }
 
   // ฟังก์ชันสำหรับกดถูกใจสินค้า
