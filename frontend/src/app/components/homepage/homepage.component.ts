@@ -4,7 +4,6 @@ import { Product } from '../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart/cart.service';
-import { FavouriteService } from '../../services/favourite/favourite.service';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
 @Component({
@@ -13,12 +12,12 @@ import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
   styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent {
+  addToFav!: any;
   productItems!: Product[];
   userId: number = 1;
 
   constructor(
     private homepageService: HomepageService,
-    private favouriteService: FavouriteService,
     private cartService: CartService,
     private router: Router
   ) {
@@ -68,18 +67,5 @@ export class HomepageComponent {
 
   goToDetails(item: any) {
     this.router.navigate(['/details', item.id]);
-  }
-
-  // ฟังก์ชันสำหรับกดถูกใจสินค้า
-  likeProduct(userId: number, productId: number): void {
-    this.homepageService.likeProduct(userId, productId).subscribe(
-      (response) => {
-        console.log('Product liked successfully', response);
-        this.loadProducts(); // อัพเดตรายการสินค้าที่ถูกกดถูกใจ
-      },
-      (error) => {
-        console.error('Error liking product', error);
-      }
-    );
   }
 }
