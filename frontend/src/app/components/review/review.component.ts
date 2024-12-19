@@ -6,6 +6,8 @@ import { UserModel } from '../../interfaces/user/user.model';
 import { Product } from '../../interfaces/products/products.model';
 import { ReviewModel } from '../../interfaces/review/review.model';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-review',
@@ -14,18 +16,24 @@ import { ProductDetailsService } from '../../services/product-details/product-de
 })
 export class ReviewComponent implements OnInit {
 
-  user?: UserModel
+  user: UserModel = { id: 0 }; 
 
   review?: ReviewModel
 
   product?: Product
 
+  productId: number = 0
+
+  editStatus: boolean = false
+  editReview: number = 0
+
   rating: number = 0; // คะแนนที่ผู้ใช้เลือก
   stars: number[] = [0, 1, 2, 3, 4]; // ดาวทั้งหมด (5 ดาว)
 
-  comment?: string
+  comment?: string = ""
 
   constructor (
+    private router: Router,
     private route: ActivatedRoute,
     private userService: UserService, 
     private reviewService: ReviewService,
@@ -34,11 +42,10 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    const productIdFromRoute = Number(routeParams.get('id'));
+    this.productId = Number(routeParams.get('id'));
     this.getUserData()
-    this.getProductData(productIdFromRoute)
+    this.getProductData(this.productId)
     this.getReviewData()
-    console.log(this.product)
   }
 
   getUserData() {
@@ -66,9 +73,13 @@ export class ReviewComponent implements OnInit {
   }
 
   getReviewData() {
-    this.reviewService.getReview(1, 1).subscribe({
+    this.reviewService.getReview(this.productId, this.user.id).subscribe({
       next: (result: ReviewModel) => {
         this.review = result
+        this.rating = result.star
+        this.comment = result.comment
+        this.editStatus = true
+        this.editReview = result.id
       },
       error: (err) => {
         console.log('Error fetching review data', err);
@@ -86,4 +97,89 @@ export class ReviewComponent implements OnInit {
     this.rating = rating;
   }
 
+  formReset(){
+    this.rating = 0
+    this.comment = ""
+  }
+
+  onSubmit() {
+    if (this.user?.id && this.productId) { // ตรวจสอบว่า userId และ productId มีค่า
+      this.review = {
+        id: this.editReview,
+        star: this.rating,
+        comment: this.comment,
+        userId: this.user.id,
+        productId: this.productId
+      };
+  
+      // เขียนรีวิวใหม่
+      if (!this.editStatus) {
+        Swal.fire({
+          title: "ต้องการบันทึกรีวิวหรือไม่?",
+          showCancelButton: true,
+          confirmButtonText: "บันทึก",
+          cancelButtonText: "ยกเลิก",
+          icon: "warning",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "กำลังบันทึกข้อมูล...",
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            });
+            this.reviewService
+              .createReview(this.productId, this.user.id, this.review)
+              .subscribe({
+                next: () => {
+                  Swal.fire("บันทึกรีวิวเรียบร้อยแล้ว");
+                  this.formReset()
+                  this.router.navigate(['/details', this.productId]);
+                },
+                error: (err) => {
+                  Swal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกรีวิวได้ในขณะนี้");
+                  console.error("Error creating review:", err);
+                },
+              });
+          }
+        });
+      } 
+      // แก้ไขรีวิว
+      else {
+        Swal.fire({
+          title: "ต้องการบันทึกการแก้ไขหรือไม่?",
+          showCancelButton: true,
+          confirmButtonText: "บันทึก",
+          cancelButtonText: "ยกเลิก",
+          icon: "warning",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "กำลังบันทึกข้อมูล...",
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            });
+          }
+          this.reviewService.updateReview(this.productId, this.user.id, this.review)
+          .subscribe({
+            next:() => {
+              Swal.fire("บันทึกการแก้ไขรีวิวเรียบร้อยแล้ว");
+              this.formReset()
+              this.router.navigate(['/details', this.productId]);
+            },
+            error: (err) => {
+              Swal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกการแก้ไขได้ในขณะนี้");
+              console.error("Error creating review:", err);
+            },
+          })
+        });
+      }
+    } else {
+      console.warn("User ID หรือ Product ID ไม่พร้อมใช้งาน");
+    }
+  }
+  
 }

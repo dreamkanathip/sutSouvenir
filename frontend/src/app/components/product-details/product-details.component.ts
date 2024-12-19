@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../interfaces/products/products.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
 import { catchError, of, switchMap } from 'rxjs';
 import { CartService } from '../../services/cart/cart.service';
+import { ReviewService } from '../../services/review/review.service';
+import { ReviewModel } from '../../interfaces/review/review.model';
 
 @Component({
   selector: 'app-product-details',
@@ -16,8 +18,12 @@ export class ProductDetailsComponent implements OnInit {
   quantityToOrder: number = 1;
   userId: number = 1;
 
+  reviews: ReviewModel[] = []
+
   constructor(
+    private reviewService: ReviewService,
     private productDetails: ProductDetailsService,
+    private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
   ) {}
@@ -26,12 +32,19 @@ export class ProductDetailsComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     const productIdFromRoute = Number(routeParams.get('id'));
     this.getProductById(productIdFromRoute);
+    this.listProductReview(productIdFromRoute)
   }
 
   getProductById(id: number) {
     this.productDetails.getProductById(id).subscribe((result) => {
       this.product = result;
     });
+  }
+
+  listProductReview(id: number){
+    this.reviewService.listReview(id).subscribe((result) => {
+      this.reviews = result
+    })
   }
 
   decreaseQuantity() {
@@ -76,5 +89,9 @@ export class ProductDetailsComponent implements OnInit {
           console.log('Item added to cart:', response);
         }
       });
+  }
+
+  NavigateToReview(id: any){
+    this.router.navigate(['/review', id])
   }
 }
