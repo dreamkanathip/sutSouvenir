@@ -1,5 +1,5 @@
 const express = require('express')
-const { uploadReceipt } = require('../controllers/orederController')
+const { uploadReceipt, getPayment } = require('../controllers/orederController')
 const router = express.Router()
 const multer = require('multer');
 
@@ -9,5 +9,6 @@ const upload = multer({ storage });
 
 
 router.post("/payment",upload.single("receipt"), uploadReceipt)
+router.get("/payment", getPayment)
 
 module.exports = router

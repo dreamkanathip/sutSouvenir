@@ -40,9 +40,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 .checkbox, .price, .sum-price, .quantity, .delete {
-    align-items: center;
-    justify-content: center;
-    display: flex;
+
     font-size: 20px;
 }
 .item-title {
@@ -60,6 +58,17 @@ input[type="checkbox"] {
 }
 .quantity-input {
     width: 60px;
+}
+.table-cart tr td {
+    padding: 1rem 1.75rem;
+}
+.quantity-input {
+  width: 3rem; /* Set a fixed width for the input box */
+  text-align: center; /* Center the input text */
+  font-size: 20px;
+}
+.quantity-col {
+    display:inline-flex;
 }
 .sum-price {
     color: #F36523;
@@ -81,4 +90,18 @@ input[type="checkbox"] {
 }
 .no-cart-img {
     max-width: 200px;
+}
+.summary {
+    font-size: 22px;
+}
+.summary h2 {
+    font-weight: bold;
+}
+.summary-sum-price {
+    font-size: 40px;
+    font-weight: bold;
+    color: #F36523;
+}
+th {
+    font-size: 20px;
 }
