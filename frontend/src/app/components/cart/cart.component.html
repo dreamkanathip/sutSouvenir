@@ -1,35 +1,77 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
+    <!-- <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate"> -->
+
     <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate">
-      <div class="card shadow-sm card-body">
-          <div class="d-flex justify-content-between checkbox ms-4 me-4">
-            <input class="select-items me-2" type="checkbox" value="" id="flexCheckChecked"
-              (change)="toggleSelectAll()" (change)="calculateSelectedQuantity()" [checked]="selectAll">
-              <label for="flexCheckChecked" class="mb-0 select-items-label">เลือกทั้งหมด ({{selectedQuantity}} รายการ)</label>
-            <div class="delete ms-auto" (click)="removeAllProductOnCart()">
-              <i class='bx bx-trash me-1'></i><a>ลบทั้งหมด</a>
-            </div>
+      <div class="card p-2">
+        <div class="d-flex justify-content-between align-items-center checkbox ms-3 me-3">
+          <input class="select-items me-2" type="checkbox" value="" id="flexCheckChecked" (change)="toggleSelectAll()"
+            (change)="calculateSelectedQuantity()" [checked]="selectAll">
+          <label for="flexCheckChecked" class="mb-0 select-items-label">เลือกทั้งหมด ({{selectedQuantity}}
+            รายการ)</label>
+          <div class="delete ms-auto" (click)="removeAllProductOnCart()">
+            <i class='bx bx-trash me-1'></i><a>ลบทั้งหมด</a>
           </div>
         </div>
-        <!-- <div class="card shadow-sm card-body">
-          <div class="row">
-            <div class="col-1">
-            </div>
-            <div class="col-2">
-            </div>
-            <div class="col-3 item-title"> ชื่อสินค้า
-            </div>
-            <div class="col-1 price"> ราคา/หน่วย</div>
-            <div class="col-3 quantity"> 
-              จำนวน
-            </div>
-            <div class="col-1 sum-price">ราคารวม</div>
-            <div class="col-1 delete">             
-            </div>
-          </div>
-        </div> -->
-      <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
+      </div>
+      <div class="card">
+        <table class="table table-sm align-middle table-cart">
+          <thead class="thead-light">
+            <tr>
+              <th class="text-center"></th>
+              <th class="text-center"></th>
+              <th class="text-center">ชื่อสินค้า</th>
+              <th class="text-center">ราคา</th>
+              <th class="text-center">จำนวน</th>
+              <th class="text-center">ราคารวม</th>
+              <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of productOnCart; index as i">
+              <td class="text-center checkbox">
+                <input class="select-items" type="checkbox" id="flexCheckChecked" [checked]="item.selected"
+                  (change)="individualSelect(item.productId)" (change)="checkIndividualSelect()"
+                  (change)="calculateSelectedQuantity()">
+              </td>
+
+              <td class="text-center">
+                <img src="assets/SUT-Logo.png" class="img-fluid" style="max-height: 50px;">
+              </td>
+
+              <td class="item-title">
+                <span class="product-title d-block">{{ item.product.title }}</span>
+                <span class="product-quantity text-muted">จำนวนที่มี: {{ item.product.quantity }}</span>
+              </td>
+
+              <td class="text-center price">
+                {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}
+              </td>
+
+              <td class="text-center quantity">
+                <div class="d-flex align-items-center justify-content-center">
+                  <button (click)="decreaseQuantity(item)" class="btn btn-outline-secondary btn-sm">-</button>
+                  <input type="input" [(ngModel)]="item.quantity" class="form-control mx-2 text-center quantity-input"
+                    [min]="1" [max]="item.quantity" style="width: 60px;" />
+                  <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
+                </div>
+              </td>
+
+              <td class="text-center sum-price">
+                {{ (item.product.price * item.quantity).toLocaleString('en', {useGrouping:true}) }}
+              </td>
+
+              <td class="text-center delete">
+                <i class="bx bx-trash" (click)="removeItem(item.productId)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
         <div class="card-body">
           <div class="row">
             <div class="col-1 checkbox">
@@ -61,9 +103,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="col-4" *ngIf="productOnCart && productOnCart.length > 0">
-      <div class="card shadow-sm">
+      <div class="card shadow-sm summary">
         <div class="card-body">
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
           <div *ngIf="cart" class="d-flex justify-content-between">
@@ -75,7 +117,7 @@
             <p>50</p>
           </div>
           <hr class="mt-1 mb-1" />
-          <div *ngIf="cart" class="d-flex justify-content-between">
+          <div *ngIf="cart" class="d-flex justify-content-between summary-sum-price">
             <p>รวมทั้งสิ้น</p>
             {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
           </div>

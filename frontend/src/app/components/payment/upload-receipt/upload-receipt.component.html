@@ -31,43 +31,47 @@
         </div>
         <!-- <input type="date"  [(ngModel)]="date"> -->
       </div>
-      <div class="receipt m-2">
-        อัพโหลดหลักฐาน:
-        <label class="btn btn-primary upload-btn" for="menu-image">
-          เลือกไฟล์:
-        </label>
-        <input type="file" class="form-control-file" id="menu-image" appImage />
-      </div>
-      <div class="row ">
-        <div class="col-md-6">
-          ธนาคารต้นทาง:
-          <!-- <input type="text" class="origin-bank"> -->
-          <select id="origin-bank" name="origin-bank" class="origin-bank">
-            <option *ngFor="let bank of originBank" >{{ bank.bank }}</option>
-          </select>
+      <form [formGroup]="paymentForm">
+        <div class="receipt d-flex align-items-center m-2">
+          อัพโหลดหลักฐาน:
+          <label class="btn btn-primary upload-btn m-1" for="menu-image">
+            เลือกไฟล์:
+          </label>
+          <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImage /> 
+          <div *ngIf="selectedFile"> {{selectedFile.name}}</div>
+          
         </div>
-        <div class="col-md-6">
-          ธนาคารปลายทาง:
-          <!-- <input type="text" class="destination-bank"> -->
-          <select id="destination-bank" name="destination-bank" class="destination-bank">
-            <option *ngFor="let bank of destBank" >{{ bank.bank }}</option>
-          </select>
+        <div class="row ">
+          <div class="col-md-6">
+            ธนาคารต้นทาง:
+            <!-- <input type="text" class="origin-bank"> -->
+            <select id="origin-bank" name="origin-bank" class="origin-bank" formControlName="originBankId">
+              <option *ngFor="let bank of originBank" [value]="bank.id">{{ bank.bank }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            ธนาคารปลายทาง:
+            <!-- <input type="text" class="destination-bank"> -->
+            <select id="destination-bank" name="destination-bank" class="destination-bank" formControlName="destBankId">
+              <option *ngFor="let bank of destBank" [value]="bank.id">{{ bank.bank }}</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          จำนวนเงิน:
-          <input type="text" value="{{sumItemPrice}}" class="total-text">
+        <div class="row">
+          <div class="col-md-6">
+            จำนวนเงิน:
+            <input type="text" [value]="sumItemPrice" class="total-text" formControlName="total">
+          </div>
+          <div class="col-md-6">
+            4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:
+            <input type="text" class="four-digits" formControlName="lastFourDigits">
+          </div>
         </div>
-        <div class="col-md-6">
-          4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:
-          <input type="text" class="four-digits">
-        </div>
-      </div>
+      </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="secondary-btn" data-bs-dismiss="modal">ยกเลิก</button>
-      <button type="button" class="main-btn">ยืนยัน</button>
+      <button type="button" class="main-btn" (click)="upload()">ยืนยัน</button>
     </div>
   </div>
 </div>
