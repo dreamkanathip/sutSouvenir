@@ -40,6 +40,7 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
 import { StorageComponent } from './components/user-storage/storage/storage.component';
 import { HistoryComponent } from './components/user-storage/history/history.component';
 import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { ReviewComponent } from './components/review/review.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { AddProductComponent } from './components/product-management/add-product
     StorageComponent,
     HistoryComponent,
     AddProductComponent,
+    ReviewComponent,
   ],
   imports: [
     BrowserModule,

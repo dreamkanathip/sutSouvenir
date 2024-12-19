@@ -1,4 +1,10 @@
 /* Storage Card */
+.row {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
 .card {
     width: 16rem;
     margin: 1.5%;

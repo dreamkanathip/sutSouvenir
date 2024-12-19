@@ -1,0 +1,21 @@
+.container {
+    margin-top: 10%;
+    margin-bottom: 3%;
+    font-family: 'SUT', sans-serif;
+}
+
+.stars {
+    display: flex;
+}
+  
+.stars .fa {
+    font-size: 2rem;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #ffd700; /* สีทอง */
+}
+  
+.stars .fa-star-o {
+    color: #ccc; /* สีเทาสำหรับดาวที่ยังไม่ได้เลือก */
+}
+  

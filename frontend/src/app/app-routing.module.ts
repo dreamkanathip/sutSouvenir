@@ -14,6 +14,8 @@ import { ProductManagementComponent } from './components/product-management/prod
 import { UserComponent } from './components/user/user.component';
 import { BankComponent } from './components/bank/bank.component';
 import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { UserStorageComponent } from './components/user-storage/user-storage.component';
+import { ReviewComponent } from './components/review/review.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/managements', pathMatch: 'full' },
@@ -34,6 +36,8 @@ const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'bank', component: BankComponent },
   { path: 'managements/add', component: AddProductComponent },
+  { path: 'user/storage', component: UserStorageComponent },
+  { path: 'review/:id', component: ReviewComponent },
 ];
 
 @NgModule({

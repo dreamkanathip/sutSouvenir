@@ -6,7 +6,7 @@ const authenticateToken = async (req, res, next) => {
   // const token = req.cookies["jwt"];
 
   // Fix Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczMzg5NzAyOSwiZXhwIjoxNzMzOTgzNDI5fQ.xRpxv4y9ptHh-osE1ADBES54LkASCYkIiSIxOidUvoY"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczNDU4MzAzOCwiZXhwIjoxNzM0NjY5NDM4fQ.0g28x6OFoB-HdqqhRWQS5-Q21b9M_bJR3nVYb-juCqU"
   
   if (!token) {
     return res
