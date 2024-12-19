@@ -1,0 +1,81 @@
+.container {
+    margin-top: 10%;
+    margin-bottom: 3%;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+}
+
+.img-container{
+    width: 29rem;
+    height: auto;
+    aspect-ratio: auto;
+    justify-content: center;
+    align-items: center;
+}
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 10%;
+    display: block;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+h2 {
+    font-weight: 500;
+}
+
+.title {
+    height: 3.5rem;
+}
+
+.stars {
+    display: flex;
+}
+  
+.stars .fa {
+    font-size: 2rem;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #ffd700; /* สีทอง */
+}
+  
+.stars .fa-star-o {
+    color: #ccc; /* สีเทาสำหรับดาวที่ยังไม่ได้เลือก */
+}
+
+.review-comment {
+    justify-content: flex-start;
+    max-width: 450px;
+    overflow-x: hidden; /* ปิดการเลื่อนในแนวนอน */
+    word-wrap: break-word; /* รองรับการตัดคำ */
+    white-space: pre-wrap; /* รองรับการเว้นวรรคและขึ้นบรรทัดใหม่ */
+    resize: vertical; /* อนุญาตให้ผู้ใช้ปรับความสูงของช่อง */
+    padding: 10px; /* เพิ่มช่องว่างภายใน */
+    font-size: 16px; /* ขนาดตัวอักษร */
+}
+
+
+.form-submit-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.main-btn {
+    width: 75px;
+    max-width: 100%;
+    padding: 10px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+
+.main-btn:hover, .edit-modal-btn:hover {
+    background-color: #d9531e; /* สี hover */
+    cursor: pointer;
+}

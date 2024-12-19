@@ -74,3 +74,53 @@ h1 {
     cursor: pointer;
     font-size: 28px;
 }
+
+/* review */
+
+.hr {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+.review-container {
+    margin-top: 20px;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: 400px;
+}
+  
+.stars {
+    color: #f5c518; /* สีเหลือง */
+    margin-bottom: 10px;
+}
+  
+.stars .fa {
+    margin-right: 5px;
+}
+
+.review-edit {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.review-btn {
+    width: 75px;
+    max-width: 100%;
+    padding: 10px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+
+.review-btn:hover {
+    background-color: #d9531e; /* สี hover */
+    cursor: pointer;
+}

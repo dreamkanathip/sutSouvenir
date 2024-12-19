@@ -10,7 +10,6 @@ const {
   remove,
   getDefaultAddress,
 } = require("../controllers/addressController");
-const { route } = require("./cartRoute");
 
 // @ENDPOINT http://localhost:5000/api/address
 router.post("/address/:uid", create);

@@ -33,6 +33,27 @@
       <!-- <h2 class="review">รีวิว</h2> -->
       <button type="button" class="main-btn mt-5" (click)="addItemToCart()">เพิ่มในรถเข็น</button>
     </div>
+    <hr />
+    <!-- Section รีวิว -->
+    <h2 *ngIf="reviews">รีวิว</h2>
+    <div class="review-container" *ngIf="reviews">
+      <div class="review-card" *ngFor="let review of reviews">
+        <div class="stars">
+          <i
+            class="fa"
+            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+            [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
+          ></i>
+        </div>
+        <div>{{review.user?.firstName}} : {{ review.comment }}</div>
+        <div class="review-edit" *ngIf="review.userId == userId">
+          <button class="review-btn" (click)="NavigateToReview(review.productId)">แก้ไขรีวิว</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!reviews">
+      <p>ยังไม่มีรีวิวสำหรับสินค้านี้</p>
+    </div>
   </div>
 </div>
 
