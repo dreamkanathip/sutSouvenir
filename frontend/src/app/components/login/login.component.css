@@ -17,10 +17,14 @@ body {
   min-height: 100vh;
 }
 .header {
-  position: relative;
-  top: -20px; /* ขยับขึ้นไปข้างบน */
-  font-size: 20px;
-  margin-left: 6px;
+  display: flex; /* ใช้ Flexbox */
+  justify-content: center; /* จัดให้อยู่กลางในแนวนอน */
+  align-items: flex-start; /* จัดให้อยู่บนสุดในแนวตั้ง */
+  font-size: 19px;
+  margin-top: 60px; /* เพิ่มระยะห่างจากขอบด้านบน */
+  text-align: center; /* จัดข้อความให้อยู่กลาง */
+  height: auto; /* ปรับความสูงอัตโนมัติตามเนื้อหา */
+  padding: 5px; /* เพิ่มพื้นที่ภายในเพื่อให้ดูสมดุล */
 }
 
 .ext-box {
@@ -39,7 +43,7 @@ section span {
 }
 /* สำหรับ .wrapper ให้อยู่ตรงกลางและกำหนดขนาดที่แน่นอน */
 .wrapper {
-  width: 8000px;
+  width: 800px;
   padding: 0;
 }
 
@@ -70,8 +74,8 @@ section span {
   left: 30px;
 }
 .row {
-  width: 500px;
-  height: 550px;
+  width: 380px;
+  height: 400px;
   border-radius: 10px;
   background: #fff;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
@@ -100,6 +104,7 @@ i {
 .input-box {
   width: 330px;
   box-sizing: border-box;
+  margin-bottom: 70px;
 }
 
 .input-box-header {
@@ -214,4 +219,7 @@ span a:hover {
 }
 .password-toggle:hover {
   color: #333; /* เปลี่ยนสีเมื่อ hover */
+}
+form {
+  margin-top: 45px;
 }

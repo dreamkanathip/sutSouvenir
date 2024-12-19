@@ -1,9 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDatepickerModule} from '@angular/material/datepicker';
-import { MatInputModule} from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import { NativeDateAdapter} from '@angular/material/core';
+import { NativeDateAdapter } from '@angular/material/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -39,6 +39,7 @@ import { UpdateComponent } from './components/bank/update/update.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { StorageComponent } from './components/user-storage/storage/storage.component';
 import { HistoryComponent } from './components/user-storage/history/history.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { HistoryComponent } from './components/user-storage/history/history.comp
     UpdateComponent,
     UserStorageComponent,
     StorageComponent,
-    HistoryComponent
+    HistoryComponent,
+    AddProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,12 +79,12 @@ import { HistoryComponent } from './components/user-storage/history/history.comp
     MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
   ],
   providers: [
-    provideClientHydration(), 
+    provideClientHydration(),
     provideHttpClient(withFetch()),
-    NativeDateAdapter
+    NativeDateAdapter,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],

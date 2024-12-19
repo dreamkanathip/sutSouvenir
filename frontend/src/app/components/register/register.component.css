@@ -16,7 +16,7 @@ body {
 }
 .header {
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 19px;
   margin-left: 6px;
 }
 .ext-box {
@@ -43,9 +43,9 @@ body {
 }
 
 .side-image {
-  background-image: url("../../../assets/logo.jpg");
+  background-image: url("../../../assets/sunshine-2250.gif");
   background-position: center;
-  background-size: auto; /* ให้แสดงในขนาดจริง */
+  background-size: cover; /* ให้แสดงในขนาดจริง */
   background-repeat: no-repeat;
   position: relative;
   border-radius: 10px 0 0 10px; /* เพิ่มเฉพาะมุมของฝั่งรูปภาพ */

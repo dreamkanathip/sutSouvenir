@@ -11,7 +11,9 @@
           <div class="col-md-6 right">
             <div>
               <div class="input-box">
-                <header class="header">สมัครบัญชีผู้ใช้งาน</header>
+                <header class="header" style="color: #f26522">
+                  สมัครบัญชีผู้ใช้งาน
+                </header>
                 <form [formGroup]="form" (ngSubmit)="submit()">
                   <div class="input-field">
                     <input
@@ -43,7 +45,7 @@
                       required
                       autocomplete="off"
                     />
-                    <label for="registerPage-email">อีเมลล์</label>
+                    <label for="registerPage-email">อีเมล</label>
                     <div *ngIf="form.get('email')?.hasError('invalidDomain')">
                       <span class="error">
                         สามารถลงท้ายได้แค่ gmail.com, hotmail.com, hotmail.co.th

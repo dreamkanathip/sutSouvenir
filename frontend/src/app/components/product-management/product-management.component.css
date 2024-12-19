@@ -1,140 +1,14 @@
 * {
   font-family: url("../../../assets/fonts/SUT-Light.otf");
 }
-
-.body {
-  background-image: url("../../../assets/bgtemp-login-regis.jpg");
-  background-size: cover; /* ทำให้ภาพพื้นหลังขยายเต็มพื้นที่ */
-  background-position: center; /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */
-  background-repeat: no-repeat; /* ป้องกันการทำซ้ำของภาพพื้นหลัง */
-  overflow: hidden;
-}
-
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.header {
-  margin-bottom: 20px;
-  font-size: 20px;
-  margin-left: 6px;
-}
-
-.ext-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.wrapper {
-  width: 500px; /* ลดขนาดให้เหมาะสมกับ ProductManagement */
-  padding: 0;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.row {
-  width: 900px;
-  height: 550px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-.side-image {
-  background-image: url("../../../assets/logo.jpg");
-  background-position: center;
-  background-size: auto;
-  background-repeat: no-repeat;
-  border-radius: 10px 0 0 10px;
-  margin: 0;
-}
-
-.img {
-  width: 35px;
-  position: absolute;
-  top: 30px;
-  left: 30px;
-}
-
-.right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.input-box {
-  width: 330px;
-  box-sizing: border-box;
-}
-
-.input-box-header {
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-.input-field {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 0 10px;
-  margin-bottom: 20px;
-}
-
-.input {
-  height: 45px;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  outline: none;
-  color: #40414a;
-  box-sizing: border-box;
-}
-
-.input-box .input-field label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  pointer-events: none;
-  transition: 0.5s;
-  color: #aaa;
-}
-
-.input-field .input:focus ~ label,
-.input-field .input:valid ~ label {
-  top: -10px;
-  font-size: 13px;
-  color: #5d5076;
-}
-
-.input-field .input:focus,
-.input-field .input {
-  border-bottom: 1px solid #f26522;
-}
-
 .submit {
-  width: 100%;
+  width: 10%;
   height: 45px;
   background: #ececec;
   border: none;
   border-radius: 5px;
   transition: 0.4s;
+  font-size: 15px;
 }
 
 .submit:hover {
@@ -142,41 +16,142 @@
   color: #fff;
 }
 
-.signin {
+.body {
+  background-image: url("../../../assets/bgtemp-login-regis.jpg");
+}
+/* ปรับระยะห่างระหว่าง navbar กับตาราง */
+.table-container {
+  display: flex;
+  justify-content: center; /* จัดให้อยู่ตรงกลาง */
+  overflow-x: auto;
+  margin-top: 50px;
+  padding-top: 70px; /* ระยะความสูงของ navbar */
+}
+
+/* ตัวอย่างการปรับแต่งเพิ่มเติม */
+.table th,
+.table td {
+  text-align: center; /* จัดข้อความกึ่งกลาง */
+  vertical-align: middle; /* จัดให้อยู่กลางเซลล์ */
+  height: 50px; /* กำหนดความสูงแถวให้คงที่ */
+}
+.table td {
+  padding: 12px; /* เพิ่มระยะห่างระหว่างข้อความ */
+}
+/* สไตล์ของปุ่มในตาราง */
+.table .btn {
+  width: 30%; /* ปรับขนาดความกว้างของปุ่ม */
+  height: 45px; /* ปรับขนาดความสูงของปุ่ม */
+  background: #ececec; /* เปลี่ยนพื้นหลังเป็นสีเทา */
+  border: none; /* ลบเส้นขอบ */
+  border-radius: 5px; /* มุมโค้ง */
+  transition: 0.4s; /* เพิ่มการเปลี่ยนแปลงเมื่อ hover */
+  font-size: 14px; /* ขนาดตัวอักษร */
+  margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+/* ปุ่มที่มี class .btn-danger (ปุ่มลบ) */
+.table .btn-danger {
+  background: #f66a6a; /* สีพื้นหลังปุ่มลบ */
+}
+
+.table .btn-danger:hover {
+  background: rgb(246, 74, 74); /* สีแดงเข้มเมื่อ hover */
+  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
+}
+
+/* ปุ่มที่มี class .btn-warning (ปุ่มแก้ไข) */
+.table .btn-warning {
+  background: #f0ad4e; /* สีพื้นหลังปุ่มแก้ไข */
+}
+
+.table .btn-warning:hover {
+  background: rgb(240, 173, 78); /* สีเมื่อ hover */
+  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
+}
+
+.card {
+  width: 90%; /* กำหนดความกว้างของ Card */
+  border-radius: 10px; /* มุมโค้ง */
+  overflow: hidden; /* ซ่อนส่วนที่เกิน */
+  background-color: #ffffff; /* สีพื้นหลัง */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* แสงเงา */
+}
+
+.card-header {
+  background-color: #f8f9fa; /* สีหัว Card */
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.table {
+  margin-bottom: 0; /* ตัดระยะห่างด้านล่างของตาราง */
+}
+
+.pagination-controls button {
+  background: #ececec; /* พื้นหลังเหมือนปุ่ม submit */
+  border: none; /* ลบเส้นขอบ */
+  border-radius: 5px; /* มุมโค้ง */
+  padding: 10px 20px; /* ขนาดปุ่ม */
+  font-size: 14px; /* ขนาดตัวอักษร */
+  transition: 0.4s; /* เพิ่มการเปลี่ยนแปลงเมื่อ hover */
+}
+
+.pagination-controls button:hover {
+  background: #f26522; /* สีพื้นหลังเมื่อ hover */
+  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
+}
+
+/* เพิ่มการจัดเรียงปุ่มให้ตรงกลาง */
+.pagination-controls {
+  margin-top: 20px;
   text-align: center;
-  font-size: small;
-  margin-top: 25px;
 }
 
-span a {
-  text-decoration: none;
-  font-weight: 700;
-  color: #000;
-  transition: 0.5s;
+.pagination-controls button {
+  margin: 0 10px; /* ระยะห่างระหว่างปุ่ม */
+  font-size: 14px;
+}
+/* CSS สำหรับ modal หรือ card ที่ทับตาราง */
+.edit-card {
+  position: fixed; /* ใช้ fixed เพื่อให้มันติดอยู่บนหน้าจอ */
+  top: 55%; /* ตั้งตำแหน่งให้กลางจอ */
+  left: 50%;
+  transform: translate(-50%, -50%); /* ทำให้ card อยู่กลางจอ */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1050; /* ตั้ง z-index ให้สูงกว่าเนื้อหาอื่นๆ */
+  display: none; /* ซ่อนเอาไว้ก่อน */
+  max-width: 1000px; /* กำหนดความกว้างสูงสุด */
+  width: 100%; /* กำหนดให้เต็มความกว้าง */
 }
 
-span a:hover {
-  text-decoration: underline;
-  color: #000;
+/* เพิ่ม class เมื่อแสดงผล */
+.edit-card.show {
+  display: block;
+  width: 80%; /* ปรับให้การ์ดมีความกว้างที่ 80% ของหน้าจอ */
 }
 
-@media only screen and (max-width: 768px) {
-  .side-image {
-    border-radius: 10px 10px 0 0;
-  }
-  img {
-    width: 35px;
-    position: absolute;
-    left: 47%;
-  }
-  .text {
-    position: absolute;
-    top: 70%;
-    text-align: center;
-  }
+/* เพิ่ม dark background เมื่อ modal แสดง */
+body.modal-open {
+  overflow: hidden;
+}
 
-  .row {
-    max-width: 420px;
-    width: 100%;
-  }
+body.modal-open::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
 }

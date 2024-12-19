@@ -38,11 +38,7 @@ export class LoginComponent implements OnInit {
     if (user.email == '' || user.password == '') {
       Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรอกข้อมูลให้ครบถ้วน', 'error'); // แก้ข้อความเป็นภาษาไทย
     } else if (!this.ValidateEmail(user.email)) {
-      Swal.fire(
-        'ไม่สามารถเข้าสู่ระบบได้',
-        'กรุณากรอกอีเมลล์ให้ถูกต้อง',
-        'error'
-      ); // แก้ข้อความเป็นภาษาไทย
+      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error'); // แก้ข้อความเป็นภาษาไทย
     } else {
       this.http
         .post('http://localhost:5000/api/login', user, {
@@ -56,7 +52,7 @@ export class LoginComponent implements OnInit {
           (err) => {
             Swal.fire(
               'ไม่สามารถเข้าสู่ระบบได้',
-              'อีเมลล์ หรือ รหัสผ่านไม่ถูกต้อง',
+              'อีเมล หรือ รหัสผ่านไม่ถูกต้อง',
               'error'
             ); // แสดงข้อความว่า "รหัสผ่านผิด"
           }

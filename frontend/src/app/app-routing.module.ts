@@ -12,11 +12,11 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditAddressComponent } from './components/address/edit-address/edit-address.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserComponent } from './components/user/user.component';
-import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { BankComponent } from './components/bank/bank.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/managements', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -32,8 +32,8 @@ const routes: Routes = [
   { path: 'managements', component: ProductManagementComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user', component: UserComponent },
-  { path: 'user/storage', component: UserStorageComponent},
-  { path: 'bank', component: BankComponent}
+  { path: 'bank', component: BankComponent },
+  { path: 'managements/add', component: AddProductComponent },
 ];
 
 @NgModule({

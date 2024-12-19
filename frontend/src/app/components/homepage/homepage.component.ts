@@ -16,8 +16,12 @@ export class HomepageComponent {
   productItems!: Product[];
   userId: number = 1;
 
-  constructor(private homepageService: HomepageService, private cartService: CartService, private router: Router) {
-    this.loadProducts()
+  constructor(
+    private homepageService: HomepageService,
+    private cartService: CartService,
+    private router: Router
+  ) {
+    this.loadProducts();
   }
 
   loadProducts() {
@@ -33,14 +37,16 @@ export class HomepageComponent {
       quantity: '1',
     };
 
-    this.cartService.getCartById(this.userId).pipe(
-      switchMap((checkCart) => {
-        if (!checkCart) {
-          return this.cartService.initialCart({ userId: this.userId, cartTotal: 0 }).pipe(
-            switchMap(() => this.cartService.addItemToCart(data))
-          );
-        }
-        return this.cartService.addItemToCart(data);
+    this.cartService
+      .getCartById(this.userId)
+      .pipe(
+        switchMap((checkCart) => {
+          if (!checkCart) {
+            return this.cartService
+              .initialCart({ userId: this.userId, cartTotal: 0 })
+              .pipe(switchMap(() => this.cartService.addItemToCart(data)));
+          }
+          return this.cartService.addItemToCart(data);
         }),
         catchError((err) => {
           console.error('Error during add to cart:', err);
@@ -53,12 +59,12 @@ export class HomepageComponent {
           if (product && product.quantity > 0) {
             product.quantity -= 1; // Update quantity only on success
           }
-          this.cartService.updateCartItemCount(this.userId)
+          this.cartService.updateCartItemCount(this.userId);
           console.log('Item added to cart:', response);
         }
       });
   }
-  
+
   goToDetails(item: any) {
     this.router.navigate(['/details', item.id]);
   }

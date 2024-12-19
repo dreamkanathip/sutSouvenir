@@ -26,9 +26,9 @@ model User {
   carts      Cart[]
   dashboards Dashboard[] @relation("AdminDashboards")
   payments   Payment[]
-  bookmarks  Bookmark[]
-  addresses  Address[] // New relation to Address model
-  reviews    Review[] // New relation to Review model
+  favourites  Favourite[]
+  addresses  Address[]   // New relation to Address model
+  reviews    Review[]    // New relation to Review model
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -67,17 +67,19 @@ model Product {
   categoryId   Int?
   status       ProductStatus    @default(AVAILABLE)
   stockRecords StockRecord[]
-  bookmarks    Bookmark[] // New relation to Bookmark model
-  reviews      Review[] // New relation to Review model
+  favourites    Favourite[]       // New relation to Bookmark model
+  reviews      Review[]         // New relation to Review model
 }
 
-model Bookmark {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Favourite {
+  id        Int    @id @default(autoincrement())
   userId    Int
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
-  createdAt DateTime @default(now())
+  user      User   @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
+  createdAt  DateTime @default(now())
 }
 
 model Review {
