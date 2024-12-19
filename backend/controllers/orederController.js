@@ -10,7 +10,7 @@ const s3Client = new S3Client({
 });
 const CLOUDFRONT_URL = process.env.CLOUDFRONT_URL;
 
-exports.initOrder = async(req, res) => {
+exports.initOrder = async (req, res) => {
     try {
         const { userId, cartTotal } = req.body;
 
@@ -28,27 +28,27 @@ exports.initOrder = async(req, res) => {
 }
 
 // add product on order
-exports.addOrderDetail = async(req, res) => {
+exports.addOrderDetail = async (req, res) => {
     try {
         const { orderId, productId, quantity, total } = req.body
 
         const addOrderDetail = await prisma.productOnOrder.create({
-                data: {
-                    productId: Number(productId),
-                    orderId: Number(orderId),
-                    count: Number(quantity),
-                    price: Number(total)
-                }
-            })
+            data: {
+                productId: Number(productId),
+                orderId: Number(orderId),
+                count: Number(quantity),
+                price: Number(total)
+            }
+        })
 
         const updateOrderTotalPrice = await prisma.order.update({
-                where: {
-                    id: Number(orderId)
-                },
-                data: {
-                    cartTotal: { increment: Number(total) }
-                }
-            })
+            where: {
+                id: Number(orderId)
+            },
+            data: {
+                cartTotal: { increment: Number(total) }
+            }
+        })
         res.json({
             addOrderDetail, updateOrderTotalPrice
         })
@@ -58,7 +58,7 @@ exports.addOrderDetail = async(req, res) => {
     }
 }
 
-exports.getProductOnOrder = async(req, res) => {
+exports.getProductOnOrder = async (req, res) => {
     try {
         const { id } = req.params
 
@@ -77,7 +77,7 @@ exports.getProductOnOrder = async(req, res) => {
     }
 }
 
-exports.uploadReceipt = async(req, res) => {
+exports.uploadReceipt = async (req, res) => {
     try {
         const { total, orderId, userId, originBankId, destBankId, lastFourDigits, transferAt } = req.body
 
@@ -95,20 +95,33 @@ exports.uploadReceipt = async(req, res) => {
             };
             await s3Client.send(new PutObjectCommand(params));
             receiptUrl = uniqueKey
+        } else {
+            throw new Error("No file")
         }
         const upload = await prisma.payment.create({
             data: {
                 total: Number(total),
-                orderId: Number(orderId),
                 userId: Number(userId),
+                orderId: Number(orderId),
                 originBankId: Number(originBankId),
                 destBankId: Number(destBankId),
                 lastFourDigits: lastFourDigits,
                 transferAt: new Date(transferAt),
-                receipt: receiptUrl
+                receipt: receiptUrl,
             }
         })
+
         res.send(upload)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error", err });
+    }
+}
+
+exports.getPayment = async(req, res) => {
+    try {
+        const payment = await prisma.payment.findMany()
+        res.send(payment)
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Server error", err });
