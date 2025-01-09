@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart/cart.service';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
+import { ReviewService } from '../../services/review/review.service';
 
 @Component({
   selector: 'app-homepage',
@@ -16,12 +17,16 @@ export class HomepageComponent {
   productItems!: Product[];
   userId: number = 1;
 
+  productRating!: any[]
+
   constructor(
     private homepageService: HomepageService,
     private cartService: CartService,
+    private reviewService: ReviewService,
     private router: Router
   ) {
     this.loadProducts();
+    this.loadRatings();
   }
 
   loadProducts() {
@@ -30,6 +35,37 @@ export class HomepageComponent {
     });
   }
 
+  loadRatings() {
+    this.reviewService.listRating().subscribe((result) => {
+      this.productRating = result
+    })
+  }
+
+  getProductRating(productId: number): number {
+    if (!this.productRating || this.productRating.length === 0) {
+      return 0;
+    }
+  
+    const ratingData = this.productRating.find((item) => item.id === productId);
+    return ratingData ? ratingData.averageRating : 0;
+  }
+
+  roundRating(rating: number): number {
+    return Math.floor(rating);
+  }
+  
+  isHalfStar(rating: number, index: number): boolean {
+    return index === Math.floor(rating) && rating % 1 >= 0.5;
+  }
+  
+  fullStars(rating: number, index: number): boolean {
+    return index < Math.floor(rating);
+  }
+  
+  emptyStars(rating: number, index: number): boolean {
+    return index >= Math.ceil(rating);
+  }
+  
   addItemToCart(item: Product) {
     const data = {
       userId: this.userId,

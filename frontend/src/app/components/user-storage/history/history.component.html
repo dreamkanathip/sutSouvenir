@@ -50,6 +50,9 @@
                   </tr>
             </tbody>
           </table>
+          <div class="cancel-order" *ngIf="checkCancel(selectedHistoryDetail.orderStatus)">
+            <button class="cancel-btn" (click)="submitCancel(selectedHistoryDetail)">ยกเลิกคำสั่งซื้อ</button>
+          </div>
         </div>
       </div>
     </div>

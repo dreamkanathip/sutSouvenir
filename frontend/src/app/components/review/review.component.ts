@@ -45,7 +45,7 @@ export class ReviewComponent implements OnInit {
     this.productId = Number(routeParams.get('id'));
     this.getUserData()
     this.getProductData(this.productId)
-    this.getReviewData()
+    // this.getReviewData()
   }
 
   getUserData() {
@@ -72,26 +72,26 @@ export class ReviewComponent implements OnInit {
     })
   }
 
-  getReviewData() {
-    this.reviewService.getReview(this.productId, this.user.id).subscribe({
-      next: (result: ReviewModel) => {
-        this.review = result
-        this.rating = result.star
-        this.comment = result.comment
-        this.editStatus = true
-        this.editReview = result.id
-      },
-      error: (err) => {
-        console.log('Error fetching review data', err);
-      }
-    })
+  // getReviewData() {
+  //   this.reviewService.getReview(this.productId, this.user.id).subscribe({
+  //     next: (result: ReviewModel) => {
+  //       this.review = result
+  //       this.rating = result.star
+  //       this.comment = result.comment
+  //       this.editStatus = true
+  //       this.editReview = result.id
+  //     },
+  //     error: (err) => {
+  //       console.log('Error fetching review data', err);
+  //     }
+  //   })
 
-    //
-    // const editedReview = this.reviewService.getEditedReview()
-    // if (editedReview) {
-    //   this.review = editedReview
-    // }
-  }
+  //   //
+  //   // const editedReview = this.reviewService.getEditedReview()
+  //   // if (editedReview) {
+  //   //   this.review = editedReview
+  //   // }
+  // }
 
   setRating(rating: number) {
     this.rating = rating;
@@ -111,11 +111,9 @@ export class ReviewComponent implements OnInit {
         userId: this.user.id,
         productId: this.productId
       };
-  
-      // เขียนรีวิวใหม่
-      if (!this.editStatus) {
         Swal.fire({
           title: "ต้องการบันทึกรีวิวหรือไม่?",
+          text: "รีวิวเก่าของคุณจะยังคงอยู่และสามารถมองเห็นได้โดยผู้อื่น",
           showCancelButton: true,
           confirmButtonText: "บันทึก",
           cancelButtonText: "ยกเลิก",
@@ -144,40 +142,14 @@ export class ReviewComponent implements OnInit {
               });
           }
         });
-      } 
-      // แก้ไขรีวิว
-      else {
-        Swal.fire({
-          title: "ต้องการบันทึกการแก้ไขหรือไม่?",
-          showCancelButton: true,
-          confirmButtonText: "บันทึก",
-          cancelButtonText: "ยกเลิก",
-          icon: "warning",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "กำลังบันทึกข้อมูล...",
-              allowOutsideClick: false,
-              didOpen: () => {
-                Swal.showLoading();
-              },
-            });
-          }
-          this.reviewService.updateReview(this.productId, this.user.id, this.review)
-          .subscribe({
-            next:() => {
-              Swal.fire("บันทึกการแก้ไขรีวิวเรียบร้อยแล้ว");
-              this.formReset()
-              this.router.navigate(['/details', this.productId]);
-            },
-            error: (err) => {
-              Swal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกการแก้ไขได้ในขณะนี้");
-              console.error("Error creating review:", err);
-            },
-          })
-        });
-      }
     } else {
+      Swal.fire({
+        title: "ขออภัย เกิดข้อผิดพลาด",
+        allowOutsideClick: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       console.warn("User ID หรือ Product ID ไม่พร้อมใช้งาน");
     }
   }

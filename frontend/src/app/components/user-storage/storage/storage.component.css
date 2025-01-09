@@ -42,7 +42,7 @@
     margin-bottom: 5%;
 }
 
-.main-btn {
+.main-btn, .review-btn {
     background-color: #F36523;
     color: #fff;
     margin-bottom: 3%;
@@ -57,3 +57,29 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 /* End of Storage Card */
+
+/* Review Modal */
+
+.review-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: 400px;
+}
+  
+.stars {
+    color: #f5c518; /* สีเหลือง */
+    margin-bottom: 10px;
+}
+  
+.stars .fa {
+    margin-right: 5px;
+}
+
+/* No Review */
+
+.no-review {
+    text-align: center;
+    padding-bottom: 10px;
+}

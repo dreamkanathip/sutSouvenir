@@ -45,36 +45,53 @@ exports.createReview = async (req, res) => {
 }
 
 exports.listReview = async (req, res) => {
-    try {
-      const { pid } = req.params;
-      const reviews = await prisma.review.findMany({
-        where: {
-          productId: Number(pid),
-        },
-        include: {
-          user: true
-        },
-        orderBy: { createdAt: "desc" },
-      });
-      res.send(reviews);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: "Server error" });
+  try {
+    const { pid } = req.params;
+
+    const productId = Number(pid);
+    if (isNaN(productId)) {
+      return res.status(400).json({ message: "Invalid product ID" });
     }
+
+    const reviews = await prisma.review.findMany({
+      where: {
+        productId: productId,
+      },
+      include: {
+        user: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const filteredReviews = reviews.map((review) => {
+      if (review.user) {
+        const { password, ...filteredUser } = review.user; // ลบ password ออกจาก user
+        review.user = filteredUser;
+      }
+      return review;
+    });
+
+    res.status(200).json({
+      reviews: filteredReviews,
+    });
+
+  } catch (err) {
+    console.error("Error in listReview:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
-exports.getReview = async (req, res) => {
+exports.getUserReview = async (req, res) => {
     try {
-        const { uid, pid } = req.params;
-        const review = await prisma.review.findFirst({
+        const userId = req.user.id;
+        const review = await prisma.review.findMany({
             where: {
-                userId: Number(uid),
-                productId: Number(pid)
-            }
+                userId: Number(userId),
+            },
+            include: {
+              product: true,
+            },
         })
-        if (!review) {
-            return res.status(404).json({ message: "No Review Found" })
-        }
         res.send(review)
     } catch (err) {
         console.log(err);
@@ -135,3 +152,41 @@ exports.updateReview = async (req, res) => {
     res.status(500).json({ message: "Server error occurred while updating review" });
   }
 };
+
+exports.listProductRating = async (req, res) => {
+  try {
+    const ratings = await prisma.product.findMany({
+      select: {
+        id: true,
+        title: true,
+        reviews: {
+          select: {
+            userId: true,
+            star: true,
+            createdAt: true,
+          },
+          orderBy: {
+            createdAt: "desc", // เลือกรีวิวล่าสุดของแต่ละ user
+          },
+          distinct: ["userId"], // ใช้คะแนนล่าสุดจาก user แต่ละคน
+        },
+      },
+    });
+
+    const productRatings = ratings.map((product) => {
+      const totalStars = product.reviews.reduce((sum, review) => sum + review.star, 0);
+      const averageRating = product.reviews.length > 0 ? totalStars / product.reviews.length : 0;
+      return {
+        id: product.id,
+        title: product.title,
+        averageRating: parseFloat(averageRating.toFixed(1)), // ทศนิยม 1 ตำแหน่ง
+      };
+    });
+
+    res.status(200).json(productRatings);
+  } catch (err) {
+    console.error("Error in listProductRating:", err);
+    res.status(500).json({ message: "Server error occurred while listing Review Rating" });
+  }
+};
+
