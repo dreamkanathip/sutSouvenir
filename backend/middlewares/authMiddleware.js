@@ -5,8 +5,8 @@ const prisma = require("../configs/prisma");
 const authenticateToken = async (req, res, next) => {
   // const token = req.cookies["jwt"];
 
-  // Fix Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczNDA3Mjk4NCwiZXhwIjoxNzM0MTU5Mzg0fQ.fJgB6os1vzeLr4RG0iEh2Kh9PUjdkdkq2QAIxxQ5PZI"
+  // Fixed Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczNjMyMjQxOCwiZXhwIjoxNzM2NDA4ODE4fQ.sVs-ogLpBQmpa6JPAjf-BcJ51x0IgvBtBmsL7gAVLeE"
   
   if (!token) {
     return res

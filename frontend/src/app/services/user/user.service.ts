@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
+import { userOrder } from '../../interfaces/order/order';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class UserService {
     return this.http.patch<any>(`${this.apiUrl}/user/password`, password, { withCredentials: true });
   }
 
-  getUserStorage(): Observable<any> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/storage`)
+  getUserStorage(): Observable<userOrder> {
+    return this.http.get<any>(`${this.apiUrl}/user/storage`)
   }
 }

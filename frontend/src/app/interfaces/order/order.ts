@@ -5,3 +5,7 @@ export interface Order {
     // createdAt:    Date,         
     // updatedAt:    Date,        
 }
+
+export interface userOrder {
+    orders: Order[]
+}

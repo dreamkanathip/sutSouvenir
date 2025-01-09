@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ReviewModel } from '../../interfaces/review/review.model';
+import { ReviewModel, ReviewResponse } from '../../interfaces/review/review.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,12 @@ export class ReviewService {
 
   editedReview: any
 
-  listReview(pid: number): Observable<ReviewModel[]> {
-    return this.http.get<ReviewModel[]>(`${this.apiUrl}/review/${pid}`)
+  listReview(pid: number): Observable<ReviewResponse> {
+    return this.http.get<any>(`${this.apiUrl}/review/${pid}`)
   }
 
-  getReview(pid: number, uid: number): Observable<ReviewModel> {
-    return this.http.get<ReviewModel>(`${this.apiUrl}/review/${pid}/${uid}`) 
+  getUserReview(): Observable<ReviewModel[]> {
+    return this.http.get<ReviewModel[]>(`${this.apiUrl}/userReview/`) 
   }
 
   createReview(pid: number, uid: number, review: any): Observable<ReviewModel> {
@@ -30,8 +30,12 @@ export class ReviewService {
     return this.http.put<ReviewModel>(`${this.apiUrl}/review/${pid}/${uid}`, review) 
   }
 
-  deleteAddress(rid: number): Observable<ReviewModel> {
+  deleteReview(rid: number): Observable<ReviewModel> {
     return this.http.delete<ReviewModel>(`${this.apiUrl}/review/${rid}`);
+  }
+
+  listRating(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/productRating`)
   }
 
   getEditedReview(){

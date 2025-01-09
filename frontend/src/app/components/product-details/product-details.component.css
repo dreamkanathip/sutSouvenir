@@ -77,11 +77,25 @@ h1 {
 
 /* review */
 
+.review-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* หรือ 'flex-start' ถ้าต้องการให้ชิดซ้าย */
+  }
+  
+.review-section h2 {
+    margin: 0; /* ลบระยะห่างเริ่มต้น */
+}
+  
+.review-edit {
+    margin-left: auto; /* ดันปุ่มไปทางขวาสุด */
+}
+
 .hr {
     border: 1px solid #ccc;
     margin-top: 20px;
     margin-bottom: 20px;
-  }
+}
 
 .review-container {
     margin-top: 20px;
@@ -111,7 +125,7 @@ h1 {
 }
 
 .review-btn {
-    width: 75px;
+    width: 100px;
     max-width: 100%;
     padding: 10px;
     background-color: #F36523;
@@ -123,4 +137,16 @@ h1 {
 .review-btn:hover {
     background-color: #d9531e; /* สี hover */
     cursor: pointer;
+}
+
+.review-history-btn {
+    color: #F36523;
+    text-decoration: underline;
+    cursor: pointer;
+    align-items: center;
+}
+
+.review-history-btn:hover {
+    filter: brightness(0.8);
+    text-decoration: none;
 }
