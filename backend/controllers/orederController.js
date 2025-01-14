@@ -9,9 +9,14 @@ const s3Client = new S3Client({
   region: process.env.AWS_REGION,
 });
 
+// Initialize an order
 exports.initOrder = async (req, res) => {
   try {
     const { userId, cartTotal } = req.body;
+
+    if (!userId || !cartTotal) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
 
     const order = await prisma.order.create({
       data: {
@@ -19,19 +24,23 @@ exports.initOrder = async (req, res) => {
         cartTotal: Number(cartTotal),
       },
     });
-    res.send(order);
+    res.status(201).send(order);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// add product on order
+// Add product to order
 exports.addOrderDetail = async (req, res) => {
   try {
     const { orderId, productId, quantity, total } = req.body;
 
-    const addOrderDetail = await prisma.productOnOrder.create({
+    if (!orderId || !productId || !quantity || !total) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const orderDetail = await prisma.productOnOrder.create({
       data: {
         productId: Number(productId),
         orderId: Number(orderId),
@@ -40,43 +49,40 @@ exports.addOrderDetail = async (req, res) => {
       },
     });
 
-    const updateOrderTotalPrice = await prisma.order.update({
-      where: {
-        id: Number(orderId),
-      },
-      data: {
-        cartTotal: { increment: Number(total) },
-      },
+    const updatedOrder = await prisma.order.update({
+      where: { id: Number(orderId) },
+      data: { cartTotal: { increment: Number(total) } },
     });
-    res.json({
-      addOrderDetail,
-      updateOrderTotalPrice,
-    });
+
+    res.status(201).json({ orderDetail, updatedOrder });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// Get products in an order
 exports.getProductOnOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const productOnOrder = await prisma.productOnOrder.findMany({
-      where: {
-        orderId: Number(id),
-      },
-      include: {
-        product: true,
-      },
+    if (!id) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+    const products = await prisma.productOnOrder.findMany({
+      where: { orderId: Number(id) },
+      include: { product: true },
     });
-    res.send(productOnOrder);
+
+    res.status(200).send(products);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// Upload payment receipt
 exports.uploadReceipt = async (req, res) => {
   try {
     const {
@@ -89,60 +95,76 @@ exports.uploadReceipt = async (req, res) => {
       transferAt,
     } = req.body;
 
-    let receiptUrl = null;
-
-    if (req.file) {
-      const uniqueKey = `images/${Date.now()}-${req.file.originalname}`;
-
-      const params = {
-        Bucket: "sutsouvenir-seniorproject",
-        Key: uniqueKey,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-        // ACL: 'public-read'
-      };
-      await s3Client.send(new PutObjectCommand(params));
-      receiptUrl = uniqueKey;
-    } else {
-      throw new Error("No file");
+    if (
+      !req.file ||
+      !total ||
+      !orderId ||
+      !userId ||
+      !originBankId ||
+      !destBankId ||
+      !transferAt
+    ) {
+      return res.status(400).json({ message: "Missing required fields" });
     }
-    const upload = await prisma.payment.create({
+
+    const uniqueKey = `images/${Date.now()}-${req.file.originalname}`;
+    const params = {
+      Bucket: "sutsouvenir-seniorproject",
+      Key: uniqueKey,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    await s3Client.send(new PutObjectCommand(params));
+
+    const payment = await prisma.payment.create({
       data: {
         total: Number(total),
         userId: Number(userId),
         orderId: Number(orderId),
         originBankId: Number(originBankId),
         destBankId: Number(destBankId),
-        lastFourDigits: lastFourDigits,
+        lastFourDigits,
         transferAt: new Date(transferAt),
-        receipt: receiptUrl,
+        receipt: uniqueKey,
       },
     });
 
-exports.getPayment = async(req, res) => {
-    try {
-        const payment = await prisma.payment.findMany()
-        res.send(payment)
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Server error", err });
-    }
-}
+    res.status(201).send(payment);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-exports.cancelOrder = async(req, res) => {
-    try {
-        const { id } = req.params;
-        const cancel = await prisma.order.update({
-            where: {
-                id: Number(id),
-            },
-            data: {
-                orderStatus: "CANCELLED",
-            },
-        })
-        res.status(200).json({message: "Cancelled the Order"});
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Server error", err });
+// Get all payments
+exports.getPayment = async (req, res) => {
+  try {
+    const payments = await prisma.payment.findMany();
+    res.status(200).send(payments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
+// Cancel an order
+exports.cancelOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Order ID is required" });
     }
-}
+
+    await prisma.order.update({
+      where: { id: Number(id) },
+      data: { orderStatus: "CANCELLED" },
+    });
+
+    res.status(200).json({ message: "Order cancelled successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};

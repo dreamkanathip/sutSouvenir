@@ -43,7 +43,11 @@ exports.create = async (req, res) => {
 exports.list = async (req, res) => {
   try {
     // code
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        category: true,
+      },
+    });
     res.send(products);
   } catch (err) {
     console.log(err);

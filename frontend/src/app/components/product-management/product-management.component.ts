@@ -14,7 +14,7 @@ import { Category } from './../../interfaces/category/category.model'; // Import
 })
 export class ProductManagementComponent implements OnInit {
   products: Product[] = [];
-  categories: any[] = []; // เก็บข้อมูลหมวดหมู่
+  categories: Category[] = []; // เก็บข้อมูลหมวดหมู่
   currentPage: number = 1;
   itemsPerPage: number = 5;
   pagedProducts: any[] = [];

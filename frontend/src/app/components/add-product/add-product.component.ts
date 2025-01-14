@@ -89,6 +89,7 @@ export class AddProductComponent implements OnInit {
                 description: '',
                 category: null, // ตั้งค่าเป็น null แทนที่จะเป็น ''
               });
+              this.goToManagements();
             });
           },
           (error) => {
