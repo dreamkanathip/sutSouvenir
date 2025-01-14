@@ -12,32 +12,23 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent {
 
-  authenticated = false;
-  cartItemCount!: number;
+  cartItemCount: number = 0;
   userId: number = 1
 
   constructor(
     private http: HttpClient, 
     private authService: AuthService,
-    private cartService: CartService
+    private cartService: CartService,
   ) {
-  }
-  ngOnInit(): void {
-    Emitters.authEmitter.subscribe((auth: boolean) => {
-      this.authenticated = auth;
-    });
-    this.authService.authStatus$.subscribe((status) => {
-      this.authenticated = status;
-    });
+
     this.cartService.updateCartItemCount(this.userId)
     this.cartService.cartItemCount$.subscribe((count) => {
       this.cartItemCount = count
     })
   }
+  ngOnInit(): void {
+  }
   logout(): void {
-    this.http
-      .post('http://localhost:5000/api/logout', {}, { withCredentials: true })
-      .subscribe(() => (this.authenticated = false));
     this.authService.logout();
   }
 }

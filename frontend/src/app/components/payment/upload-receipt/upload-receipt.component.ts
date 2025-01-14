@@ -8,6 +8,7 @@ import { OriginBank } from '../../../interfaces/bank/origin-bank';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PaymentService } from '../../../services/order/payment.service';
 import Swal from 'sweetalert2';
+import { AddressService } from '../../../services/address/address.service';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -29,6 +30,7 @@ export class UploadReceiptComponent implements AfterViewInit {
   paymentForm = new FormGroup({
     total: new FormControl(''),
     orderId: new FormControl(''),
+    addressId: new FormControl(),
     userId: new FormControl(''),
     originBankId: new FormControl(''),
     destBankId: new FormControl(''),
@@ -41,7 +43,8 @@ export class UploadReceiptComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) 
     private platformId: Object, 
     private bankService: BankService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private addressService: AddressService
   ) {
     this.getBank()
   }
@@ -84,9 +87,12 @@ export class UploadReceiptComponent implements AfterViewInit {
   }
 
   upload() {
-
+    this.addressService.getDefaultAddress(1).subscribe(res => {
+      this.paymentForm.get("addressId")?.setValue(res.id)
+    })
     this.paymentForm.get("userId")?.setValue('1')
     this.paymentForm.get("orderId")?.setValue('1')
+    this.paymentForm.get("addressId")?.setValue('1')
 
     const datetimeString = `${this.date} ${this.hr.padStart(2, '0')}:${this.min.padStart(2, '0')}:00`;
     this.paymentForm.get("transferAt")?.setValue(datetimeString)
@@ -95,6 +101,7 @@ export class UploadReceiptComponent implements AfterViewInit {
 
     formData.append('total', this.paymentForm.get('total')?.value?? '');
     formData.append('orderId', this.paymentForm.get('orderId')?.value?? '');
+    formData.append('addressId', this.paymentForm.get('addressId')?.value?? '');
     formData.append('userId', this.paymentForm.get('userId')?.value?? '');
     formData.append('originBankId', this.paymentForm.get('originBankId')?.value?? '');
     formData.append('destBankId', this.paymentForm.get('destBankId')?.value?? '');

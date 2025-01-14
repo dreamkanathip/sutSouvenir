@@ -16,6 +16,11 @@
     padding: 10%;
     display: block;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 h1 {
     font-weight: 700;
 }

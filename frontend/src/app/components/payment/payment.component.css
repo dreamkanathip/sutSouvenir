@@ -37,11 +37,6 @@ input[type="checkbox"] {
     justify-content: center;
     display: flex;
 }
-.checkbox, .item-title, .price, .sum-price, .quantity, .delete {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-}
 .sum-price {
     color: #F36523;
 }
@@ -77,4 +72,24 @@ input[type="checkbox"] {
 .btn-primary {
     background-color: gray;
     border: none;
+}
+
+.item-title {
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+.product-quantity {
+    text-align: left;
+    color: gray;
+}
+.price {
+    font-size: 20px;
+}
+.table-order tr td {
+    padding: 1rem 1.75rem;
 }

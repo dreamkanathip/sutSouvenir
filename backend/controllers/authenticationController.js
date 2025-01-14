@@ -52,11 +52,18 @@ const login = async (req, res) => {
     if (!isPasswordValid)
       return res.status(400).send({ message: "รหัสผ่านไม่ถูกต้อง" });
 
-    const token = jwt.sign({ _id: user.id }, "secret", { expiresIn: "1d" });
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: "Lax",            // ใช้ "Lax" ใน Localhost
-      secure: false,}); // 1 วัน
+    const token = jwt.sign(
+      { _id: user.id }, 
+      "secret", 
+      { expiresIn: "1d" });
 
-    res.status(200).send({ message: "เข้าสู่ระบบสำเร็จ" });
+
+    res.cookie("jwt", token, { 
+        httpOnly: true, 
+        secure: false,
+        sameSite: "lax",
+      });
+    res.status(200).send({ message: "เข้าสู่ระบบสำเร็จ", token});
   } catch (err) {
     console.error("เกิดข้อผิดพลาดในการเข้าสู่ระบบ:", err);
     res.status(500).send({ message: "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์" });

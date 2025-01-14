@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -40,14 +42,12 @@ export class LoginComponent implements OnInit {
     } else if (!this.ValidateEmail(user.email)) {
       Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error'); // แก้ข้อความเป็นภาษาไทย
     } else {
-      this.http
-        .post('http://localhost:5000/api/login', user, {
-          withCredentials: true,
-        })
+      this.authService.login(user)
         .subscribe(
           (res) => {
             Swal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success'); // แก้ข้อความเป็นภาษาไทย
             this.router.navigate(['/home']);
+            this.authService.storeToken(res.token);
           },
           (err) => {
             Swal.fire(

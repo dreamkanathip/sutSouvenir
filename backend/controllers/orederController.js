@@ -1,5 +1,5 @@
 const prisma = require("../configs/prisma");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, StorageClassAnalysisSchemaVersion } = require("@aws-sdk/client-s3");
 
 const s3Client = new S3Client({
     credentials: {
@@ -79,7 +79,7 @@ exports.getProductOnOrder = async (req, res) => {
 
 exports.uploadReceipt = async (req, res) => {
     try {
-        const { total, orderId, userId, originBankId, destBankId, lastFourDigits, transferAt } = req.body
+        const { addressId, total, orderId, userId, originBankId, destBankId, lastFourDigits, transferAt } = req.body
 
         let receiptUrl = null;
 
@@ -101,6 +101,7 @@ exports.uploadReceipt = async (req, res) => {
         const upload = await prisma.payment.create({
             data: {
                 total: Number(total),
+                addressId: Number(addressId),
                 userId: Number(userId),
                 orderId: Number(orderId),
                 originBankId: Number(originBankId),
@@ -123,7 +124,29 @@ exports.getPayment = async(req, res) => {
         const payment = await prisma.payment.findMany()
         res.send(payment)
     } catch (err) {
-        console.log(err);
+        res.status(500).json({ message: "Server error", err });
+    }
+}
+
+exports.getAllProductOnOrder = async(req, res) => {
+    try {
+        const productOnOrder = await prisma.productOnOrder.findMany({
+            include: {
+                product: true,
+                order: true
+              }
+        })
+        res.send(productOnOrder)
+    } catch (err) {
+        res.status(500).json({ message: "Server error", err });
+    }
+}
+
+exports.getAllOrder = async(req, res) => {
+    try {
+        const order = await prisma.order.findMany()
+        res.send(order)
+    } catch (err) {
         res.status(500).json({ message: "Server error", err });
     }
 }

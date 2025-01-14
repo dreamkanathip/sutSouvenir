@@ -4,6 +4,7 @@ import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { catchError, firstValueFrom, of, pipe, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -23,7 +24,7 @@ export class UserComponent implements OnInit{
 
   constructor(private userService: UserService, private fb: FormBuilder, private router: Router) {
     this.editedUser = this.fb.group({
-      id: 0,
+      // id: 0,
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -39,11 +40,13 @@ export class UserComponent implements OnInit{
 
   ngOnInit(): void {
     this.getUserData()
+    console.log("ngOnInit");
   }
-
+  
   getUserData() {
     this.userService.getUserData().subscribe({
       next: (result: UserModel) => {
+        console.log("GetUser")
         if (result) {
           this.user = result;
           this.editUserUpdate()

@@ -21,17 +21,18 @@ export class AuthService {
     this.isBrowser = isPlatformBrowser(this.platformId);
     // this.checkAuthentication();
   }
+
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/login`, credentials, { withCredentials: true })
-      .pipe(
-        // เพิ่ม { withCredentials: true } เพื่อส่งคุกกี้
+    
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials, { withCredentials: true }).pipe(
         tap((response) => {
-          this.authStatusSubject.next(true); // กำหนดสถานะการ login เป็น true
+          this.authStatusSubject.next(true);
         })
       );
   }
-
+  storeToken(token: string): void {
+    localStorage.setItem('jwt', token);
+  }
   logout(): void {
     // คำขอ logout ที่จะทำการลบ JWT cookie
     this.http
@@ -41,4 +42,19 @@ export class AuthService {
         this.authStatusSubject.next(false); // เปลี่ยนสถานะการ login เป็น false
       });
   }
+
+  // checkAuthentication(): void {
+  //   this.http.get<any>(`${this.apiUrl}/user/profile`, { withCredentials: true }).subscribe({
+  //     next: (response) => {
+  //       this.authStatusSubject.next(true);
+  //     },
+  //     error: (error) => {
+  //       this.authStatusSubject.next(false);
+  //     }
+  //   });
+  // }
+  // isAuthenticated(): boolean {
+  //   this.checkAuthentication()
+  //   return this.authStatusSubject.getValue();
+  // }
 }

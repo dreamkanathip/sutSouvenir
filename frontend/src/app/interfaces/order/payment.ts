@@ -2,6 +2,7 @@ export interface Payment {
     id:             number,           
     total:          number,
     orderId:        number,
+    addressId:      number,
     userId:         number,
     originBankId:   number,
     destBankId:     number,

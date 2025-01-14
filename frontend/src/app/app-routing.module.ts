@@ -14,9 +14,10 @@ import { ProductManagementComponent } from './components/product-management/prod
 import { UserComponent } from './components/user/user.component';
 import { BankComponent } from './components/bank/bank.component';
 import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/managements', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'payment/:id', component: PaymentComponent },
+  { path: 'payment', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'favourite', component: FavouriteComponent },
@@ -34,6 +35,8 @@ const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'bank', component: BankComponent },
   { path: 'managements/add', component: AddProductComponent },
+  { path: 'admin-order', component: AdminUpdateOrderStatusComponent},
+  { path: "**", redirectTo: '/home'}
 ];
 
 @NgModule({

@@ -1,41 +1,27 @@
 const jwt = require("jsonwebtoken");
 const prisma = require("../configs/prisma");
-
 // Middleware สำหรับตรวจสอบ token
 const authenticateToken = async (req, res, next) => {
-  // const token = req.cookies["jwt"];
-
-  // Fix Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczNDA3Mjk4NCwiZXhwIjoxNzM0MTU5Mzg0fQ.fJgB6os1vzeLr4RG0iEh2Kh9PUjdkdkq2QAIxxQ5PZI"
-  
+  const token = req.cookies.jwt;
   if (!token) {
-    return res
-      .status(401)
-      .send({ message: "ต้องมี token สำหรับการยืนยันตัวตน" });
+    return res.status(401).send({ message: "ต้องมี token สำหรับการยืนยันตัวตน"});
   }
-
   try {
-    // ตรวจสอบ token และดึง claims
     const claims = jwt.verify(token, "secret");
-
-    // ใช้ Prisma เพื่อค้นหาผู้ใช้
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        id: claims._id, // ใช้ _id จาก claims ใน token
+        id: claims._id,
       },
     });
-
     if (!user) {
       return res
         .status(401)
         .send({ message: "token สำหรับการยืนยันตัวตนไม่ถูกต้อง" });
     }
-
-    // แนบข้อมูล user ไปยัง request
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).send({ message: "token สำหรับการยืนยันตัวตนไม่ถูกต้อง" });
+    return res.status(500).send({ message: "เกิดข้อผิดพลาดในการตรวจสอบ token" });
   }
 };
 

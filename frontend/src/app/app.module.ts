@@ -40,6 +40,11 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
 import { StorageComponent } from './components/user-storage/storage/storage.component';
 import { HistoryComponent } from './components/user-storage/history/history.component';
 import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { ShippingComponent } from './components/shipping/shipping.component';
+import { AddShippingComponent } from './components/shipping/add-shipping/add-shipping.component';
+import { UpdateShippingComponent } from './components/shipping/update-shipping/update-shipping.component';
+import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +72,11 @@ import { AddProductComponent } from './components/product-management/add-product
     StorageComponent,
     HistoryComponent,
     AddProductComponent,
+    ShippingComponent,
+    AddShippingComponent,
+    UpdateShippingComponent,
+    SelectShippingComponent,
+    AdminUpdateOrderStatusComponent,
   ],
   imports: [
     BrowserModule,

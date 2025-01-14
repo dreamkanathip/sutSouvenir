@@ -1,50 +1,79 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { ProductOnCart } from '../../interfaces/carts/product-on-cart';
 import { Carts } from '../../interfaces/carts/carts';
 import { OrderService } from '../../services/order/order.service';
 import { Router } from '@angular/router';
-import { catchError, firstValueFrom, of, pipe, switchMap, tap } from 'rxjs';
+import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
-import { count } from 'node:console';
+import { Shipping } from '../../interfaces/shipping/shipping.model';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit{
 
   productOnCart!: ProductOnCart[];
   cart!: Carts
-  selectAll: boolean = false;
+  selectAll: boolean = true;
   sumItemPrice: number = 0;
   orderId!: number
   selectedQuantity: number = 0;
   userId: number = 1;
-
-  constructor(private cartService: CartService, private orderService: OrderService, private router: Router) {
+  selectedShipping!: Shipping
+  constructor(
+    private cartService: CartService, 
+    private orderService: OrderService, 
+    private router: Router,
+  ) {
   }
 
   ngOnInit(): void {
-    this.getProductOnCart(this.userId) //passing userId
-    this.getCartById(this.userId) //passing userId
+    this.getProductOnCart(1) //passing userId
+    this.getCartById(1) //passing userId
     this.toggleSelectAll()
-    this.calculateSelectedQuantity()
   }
 
+  onQuantityInputChange(item: any): void {
+    if (item.quantity >= item.product.quantity) {
+      Swal.fire({
+        title: "สินค้าเกินจำนวนที่มีในคลัง",
+        text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      });
+      item.quantity = item.product.quantity;
+    } else if(item.quantity <= 0) {
+        item.quantity = Math.max(1, Math.min(Number(item.quantity), item.product.quantity));
+
+      if (isNaN(item.quantity)) {
+        item.quantity = 1;
+      }
+    }
+    this.calculateIndividualItemPrice()
+  }
+  onShippingSelected($e:any) {
+    this.selectedShipping = $e
+  }
   getProductOnCart(userId: any) {
     const selectedMap = new Map(
       this.productOnCart?.map((item) => [item.productId, item.selected])
     );
 
     this.cartService.getProductOnCart(userId).subscribe((res) => {
-      this.productOnCart = res.map((item: any) => ({
-        ...item,
-        selected: selectedMap.get(item.productId) || false,
-      }));
-
+      const isArray = Array.isArray(res)
+      if(isArray) {
+        this.productOnCart = res.map((item) => ({
+          ...item,
+          selected: selectedMap.get(item.productId) || true,
+          newTotalPrice: item.price
+        }));
+        this.calculateSelectedQuantity()
+      }
       this.updateTotalPrice();
+      this.calculateIndividualItemPrice()
     });
   }
   getCartById(userId: any) {
@@ -60,7 +89,7 @@ export class CartComponent implements OnInit {
     }
   }
   checkIndividualSelect() {
-    this.selectAll = this.productOnCart?.every((i) => i.selected);
+    this.selectAll = this.productOnCart?.every((i) => i.selected === true);
   }
   toggleSelectAll() {
     if (this.productOnCart) {
@@ -68,14 +97,22 @@ export class CartComponent implements OnInit {
       this.productOnCart.forEach((i) => i.selected = newSelectState);
       this.selectAll = newSelectState;
       this.calculateSumItemPrice()
-    } else {
-      console.log("No Product")
-    }
+    } 
   }
+
+  //when select and deselect
   calculateSumItemPrice() {
     this.sumItemPrice = this.productOnCart
       .filter((i) => i.selected)
-      .reduce((acc, curr) => acc + curr.price, 0) || 0
+      .reduce((sum, item) => sum + (item.newTotalPrice ?? 0), 0) || 0
+  }
+  updateTotalPrice(): void {
+    this.sumItemPrice = this.productOnCart?.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  }
+  calculateIndividualItemPrice() {
+    this.productOnCart?.map((item) => {
+      item.newTotalPrice = item.product.price * item.quantity;
+    })
   }
   calculateSelectedQuantity() {
     this.selectedQuantity = this.productOnCart? this.productOnCart.reduce((count, item) => count + (item.selected? 1:0), 0) : 0
@@ -86,12 +123,23 @@ export class CartComponent implements OnInit {
       userId: this.userId,
       productId: item.productId
     }
+
+    if (item.quantity >= item.product.quantity) {
+      Swal.fire({
+        title: "สินค้าเกินจำนวนที่มีในคลัง",
+        text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      });
+      return; // Stop further execution
+    }
     this.cartService.increaseProductOnCart(data).subscribe({
       next: () => {
         const product = this.productOnCart.find((p) => p.productId === item.productId);
         if (product) {
           product.quantity += 1;
           this.updateTotalPrice();
+          this.calculateIndividualItemPrice()
         }
       },
       error: (err) => console.error('Error increasing quantity:', err),
@@ -110,6 +158,7 @@ export class CartComponent implements OnInit {
           if (product) {
             product.quantity -= 1;
             this.updateTotalPrice();
+            this.calculateIndividualItemPrice()
           }
         },
         error: (err) => console.error('Error decreasing quantity:', err),
@@ -117,9 +166,7 @@ export class CartComponent implements OnInit {
     }
   }
 
-  updateTotalPrice(): void {
-    this.sumItemPrice = this.productOnCart?.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  }
+  
 
   removeProductOnCart(productId: any) {
     const data = {
@@ -130,7 +177,7 @@ export class CartComponent implements OnInit {
 
 
     return firstValueFrom(
-      this.cartService.removeProductOnCart(data).pipe(
+      this.cartService.removeProductOnCart(productId).pipe(
         tap(() => {
           this.productOnCart = this.productOnCart.filter(
             (p) => p.productId !== productId
@@ -147,12 +194,20 @@ export class CartComponent implements OnInit {
     );
   }
 
+  removeWithoutRestock(productId: any) {
+    this.cartService.removeWithoutRestock(productId).subscribe(() => {
+      this.updateTotalPrice();
+      this.calculateSelectedQuantity();
+      this.cartService.updateCartItemCount(this.userId);
+    })
+  }
   async goToPayment() {
     try {
       const data = {
         userId: this.userId,
-        cartTotal: this.sumItemPrice,
+        cartTotal: this.sumItemPrice + this.selectedShipping.fees,
       };
+      
       const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
 
       const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
@@ -169,10 +224,22 @@ export class CartComponent implements OnInit {
       });
       await Promise.all(orderDetailsPromises);
 
+      // this.removeAllProductOnCart()
+      // await firstValueFrom(this.cartService.deleteCart(data.userId))
+
+      this.sumItemPrice = this.productOnCart
+      .filter((i) => i.selected)
+      .reduce((sum, item) => sum + (item.newTotalPrice ?? 0), 0) || 0
+
+      const removePromises = this.productOnCart.filter((item) => item.selected).map((item) => 
+        this.removeWithoutRestock(item.productId)
+      );
+      await Promise.all(removePromises);
+
+      this.cartService.updateCartItemCount(this.userId);
       console.log('Order and details processed successfully!');
-      await firstValueFrom(this.cartService.deleteCart(data.userId))
-      console.log('delete cart !')
-      await this.router.navigate(['/payment', this.orderId])
+      this.orderService.setOrderId(this.orderId)
+      await this.router.navigate(['/payment'])
 
     } catch (error) {
       console.error('Error during payment process:', error);
