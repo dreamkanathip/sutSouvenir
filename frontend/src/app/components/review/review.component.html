@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <div class="review" *ngIf="product">
+      <nav class="navbar">
+        <h1 class="title">รีวิวสินค้า</h1>
+      </nav>
+        <div class="row">
+            <div class="card col-5 img-container">
+              <img src="assets/SUT-Logo.png" class="product-image" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5">
+              <div class="title">
+                <h1 class="title">{{ product.title }}</h1>
+              </div>
+              <form>
+                <div class="d-flex justify-content-start align-items-center">
+                  <div class="review-summary me-3">ให้คะแนน:</div>
+                  <div class="stars">
+                      <i
+                      *ngFor="let star of stars; let i = index"
+                      class="fa"
+                      [ngClass]="i < rating ? 'fa-star' : 'fa-star-o'"
+                      (click)="setRating(i + 1)"
+                      ></i>
+                  </div>
+                </div>
+                <div>ความคิดเห็น:</div>
+                <textarea
+                  [(ngModel)]="comment"
+                  name="comment"
+                  class="review-comment form-control mx-2 justify-content-start"
+                  rows="3"
+                  placeholder="กรุณาแสดงความคิดเห็นอย่างสุภาพ"
+                ></textarea>
+                <div class="form-submit-container">
+                  <button type="button" class="main-btn mt-5" (click)="formReset()">ยกเลิก</button>
+                  <button type="button" class="main-btn mt-5" (click)="onSubmit()">ยืนยัน</button>
+                </div>
+              </form>
+            </div>
+          </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

@@ -88,8 +88,8 @@ export class AddressComponent implements OnInit{
           next: () => {
             Swal.close();
             Swal.fire({
-              icon: "success",
-              title: "Success",
+              icon: "error",
+              title: "ลบข้อมูลแล้ว",
               text: "ลบข้อมูลที่อยู่เรียบร้อยแล้ว",
               showConfirmButton: true,
             });
@@ -98,9 +98,9 @@ export class AddressComponent implements OnInit{
           error: (error) => {
             Swal.close();
             Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "ลบข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
+              icon: "warning",
+              title: "เกิดข้อผิดพลาด",
+              text: "ลบข้อมูลไม่สำเร็จ กรุณาลองอีกครั้งในภายหลัง",
               showConfirmButton: true,
             });
             console.error("API error:", error);
@@ -120,8 +120,8 @@ export class AddressComponent implements OnInit{
         error: (error) => {
           console.error("Error Occured:", error)
           Swal.fire({
-            icon: "error",
-            title: "Error",
+            icon: "warning",
+            title: "เกิดข้อผิดพลาด",
             text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
             showConfirmButton: true,
           });

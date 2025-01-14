@@ -119,19 +119,30 @@ exports.uploadReceipt = async (req, res) => {
       },
     });
 
-    res.send(upload);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error", err });
-  }
-};
+exports.getPayment = async(req, res) => {
+    try {
+        const payment = await prisma.payment.findMany()
+        res.send(payment)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error", err });
+    }
+}
 
-exports.getPayment = async (req, res) => {
-  try {
-    const payment = await prisma.payment.findMany();
-    res.send(payment);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error", err });
-  }
-};
+exports.cancelOrder = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const cancel = await prisma.order.update({
+            where: {
+                id: Number(id),
+            },
+            data: {
+                orderStatus: "CANCELLED",
+            },
+        })
+        res.status(200).json({message: "Cancelled the Order"});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error", err });
+    }
+}

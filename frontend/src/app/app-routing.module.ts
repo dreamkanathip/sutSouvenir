@@ -18,6 +18,8 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { UserStorageComponent } from './components/user-storage/user-storage.component';
+import { ReviewComponent } from './components/review/review.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -42,6 +44,8 @@ const routes: Routes = [
     component: SuperAdminDashboardComponent,
   },
   { path: 'admin/add/product', component: AddProductComponent },
+  { path: 'user/storage', component: UserStorageComponent },
+  { path: 'review/:id', component: ReviewComponent },
 ];
 
 @NgModule({

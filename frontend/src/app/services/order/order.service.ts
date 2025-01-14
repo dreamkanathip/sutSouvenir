@@ -23,4 +23,8 @@ export class OrderService {
   getProductOnOrderById(id: any) : Observable<ProductOnOrder[]> {
     return this.http.get<ProductOnOrder[]>(`${this.apiUrl}/productOnOrder/${id}`)
   }
+
+  cancelOrder(id: number, order: any) : Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/cancelOrder/${id}`, order)
+  }
 }

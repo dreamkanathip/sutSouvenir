@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
+import { userOrder } from '../../interfaces/order/order';
 
 @Injectable({
   providedIn: 'root',

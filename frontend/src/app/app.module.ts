@@ -46,6 +46,7 @@ import { SuperAdminDashboardComponent } from './components/super-admin-dashboard
 import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { ReviewComponent } from './components/review/review.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { AddProductComponent } from './components/add-product/add-product.compon
     NavbarSuperAdminComponent,
     RegisterAdminComponent,
     AddProductComponent,
+    ReviewComponent,
   ],
   imports: [
     BrowserModule,

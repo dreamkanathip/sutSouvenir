@@ -34,6 +34,14 @@
     font-weight: 700;
     margin-bottom: 12%;
 }
+.stars {
+    color: #f5c518;
+    margin-bottom: 10px;
+}
+  
+.stars .fa {
+    margin-right: 5px;
+}
 .price {
     height: 2rem;
     color: #F36523;

@@ -12,6 +12,17 @@
 
           <div class="card-body">
             <p class="title">{{ item.title }}</p>
+            <div class="stars">
+              <i
+                class="fa"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [ngClass]="{
+                  'fa-star': getProductRating(item.id) > 0 && fullStars(getProductRating(item.id), i),
+                  'fa-star-half-o': getProductRating(item.id) > 0 && isHalfStar(getProductRating(item.id), i),
+                  'fa-star-o': getProductRating(item.id) === 0 || emptyStars(getProductRating(item.id), i)
+                }"
+              ></i>
+            </div>  
             <p class="price">฿{{ item.price }}</p>
             <p class="quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
           </div>
