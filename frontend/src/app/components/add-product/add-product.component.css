@@ -1,9 +1,8 @@
 * {
-  font-family: url("../../../../assets/fonts/SUT-Light.otf");
+  font-family: url("../../../assets/fonts/SUT-Light.otf");
 }
 
 .body {
-  background-image: url("../../../../assets/bg-template.jpg");
   background-size: cover; /* ทำให้ภาพพื้นหลังขยายเต็มพื้นที่ */
   background-position: center; /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */
   background-repeat: no-repeat; /* ป้องกันการทำซ้ำของภาพพื้นหลัง */
@@ -56,7 +55,6 @@
 }
 
 .side-image {
-  background-image: url("../../../../assets/logo.jpg");
   background-position: center;
   background-size: auto;
   background-repeat: no-repeat;

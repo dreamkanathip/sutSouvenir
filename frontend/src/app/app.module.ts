@@ -39,7 +39,13 @@ import { UpdateComponent } from './components/bank/update/update.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { StorageComponent } from './components/user-storage/storage/storage.component';
 import { HistoryComponent } from './components/user-storage/history/history.component';
-import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { AdminHistoryComponent } from './components/admin-history/admin-history.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
+import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
+import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
+import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,12 @@ import { AddProductComponent } from './components/product-management/add-product
     UserStorageComponent,
     StorageComponent,
     HistoryComponent,
+    AdminHistoryComponent,
+    AdminDashboardComponent,
+    NavbarAdminComponent,
+    SuperAdminDashboardComponent,
+    NavbarSuperAdminComponent,
+    RegisterAdminComponent,
     AddProductComponent,
   ],
   imports: [

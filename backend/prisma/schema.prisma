@@ -52,6 +52,14 @@ model Address {
 
 }
 
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique // ชื่อหมวดหมู่
+  products    Product[] // ความสัมพันธ์กับสินค้า (1-to-Many)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model Product {
   id           Int              @id @default(autoincrement())
   title        String
@@ -63,13 +71,14 @@ model Product {
   images       Image[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
-  category     Category?        @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
   status       ProductStatus    @default(AVAILABLE)
   stockRecords StockRecord[]
-  favourites    Favourite[]       // New relation to Bookmark model
-  reviews      Review[]         // New relation to Review model
+  favourites   Favourite[]      // ความสัมพันธ์กับ Bookmark model
+  reviews      Review[]         // ความสัมพันธ์กับ Review model
 }
+
 
 model Favourite {
   id        Int    @id @default(autoincrement())
@@ -138,15 +147,6 @@ model ProductOnOrder {
   count     Int
   price     Float
 }
-
-model Category {
-  id        Int       @id @default(autoincrement())
-  name      String
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
 model Cart {
   id        Int             @id @default(autoincrement())
   products  ProductOnCart[]
@@ -235,6 +235,7 @@ model OriginBank {
 enum Role {
   ADMIN
   USER
+  SUPERADMIN
 }
 
 enum OrderStatus {

@@ -2,38 +2,44 @@ const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
   try {
-    // code
-    const {
-      title,
-      description,
-      price,
-      quantity,
-      // categoryId, images
-    } = req.body;
-    // console.log(title, description, price, quantity, images)
+    // พิมพ์ข้อมูลที่ได้รับ
+    console.log(req.body); // ตรวจสอบข้อมูลที่ส่งมา
+
+    const { title, description, price, quantity, categoryId } = req.body;
+
+    // ตรวจสอบว่า categoryId ถูกส่งมาหรือไม่
+    if (!categoryId) {
+      return res.status(400).json({ message: "กรุณาระบุหมวดหมู่" });
+    }
+
+    // แปลง categoryId เป็นตัวเลข (Int)
+    const categoryIdParsed = parseInt(categoryId, 10);
+    if (isNaN(categoryIdParsed)) {
+      return res.status(400).json({ message: "หมวดหมู่ไม่ถูกต้อง" });
+    }
+
+    // สร้างสินค้าและเชื่อมโยงกับหมวดหมู่
     const product = await prisma.product.create({
       data: {
-        title: title,
-        description: description,
-        price: parseFloat(price),
-        quantity: parseInt(quantity),
-        // categoryId: parseInt(categoryId),
-        // images: {
-        //   create: images.map((item) => ({
-        //     asset_id: item.asset_id,
-        //     public_id: item.public_id,
-        //     url: item.url,
-        //     secure_url: item.secure_url,
-        //   })),
-        // },
+        title,
+        description,
+        price,
+        quantity,
+        category: {
+          connect: { id: categoryIdParsed }, // เชื่อมโยง category ตาม id ที่แปลงแล้ว
+        },
       },
     });
-    res.send(product);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
+
+    res.status(201).json(product);
+  } catch (error) {
+    console.error("Error creating product:", error);
+    res
+      .status(500)
+      .json({ message: "ไม่สามารถสร้างสินค้าได้", error: error.message });
   }
 };
+
 exports.list = async (req, res) => {
   try {
     // code
@@ -186,12 +192,12 @@ const handlePrice = async (req, res, priceRange) => {
     res.status(500).json({ message: "Server Error " });
   }
 };
-const handleCategory = async (req, res, categoryId) => {
+const handleCategory = async (req, res, category) => {
   try {
     const products = await prisma.product.findMany({
       where: {
-        categoryId: {
-          in: categoryId.map((id) => Number(id)),
+        category: {
+          name: { equals: category }, // ค้นหาตามชื่อ category
         },
       },
       include: {
@@ -202,7 +208,7 @@ const handleCategory = async (req, res, categoryId) => {
     res.send(products);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Server Error " });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
