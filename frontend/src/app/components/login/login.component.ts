@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: '',
       password: '',
+      role: '',
     });
   }
 
@@ -38,15 +39,28 @@ export class LoginComponent implements OnInit {
     let user = this.form.getRawValue();
 
     if (user.email == '' || user.password == '') {
-      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรอกข้อมูลให้ครบถ้วน', 'error'); // แก้ข้อความเป็นภาษาไทย
+      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรอกข้อมูลให้ครบถ้วน', 'error');
     } else if (!this.ValidateEmail(user.email)) {
-      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error'); // แก้ข้อความเป็นภาษาไทย
+      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error');
     } else {
       this.authService.login(user)
         .subscribe(
-          (res) => {
-            Swal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success'); // แก้ข้อความเป็นภาษาไทย
-            this.router.navigate(['/home']);
+          (res: any) => {
+            const token = res.token;
+            localStorage.setItem('jwt', token);
+            Swal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success');
+
+            // ตรวจสอบ role และนำทางไปยังหน้าเหมาะสม
+            if (res.role === 'SUPERADMIN') {
+              this.router.navigate(['/superadmin/dashboard']);
+            } else if (res.role === 'ADMIN') {
+              this.router.navigate(['/admin/dashboard']);
+            } else if (res.role === 'USER') {
+              this.router.navigate(['/home']);
+            } else {
+              // ถ้าไม่มี role ที่ตรงกันให้แสดงข้อความหรือดำเนินการอื่น
+              Swal.fire('ข้อผิดพลาด', 'บทบาทผู้ใช้ไม่ถูกต้อง', 'error');
+            }
             this.authService.storeToken(res.token);
           },
           (err) => {
@@ -54,7 +68,7 @@ export class LoginComponent implements OnInit {
               'ไม่สามารถเข้าสู่ระบบได้',
               'อีเมล หรือ รหัสผ่านไม่ถูกต้อง',
               'error'
-            ); // แสดงข้อความว่า "รหัสผ่านผิด"
+            );
           }
         );
     }

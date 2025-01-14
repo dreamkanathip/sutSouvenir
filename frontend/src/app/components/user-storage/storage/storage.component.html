@@ -1,25 +1,62 @@
-<!-- Storage คลังสินค้า -->
 <h3 class="storage-header text-center">รายการสินค้าของคุณ</h3>
-<div class="card col" *ngFor="let item of storage; index as i">
+<div class="row row-cols-1 row-cols-md-3 g-8">
+  <div class="card col" *ngFor="let item of storage; index as i">
     <form>
-      <div>
+      <div (click)="NavigateToProduct(item)">
         <div class="add-to-fav">
-          <i class='bx bx-heart bx-sm'></i>
+            <i class='bx bx-heart bx-sm'></i>
+          </div>
+          <img src="assets/SUT-Logo.png" class="card-img-top">
+          <div class="card-body">
+            <p class="title">{{item.title}}</p>
+            <p class="price">฿{{item.price}}</p>
+          </div>
         </div>
-        <img src="assets/SUT-Logo.png" class="card-img-top">
-        <div class="card-body">
-          <p class="title">{{item.title}}</p>
-          <p class="price">฿{{item.price}}</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="main-btn w-100">
-          สั่งซื้อ
-        </button>
-        <button class="main-btn w-100">
-            รีวิวสินค้า
-        </button>
+        <div class="form-group">
+          <button class="main-btn w-100" (click)="NavigateToProduct(item)">
+            สั่งซื้อ
+          </button>
+          <button class="main-btn w-100" (click)="showModal(item)">
+              รีวิวสินค้า
+          </button>
       </div>
     </form>
   </div>
-<!-- End of Storage -->
+</div>
+
+<!-- Review Modal -->
+<div *ngIf="reviewModal" class="modal fade show" tabindex="-1" style="display: block;">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ประวัติการรีวิว {{ reviewProduct.title }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="productReviewList.length > 0; else noReviewHistory">
+          <div class="review-card col" *ngFor="let review of productReviewList">
+            <div class="stars">
+              <i
+                class="fa"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
+              ></i>
+            </div>
+            <div>{{ review.comment }}</div>
+          </div>
+        </div>
+        <ng-template #noReviewHistory>
+          <div class="no-review">
+            <h3>คุณยังไม่เคยเขียนรีวิวให้กับสินค้านี้</h3>
+          </div>
+        </ng-template>
+        <div>
+          <button class="review-btn w-100" (click)="NavigateToReview(reviewProduct)">
+            สร้างรีวิว
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Review Modal -->

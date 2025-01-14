@@ -1,0 +1,102 @@
+<app-navbar-super-admin></app-navbar-super-admin>
+<link rel="stylesheet" href="super-admin-dashboard.component.css" />
+
+<div class="body">
+  <div class="table-container">
+    <div class="card shadow-lg">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        <h3>รายชื่อผู้ใช้งาน</h3>
+        <!-- Dropdown Filter -->
+        <select
+          class="form-select w-auto"
+          [(ngModel)]="selectedRole"
+          (change)="filterUsers()"
+        >
+          <option value="ALL">ทั้งหมด</option>
+          <option value="SUPERADMIN">Superadmin</option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+        </select>
+      </div>
+      <div class="card-body">
+        <!-- แสดงสถานะการโหลดข้อมูล -->
+        <div *ngIf="isLoading" class="text-center">
+          <p>กำลังโหลดข้อมูล...</p>
+        </div>
+
+        <!-- แสดงตารางข้อมูลผู้ใช้ -->
+        <table *ngIf="!isLoading" class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ลำดับ</th>
+              <th scope="col">ชื่อ</th>
+              <th scope="col">นามสกุล</th>
+              <th scope="col">อีเมล</th>
+              <th scope="col">เพศ</th>
+              <th scope="col">บทบาท</th>
+              <th scope="col">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ใช้ *ngFor เพื่อแสดงผู้ใช้ในแต่ละหน้า -->
+            <tr *ngFor="let user of pagedUsers; let i = index">
+              <th scope="row">
+                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+              </th>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.gender }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <!-- ปุ่มลบจะถูกแสดงเฉพาะสำหรับผู้ใช้ที่ไม่ใช่ SUPERADMIN -->
+                <button
+                  *ngIf="user.role !== 'SUPERADMIN'"
+                  class="btn btn-danger"
+                  (click)="deleteUser(user.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+                <!-- หากผู้ใช้เป็น SUPERADMIN, ปุ่มลบจะไม่แสดง -->
+                <span *ngIf="user.role === 'SUPERADMIN'" class="text-muted">
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination-controls">
+          <button
+            class="btn btn-secondary"
+            (click)="prevPage()"
+            [disabled]="currentPage === 1"
+          >
+            ก่อนหน้า
+          </button>
+          <button
+            class="btn btn-secondary"
+            (click)="nextPage()"
+            [disabled]="
+              filteredUsers.length <= 5 ||
+              currentPage * itemsPerPage >= filteredUsers.length
+            "
+          >
+            ถัดไป
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Background -->
+    <video
+      autoplay
+      loop
+      muted
+      class="video-background"
+      src="../../../assets/video-homeadmin.mp4"
+    >
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>

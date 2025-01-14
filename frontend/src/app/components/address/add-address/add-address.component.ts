@@ -129,7 +129,7 @@ export class AddAddressComponent implements OnInit {
               Swal.close();
               Swal.fire({
                 icon: "success",
-                title: "Success",
+                title: "บันทึกแล้ว",
                 text: "เพิ่มข้อมูลที่อยู่เรียบร้อยแล้ว",
                 showConfirmButton: true,
               });
@@ -140,7 +140,7 @@ export class AddAddressComponent implements OnInit {
               Swal.close();
               Swal.fire({
                 icon: "error",
-                title: "Error",
+                title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
               });

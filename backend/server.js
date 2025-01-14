@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-
+app.disable("etag");
 // ใช้งาน middleware
 app.use(express.json());
 app.use(cookieParser());

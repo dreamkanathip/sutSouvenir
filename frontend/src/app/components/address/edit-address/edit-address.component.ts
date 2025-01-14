@@ -144,7 +144,7 @@ export class EditAddressComponent implements OnInit {
               Swal.close();
               Swal.fire({
                 icon: "success",
-                title: "Success",
+                title: "บันทึกแล้ว",
                 text: "บันทึกที่อยู่เรียบร้อยแล้ว",
                 showConfirmButton: true,
               });
@@ -155,7 +155,7 @@ export class EditAddressComponent implements OnInit {
               Swal.close();
               Swal.fire({
                 icon: "error",
-                title: "Error",
+                title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
               });

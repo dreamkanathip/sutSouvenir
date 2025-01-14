@@ -39,12 +39,19 @@ import { UpdateComponent } from './components/bank/update/update.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { StorageComponent } from './components/user-storage/storage/storage.component';
 import { HistoryComponent } from './components/user-storage/history/history.component';
-import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { AdminHistoryComponent } from './components/admin-history/admin-history.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
+import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
+import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
+import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
 import { AddShippingComponent } from './components/shipping/add-shipping/add-shipping.component';
 import { UpdateShippingComponent } from './components/shipping/update-shipping/update-shipping.component';
 import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
 import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
+import { ReviewComponent } from './components/review/review.component';
 
 @NgModule({
   declarations: [
@@ -71,12 +78,19 @@ import { AdminUpdateOrderStatusComponent } from './components/admin-update-order
     UserStorageComponent,
     StorageComponent,
     HistoryComponent,
+    AdminHistoryComponent,
+    AdminDashboardComponent,
+    NavbarAdminComponent,
+    SuperAdminDashboardComponent,
+    NavbarSuperAdminComponent,
+    RegisterAdminComponent,
     AddProductComponent,
     ShippingComponent,
     AddShippingComponent,
     UpdateShippingComponent,
     SelectShippingComponent,
     AdminUpdateOrderStatusComponent,
+    ReviewComponent,
   ],
   imports: [
     BrowserModule,

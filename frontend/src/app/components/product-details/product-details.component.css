@@ -79,3 +79,79 @@ h1 {
     cursor: pointer;
     font-size: 28px;
 }
+
+/* review */
+
+.review-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* หรือ 'flex-start' ถ้าต้องการให้ชิดซ้าย */
+  }
+  
+.review-section h2 {
+    margin: 0; /* ลบระยะห่างเริ่มต้น */
+}
+  
+.review-edit {
+    margin-left: auto; /* ดันปุ่มไปทางขวาสุด */
+}
+
+.hr {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.review-container {
+    margin-top: 20px;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: 400px;
+}
+  
+.stars {
+    color: #f5c518; /* สีเหลือง */
+    margin-bottom: 10px;
+}
+  
+.stars .fa {
+    margin-right: 5px;
+}
+
+.review-edit {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.review-btn {
+    width: 100px;
+    max-width: 100%;
+    padding: 10px;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+
+.review-btn:hover {
+    background-color: #d9531e; /* สี hover */
+    cursor: pointer;
+}
+
+.review-history-btn {
+    color: #F36523;
+    text-decoration: underline;
+    cursor: pointer;
+    align-items: center;
+}
+
+.review-history-btn:hover {
+    filter: brightness(0.8);
+    text-decoration: none;
+}

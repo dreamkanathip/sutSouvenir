@@ -1,6 +1,9 @@
+/* Global Font */
 * {
   font-family: url("../../../assets/fonts/SUT-Light.otf");
 }
+
+/* Submit Button Styles */
 .submit {
   width: 10%;
   height: 45px;
@@ -16,70 +19,68 @@
   color: #fff;
 }
 
-.body {
-  background-image: url("../../../assets/bgtemp-login-regis.jpg");
-}
-/* ปรับระยะห่างระหว่าง navbar กับตาราง */
+/* Table Container Styles */
 .table-container {
   display: flex;
-  justify-content: center; /* จัดให้อยู่ตรงกลาง */
+  justify-content: center;
   overflow-x: auto;
   margin-top: 50px;
-  padding-top: 70px; /* ระยะความสูงของ navbar */
+  padding-top: 70px;
 }
 
-/* ตัวอย่างการปรับแต่งเพิ่มเติม */
+/* Table Styles */
 .table th,
 .table td {
-  text-align: center; /* จัดข้อความกึ่งกลาง */
-  vertical-align: middle; /* จัดให้อยู่กลางเซลล์ */
-  height: 50px; /* กำหนดความสูงแถวให้คงที่ */
-}
-.table td {
-  padding: 12px; /* เพิ่มระยะห่างระหว่างข้อความ */
-}
-/* สไตล์ของปุ่มในตาราง */
-.table .btn {
-  width: 30%; /* ปรับขนาดความกว้างของปุ่ม */
-  height: 45px; /* ปรับขนาดความสูงของปุ่ม */
-  background: #ececec; /* เปลี่ยนพื้นหลังเป็นสีเทา */
-  border: none; /* ลบเส้นขอบ */
-  border-radius: 5px; /* มุมโค้ง */
-  transition: 0.4s; /* เพิ่มการเปลี่ยนแปลงเมื่อ hover */
-  font-size: 14px; /* ขนาดตัวอักษร */
-  margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
 }
 
-/* ปุ่มที่มี class .btn-danger (ปุ่มลบ) */
+.table td {
+  padding: 12px;
+}
+
+/* Button Styles in Table */
+.table .btn {
+  width: 30%;
+  height: 45px;
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
 .table .btn-danger {
-  background: #f66a6a; /* สีพื้นหลังปุ่มลบ */
+  background: #f66a6a;
 }
 
 .table .btn-danger:hover {
-  background: rgb(246, 74, 74); /* สีแดงเข้มเมื่อ hover */
-  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
+  background: rgb(246, 74, 74);
+  color: #fff;
 }
 
-/* ปุ่มที่มี class .btn-warning (ปุ่มแก้ไข) */
 .table .btn-warning {
-  background: #f0ad4e; /* สีพื้นหลังปุ่มแก้ไข */
+  background: #f0ad4e;
 }
 
 .table .btn-warning:hover {
-  background: rgb(240, 173, 78); /* สีเมื่อ hover */
-  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
+  background: rgb(240, 173, 78);
+  color: #fff;
 }
 
+/* Card Styles */
 .card {
-  width: 90%; /* กำหนดความกว้างของ Card */
-  border-radius: 10px; /* มุมโค้ง */
-  overflow: hidden; /* ซ่อนส่วนที่เกิน */
-  background-color: #ffffff; /* สีพื้นหลัง */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* แสงเงา */
+  width: 90%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-  background-color: #f8f9fa; /* สีหัว Card */
+  background-color: #f8f9fa;
   padding: 15px;
   font-size: 18px;
   font-weight: bold;
@@ -91,56 +92,52 @@
 }
 
 .table {
-  margin-bottom: 0; /* ตัดระยะห่างด้านล่างของตาราง */
+  margin-bottom: 0;
 }
 
-.pagination-controls button {
-  background: #ececec; /* พื้นหลังเหมือนปุ่ม submit */
-  border: none; /* ลบเส้นขอบ */
-  border-radius: 5px; /* มุมโค้ง */
-  padding: 10px 20px; /* ขนาดปุ่ม */
-  font-size: 14px; /* ขนาดตัวอักษร */
-  transition: 0.4s; /* เพิ่มการเปลี่ยนแปลงเมื่อ hover */
-}
-
-.pagination-controls button:hover {
-  background: #f26522; /* สีพื้นหลังเมื่อ hover */
-  color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเมื่อ hover */
-}
-
-/* เพิ่มการจัดเรียงปุ่มให้ตรงกลาง */
+/* Pagination Controls */
 .pagination-controls {
   margin-top: 20px;
   text-align: center;
 }
 
 .pagination-controls button {
-  margin: 0 10px; /* ระยะห่างระหว่างปุ่ม */
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
   font-size: 14px;
+  transition: 0.4s;
+  margin: 0 10px;
 }
-/* CSS สำหรับ modal หรือ card ที่ทับตาราง */
+
+.pagination-controls button:hover {
+  background: #f26522;
+  color: #fff;
+}
+
+/* Edit Card Modal Styles */
 .edit-card {
-  position: fixed; /* ใช้ fixed เพื่อให้มันติดอยู่บนหน้าจอ */
-  top: 55%; /* ตั้งตำแหน่งให้กลางจอ */
+  position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* ทำให้ card อยู่กลางจอ */
+  transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  z-index: 1050; /* ตั้ง z-index ให้สูงกว่าเนื้อหาอื่นๆ */
-  display: none; /* ซ่อนเอาไว้ก่อน */
-  max-width: 1000px; /* กำหนดความกว้างสูงสุด */
-  width: 100%; /* กำหนดให้เต็มความกว้าง */
+  z-index: 1050;
+  display: none;
+  max-width: 1000px;
+  width: 100%;
 }
 
-/* เพิ่ม class เมื่อแสดงผล */
 .edit-card.show {
   display: block;
-  width: 80%; /* ปรับให้การ์ดมีความกว้างที่ 80% ของหน้าจอ */
+  width: 80%;
 }
 
-/* เพิ่ม dark background เมื่อ modal แสดง */
+/* Dark Background for Modal */
 body.modal-open {
   overflow: hidden;
 }
@@ -154,4 +151,16 @@ body.modal-open::before {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1040;
+}
+
+/* Video Background */
+.video-background {
+  position: fixed;
+  z-index: -9;
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../interfaces/products/products.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
 import { catchError, of, switchMap } from 'rxjs';
 import { CartService } from '../../services/cart/cart.service';
 import Swal from 'sweetalert2';
+import { ReviewService } from '../../services/review/review.service';
+import { ReviewModel } from '../../interfaces/review/review.model';
 
 @Component({
   selector: 'app-product-details',
@@ -15,10 +17,20 @@ export class ProductDetailsComponent implements OnInit {
 
   product!: Product;
   quantityToOrder: number = 1;
-  userId: number = 1;
+  userId: number = 2;
+
+  reviews: ReviewModel[] = []
+  uniqueReview: any[] = []
+  averageRating: number = 0;
+
+  historyModal: boolean = false;
+  reviewHistoryUser?: any
+  reviewHistory: any[] = []
 
   constructor(
+    private reviewService: ReviewService,
     private productDetails: ProductDetailsService,
+    private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
   ) {}
@@ -27,6 +39,7 @@ export class ProductDetailsComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     const productIdFromRoute = Number(routeParams.get('id'));
     this.getProductById(productIdFromRoute);
+    this.listProductReview(productIdFromRoute)
   }
 
   getProductById(id: number) {
@@ -144,5 +157,57 @@ export class ProductDetailsComponent implements OnInit {
         this.getProductById(productIdFromRoute);
       })
     }
+  }
+
+  listProductReview(id: number) {
+    this.reviewService.listReview(id).subscribe((result) => {
+      if (result) {
+        this.reviews = result.reviews;
+        const uniqueReviewsMap = new Map<number, any>(); // Map สำหรับเก็บข้อมูล unique reviews
+        result.reviews.forEach((review: any) => {
+          if (!uniqueReviewsMap.has(review.userId)) {
+            uniqueReviewsMap.set(review.userId, review); // เพิ่มรีวิวที่ไม่ซ้ำ
+          } else {
+            const existingReview = uniqueReviewsMap.get(review.userId);
+            // อัพเดตเฉพาะรีวิวที่มี createdAt ล่าสุด
+            if (new Date(review.createdAt) > new Date(existingReview.createdAt)) {
+              uniqueReviewsMap.set(review.userId, review);
+            }
+          }
+        });
+        // แปลง Map เป็น Array
+        this.uniqueReview = Array.from(uniqueReviewsMap.values());
+      }
+
+      const totalStars = this.uniqueReview.reduce((sum, review) => sum + review.star, 0);
+      this.averageRating = this.uniqueReview.length > 0 ? totalStars / this.uniqueReview.length : 0;
+
+      // console.log("Reviews:", this.reviews);
+      // console.log("Unique Reviews:", this.uniqueReview)
+      // console.log("Average Rating:", this.averageRating);
+    });
+  }
+
+  checkReviewHistory(id: number) {
+    const history = this.reviews.filter(review => review.userId === id);
+    if (history.length >= 2) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  showHistory(id: number) {
+    this.reviewHistory = this.reviews.filter(review => review.userId === id);
+    this.reviewHistoryUser = this.reviewHistory[0].user;
+    this.historyModal = true
+  }
+
+  closeHistory() {
+    this.historyModal = false
+  }
+
+  NavigateToReview(id: any){
+    this.router.navigate(['/review', id])
   }
 }

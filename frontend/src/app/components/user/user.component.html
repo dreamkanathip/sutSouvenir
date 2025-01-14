@@ -11,219 +11,265 @@
 <ng-template #userTemplate>
   <div class="row mx-auto user-page">
     <div class="col-md-4">
-        <div class="user-menu">
-            <div class="menu">
-                <h3 class="container-header">บัญชีผู้ใช้</h3>
-                <hr/>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <p>ข้อมูลส่วนตัว</p>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/address">ที่อยู่</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="user-menu">
+        <div class="menu">
+          <h3 class="container-header">บัญชีผู้ใช้</h3>
+          <hr />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <p>ข้อมูลส่วนตัว</p>
+            </li>
+            <li class="nav-item">
+              <a href="/address">ที่อยู่</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
     <div class="col-md-8">
-        <div class="user-container">
-            <h3 class="container-header">ข้อมูลส่วนตัว</h3>
-            <br/>
-            <div class="user-table card shadow-sm">
-                <table class="table table-sm">
-                    <!-- <thead>
+      <div class="user-container">
+        <h3 class="container-header">ข้อมูลส่วนตัว</h3>
+        <br />
+        <div class="user-table card shadow-sm">
+          <table class="table table-sm">
+            <!-- <thead>
                         <tr>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead> -->
-                    <tbody>
-                        <tr>
-                            <td class="topic">ชื่อ - สกุล</td>
-                            <td>{{ showFullName() }}</td>
-                        </tr>
-                        <tr>
-                            <td>เพศ</td>
-                            <td>{{showGender()}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="edit-btn">
-                <button class="edit-button-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
-            </div>
-            <hr/>
-            <h3 class="container-header">ข้อมูลบัญชี</h3>
-            <br />
-            <div class="user-table card shadow-sm">
-              <table class="table table-sm">
-                <!-- <thead>
+            <tbody>
+              <tr>
+                <td class="topic">ชื่อ - สกุล</td>
+                <td>{{ showFullName() }}</td>
+              </tr>
+              <tr>
+                <td>เพศ</td>
+                <td>{{ showGender() }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="edit-btn">
+          <button class="edit-button-btn" (click)="dataModal()">
+            แก้ไขข้อมูล
+          </button>
+        </div>
+        <hr />
+        <h3 class="container-header">ข้อมูลบัญชี</h3>
+        <br />
+        <div class="user-table card shadow-sm">
+          <table class="table table-sm">
+            <!-- <thead>
                   <tr>
                     <th></th>
                     <th></th>
                   </tr>
                 </thead> -->
-                <tbody>
-                  <tr>
-                    <td>อีเมล</td>
-                    <td>{{user?.email}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="edit-btn">
-              <button class="edit-button-btn" (click)="emailModal()">แก้ไขอีเมล</button>
-              <button class="edit-button-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
-            </div>
+            <tbody>
+              <tr>
+                <td>อีเมล</td>
+                <td>{{ user?.email }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </div>
-  <!-- Modal Backdrop -->
-  <div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
-
-  <!-- Data Modal -->
-  <div *ngIf="dataModalOpen" class="modal fade show" tabindex="-1" style="display: block;">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">แก้ไขข้อมูลผู้ใช้งาน</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="dataModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="editedUser" (ngSubmit)="onDataSubmit()">
-            <div class="mb-3">
-              <label for="firstname" class="form-label">ชื่อ</label>
-              <input
-                id="firstname"
-                type="text"
-                class="form-control"
-                formControlName="firstName"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="lastname" class="form-label">นามสกุล</label>
-              <input
-                id="lastname"
-                type="text"
-                class="form-control"
-                formControlName="lastName"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="gender" class="form-label">เพศ</label>
-              <select id="gender" class="form-select" formControlName="gender">
-                <option value="Male">ชาย</option>
-                <option value="Female">หญิง</option>
-                <option value="Other">อื่นๆ</option>
-              </select>
-            </div>
-            <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="dataModal()">
-                  ยกเลิก
-              </button>
-              <button type="submit" class="edit-button-btn">
-                  บันทึก
-              </button>
-            </div>
-          </form>
+        <div class="edit-btn">
+          <button class="edit-button-btn" (click)="emailModal()">
+            แก้ไขอีเมล
+          </button>
+          <button class="edit-button-btn" (click)="passwordModal()">
+            แก้ไขรหัสผ่าน
+          </button>
         </div>
       </div>
     </div>
-  </div>
-  <!-- End of Data Modal-->
+    <!-- Modal Backdrop -->
+    <div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
 
-  <!-- Email Modal -->
-  <div *ngIf="emailModalOpen" class="modal fade show" tabindex="-1" style="display: block;">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">แก้ไขอีเมลของบัญชีผู้ใช้</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="emailModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="editedUser" (ngSubmit)="onEmailSubmit()">
-            <div class="mb-3">
-              <label for="email" class="form-label">อีเมล</label>
-              <input
-                id="email"
-                type="email"
-                class="form-control"
-                formControlName="email"
-                required
-              />
-            </div>
-            <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="emailModal()">
+    <!-- Data Modal -->
+    <div
+      *ngIf="dataModalOpen"
+      class="modal fade show"
+      tabindex="-1"
+      style="display: block"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">แก้ไขข้อมูลผู้ใช้งาน</h5>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="dataModal()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editedUser" (ngSubmit)="onDataSubmit()">
+              <div class="mb-3">
+                <label for="firstname" class="form-label">ชื่อ</label>
+                <input
+                  id="firstname"
+                  type="text"
+                  class="form-control"
+                  formControlName="firstName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="lastname" class="form-label">นามสกุล</label>
+                <input
+                  id="lastname"
+                  type="text"
+                  class="form-control"
+                  formControlName="lastName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label">เพศ</label>
+                <select
+                  id="gender"
+                  class="form-select"
+                  formControlName="gender"
+                >
+                  <option value="Male">ชาย</option>
+                  <option value="Female">หญิง</option>
+                  <option value="Other">อื่นๆ</option>
+                </select>
+              </div>
+              <div class="form-submit-container">
+                <button
+                  type="button"
+                  class="edit-button-btn"
+                  (click)="dataModal()"
+                >
                   ยกเลิก
-              </button>
-              <button type="submit" class="edit-button-btn">
-                  บันทึก
-              </button>
-            </div>
-          </form>
+                </button>
+                <button type="submit" class="edit-button-btn">บันทึก</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- End of Email Modal-->
+    <!-- End of Data Modal-->
 
-  <!-- Password Modal -->
-  <div *ngIf="passwordModalOpen" class="modal fade show" tabindex="-1" style="display: block;">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">แก้ไขรหัสผ่านของบัญชีผู้ใช้</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="passwordModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
-            <div class="mb-3">
-              <label for="email" class="form-label">รหัสผ่านเก่า</label>
-              <input
-                id="oldPassword"
-                type="password"
-                class="form-control"
-                formControlName="oldPassword"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">รหัสผ่านใหม่</label>
-              <input
-                id="newPassword"
-                type="password"
-                class="form-control"
-                formControlName="newPassword"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">ยืนยันรหัสผ่าน</label>
-              <input
-                id="repeatNewPassword"
-                type="password"
-                class="form-control"
-                formControlName="repeatNewPassword"
-                required
-              />
-            </div>
-            <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="passwordModal()">
+    <!-- Email Modal -->
+    <div
+      *ngIf="emailModalOpen"
+      class="modal fade show"
+      tabindex="-1"
+      style="display: block"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">แก้ไขอีเมลของบัญชีผู้ใช้</h5>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="emailModal()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editedUser" (ngSubmit)="onEmailSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">อีเมล</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  required
+                />
+              </div>
+              <div class="form-submit-container">
+                <button
+                  type="button"
+                  class="edit-button-btn"
+                  (click)="emailModal()"
+                >
                   ยกเลิก
-              </button>
-              <button type="submit" class="edit-button-btn">
-                  บันทึก
-              </button>
-            </div>
-          </form>
+                </button>
+                <button type="submit" class="edit-button-btn">บันทึก</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+    <!-- End of Email Modal-->
+
+    <!-- Password Modal -->
+    <div
+      *ngIf="passwordModalOpen"
+      class="modal fade show"
+      tabindex="-1"
+      style="display: block"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">แก้ไขรหัสผ่านของบัญชีผู้ใช้</h5>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="passwordModal()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">รหัสผ่านเก่า</label>
+                <input
+                  id="oldPassword"
+                  type="password"
+                  class="form-control"
+                  formControlName="oldPassword"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">รหัสผ่านใหม่</label>
+                <input
+                  id="newPassword"
+                  type="password"
+                  class="form-control"
+                  formControlName="newPassword"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">ยืนยันรหัสผ่าน</label>
+                <input
+                  id="repeatNewPassword"
+                  type="password"
+                  class="form-control"
+                  formControlName="repeatNewPassword"
+                  required
+                />
+              </div>
+              <div class="form-submit-container">
+                <button
+                  type="button"
+                  class="edit-button-btn"
+                  (click)="passwordModal()"
+                >
+                  ยกเลิก
+                </button>
+                <button type="submit" class="edit-button-btn">บันทึก</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Password Modal-->
   </div>
-  <!-- End of Password Modal-->
-</div>
 </ng-template>
 
 <app-footer></app-footer>
