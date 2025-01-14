@@ -3,12 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
 import { userOrder } from '../../interfaces/order/order';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   apiUrl = "http://localhost:5000/api";
+
+  private storagePageSubject = new BehaviorSubject<Number>(0);
+  storagePage$ = this.storagePageSubject.asObservable();
+
+  // 0 = Storage 
+  // 1 = History
+  // 2 = Favourite
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +25,6 @@ export class UserService {
   }
 
   updateUser(user: UserModel): Observable<UserModel> {
-    console.log("update")
     return this.http.put<UserModel>(`${this.apiUrl}/user/update`, user);
   }
 
@@ -27,5 +34,13 @@ export class UserService {
 
   getUserStorage(): Observable<userOrder> {
     return this.http.get<any>(`${this.apiUrl}/user/storage`)
+  }
+  
+  setStoragePage(page: Number){
+    this.storagePageSubject.next(page);
+  }
+
+  getStoragePage() {
+    return this.storagePageSubject.value;
   }
 }

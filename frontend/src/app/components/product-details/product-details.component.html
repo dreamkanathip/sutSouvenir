@@ -22,9 +22,16 @@
           ></i>
         </div>
         
-        <div class="add-to-fav ms-5">
-          <i class='bx bx-heart bx-sm'></i>
+        <div class="favourite" *ngIf="likeProductStatus else noLike">
+          <div class="add-to-fav ms-5" (click)="unlikeProduct(product)">
+            <i class='bx bxs-heart bx-sm'></i>
+          </div>
         </div>
+        <ng-template #noLike>
+          <div class="no-fav ms-5" (click)="likeProduct(product)">
+            <i class='bx bx-heart bx-sm'></i>
+          </div>
+        </ng-template>
       </div>
       
       
@@ -48,28 +55,37 @@
     <!-- Section รีวิว -->
     <div class="row-cols-1 review-section">
       <h2>รีวิว</h2>
-      <div class="review-edit">
-        <button class="review-btn" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
-      </div>
     </div>
-    <div class="review-container row-cols-1 row-cols-md-3 g-8" *ngIf="reviews">
-      <div class="review-card col" *ngFor="let review of uniqueReview">
-        <div class="stars">
-          <i
-            class="fa"
-            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-            [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
-          ></i>
+    <div class="review-container">
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let review of uniqueReview">
+          <div class="review-card">
+            <div class="stars">
+              <i
+                class="fa"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
+              ></i>
+            </div>
+            <div>{{ review.user?.firstName }} : {{ review.comment }}</div>
+            <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
+              <p>
+                รีวิวนี้ได้รับการแก้ไขจากผู้เขียนรีวิว 
+                <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a>
+              </p>
+            </div>
+          </div>
         </div>
-        <div>{{review.user?.firstName}} : {{ review.comment }}</div>
-        <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
-          <p>รีวิวนี้มีได้รับการแก้ไขจากผู้เขียนรีวิว <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a></p>
-        </div>
       </div>
-    </div>
-    <div *ngIf="!reviews">
-      <p>ยังไม่มีรีวิวสำหรับสินค้านี้</p>
-    </div>
+    </div>    
+    <ng-template #noReview>
+      <div class="no-review text-center">
+        <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
+      </div>
+    </ng-template>
+    <!-- <div class="review-edit">
+      <button class="review-btn mt-5" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
+    </div> -->
   </div>
 </div>
 

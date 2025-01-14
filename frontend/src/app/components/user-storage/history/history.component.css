@@ -30,9 +30,10 @@
 .cancel-order {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
 }
 
-.cancel-btn {
+.payment-btn, .cancel-btn {
     margin-top: 10px;
     width: 120px;
     max-width: 100%;

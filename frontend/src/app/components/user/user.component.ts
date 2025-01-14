@@ -4,6 +4,7 @@ import { UserModel } from '../../interfaces/user/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AddressService } from '../../services/address/address.service';
 
 @Component({
   selector: 'app-user',
@@ -16,12 +17,20 @@ export class UserComponent implements OnInit{
   editedUser: FormGroup
   passwordForm: FormGroup
 
+  userId: number = 1
+
   ModalOpen = false
   dataModalOpen = false
   emailModalOpen = false
   passwordModalOpen = false
 
-  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) {
+  defaultAddress? : string
+
+  constructor(
+    private userService: UserService,
+    private addressService: AddressService,
+    private fb: FormBuilder, 
+    private router: Router) {
     this.editedUser = this.fb.group({
       id: 0,
       firstName: ['', [Validators.required]],
@@ -32,13 +41,14 @@ export class UserComponent implements OnInit{
 
     this.passwordForm = this.fb.group({
       oldPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required]],
-      repeatNewPassword: ['', [Validators.required]]
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      repeatNewPassword: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
   ngOnInit(): void {
     this.getUserData()
+    this.getDefaultAddress()
   }
 
   getUserData() {
@@ -77,14 +87,23 @@ export class UserComponent implements OnInit{
     if (this.user?.firstName && this.user?.lastName) {
       return `${this.user.firstName} ${this.user.lastName}`;
     }
-    return "NAME ERROR";
+    return "ไม่พบชื่อในระบบ";
   }
   
+  getDefaultAddress() {
+    this.addressService.getDefaultAddress(this.userId).subscribe(result => {
+      if (result) {
+        this.defaultAddress = result.street + ' ตำบล' + result.subDistrict + ' อำเภอ' + result.district + ' ' + result.province
+      } else {
+        this.defaultAddress = "ไม่พบที่อยู่ที่ได้บันทึกไว้"
+      }
+    })
+  }
 
   onDataSubmit(): void {
     if (this.editedUser.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -137,7 +156,7 @@ export class UserComponent implements OnInit{
   onEmailSubmit(){
     if (this.editedUser.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -207,7 +226,7 @@ export class UserComponent implements OnInit{
   onPasswordSubmit(){
     if (this.passwordForm.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -308,6 +327,10 @@ export class UserComponent implements OnInit{
 
   userLogin(){
     this.router.navigate(['/login']);
+  }
+
+  NavigateToAddress(){
+    this.router.navigate(['/address']);
   }
 
 }

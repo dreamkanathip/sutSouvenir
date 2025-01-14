@@ -3,6 +3,11 @@
     margin-bottom: 3%;
     font-family: 'SUT', sans-serif;
 }
+.row {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
 .img-container{
     width: 29rem;
     height: auto;
@@ -61,8 +66,14 @@ h1 {
     width: 60px;
     font-size: 22px;
 }
-.add-to-fav {
-    margin-top: 1rem;
+.add-to-fav i {
+    margin-top: 0.5rem;
+    text-align: end;
+    color: #ff0000;
+    cursor: pointer;
+}
+.no-fav i {
+    margin-top: 0.5rem;
     text-align: end;
     color: #636363;
     cursor: pointer;
@@ -80,7 +91,7 @@ h1 {
 .review-section {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* หรือ 'flex-start' ถ้าต้องการให้ชิดซ้าย */
+    justify-content: flex-start;
   }
   
 .review-section h2 {
@@ -99,54 +110,72 @@ h1 {
 
 .review-container {
     margin-top: 20px;
-}
-
-.review-card {
+  }
+  
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 8px;
-    margin-bottom: 10px;
-    width: 400px;
-}
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+  }
   
-.stars {
+  .review-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    transition: 0.3s ease-in-out;
+  }
+  
+  .stars {
     color: #f5c518; /* สีเหลือง */
     margin-bottom: 10px;
-}
+    font-size: 20px;
+  }
   
-.stars .fa {
+  .stars .fa {
     margin-right: 5px;
-}
-
-.review-edit {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-}
-
-.review-btn {
-    width: 100px;
-    max-width: 100%;
-    padding: 10px;
-    background-color: #F36523;
-    color: white;
-    border: hidden;
-    border-radius: 10px
-}
-
-.review-btn:hover {
-    background-color: #d9531e; /* สี hover */
-    cursor: pointer;
-}
-
-.review-history-btn {
+  }
+  
+  .review-history-btn {
     color: #F36523;
     text-decoration: underline;
     cursor: pointer;
-    align-items: center;
-}
-
-.review-history-btn:hover {
+  }
+  
+  .review-history-btn:hover {
     filter: brightness(0.8);
     text-decoration: none;
-}
+  }
+  
+  .row.g-4 {
+    gap: 1.5rem; /* ระยะห่างระหว่างการ์ด */
+  }
+  
+  .review-content {
+    flex-grow: 1; /* ขยายส่วนนี้ให้อยู่กลางการ์ด */
+    margin-bottom: 1rem;
+  }
+  
+  .mt-auto {
+    margin-top: auto; /* ดันส่วนล่างสุดให้อยู่ปลายการ์ด */
+  }
+
+  .review-edit {
+    display: flex;
+    justify-content: end;
+  }
+
+  .review-btn {
+    background-color: #F36523;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    width: 15%;
+  }
+  

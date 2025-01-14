@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { OrderService } from '../../../services/order/order.service';
 import { userOrder } from '../../../interfaces/order/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -19,7 +20,7 @@ export class HistoryComponent implements OnInit{
   selectedHistoryDetail? : any // ProductsOnOrder
   selectedHistoryProducts? : any[] // รายการสินค้า
 
-  constructor(private userService: UserService, private orderService: OrderService){}
+  constructor(private userService: UserService, private orderService: OrderService, private router: Router){}
 
   ngOnInit(): void {
     this.getUserStorageItem();
@@ -158,6 +159,10 @@ export class HistoryComponent implements OnInit{
 
   closeHistory(){
     this.historyModal = false
+  }
+
+  NavigateToPayment(item: any){
+    this.router.navigate(['/payment', item.id])
   }
 
 }

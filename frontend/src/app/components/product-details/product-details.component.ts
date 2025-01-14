@@ -6,6 +6,7 @@ import { catchError, of, switchMap } from 'rxjs';
 import { CartService } from '../../services/cart/cart.service';
 import { ReviewService } from '../../services/review/review.service';
 import { ReviewModel } from '../../interfaces/review/review.model';
+import { FavouriteService } from '../../services/favourite/favourite.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,7 +17,7 @@ export class ProductDetailsComponent implements OnInit {
 
   product!: Product;
   quantityToOrder: number = 1;
-  userId: number = 2;
+  userId: number = 1;
 
   reviews: ReviewModel[] = []
   uniqueReview: any[] = []
@@ -26,9 +27,12 @@ export class ProductDetailsComponent implements OnInit {
   reviewHistoryUser?: any
   reviewHistory: any[] = []
 
+  likeProductStatus: boolean = false
+
   constructor(
     private reviewService: ReviewService,
     private productDetails: ProductDetailsService,
+    private favouriteService: FavouriteService,
     private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
@@ -39,12 +43,39 @@ export class ProductDetailsComponent implements OnInit {
     const productIdFromRoute = Number(routeParams.get('id'));
     this.getProductById(productIdFromRoute);
     this.listProductReview(productIdFromRoute)
+    this.checkLiked(productIdFromRoute)
   }
 
   getProductById(id: number) {
     this.productDetails.getProductById(id).subscribe((result) => {
       this.product = result;
     });
+  }
+
+  checkLiked(id: number) {
+    this.favouriteService.checkLikeProduct(this.userId, id).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = true
+      } else {
+        this.likeProductStatus = false
+      }
+    })
+  }
+
+  likeProduct(item: any) {
+    this.favouriteService.likeProduct(this.userId, item).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = true
+      }
+    })
+  }
+
+  unlikeProduct(item: any) {
+    this.favouriteService.removeFromFavourites(this.userId, item.id).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = false
+      }
+    })
   }
   
   decreaseQuantity() {

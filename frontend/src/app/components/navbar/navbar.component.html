@@ -32,7 +32,7 @@
         </form>
       </div>
       <div class="p-2 bd-highlight">
-        <a class="favourite" href="/favourite">
+        <a class="favourite" (click)="NavigateToFavourite()">
           <span class="favourite"><i class="bx bx-heart"></i></span>
         </a>
       </div>
@@ -62,7 +62,8 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
-              <a class="dropdown-item" href="/user/storage">ประวัติการสั่งซื้อ</a>
+              <a class="dropdown-item" (click)="NavigateToStorage()">รายการสินค้าของคุณ</a>
+              <a class="dropdown-item" (click)="NavigateToHistory()">ประวัติการสั่งซื้อ</a>
               <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
               <a routerLink="/login" (click)="logout()" class="dropdown-item"
                 >Logout</a

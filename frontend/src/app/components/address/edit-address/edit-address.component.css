@@ -1,28 +1,13 @@
 .edit-address-page {
     display: flex;
-    align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    align-items: stretch;
+    justify-content: center;
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
     max-width: 1920px;
     font-family: 'SUT', sans-serif;
     font-size: larger;
-}
-
-.edit-address-page > [class^="col-"] {
-    display: flex; /* ใช้ flex เพื่อจัดการ layout ภายใน */
-    flex-direction: column; /* เนื้อหาภายในจะเรียงจากบนลงล่าง */
-}
-
-.user-menu {
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    max-width: 450px;
-    background-color: white;
-    margin-top: 90px;
-    margin-left: 25%;
-    border-radius: 10px
 }
 
 .edit-address-container {
@@ -33,7 +18,8 @@
     background-color: white;
     margin-top: 90px;
     margin-bottom: 50px;
-    border-radius: 10px
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .form-container {
@@ -42,7 +28,28 @@
 }
 
 .form-group {
-    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: medium;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.form-group input {
+    width: 75%;
+    height: 40px;
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-group input:focus {
+    border-color: #F36523;
+    outline: none;
+    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
 }
 
 .dropdown-menu {
@@ -51,41 +58,54 @@
     overflow-x: hidden;
     padding: 5px 0;
     border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .input-field .form-group input,
 .input-field .form-group .dropdown a {
-  height: 40px;
-  line-height: 1.5;
-}
-
-.input-field .form-group {
-  margin-bottom: 20px;
+    height: 40px;
+    line-height: 1.5;
+    padding: 8px;
 }
 
 .input-field .dropdown .dropdown-toggle {
     height: 40px;
     line-height: 40px;
-    display: inline-flex; /* ปรับตามเนื้อหา */
+    display: inline-flex;
     align-items: center;
-    border: 1px solid #000;
+    border: 1px solid #ddd;
     min-width: 120px;
     width: auto;
     max-width: 175px;
-    white-space: nowrap; /* ไม่ตัดข้อความเป็นบรรทัดใหม่ */
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.input-field .dropdown .dropdown-toggle:focus {
+    border-color: #F36523;
+    outline: none;
+    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
+}
+
+.input-field .form-group small.text-danger {
+    font-size: small;
 }
 
 @media (max-width: 768px) {
     .input-field .form-group input,
     .input-field .form-group .dropdown a {
-      height: 30px;
+        height: 30px;
+    }
+
+    .edit-address-container {
+        padding: 15px;
     }
 }
 
 .form-submit-container {
     display: flex;
     justify-content: flex-end;
-    gap: 10px; /* ระยะห่าง */
+    gap: 10px;
     margin-top: 20px;
 }
 
@@ -96,5 +116,10 @@
     background-color: #F36523;
     color: white;
     border: hidden;
-    border-radius: 10px
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.edit-btn:hover {
+    background-color: #D95520;
 }

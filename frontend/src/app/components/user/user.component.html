@@ -10,7 +10,7 @@
 </div>
 <ng-template #userTemplate>
   <div class="row mx-auto user-page">
-    <div class="col-md-4">
+    <!-- <div class="col-md-4">
         <div class="user-menu">
             <div class="menu">
                 <h3 class="container-header">บัญชีผู้ใช้</h3>
@@ -25,12 +25,12 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="col-md-8">
+    </div> -->
+    <!-- <div class="col-md-8"> -->
         <div class="user-container">
             <h3 class="container-header">ข้อมูลส่วนตัว</h3>
             <br/>
-            <div class="user-table card shadow-sm">
+            <div>
                 <table class="table table-sm">
                     <!-- <thead>
                         <tr>
@@ -51,12 +51,12 @@
                 </table>
             </div>
             <div class="edit-btn">
-                <button class="edit-button-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
+                <button class="edit-modal-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
             </div>
             <hr/>
             <h3 class="container-header">ข้อมูลบัญชี</h3>
             <br />
-            <div class="user-table card shadow-sm">
+            <div>
               <table class="table table-sm">
                 <!-- <thead>
                   <tr>
@@ -66,18 +66,23 @@
                 </thead> -->
                 <tbody>
                   <tr>
-                    <td>อีเมล</td>
+                    <td class="topic">อีเมล</td>
                     <td>{{user?.email}}</td>
+                  </tr>
+                  <tr>
+                    <td>ที่อยู่</td>
+                    <td>{{defaultAddress}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="edit-btn">
-              <button class="edit-button-btn" (click)="emailModal()">แก้ไขอีเมล</button>
-              <button class="edit-button-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
+              <button class="edit-modal-btn" (click)="NavigateToAddress()">แก้ไขที่อยู่</button>
+              <button class="edit-modal-btn" (click)="emailModal()">แก้ไขอีเมล</button>
+              <button class="edit-modal-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
   <!-- Modal Backdrop -->
   <div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
 
@@ -92,24 +97,38 @@
         <div class="modal-body">
           <form [formGroup]="editedUser" (ngSubmit)="onDataSubmit()">
             <div class="mb-3">
-              <label for="firstname" class="form-label">ชื่อ</label>
-              <input
-                id="firstname"
-                type="text"
-                class="form-control"
-                formControlName="firstName"
-                required
-              />
+              <div class="form-group">
+                <label for="firstname" class="form-label">ชื่อ</label>
+                <input
+                  id="firstname"
+                  type="text"
+                  class="form-control"
+                  formControlName="firstName"
+                  required
+                />
+              </div>
+              <div *ngIf="editedUser.get('firstName')?.touched && editedUser.get('firstName')?.invalid">
+                <small class="text-danger" *ngIf="editedUser.get('firstName')?.errors?.['required']">
+                  กรุณากรอกชื่อ
+                </small>
+              </div>
             </div>
             <div class="mb-3">
-              <label for="lastname" class="form-label">นามสกุล</label>
-              <input
-                id="lastname"
-                type="text"
-                class="form-control"
-                formControlName="lastName"
-                required
-              />
+              <div class="form-group">
+                <label for="lastname" class="form-label">นามสกุล</label>
+                <input
+                  id="lastname"
+                  type="text"
+                  class="form-control"
+                  formControlName="lastName"
+                  required
+                />
+              </div>
+              <div *ngIf="editedUser.get('lastName')?.touched && editedUser.get('lastName')?.invalid">
+                <small class="text-danger" *ngIf="editedUser.get('lastName')?.errors?.['required']">
+                  กรุณากรอกนามสกุล
+                </small>
+              </div>
             </div>
             <div class="mb-3">
               <label for="gender" class="form-label">เพศ</label>
@@ -120,10 +139,10 @@
               </select>
             </div>
             <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="dataModal()">
+              <button type="button" class="cancel-button" (click)="dataModal()">
                   ยกเลิก
               </button>
-              <button type="submit" class="edit-button-btn">
+              <button type="submit" class="submit-button" (click)="onDataSubmit()">
                   บันทึก
               </button>
             </div>
@@ -145,20 +164,30 @@
         <div class="modal-body">
           <form [formGroup]="editedUser" (ngSubmit)="onEmailSubmit()">
             <div class="mb-3">
-              <label for="email" class="form-label">อีเมล</label>
-              <input
-                id="email"
-                type="email"
-                class="form-control"
-                formControlName="email"
-                required
-              />
-            </div>
+              <div class="form-group">
+                <label for="email" class="form-label">อีเมล</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  required
+                />
+              </div>
+              <div *ngIf="editedUser.get('email')?.touched && editedUser.get('email')?.invalid">
+                <small class="text-danger" *ngIf="editedUser.get('email')?.errors?.['required']">
+                  กรุณากรอกอีเมล
+                </small>
+                <small class="text-danger" *ngIf="editedUser.get('email')?.errors?.['email']">
+                  อีเมลไม่ถูกต้อง
+                </small>
+              </div>        
+            </div>    
             <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="emailModal()">
+              <button type="button" class="cancel-button" (click)="emailModal()">
                   ยกเลิก
               </button>
-              <button type="submit" class="edit-button-btn">
+              <button type="submit" class="submit-button" (click)="onEmailSubmit()">
                   บันทึก
               </button>
             </div>
@@ -178,9 +207,10 @@
           <button type="button" class="btn-close" aria-label="Close" (click)="passwordModal()"></button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
-            <div class="mb-3">
-              <label for="email" class="form-label">รหัสผ่านเก่า</label>
+          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()" class="form-container">
+            <!-- ช่องกรอกรหัสผ่านเก่า -->
+            <div class="form-group">
+              <label for="oldPassword" class="form-label">รหัสผ่านเก่า</label>
               <input
                 id="oldPassword"
                 type="password"
@@ -189,35 +219,67 @@
                 required
               />
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">รหัสผ่านใหม่</label>
+            <div class="error-messages" *ngIf="passwordForm.get('oldPassword')?.touched && passwordForm.get('oldPassword')?.invalid">
+              <small class="text-danger" *ngIf="passwordForm.get('oldPassword')?.errors?.['required']">
+                กรุณากรอกรหัสผ่าน
+              </small>
+            </div>
+          
+            <!-- ช่องกรอกรหัสผ่านใหม่ -->
+            <div class="form-group">
+              <label for="newPassword" class="form-label">รหัสผ่านใหม่</label>
               <input
                 id="newPassword"
                 type="password"
                 class="form-control"
                 formControlName="newPassword"
+                [ngClass]="{
+                  'input-error': passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid
+                }"
                 required
               />
+              <!-- ข้อความแจ้งเตือน -->
+              <div class="error-messages" *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid">
+                <small class="text-danger" *ngIf="passwordForm.get('newPassword')?.errors?.['required']">
+                  กรุณากรอกรหัสผ่านใหม่
+                </small>
+                <small class="text-danger" *ngIf="passwordForm.get('newPassword')?.errors?.['minlength']">
+                  รหัสผ่านต้องมีอย่างน้อย 6 ตัว
+                </small>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">ยืนยันรหัสผ่าน</label>
+          
+            <!-- ช่องยืนยันรหัสผ่านใหม่ -->
+            <div class="form-group">
+              <label for="repeatNewPassword" class="form-label">ยืนยันรหัสผ่าน</label>
               <input
                 id="repeatNewPassword"
                 type="password"
                 class="form-control"
                 formControlName="repeatNewPassword"
+                [ngClass]="{
+                  'input-error': passwordForm.errors?.['passwordsNotMatch'] && passwordForm.touched
+                }"
                 required
               />
             </div>
+            <!-- ช่องยืนยันรหัสผ่านใหม่อีกครั้ง -->
+            <div class="error-messages" *ngIf="passwordForm.get('repeatNewPassword')?.touched && passwordForm.get('repeatNewPassword')?.invalid">
+              <small class="text-danger" *ngIf="passwordForm.get('repeatNewPassword')?.errors?.['required']">
+                กรุณากรอกรหัสผ่านใหม่
+              </small>
+              <small class="text-danger" *ngIf="passwordForm.get('repeatNewPassword')?.errors?.['minlength']">
+                รหัสผ่านต้องมีอย่างน้อย 6 ตัว
+              </small>
+            </div>
+          
+            <!-- ปุ่มบันทึก/ยกเลิก -->
             <div class="form-submit-container">
-              <button type="button" class="edit-button-btn" (click)="passwordModal()">
-                  ยกเลิก
-              </button>
-              <button type="submit" class="edit-button-btn">
-                  บันทึก
-              </button>
+              <button type="button" class="cancel-button" (click)="passwordModal()">ยกเลิก</button>
+              <button type="submit" class="submit-button" (click)="onPasswordSubmit()">บันทึก</button>
             </div>
           </form>
+          
         </div>
       </div>
     </div>

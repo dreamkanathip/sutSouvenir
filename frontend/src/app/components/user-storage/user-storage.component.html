@@ -5,20 +5,26 @@
             <nav id="navbar" class="navbar bg-body-tertiary px-3 mb-3">
                 <ul class="nav">
                     <li class="nav-item storage-nav">
-                        <a class="nav-link" (click)="openStorage()">รายการสินค้าของคุณ</a>
+                        <a class="nav-link" (click)="openPages(0)">รายการสินค้าของคุณ</a>
                     </li>
                     <li class="nav-item storage-nav">
-                        <a class="nav-link" (click)="openHistory()">ประวัติการสั่งซื้อ</a>
+                        <a class="nav-link" (click)="openPages(1)">ประวัติการสั่งซื้อ</a>
+                    </li>
+                    <li class="nav-item storage-nav">
+                        <a class="nav-link" (click)="openPages(2)">รายการโปรด</a>
                     </li>
                 </ul>
             </nav>
-            <!-- Storage / History -->
-            <div class="storage" *ngIf="storageOpen else historyTemplate">
+            <!-- Storage / History / Favourite -->
+            <div class="storage" *ngIf="userStoragePage == 0">
                 <app-storage></app-storage>
             </div>
-            <ng-template #historyTemplate class="history">
+            <div class="history" *ngIf="userStoragePage == 1">
                 <app-history></app-history>
-            </ng-template>
+            </div>
+            <div class="favourite" *ngIf="userStoragePage == 2">
+                <app-favourite></app-favourite>
+            </div>
         </div>
         <ng-template #noStorageTemplate>
             <div class="no-storage-page text-center">

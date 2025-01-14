@@ -18,12 +18,11 @@ import { UserStorageComponent } from './components/user-storage/user-storage.com
 import { ReviewComponent } from './components/review/review.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/managements', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: ProductDetailsComponent },
-  { path: 'favourite', component: FavouriteComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },

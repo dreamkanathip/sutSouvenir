@@ -85,12 +85,13 @@
     max-width: 275px; /* จำกัดความกว้าง */
   }
 
-.add-btn {
+.action-btn {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
 }
 
-.add-button-btn {
+.add-button-btn, .user-back-btn {
     margin-top: 10px;
     width: 120px;
     max-width: 100%;
@@ -137,7 +138,8 @@
     color: #333;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
-    border-radius: 10px
+    border-radius: 10px;
+    font-size: 22px;
 }
 
 .toast-header {

@@ -31,7 +31,6 @@ export class StorageComponent implements OnInit{
   getUserStorageItem() {
     this.userService.getUserStorage().subscribe({
       next: (items) => {
-        console.log(items)
         // กรองเฉพาะคำสั่งซื้อที่มีสถานะ DELIVERED
         const confirmedOrders = items.orders.filter(
           order => order.orderStatus === "DELIVERED"
