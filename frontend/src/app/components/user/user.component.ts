@@ -32,7 +32,7 @@ export class UserComponent implements OnInit{
     private fb: FormBuilder, 
     private router: Router) {
     this.editedUser = this.fb.group({
-      id: 0,
+      // id: 0,
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -50,11 +50,12 @@ export class UserComponent implements OnInit{
     this.getUserData()
     this.getDefaultAddress()
   }
-
+  
   getUserData() {
     this.userService.getUserData().subscribe({
       next: (result: UserModel) => {
         if (result) {
+          console.log(result)
           this.user = result;
           this.editUserUpdate()
         }

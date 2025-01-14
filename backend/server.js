@@ -6,21 +6,19 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-
+app.disable("etag");
 // ใช้งาน middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// ใช้ morgan เพื่อบันทึก log ของ HTTP requests
-app.use(morgan("dev")); // คุณสามารถเลือกได้ว่าอยากใช้ 'combined', 'dev', หรือ 'tiny'
+app.use(morgan("dev"));
 
-// ใช้ cors สำหรับอนุญาตการเข้าถึงจากโดเมนอื่น
 app.use(
   cors({
     origin: "http://localhost:4200",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // วิธีการที่อนุญาต
-    allowedHeaders: ["Content-Type", "Authorization"], // กำหนด headers ที่อนุญาต
-    credentials: true, // ถ้าต้องการให้รับส่งข้อมูลแบบมีคุกกี้
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+    credentials: true,
   })
 );
 

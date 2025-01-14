@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="no-user" *ngIf="!user; else userTemplate">
+<div class="no-user" *ngIf="!user">
   <div class="user-page">
     <div class="no-user-page text-center">
       <h3 class="mt-3 text-muted">ไม่พบข้อมูลผู้ใช้งาน</h3>
@@ -8,7 +8,7 @@
     </div>
   </div>
 </div>
-<ng-template #userTemplate>
+<div *ngIf="user">
   <div class="row mx-auto user-page">
     <!-- <div class="col-md-4">
         <div class="user-menu">
@@ -67,7 +67,7 @@
                 <tbody>
                   <tr>
                     <td class="topic">อีเมล</td>
-                    <td>{{user?.email}}</td>
+                    <td>{{user.email}}</td>
                   </tr>
                   <tr>
                     <td>ที่อยู่</td>
@@ -151,7 +151,9 @@
       </div>
     </div>
   </div>
-  <!-- End of Data Modal-->
+  
+  <!-- Modal Backdrop -->
+  <div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
 
   <!-- Email Modal -->
   <div *ngIf="emailModalOpen" class="modal fade show" tabindex="-1" style="display: block;">
@@ -185,10 +187,10 @@
             </div>    
             <div class="form-submit-container">
               <button type="button" class="cancel-button" (click)="emailModal()">
-                  ยกเลิก
+                ยกเลิก
               </button>
               <button type="submit" class="submit-button" (click)="onEmailSubmit()">
-                  บันทึก
+                บันทึก
               </button>
             </div>
           </form>
@@ -283,9 +285,8 @@
         </div>
       </div>
     </div>
+    <!-- End of Password Modal-->
   </div>
-  <!-- End of Password Modal-->
 </div>
-</ng-template>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

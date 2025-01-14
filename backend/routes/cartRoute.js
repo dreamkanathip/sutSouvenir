@@ -9,18 +9,24 @@ const {
     getCartById,
     deleteItemFromCart,
     decreaseProductOnCart,
-    increaseProductOnCart
+    increaseProductOnCart,
+    removeItemWithoutRestock
 } = require('../controllers/cartController');
+const {
+    authenticateToken,
+    authenticateAdmin,
+    authenticateUser,
+  } = require("../middlewares/authMiddleware");
 
-
-router.get('/itemsOnCart/:id', getItemsOnCart);
-router.get('/allCarts', getAllCarts);
-router.get('/cart/:userId', getCartById)
-router.post('/initialCart', initial);
-router.delete('/cart/:userId', deleteCart);
-router.delete('/deleteItemFromCart', deleteItemFromCart)
-router.post('/addToCart', addItemToCart);
-router.patch('/decreaseProductOnCart', decreaseProductOnCart)
-router.patch('/increaseProductOnCart', increaseProductOnCart)
+router.get('/itemsOnCart/:id',authenticateToken, getItemsOnCart);
+router.get('/allCarts',authenticateToken, getAllCarts);
+router.get('/cart/:userId',authenticateToken, getCartById)
+router.post('/initialCart',authenticateToken, initial);
+router.delete('/cart/:userId',authenticateToken, deleteCart);
+router.delete('/deleteItemFromCart/:productId',authenticateToken, deleteItemFromCart)
+router.delete('/deleteItemWithoutRestock/:productId',authenticateToken, removeItemWithoutRestock)
+router.post('/addToCart',authenticateToken, addItemToCart);
+router.patch('/decreaseProductOnCart',authenticateToken, decreaseProductOnCart)
+router.patch('/increaseProductOnCart',authenticateToken, increaseProductOnCart)
 
 module.exports = router;

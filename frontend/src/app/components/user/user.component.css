@@ -13,7 +13,7 @@
     scrollbar-width: none;
     width: 1920px;
     max-width: 100%;
-    height: 694px;
+    /* height: 694px; */
     /* max-height: 100%; */
     font-family: 'SUT', sans-serif;
     font-size: larger;
@@ -128,7 +128,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1040; /* ให้ backdrop อยู่ด้านหลัง modal */
-    opacity: 0;
+    opacity: 0.5;
     transition: opacity 0.3s ease;
 }
   
@@ -137,12 +137,12 @@
 }
   
 .modal.fade {
-    opacity: 0;
+    opacity: 0.5;
     transition: opacity 0.3s ease;
 }
   
 .modal.show {
-    opacity: 1;
+    opacity: 0.5    ;
 }
 
 .form-submit-container {

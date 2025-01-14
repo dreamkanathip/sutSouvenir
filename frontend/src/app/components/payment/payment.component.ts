@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { OrderService } from '../../services/order/order.service';
 import { ProductOnOrder } from '../../interfaces/order/product-on-order';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AddressModel } from '../../interfaces/address/address.model';
 import { AddressService } from '../../services/address/address.service';
 
@@ -14,20 +14,25 @@ export class PaymentComponent implements OnInit{
   
   productOnOrder!: ProductOnOrder[];
   sumItemPrice: number = 0;
-  defaultAddress?: AddressModel
+  defaultAddress?: AddressModel;
+  orderId: number = 0;
+
+
   constructor(
     private orderService: OrderService, 
-    private activatedRoute: ActivatedRoute,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private router: Router,
   ) {  
   }
 
   ngOnInit(): void {
-    const routeParams = this.activatedRoute.snapshot.paramMap;
-    const id = Number(routeParams.get('id'));
-    this.getProductOnOrder(id);
-
     this.getDefaultAddress()
+    this.orderId = this.orderService.getOrderId();
+    if (this.orderId !== 0) {
+      this.getProductOnOrder(this.orderId);
+    } else {
+      this.router.navigate(['/home'])
+    }
   }
   getDefaultAddress() {
     this.addressService.getDefaultAddress(1).subscribe(res => {
@@ -38,7 +43,7 @@ export class PaymentComponent implements OnInit{
     this.getDefaultAddress()
   }
   getProductOnOrder(id: any): void {
-    console.log(id)
+    // console.log(id)
     this.orderService.getProductOnOrderById(id).subscribe({
       next: (res) => {
         this.productOnOrder = res;
