@@ -1,4 +1,3 @@
-// routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
 const authenticationController = require("../controllers/authenticationController");
@@ -7,6 +6,7 @@ const {
   authenticateToken,
   authenticateAdmin,
   authenticateUser,
+  authenticateSuperAdmin, // เพิ่มการยืนยันตัวตนสำหรับ SuperAdmin
 } = require("../middlewares/authMiddleware");
 
 // Route สำหรับการลงทะเบียน
@@ -30,11 +30,19 @@ router.get(
 );
 
 // Route สำหรับดึงข้อมูลผู้ใช้ (เฉพาะ USER)
-// router.get(
-//   "/user/profile",
-//   authenticateToken,
-//   authenticateUser,
-//   userController.getUser
-// );
+router.get(
+  "/user/profile",
+  authenticateToken,
+  authenticateUser,
+  userController.getUser
+);
+
+// Route สำหรับดึงข้อมูลผู้ใช้ทั้งหมด (เฉพาะ SUPERADMIN)
+router.get(
+  "/superadmin/users",
+  authenticateToken,
+  authenticateSuperAdmin, // เช็คว่าเป็น SuperAdmin หรือไม่
+  userController.getUser // ฟังก์ชันนี้จะต้องดึงข้อมูลผู้ใช้ทั้งหมด
+);
 
 module.exports = router;

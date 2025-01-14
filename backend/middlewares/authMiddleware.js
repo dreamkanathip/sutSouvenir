@@ -1,68 +1,60 @@
 const jwt = require("jsonwebtoken");
-const prisma = require("../configs/prisma");
+const prisma = require("../configs/prisma"); // สามารถใช้สำหรับการเข้าถึงฐานข้อมูลถ้าจำเป็น
 
-// Middleware สำหรับตรวจสอบ token
+// ฟังก์ชันตรวจสอบ Token
 const authenticateToken = async (req, res, next) => {
-  // const token = req.cookies["jwt"];
-
-  // Fixed Token, เปลี่ยนเมื่อจะใช้งานทุกครั้ง
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTczNjMyMjQxOCwiZXhwIjoxNzM2NDA4ODE4fQ.sVs-ogLpBQmpa6JPAjf-BcJ51x0IgvBtBmsL7gAVLeE"
-  
-  if (!token) {
-    return res
-      .status(401)
-      .send({ message: "ต้องมี token สำหรับการยืนยันตัวตน" });
-  }
-
   try {
-    // ตรวจสอบ token และดึง claims
-    const claims = jwt.verify(token, "secret");
+    // ดึง token จาก Authorization header แบบ Bearer
+    const token = req.headers["authorization"]?.split(" ")[1]; // ตรวจสอบว่า Authorization header ส่งมาหรือไม่
 
-    // ใช้ Prisma เพื่อค้นหาผู้ใช้
-    const user = await prisma.user.findUnique({
-      where: {
-        id: claims._id, // ใช้ _id จาก claims ใน token
-      },
-    });
-
-    if (!user) {
-      return res
-        .status(401)
-        .send({ message: "token สำหรับการยืนยันตัวตนไม่ถูกต้อง" });
+    if (!token) {
+      // หากไม่มี token
+      return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });
     }
 
-    // แนบข้อมูล user ไปยัง request
-    req.user = user;
-    next();
+    // ตรวจสอบ token ว่าถูกต้องหรือไม่
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // ใช้ JWT_SECRET ในการตรวจสอบ
+    req.user = decoded; // เก็บข้อมูล user ที่ได้จาก token ไว้ใน req.user
+    next(); // ไปที่ middleware หรือ route ถัดไป
   } catch (err) {
-    res.status(401).send({ message: "token สำหรับการยืนยันตัวตนไม่ถูกต้อง" });
+    console.error("Token verification failed:", err); // พิมพ์ข้อผิดพลาดใน server log
+    return res.status(403).json({
+      message: "Token ไม่ถูกต้อง",
+      error: err.message, // ส่งข้อความข้อผิดพลาดที่เกิดขึ้นให้ผู้ใช้ทราบ
+    });
   }
 };
 
-// Middleware สำหรับตรวจสอบว่าเป็น Admin
-const authenticateAdmin = (req, res, next) => {
-  // ตรวจสอบว่า user ใน request มี role เป็น ADMIN
-  if (req.user && req.user.role === "ADMIN") {
-    return next(); // ถ้าเป็น admin ให้ดำเนินการต่อไป
-  }
+// ฟังก์ชันตรวจสอบสิทธิ์ของ role
+const authenticateRole = (roles) => {
+  return async (req, res, next) => {
+    if (!req.user) {
+      return res
+        .status(403)
+        .send({ message: "Token ไม่ถูกต้อง หรือ ไม่มีข้อมูลผู้ใช้" });
+    }
 
-  // ถ้าไม่ใช่ admin ส่งคำตอบว่าไม่อนุญาต
-  return res
-    .status(403)
-    .send({ message: "การเข้าถึงถูกปฏิเสธ. สำหรับผู้ดูแลระบบเท่านั้น" });
+    console.log(req.user); // เพิ่มคำสั่งนี้เพื่อตรวจสอบข้อมูลของ user ที่ decoded มาจาก Token
+
+    // เช็คว่า role ของผู้ใช้ที่ login เข้ามาตรงกับ role ที่ได้รับอนุญาตหรือไม่
+    if (!roles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .send({ message: "คุณไม่มีสิทธิ์เข้าถึงข้อมูลนี้" });
+    }
+
+    next(); // ไปที่ middleware หรือ route ถัดไป
+  };
 };
 
-// Middleware สำหรับตรวจสอบว่าเป็น User
-const authenticateUser = (req, res, next) => {
-  // ตรวจสอบว่า user ใน request มี role เป็น USER
-  if (req.user && req.user.role === "USER") {
-    return next(); // ถ้าเป็น user ให้ดำเนินการต่อไป
-  }
+// ใช้ authenticateRole กับ role ต่างๆ
+const authenticateAdmin = authenticateRole(["ADMIN", "SUPERADMIN"]);
+const authenticateUser = authenticateRole(["USER"]);
+const authenticateSuperAdmin = authenticateRole(["SUPERADMIN"]);
 
-  // ถ้าไม่ใช่ user ส่งคำตอบว่าไม่อนุญาต
-  return res
-    .status(403)
-    .send({ message: "การเข้าถึงถูกปฏิเสธ. สำหรับผู้ใช้ทั่วไปเท่านั้น" });
+module.exports = {
+  authenticateToken,
+  authenticateAdmin,
+  authenticateUser,
+  authenticateSuperAdmin,
 };
-
-module.exports = {  authenticateToken, authenticateAdmin, authenticateUser };

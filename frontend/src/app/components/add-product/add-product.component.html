@@ -59,6 +59,25 @@
                     <label for="description">คำอธิบาย</label>
                   </div>
 
+                  <!-- หมวดหมู่ -->
+                  <div class="input-field form-group">
+                    <select
+                      id="category"
+                      formControlName="category"
+                      required
+                      class="input"
+                    >
+                      <option value="" disabled selected>เลือกหมวดหมู่</option>
+                      <option
+                        *ngFor="let category of categories"
+                        [value]="category.id"
+                      >
+                        {{ category.name }}
+                      </option>
+                    </select>
+                    <label for="category">หมวดหมู่สินค้า</label>
+                  </div>
+
                   <!-- ปุ่มบันทึกสินค้าและย้อนกลับ -->
                   <div class="button-group">
                     <button

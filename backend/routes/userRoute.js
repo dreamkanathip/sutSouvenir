@@ -1,4 +1,3 @@
-// routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
 const authenticationController = require("../controllers/authenticationController");
@@ -7,6 +6,7 @@ const {
   authenticateToken,
   authenticateAdmin,
   authenticateUser,
+  authenticateSuperAdmin,
 } = require("../middlewares/authMiddleware");
 
 // Route สำหรับการลงทะเบียน
@@ -33,14 +33,46 @@ router.get(
 router.get(
   "/user/profile",
   authenticateToken,
-  // authenticateUser,
+  authenticateUser,
   userController.getUser
 );
 
+// Route สำหรับดึงข้อมูลผู้ใช้ (เฉพาะ SUPERADMIN)
+router.get(
+  "/superadmin/users",
+  authenticateToken,
+  authenticateSuperAdmin,
+  userController.getUser
+);
+
+// Route สำหรับอัปเดตข้อมูลผู้ใช้
 router.put("/user/update", authenticateToken, userController.updateUser);
 
-router.patch("/user/password", authenticateToken, userController.updateUserPassword);
+// Route สำหรับอัปเดตข้อมูลรหัสผ่านผู้ใช้
+router.patch(
+  "/user/password",
+  authenticateToken,
+  userController.updateUserPassword
+);
 
+// Route สำหรับดึงข้อมูลคำสั่งซื้อของผู้ใช้
 router.get("/user/storage", authenticateToken, userController.getUserStorage);
+
+// เส้นทางสำหรับการเข้าสู่หน้า user
+router.get("/home", authenticateToken);
+
+// เส้นทางสำหรับการเข้าสู่หน้า admin
+router.get("/admin/dashboard", authenticateToken);
+
+// เส้นทางสำหรับการเข้าสู่หน้า superadmin
+router.get("/superadmin/dashboard", authenticateToken);
+
+// Route สำหรับลบผู้ใช้ (เฉพาะ SUPERADMIN เท่านั้น)
+router.delete(
+  "/superadmin/users/:id",
+  authenticateToken, // ตรวจสอบ JWT
+  authenticateSuperAdmin, // ตรวจสอบสิทธิ์ SUPERADMIN
+  userController.deleteUser // ฟังก์ชันลบผู้ใช้
+);
 
 module.exports = router;

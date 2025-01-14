@@ -1,0 +1,178 @@
+* {
+  font-family: url("../../../assets/fonts/SUT-Light.otf");
+}
+
+.submit {
+  width: 10%;
+  height: 45px;
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+  font-size: calc(0.5em + 0.5vw);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.submit:hover {
+  background: #f26522;
+  color: #fff;
+}
+
+.body {
+  position: relative;
+  /* ลบสีพื้นหลังออก */
+}
+
+.video-background {
+  position: fixed;
+  z-index: -9;
+  object-fit: cover;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ปรับระยะห่างระหว่าง navbar กับตาราง */
+.table-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  margin-top: 50px;
+  padding-top: 70px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+}
+
+.table td {
+  padding: 12px;
+}
+
+.table .btn {
+  width: 30%;
+  height: 45px;
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.table .btn-danger {
+  background: #f66a6a;
+  font-size: calc(0.5em + 0.5vw);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table .btn-danger:hover {
+  background: rgb(246, 74, 74);
+  color: #fff;
+}
+
+.table .btn-warning {
+  background: #f0ad4e;
+  font-size: calc(0.5em + 0.5vw);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table .btn-warning:hover {
+  background: rgb(240, 173, 78);
+  color: #fff;
+}
+
+.card {
+  width: 90%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.pagination-controls button {
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  transition: 0.4s;
+}
+
+.pagination-controls button:hover {
+  background: #f26522;
+  color: #fff;
+}
+
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-controls button {
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+.edit-card {
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  display: none;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.edit-card.show {
+  display: block;
+  width: 80%;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}

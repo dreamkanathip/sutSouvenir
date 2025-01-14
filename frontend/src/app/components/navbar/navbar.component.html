@@ -1,10 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container container-fluid">
     <a class="navbar-brand" href="#">
-      <img
-        src="assets/logo.jpg"
-        class="logo d-inline-block align-text-top"
-      />
+      <img src="assets/logo.jpg" class="logo d-inline-block align-text-top" />
     </a>
     <button
       class="navbar-toggler"
@@ -39,9 +36,12 @@
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <div class="badge position-relative translate-middle" 
-            [ngStyle]="{ visibility: cartItemCount === 0 ? 'hidden' : 'visible' }"
-            >
+          <div
+            class="badge position-relative translate-middle"
+            [ngStyle]="{
+              visibility: cartItemCount === 0 ? 'hidden' : 'visible'
+            }"
+          >
             {{ cartItemCount }}
           </div>
         </a>
@@ -62,8 +62,9 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
-              <a class="dropdown-item" href="/user/storage">ประวัติการสั่งซื้อ</a>
-              <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
+              <a class="dropdown-item" href="/user/storage"
+                >ประวัติการสั่งซื้อ</a
+              >
               <a routerLink="/login" (click)="logout()" class="dropdown-item"
                 >Logout</a
               >

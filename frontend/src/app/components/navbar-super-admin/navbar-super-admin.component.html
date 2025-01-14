@@ -1,0 +1,62 @@
+<div>
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand me-auto" routerLink="/superadmin/dashboard">
+        <img src="../../../assets/logo.jpg" alt="Logo" style="height: 55px" />
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <a href="../../../assets/logo.jpg"></a>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a routerLink="/superadmin/dashboard" class="nav-link mx-lg-2"
+                >แดชบอร์ด</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                routerLink="/superadmin/register/admin"
+                class="nav-link mx-lg-2"
+                >สมัครสมาชิกแอดมิน</a
+              >
+            </li>
+          </ul>
+          <a routerLink="/login" (click)="logout()" class="logout-button"
+            >ออกจากระบบ</a
+          >
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+</div>

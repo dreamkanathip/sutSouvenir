@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Category } from './../../interfaces/category/category.model'; // Import Category model
 
 @Component({
   selector: 'app-product-management',
@@ -13,11 +14,12 @@ import { of } from 'rxjs';
 })
 export class ProductManagementComponent implements OnInit {
   products: Product[] = [];
+  categories: any[] = []; // เก็บข้อมูลหมวดหมู่
   currentPage: number = 1;
   itemsPerPage: number = 5;
   pagedProducts: any[] = [];
   editMode: boolean = false;
-  selectedProduct: any = {}; // เก็บข้อมูลสินค้าที่เลือกแก้ไข
+  selectedProduct: Product = {} as Product; // เก็บข้อมูลสินค้าที่เลือกแก้ไข
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -33,7 +35,7 @@ export class ProductManagementComponent implements OnInit {
   editProduct(productId: number) {
     this.selectedProduct = this.products.find(
       (product) => product.id === productId
-    );
+    ) as Product; // คัดเลือกสินค้าที่จะถูกแก้ไข
     this.editMode = true; // เปิดการแสดงผล edit-card
     document.body.classList.add('modal-open'); // เพิ่ม class เพื่อให้ dark overlay
   }
@@ -44,10 +46,10 @@ export class ProductManagementComponent implements OnInit {
     document.body.classList.remove('modal-open'); // เอา class ออก
   }
 
-  // ฟังก์ชันดึงข้อมูลสินค้าทั้งหมด
   getAllProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
+        console.log('ข้อมูลสินค้าทั้งหมด:', data); // ตรวจสอบว่า category มีข้อมูล
         this.products = data;
       },
       (error) => {
@@ -59,10 +61,11 @@ export class ProductManagementComponent implements OnInit {
   // ฟังก์ชันบันทึกการแก้ไขข้อมูลสินค้า
   saveEditProduct(): void {
     if (this.selectedProduct && this.selectedProduct.id) {
-      const { id, title, quantity, price, description } = this.selectedProduct;
+      const { id, title, quantity, price, description, category } =
+        this.selectedProduct;
 
       // ตรวจสอบให้แน่ใจว่าไม่มีข้อมูลที่สำคัญขาดหาย
-      if (!title || !quantity || !price || !description) {
+      if (!title || !quantity || !price || !description || !category) {
         Swal.fire({
           title: 'ข้อมูลไม่ครบถ้วน',
           text: 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนทำการบันทึก',
@@ -73,7 +76,7 @@ export class ProductManagementComponent implements OnInit {
 
       // เรียกใช้ฟังก์ชัน updateProduct โดยส่ง productId และข้อมูลสินค้าที่ต้องการอัปเดต
       this.productManagementService
-        .updateProduct(id, { title, quantity, price, description })
+        .updateProduct(id, { title, quantity, price, description, category })
         .pipe(
           catchError((error) => {
             console.error('เกิดข้อผิดพลาดในการอัปเดตสินค้า:', error);
@@ -165,6 +168,7 @@ export class ProductManagementComponent implements OnInit {
         quantity: '',
         price: '',
         description: '',
+        category: {} as Category, // เพิ่ม category เป็นอ็อบเจ็กต์ว่าง
       });
     }
   }
@@ -182,6 +186,6 @@ export class ProductManagementComponent implements OnInit {
   }
 
   navigateToAddProduct(): void {
-    this.router.navigate(['/managements/add']);
+    this.router.navigate(['/admin/add/product']);
   }
 }

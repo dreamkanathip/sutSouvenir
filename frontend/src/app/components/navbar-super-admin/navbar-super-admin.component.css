@@ -1,0 +1,86 @@
+* {
+  font-family: "SUT-Light"; /* ตั้งชื่อฟอนต์ */
+  src: url("/assets/fonts/SUT-Light.otf") format("opentype"); /* เรียกใช้งานฟอนต์ */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.navbar-brand {
+  font-weight: 500;
+  color: #f26522;
+  font-size: 24px;
+  transition: 0.3s color;
+}
+.offcanvas-title {
+  font-weight: 500;
+  color: #f26522;
+  font-size: 24px;
+  transition: 0.3s color;
+}
+.logout-button {
+  background-color: #f26522;
+  color: #fff;
+  font-size: 15px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.3s background-color;
+  display: inline-flex; /* Use flexbox to adjust vertical alignment */
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+}
+.logout-button:hover {
+  background-color: #f26522;
+}
+.navbar {
+  background-color: #fff;
+  height: 80px;
+  margin: 20px;
+  border-radius: 16px;
+  padding: 0.5rem;
+}
+.navbar-toggler {
+  border: none;
+  font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.nav-link {
+  color: #666777;
+  font-weight: 500;
+  position: relative;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: #000;
+}
+
+@media (min-width: 991px) {
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #f26522;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+  }
+
+  .nav-link:hover::before,
+  .nav-link.active::before {
+    width: 100%;
+    visibility: visible;
+  }
+}
+.nav-item {
+  font-size: 17px;
+  margin: 0 60px; /* Horizontal spacing between nav items */
+}
