@@ -61,7 +61,6 @@ export class LoginComponent implements OnInit {
               // ถ้าไม่มี role ที่ตรงกันให้แสดงข้อความหรือดำเนินการอื่น
               Swal.fire('ข้อผิดพลาด', 'บทบาทผู้ใช้ไม่ถูกต้อง', 'error');
             }
-            this.authService.storeToken(res.token);
           },
           (err) => {
             Swal.fire(
