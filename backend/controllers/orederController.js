@@ -168,3 +168,17 @@ exports.cancelOrder = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err });
   }
 };
+
+exports.getAllProductOnOrder = async(req, res) => {
+    try {
+        const productOnOrder = await prisma.productOnOrder.findMany({
+            include: {
+                order: true,
+                product: true,
+            }
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error", error: err });
+    }
+}

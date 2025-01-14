@@ -31,13 +31,8 @@ export class OrderService {
   }
 
   getProductOnOrder(): Observable<ProductOnOrder[]> {
-    return this.http.get<ProductOnOrder[]>(`${this.apiUrl}/orders`)
+    return this.http.get<ProductOnOrder[]>(`${this.apiUrl}/productsOnOrders`)
   }
-  getOrder(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/orders`)
-  }
-
-  
   setOrderId(id: number): void {
     this.orderId = id;
   }
