@@ -7,6 +7,8 @@ import { CartService } from '../../services/cart/cart.service';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ReviewService } from '../../services/review/review.service';
+import { FavouriteService } from '../../services/favourite/favourite.service';
+import { FavouriteResponse } from '../../interfaces/favourite/favourite.model';
 
 @Component({
   selector: 'app-homepage',
@@ -20,14 +22,20 @@ export class HomepageComponent {
 
   productRating!: any[]
 
+  favouriteList?: FavouriteResponse[]
+  favourites: Product[] = []
+
+
   constructor(
     private homepageService: HomepageService,
     private cartService: CartService,
     private reviewService: ReviewService,
+    private favouriteService: FavouriteService,
     private router: Router
   ) {
     this.loadProducts();
     this.loadRatings();
+    this.loadFavourite();
   }
 
   loadProducts() {
@@ -40,6 +48,27 @@ export class HomepageComponent {
     this.reviewService.listRating().subscribe((result) => {
       this.productRating = result
     })
+  }
+
+  loadFavourite(){
+    this.favourites = []
+    this.favouriteService.getLikedProducts(this.userId).subscribe((result) => {
+      this.favouriteList = result
+      if (this.favouriteList) {
+        this.favouriteList.forEach(list => {
+          this.favourites.push(list.product)
+        })
+      }
+    })
+  }
+
+  checkFavourite(item: Product){
+    let check = this.favourites?.some(product => product.id == item.id)
+    if (check) {
+      return false
+    } else {
+      return true
+    }
   }
 
   getProductRating(productId: number): number {
@@ -118,6 +147,18 @@ export class HomepageComponent {
         confirmButtonColor: "#F36523",
       });
     }
+  }
+
+  likeProduct(item: any) {
+    this.favouriteService.likeProduct(this.userId, item).subscribe((result) => {
+      this.loadFavourite()
+    })
+  }
+
+  unlikeProduct(item: any) {
+    this.favouriteService.removeFromFavourites(this.userId, item.id).subscribe((result) => {
+      this.loadFavourite()
+    })
   }
 
   goToDetails(item: any) {

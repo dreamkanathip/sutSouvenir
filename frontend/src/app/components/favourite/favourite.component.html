@@ -1,6 +1,4 @@
-favourites.component.html
-<app-navbar></app-navbar>
-
+<!-- favourites.component.html -->
 <!-- <div class="body">
   <div class="main-wrapper">
     <div class="wrapper-left">
@@ -31,4 +29,32 @@ favourites.component.html
   </div>
 </div> -->
 
-<app-footer></app-footer>
+<h3 class="favourite-header text-center">รายการโปรดของคุณ</h3>
+<div class="row row-cols-1 row-cols-md-3 g-8" *ngIf="productList.length > 0 else noList">
+  <div class="card col" *ngFor="let item of productList; index as i">
+    <form>
+      <div>
+        <img src="assets/SUT-Logo.png" class="card-img-top">
+        <div class="card-body">
+          <p class="title">{{item.title}}</p>
+          <p class="price">฿{{item.price}}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="main-btn w-100" (click)="goToDetails(item)">
+          สั่งซื้อ
+        </button>
+        <button class="rmv-fav w-100" (click)="removeFromFavourites(item.id)">
+          นำออกจากรายการโปรด
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<ng-template #noList>
+  <div class="no-list text-center">
+    <h3>
+      คุณยังไม่มีรายการสินค้าโปรด
+    </h3>
+  </div>
+</ng-template>

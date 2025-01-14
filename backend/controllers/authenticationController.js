@@ -4,7 +4,7 @@ const prisma = require("../configs/prisma"); // เชื่อมต่อก�
 require("dotenv").config(); // โหลด environment variables
 
 const COOKIE_NAME = "authToken"; // ชื่อคุกกี้ที่ใช้เก็บ JWT
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"; // ใช้ตัวแปรจริงจาก .env สำหรับ production
+const JWT_SECRET = process.env.JWT_SECRET; // ใช้ตัวแปรจริงจาก .env สำหรับ production
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production", // ใช้ secure เฉพาะ production

@@ -51,6 +51,7 @@
             </tbody>
           </table>
           <div class="cancel-order" *ngIf="checkCancel(selectedHistoryDetail.orderStatus)">
+            <button class="payment-btn" (click)="NavigateToPayment(selectedHistoryDetail)">ชำระเงิน</button>
             <button class="cancel-btn" (click)="submitCancel(selectedHistoryDetail)">ยกเลิกคำสั่งซื้อ</button>
           </div>
         </div>

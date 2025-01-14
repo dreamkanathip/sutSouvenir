@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: ProductDetailsComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'favourite', component: FavouriteComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
@@ -46,7 +47,7 @@ const routes: Routes = [
   },
   { path: 'admin/add/product', component: AddProductComponent },
   { path: 'admin-order', component: AdminUpdateOrderStatusComponent},
-  { path: "**", redirectTo: '/home'},
+  // { path: "**", redirectTo: '/home'},
   { path: 'user/storage', component: UserStorageComponent },
   { path: 'review/:id', component: ReviewComponent },
 ];

@@ -46,14 +46,13 @@
 
 .storage-nav {
     color: #F36523;
-    text-decoration: underline;
     cursor: pointer;
     align-items: center;
 }
 
 .storage-nav:hover {
     filter: brightness(0.8);
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 /* --- Storage --- */
