@@ -64,8 +64,7 @@ export class AuthService {
   logout(): void {
     this.http
       .post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
-      .subscribe(
-        () => {
+      .subscribe(() => {
           this.clearToken(); // ลบ token ออกจาก localStorage
           this.authStatusSubject.next(false); // เปลี่ยนสถานะการ login เป็น false
           this.router.navigate(['/login']); // นำทางไปหน้า login
@@ -115,4 +114,6 @@ export class AuthService {
       withCredentials: true,
     });
   }
+
+
 }

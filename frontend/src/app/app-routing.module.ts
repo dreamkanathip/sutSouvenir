@@ -18,11 +18,12 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { ReviewComponent } from './components/review/review.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
   { path: 'favourite', component: FavouriteComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'payment/:id', component: PaymentComponent },
+  { path: 'payment', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'admin/management', component: ProductManagementComponent },
@@ -44,6 +45,8 @@ const routes: Routes = [
     component: SuperAdminDashboardComponent,
   },
   { path: 'admin/add/product', component: AddProductComponent },
+  { path: 'admin-order', component: AdminUpdateOrderStatusComponent},
+  { path: "**", redirectTo: '/home'},
   { path: 'user/storage', component: UserStorageComponent },
   { path: 'review/:id', component: ReviewComponent },
 ];

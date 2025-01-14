@@ -1,5 +1,5 @@
 const prisma = require("../configs/prisma");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, StorageClassAnalysisSchemaVersion } = require("@aws-sdk/client-s3");
 
 const s3Client = new S3Client({
   credentials: {

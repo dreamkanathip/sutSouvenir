@@ -2,26 +2,46 @@
 <div class="container">
   <div class="row">
     <div class="col-7">
-      <!-- <div class="card shadow-sm card-body">
-      </div> -->
-      <div *ngFor="let item of productOnOrder; index as i" class="card p-3 shadow-sm" style="width: 100%;">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-2">
-              <img src="assets/SUT-Logo.png" class="card-img">
-            </div>
-            <div class="col-5 item-title">
-              <span class="product-title">{{ item.product.title }}</span>
-            </div>
-            <div class="col-2 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
-            <div class="col-1 quantity d-flex align-items-center">
-                <span class="mx-2">{{ item.count }}</span>
-            </div>
-            <div class="col-2 sum-price">{{ item.price.toLocaleString('en', {useGrouping:true}) }}</div>
-          </div>
-        </div>
+      <div class="card">
+        <div class="table-responsive">
+        <table class="table table-sm align-middle table-order">
+          <thead class="thead-light">
+            <tr>
+              <th class="text-center"></th>
+              <!-- <th class="text-center"></th> -->
+              <th class="text-center">ชื่อสินค้า</th>
+              <th class="text-center">ราคา</th>
+              <th class="text-center">จำนวน</th>
+              <th class="text-center">ราคารวม</th>
+              <!-- <th class="text-center"></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of productOnOrder; index as i">
+              <td class="text-center">
+                <img src="assets/SUT-Logo.png" class="img-fluid" style="max-height: 50px;">
+              </td>
+              <td class="text-center">
+                <span class="product-title">{{item.product.title}}</span>
+              </td>
+              <td class="text-center">
+                {{item.product.price.toLocaleString('en', {useGrouping:true})}}
+              </td>
+              <td class="text-center">
+                {{item.count}}
+              </td>
+              <td class="text-center">
+                {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
+
+
+
     <div class="col-5">
       <div class="card shadow-sm">
         <div class="card-body">
@@ -67,5 +87,8 @@
   </div>
 </div>
 <app-footer></app-footer>
-<app-change-address-modal class="modal fade" id="change-address" (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
+<app-change-address-modal class="modal fade" id="change-address"
+  (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
 <app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice"></app-upload-receipt>
+<app-select-shipping class="modal fade" id="select-shipping"></app-select-shipping>
+

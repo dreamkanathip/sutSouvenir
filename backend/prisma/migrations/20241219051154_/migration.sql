@@ -94,6 +94,7 @@ CREATE TABLE `Payment` (
     `userId` INTEGER NOT NULL,
     `originBankId` INTEGER NOT NULL,
     `destBankId` INTEGER NOT NULL,
+    `addressId` INTEGER NOT NULL,
     `receipt` VARCHAR(191) NOT NULL,
     `lastFourDigits` VARCHAR(191) NOT NULL,
     `transferAt` DATETIME(3) NOT NULL,
@@ -252,6 +253,9 @@ ALTER TABLE `Payment` ADD CONSTRAINT `Payment_originBankId_fkey` FOREIGN KEY (`o
 
 -- AddForeignKey
 ALTER TABLE `Payment` ADD CONSTRAINT `Payment_destBankId_fkey` FOREIGN KEY (`destBankId`) REFERENCES `DestinationBank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Payment` ADD CONSTRAINT `Payment_addressId_fkey` FOREIGN KEY (`addressId`) REFERENCES `Address`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProductOnOrder` ADD CONSTRAINT `ProductOnOrder_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

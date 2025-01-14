@@ -46,6 +46,11 @@ import { SuperAdminDashboardComponent } from './components/super-admin-dashboard
 import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { ShippingComponent } from './components/shipping/shipping.component';
+import { AddShippingComponent } from './components/shipping/add-shipping/add-shipping.component';
+import { UpdateShippingComponent } from './components/shipping/update-shipping/update-shipping.component';
+import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { ReviewComponent } from './components/review/review.component';
 
 @NgModule({
@@ -80,6 +85,11 @@ import { ReviewComponent } from './components/review/review.component';
     NavbarSuperAdminComponent,
     RegisterAdminComponent,
     AddProductComponent,
+    ShippingComponent,
+    AddShippingComponent,
+    UpdateShippingComponent,
+    SelectShippingComponent,
+    AdminUpdateOrderStatusComponent,
     ReviewComponent,
   ],
   imports: [
