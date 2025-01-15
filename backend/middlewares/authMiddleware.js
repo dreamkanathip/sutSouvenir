@@ -9,7 +9,10 @@ const authenticateToken = async (req, res, next) => {
 
     if (!token) {
       // หากไม่มี token
-      return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });
+      const token = req.cookies.jwt;
+      if(!token) {
+        return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });        
+      }
     }
 
     // ตรวจสอบ token ว่าถูกต้องหรือไม่

@@ -18,9 +18,9 @@ const {
     authenticateUser,
   } = require("../middlewares/authMiddleware");
 
-router.get('/itemsOnCart/:id',authenticateToken, authenticateUser, getItemsOnCart);
+router.get('/itemsOnCart/:id',authenticateToken, getItemsOnCart);
 router.get('/allCarts',authenticateToken, getAllCarts);
-router.get('/cart/:userId',authenticateToken,authenticateUser,getCartById)
+router.get('/cart/:userId',authenticateToken,getCartById);
 router.post('/initialCart',authenticateToken, initial);
 router.delete('/cart/:userId',authenticateToken, deleteCart);
 router.delete('/deleteItemFromCart/:productId',authenticateToken, deleteItemFromCart)

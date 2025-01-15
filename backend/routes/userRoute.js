@@ -23,7 +23,7 @@ router.get(
   "/admin/profile",
   authenticateToken,
   authenticateAdmin,
-  userController.getUser
+  getUser
 );
 
 // Route สำหรับดึงข้อมูลผู้ใช้ (เฉพาะ USER)

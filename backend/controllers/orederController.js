@@ -1,3 +1,4 @@
+const { OrderStatus } = require("@prisma/client");
 const prisma = require("../configs/prisma");
 const { S3Client, PutObjectCommand, StorageClassAnalysisSchemaVersion } = require("@aws-sdk/client-s3");
 
@@ -157,6 +158,27 @@ exports.cancelOrder = async (req, res) => {
       return res.status(400).json({ message: "Order ID is required" });
     }
 
+    const productsOnOrder = await prisma.productOnOrder.findMany({
+      where: {
+        id: Number(id)
+      }
+    })
+    if (productsOnOrder.length === 0) {
+      return res.status(404).json({ message: "No products found for this order" });
+    }
+    for (const productOnOrder of productsOnOrder) {
+      await prisma.product.update({
+        where: {
+          id: Number(productOnOrder.productId)
+        },
+        data: {
+          quantity: {
+            increment: Number(productOnOrder.count)
+          }
+        }
+      })
+    }
+
     await prisma.order.update({
       where: { id: Number(id) },
       data: { orderStatus: "CANCELLED" },
@@ -169,6 +191,7 @@ exports.cancelOrder = async (req, res) => {
   }
 };
 
+
 exports.getAllProductOnOrder = async(req, res) => {
     try {
         const productOnOrder = await prisma.productOnOrder.findMany({
@@ -177,8 +200,17 @@ exports.getAllProductOnOrder = async(req, res) => {
                 product: true,
             }
         })
+      res.send(productOnOrder)
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error", error: err });
     }
+}
+exports.getOrderStatusEnum = async(req, res) => {
+  try {
+    res.send(OrderStatus)
+  } catch (err) {
+    console.error(err);
+        res.status(500).json({ message: "Server error", error: err });
+  }
 }
