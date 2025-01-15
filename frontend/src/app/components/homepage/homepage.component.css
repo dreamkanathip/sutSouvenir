@@ -19,28 +19,35 @@
     transform: scale(1.05); /* Enlarges the card */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
 }
-.add-to-fav {
-    margin-top: 1rem;
-    text-align: end;
-    color: #636363;
-    cursor: pointer;
-}
 .card-img-top {
     padding: 5%;
 }
 .title {
-    height: 3.5rem;
+    height: 2rem;
     font-size: 28px;
     font-weight: 700;
-    margin-bottom: 12%;
 }
 .stars {
+    display: flex;
+    height: 1rem;
     color: #f5c518;
     margin-bottom: 10px;
 }
   
 .stars .fa {
     margin-right: 5px;
+}
+.add-to-fav {
+    margin-top: 1rem;
+    text-align: end;
+    color: #636363;
+    cursor: pointer;
+}
+.favourite-icon {
+    margin-top: 1rem;
+    text-align: end;
+    color: #ff0000;
+    cursor: pointer;
 }
 .price {
     height: 2rem;
@@ -56,7 +63,7 @@
 .main-btn {
     background-color: #F36523;
     color: #fff;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     font-size: 22px;
     font-weight: 700;
     border-radius: 10px;

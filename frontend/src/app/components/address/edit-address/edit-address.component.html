@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="row edit-address-page">
-    <div class="col-md-5">
+    <!-- <div class="col-md-5">
         <div class="user-menu">
             <div class="menu">
                 <h3 class="container-header">บัญชีผู้ใช้</h3>
@@ -8,8 +8,8 @@
                 <p>จัดการบัญชี</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-7">
+    </div> -->
+    <!-- <div class="col-md-7"> -->
         <div class="edit-address-container">
             <h3 class="container-header">แก้ไขที่อยู่</h3>
             <br />
@@ -19,12 +19,22 @@
                         <div class="col-md-6">
                             <div class="input-field">
                                 <div class="form-group">
-                                    <h5>ชื่อ</h5>
-                                    <input type="search" class="input" id="firstName-input" formControlName="firstName" required>
+                                    <label for="firstName" class="form-label">ชื่อ</label>
+                                    <input type="text" class="form-control" id="firstName-input" formControlName="firstName" required>
+                                    <div *ngIf="editAddressForm.get('firstName')?.touched && editAddressForm.get('firstName')?.invalid">
+                                        <small class="text-danger" *ngIf="editAddressForm.get('firstName')?.errors?.['required']">
+                                          กรุณากรอกชื่อ
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <h5>ที่อยู่</h5>
-                                    <input type="search" class="input" id="address-input" formControlName="street" required>
+                                    <label for="firstName" class="form-label">ที่อยู่</label>
+                                    <input type="text" class="input form-control" id="street-input" formControlName="street" required>
+                                    <div *ngIf="editAddressForm.get('street')?.touched && editAddressForm.get('street')?.invalid">
+                                        <small class="text-danger" *ngIf="editAddressForm.get('street')?.errors?.['required']">
+                                          กรุณากรอกที่อยู่
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <h5>อำเภอ</h5>
@@ -44,16 +54,26 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <h5>เบอร์โทรศัพท์</h5>
-                                    <input type="search" class="input" id="phone-input" formControlName="phoneNumber" required>
+                                    <label for="phoneNumber" class="form-label">เบอร์โทรศัพท์</label>
+                                    <input type="text" class="form-control" id="phone-input" formControlName="phoneNumber" required>
+                                    <div *ngIf="editAddressForm.get('phoneNumber')?.touched && editAddressForm.get('phoneNumber')?.invalid">
+                                        <small class="text-danger" *ngIf="editAddressForm.get('phoneNumber')?.errors?.['required']">
+                                          กรุณากรอกเบอร์โทรศัพท์
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-field">
                                 <div class="form-group">
-                                    <h5>นามสกุล</h5>
-                                    <input type="search" class="input" id="lastName-input" formControlName="lastName" required>
+                                    <label for="lastName" class="form-label">นามสกุล</label>
+                                    <input type="text" class="form-control" id="lastName-input" formControlName="lastName" required>
+                                    <div *ngIf="editAddressForm.get('lastName')?.touched && editAddressForm.get('lastName')?.invalid">
+                                        <small class="text-danger" *ngIf="editAddressForm.get('lastName')?.errors?.['required']">
+                                          กรุณากรอกนามสกุล
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <h5>จังหวัด</h5>
@@ -90,8 +110,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <h5>รหัสไปรษณีย์</h5>
-                                    <input type="search" class="input" id="postal-input" formControlName="postalCode" required>
+                                    <label for="postalCode" class="form-label">รหัสไปรษณีย์</label>
+                                    <input type="text" class="form-control" id="postalCode-input" formControlName="postalCode" required>
+                                    <div *ngIf="editAddressForm.get('postalCode')?.touched && editAddressForm.get('postalCode')?.invalid">
+                                        <small class="text-danger" *ngIf="editAddressForm.get('postalCode')?.errors?.['required']">
+                                          กรุณากรอกรหัสไปรษณีย์
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +128,7 @@
                 </form>
             </div>
         </div>
-    </div>    
+    <!-- </div>     -->
 </div>
 
 <app-footer></app-footer>

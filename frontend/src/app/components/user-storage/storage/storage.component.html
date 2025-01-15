@@ -3,11 +3,8 @@
   <div class="card col" *ngFor="let item of storage; index as i">
     <form>
       <div (click)="NavigateToProduct(item)">
-        <div class="add-to-fav">
-            <i class='bx bx-heart bx-sm'></i>
-          </div>
-          <img src="assets/SUT-Logo.png" class="card-img-top">
-          <div class="card-body">
+        <img src="assets/SUT-Logo.png" class="card-img-top">
+        <div class="card-body">
             <p class="title">{{item.title}}</p>
             <p class="price">฿{{item.price}}</p>
           </div>

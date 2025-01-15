@@ -10,7 +10,7 @@
 </div>
 <ng-template #userTemplate>
     <div class="row mx-auto address-page">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="user-menu">
                 <div class="menu">
                     <h3 class="container-header">บัญชีผู้ใช้</h3>
@@ -25,12 +25,12 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8">
+        </div> -->
+        <!-- <div class="col-md-8"> -->
             <div class="my-address-container">
                 <h3 class="container-header">ที่อยู่ของฉัน</h3>
                 <br/>
-                <div class="address-table card shadow-sm">
+                <div>
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -71,11 +71,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="add-btn">
+                <div class="action-btn">
+                    <button class="user-back-btn" (click)="NavigateToUser()">ย้อนกลับ</button>
                     <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" #toast>
                 <div class="toast-header">

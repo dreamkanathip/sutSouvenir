@@ -23,7 +23,7 @@ export class AddressComponent implements OnInit{
   updateMessage?: String
   defaultAddress?: number
 
-  @ViewChild('toast', { static: true }) toastElement!: ElementRef;
+  @ViewChild('toast', { static: false }) toast!: ElementRef;
 
   constructor(private router: Router, private userService: UserService, private addressService: AddressService) {
     
@@ -149,10 +149,13 @@ export class AddressComponent implements OnInit{
   }
 
   showToast() {
-    const toast = new bootstrap.Toast(this.toastElement.nativeElement, {
-      delay: 3000 // แสดงผล 3 วินาที
-    });
-    toast.show();
+    const toastElement = this.toast.nativeElement;
+    const toastInstance = new bootstrap.Toast(toastElement, { delay: 3000 });
+    toastInstance.show();
+  }
+
+  NavigateToUser() {
+    this.router.navigate(['/user']);
   }
 
 }

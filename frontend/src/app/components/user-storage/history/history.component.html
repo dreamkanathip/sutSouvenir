@@ -1,61 +1,77 @@
 <h3 class="history-header text-center">ประวัติการสั่งซื้อ</h3>
-<div class="card all-item shadow-sm card-body">
-    <table class="table table-sm">
-        <thead>
-          <tr>
-            <th class="order-time">วันที่สั่งซื้อ (วันที่/เดือน/ปี)</th>
-            <th class="order-price">ราคา</th>
-            <th class="order-status">สถานะคำสั่งซื้อ</th>
-            <th class="order-detail"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of order">
-            <td>{{ item?.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</td>
-            <td>{{ item?.cartTotal }} บาท</td>
-            <td>{{ showStatus(item?.orderStatus) }}</td>
-            <td>
-              <a class="history-detail" (click)="viewHistory(item?.id)">
-                รายละเอียด
-              </a>
-            </td>
-          </tr>
-        </tbody>
-    </table>
-<!-- History Modal -->
-  <div *ngIf="historyModal" class="modal fade show" tabindex="-1" style="display: block;">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">รายละเอียดการสั่งซื้อ</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="closeHistory()"></button>
+
+<div class="container">
+  <div class="filter-section mb-3">
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="btnradio" id="all" value="" autocomplete="off" 
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" checked>
+      <label class="btn btn-outline-primary" for="all">ทั้งหมด</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="NOT_PROCESSED" value="NOT_PROCESSED" autocomplete="off"
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary" for="NOT_PROCESSED">รอชำระเงิน</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="PROCESSED" value="PROCESSED" autocomplete="off"
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary" for="PROCESSED">ยืนยันการสั่งซื้อ</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="SHIPPED" value="SHIPPED" autocomplete="off"
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary" for="SHIPPED">กำลังจัดส่ง</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="DELIVERED" value="DELIVERED" autocomplete="off"
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary" for="DELIVERED">จัดส่งสำเร็จ</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="CANCELLED" value="CANCELLED" autocomplete="off"
+      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary" for="CANCELLED">ยกเลิก</label>
+</div>
+  </div>
+  <div *ngFor="let order of filteredOrders" class="card mb-3">
+    <div *ngFor="let item of order.products" class="order-detail card-body">
+      <div class="row">
+        <div class="col-2">
+          <img src="assets/SUT-Logo.png" class="card-img-top">
         </div>
-        <div class="modal-body">
-          <p>วัน-เวลาที่สั่งซื้อ : {{ selectedHistoryDetail.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</p>
-          <p>ราคา : {{ selectedHistoryDetail.cartTotal }}</p>
-          <p>สถานะคำสั่งซื้อ : {{ showStatus(selectedHistoryDetail.orderStatus) }}</p>
-          <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>รายการสินค้า</th>
-                    <th>จำนวน</th>
-                    <th>ราคา (บาท)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of selectedHistoryProducts">
-                    <td>{{ product.title }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>{{ product.price }}</td>
-                  </tr>
-            </tbody>
-          </table>
-          <div class="cancel-order" *ngIf="checkCancel(selectedHistoryDetail.orderStatus)">
-            <button class="cancel-btn" (click)="submitCancel(selectedHistoryDetail)">ยกเลิกคำสั่งซื้อ</button>
-          </div>
+        <div class="col-4 item-title">
+          <span class="product-title">{{item.product.title}}</span>
+          <span class="product-quantity text-muted">ราคา: {{item.product.price}}</span>
+          <span class="product-quantity text-muted">จำนวน: {{item.count}}</span>
+        </div>
+      </div>
+    </div>
+    <hr class="hr" />
+
+    <div class="order-footer mb-3 card-body d-flex justify-content-between">
+      <div class="order-footer">
+        สั่งซื่อวันที่ {{order?.createdAt | formatDateToThai}}
+        <div class="order-status ms-5">
+          สถานะคำสั่งซื้อ:
+        </div>
+        <div class="badge ms-1" [ngStyle]="{
+                  background: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
+                              order?.orderStatus === 'CANCELLED'? '#DD0000' :
+                              order?.orderStatus === 'DELIVERED'? '#47E036' : 
+                              order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
+                              order?.orderStatus === 'PROCESSED'? '#4BB5DE' : ''
+                }">
+          {{ showStatus(order?.orderStatus) }}
+        </div>
+      </div>
+
+      <div [ngSwitch]="order?.orderStatus">
+        <div *ngSwitchCase="'NOT_PROCESSED'" class="d-flex">
+          <button class="payment-btn me-2" (click)="NavigateToPayment(order)">ชำระเงิน</button>
+          <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>
+        </div>
+        <div *ngSwitchCase="'SHIPPED'" class="d-flex">
+          <button class="payment-btn me-2">รีวิว</button>
+        </div>
+        <div *ngSwitchDefault class="d-flex">
+          <button class="payment-btn me-2">ตรวจสอบคำสั่งซื้อ</button>
         </div>
       </div>
     </div>
   </div>
-<!-- End of History Modal-->
 </div>

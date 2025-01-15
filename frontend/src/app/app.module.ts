@@ -52,6 +52,7 @@ import { UpdateShippingComponent } from './components/shipping/update-shipping/u
 import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
 import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { ReviewComponent } from './components/review/review.component';
+import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ReviewComponent } from './components/review/review.component';
     SelectShippingComponent,
     AdminUpdateOrderStatusComponent,
     ReviewComponent,
+    FormatDateToThaiPipe,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
 import { userOrder } from '../../interfaces/order/order';
+import { BehaviorSubject } from 'rxjs';
 import { Injectable} from '@angular/core';
 
 @Injectable({
@@ -10,7 +11,14 @@ import { Injectable} from '@angular/core';
 export class UserService {
   private apiUrl = 'http://localhost:5000/api'; // เปลี่ยน URL ให้ตรงกับ backend ของคุณ
 
-  constructor(private http: HttpClient) {}
+  private storagePageSubject = new BehaviorSubject<Number>(0);
+  storagePage$ = this.storagePageSubject.asObservable();
+
+  // 0 = Storage 
+  // 1 = History
+  // 2 = Favourite
+
+  constructor(private http: HttpClient) { }
 
   // ฟังก์ชันสร้าง headers พร้อม Authorization
   private getAuthHeaders(): HttpHeaders {
@@ -71,5 +79,13 @@ export class UserService {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
+  }
+  
+  setStoragePage(page: Number){
+    this.storagePageSubject.next(page);
+  }
+
+  getStoragePage() {
+    return this.storagePageSubject.value;
   }
 }

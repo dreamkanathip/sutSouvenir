@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 // Get User Info - รองรับทั้ง USER, ADMIN และ SUPERADMIN
 const getUser = async (req, res) => {
   try {
-    const { password, ...userData } = req.user; // กำจัดรหัสผ่านจากข้อมูลที่ส่ง
+    const userId = req.user.id;
 
     // เพิ่ม header เพื่อปิดการ cache
     res.setHeader(
@@ -23,6 +23,12 @@ const getUser = async (req, res) => {
 
     } else if (req.user.role === "USER") {
       // ถ้าเป็น USER ให้แสดงข้อมูลของตัวเอง
+      const user = await prisma.user.findFirst({
+        where: {
+          id: Number(userId)
+        }
+      })
+      const { password, ...userData } = user; // กำจัดรหัสผ่านจากข้อมูลที่ส่ง
       return res.status(200).json(userData);
     } else {
       // console.log("Denial")

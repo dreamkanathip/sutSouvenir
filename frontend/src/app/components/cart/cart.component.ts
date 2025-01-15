@@ -37,23 +37,35 @@ export class CartComponent implements OnInit{
   }
 
   onQuantityInputChange(item: any): void {
-    if (item.quantity >= item.product.quantity) {
+    const previousQuantity = item.quantity;
+    if (item.quantity >= item.product.quantity && item.product.quantity !=0 ) {
       Swal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
         icon: "warning",
         confirmButtonText: "ตกลง",
+      }).then(() => {
+        item.quantity = item.product.quantity;
+      })
+    } else if (item.product.quantity <= 0) {
+      Swal.fire({
+        title: "สินค้าหมดแล้ว",
+        text: "โปรดรอสินค้า",
+        confirmButtonText: "ตกลง",
+        icon: "warning",
+        confirmButtonColor: "#F36523",
+      }).then(() => {
+        item.quantity = previousQuantity;
       });
-      item.quantity = item.product.quantity;
-    } else if(item.quantity <= 0) {
-        item.quantity = Math.max(1, Math.min(Number(item.quantity), item.product.quantity));
-
+    } else if (item.quantity <= 0) {
+      item.quantity = Math.max(1, Math.min(Number(item.quantity), item.product.quantity));
       if (isNaN(item.quantity)) {
         item.quantity = 1;
       }
     }
     this.calculateIndividualItemPrice()
   }
+
   onShippingSelected($e:any) {
     this.selectedShipping = $e
   }

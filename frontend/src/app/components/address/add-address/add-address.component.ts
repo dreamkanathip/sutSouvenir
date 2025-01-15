@@ -41,7 +41,7 @@ export class AddAddressComponent implements OnInit {
       this.ThaiData = result;
 
       // สร้างรายการจังหวัด
-      this.uniqueProvinces = [...new Set(this.ThaiData.map(item => item.name_th))];
+      this.uniqueProvinces = [...new Set(this.ThaiData.map(item => item.name_th))].sort((a, b) => a.localeCompare(b, 'th-TH'));
     });
   }
 
@@ -52,7 +52,7 @@ export class AddAddressComponent implements OnInit {
 
     // กรองอำเภอตามจังหวัด
     const selectedProvinceData = this.ThaiData.find(p => p.name_th === province);
-    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th) : [];
+    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th).sort((a: any, b: any) => a.localeCompare(b, 'th-TH')): [];
 
     this.addressForm.patchValue({
       province: this.selectedProvince,
@@ -68,7 +68,7 @@ export class AddAddressComponent implements OnInit {
     // กรองตำบลตามจังหวัดและอำเภอ
     const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
     const selectedDistrictData = provinceData?.amphure.find((a: any) => a.name_th === district);
-    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((t: any) => t.name_th) : [];
+    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((a: any) => a.name_th).sort((a: any, b: any) => a.localeCompare(b, 'th-TH')): [];
 
     this.addressForm.patchValue({
       district: this.selectedDistrict,
