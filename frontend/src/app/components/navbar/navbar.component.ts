@@ -20,11 +20,13 @@ export class NavbarComponent {
     private authService: AuthService,
     private cartService: CartService,
   ) {
-
-    this.cartService.updateCartItemCount(this.userId)
-    this.cartService.cartItemCount$.subscribe((count) => {
+    if (typeof window !== 'undefined') {
+      this.cartService.updateCartItemCount(this.userId)
+      this.cartService.cartItemCount$.subscribe((count) => {
       this.cartItemCount = count
     })
+    }
+    
   }
   ngOnInit(): void {
   }

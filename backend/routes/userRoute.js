@@ -3,12 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const prisma = require("@prisma/client");
 const authenticationController = require("../controllers/authenticationController");
-const {
-  getUser,
-  updateUser,
-  updateUserPassword,
-  getUserStorage
-} = require("../controllers/userController");
+const userController = require("../controllers/userController");
 
 const {
   authenticateToken,
@@ -22,7 +17,7 @@ router.get(
   "/admin/profile",
   authenticateToken,
   authenticateAdmin,
-  getUser
+  userController.getUser
 );
 
 // Route สำหรับดึงข้อมูลผู้ใช้ (เฉพาะ USER)
