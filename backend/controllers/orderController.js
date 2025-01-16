@@ -13,9 +13,10 @@ const s3Client = new S3Client({
 // Initialize an order
 exports.initOrder = async (req, res) => {
   try {
-    const { userId, cartTotal } = req.body;
+    const { cartTotal, addressId, shippingId } = req.body;
+    const userId = req.user.id
 
-    if (!userId || !cartTotal) {
+    if (!userId || !cartTotal || !addressId || !shippingId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -23,6 +24,8 @@ exports.initOrder = async (req, res) => {
       data: {
         userId: Number(userId),
         cartTotal: Number(cartTotal),
+        addressId: Number(addressId),
+        shippingId: Number(shippingId)
       },
     });
     res.status(201).send(order);
@@ -50,12 +53,7 @@ exports.addOrderDetail = async (req, res) => {
       },
     });
 
-    const updatedOrder = await prisma.order.update({
-      where: { id: Number(orderId) },
-      data: { cartTotal: { increment: Number(total) } },
-    });
-
-    res.status(201).json({ orderDetail, updatedOrder });
+    res.status(201).json({ orderDetail });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -212,5 +210,54 @@ exports.getOrderStatusEnum = async(req, res) => {
   } catch (err) {
     console.error(err);
         res.status(500).json({ message: "Server error", error: err });
+  }
+}
+
+exports.changeOrderStatus = async(req, res) => {
+  try {
+    const { orderId, orderStatus } = req.body;
+
+    const changeStatus = await prisma.order.update({
+      where: {
+        id: Number(orderId)
+      },
+      data: {
+        orderStatus: orderStatus
+      }
+    })
+    res.send(changeStatus)
+  } catch (err) {
+    console.error(err);
+        res.status(500).json({ message: "Server error", error: err });
+  }
+}
+
+exports.getOrderById = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    const orders = await prisma.order.findFirst({
+      where: {
+        id: Number(orderId),
+      },
+      include: {
+        products: {
+          include: {
+            product: true,
+          },
+        },
+        address: true,
+        shipping: true
+      },
+    });
+
+    if (!orders) {
+      return res.status(404).send({ message: "ไม่พบประวัติการสั่งซื้อ" });
+    }
+
+    return res.status(200).send({ orders });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:", error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
   }
 }

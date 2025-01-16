@@ -13,11 +13,11 @@ export class CartService {
   constructor(private http: HttpClient) { }
   
   private getAuthHeaders(): HttpHeaders {
-      const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
-      return new HttpHeaders({
-        Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
-      });
-    }
+    const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+    return new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+    });
+  }
 
   apiUrl = 'http://localhost:5000/api';
 

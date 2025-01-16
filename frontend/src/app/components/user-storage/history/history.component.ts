@@ -16,6 +16,7 @@ export class HistoryComponent implements OnInit{
 
   orders: any[] = []
   storage: any[] = [];
+  selectedOrder!: any;
   productOnOrder!: ProductOnOrder[];
   historyModal: boolean = false
   selectedHistory?: number
@@ -179,5 +180,7 @@ export class HistoryComponent implements OnInit{
       return this.filterStatus? order.orderStatus === this.filterStatus: true;
     });
   }
-
+  selectOrder(order: any): void {
+    this.selectedOrder = order
+  }
 }

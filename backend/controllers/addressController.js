@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
       province,
       postalCode,
     } = req.body;
-
+    
     const user = await prisma.user.findFirst({
       where: {
         id: Number(uid),
@@ -25,6 +25,12 @@ exports.create = async (req, res) => {
       return res.status(400).json({ message: "User Not found or not Enabled" });
     }
 
+    const hasAddress = await prisma.address.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+
     const address = await prisma.address.create({
       data: {
         firstName: firstName,
@@ -34,6 +40,7 @@ exports.create = async (req, res) => {
         subDistrict: subDistrict,
         district: district,
         province: province,
+        default: hasAddress? false: true,
         postalCode: String(postalCode),
         user: {
           connect: { id: user.id },

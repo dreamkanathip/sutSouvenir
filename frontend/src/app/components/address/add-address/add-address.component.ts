@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -107,7 +107,6 @@ export class AddAddressComponent implements OnInit {
         postalCode: this.addressForm.get('postalCode')?.value,
         userID: 1,
       };
-
       Swal.fire({
         title: "ต้องการเพิ่มข้อมูลหรือไม่",
         showCancelButton: true,
@@ -135,6 +134,7 @@ export class AddAddressComponent implements OnInit {
               });
               this.addressForm.reset();
               this.addressNavigate();
+              
             },
             error: (error) => {
               Swal.close();
@@ -162,4 +162,5 @@ export class AddAddressComponent implements OnInit {
   addressNavigate(){
     this.router.navigate(['/address']);
   }
+
 }

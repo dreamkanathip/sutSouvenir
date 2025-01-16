@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
+import { AddressService } from '../../services/address/address.service';
+import { AddressModel } from '../../interfaces/address/address.model';
 
 @Component({
   selector: 'app-cart',
@@ -23,10 +25,13 @@ export class CartComponent implements OnInit{
   selectedQuantity: number = 0;
   userId: number = 1;
   selectedShipping!: Shipping
+  defaultAddress!: AddressModel;
+  
   constructor(
     private cartService: CartService, 
     private orderService: OrderService, 
     private router: Router,
+    private addressService: AddressService,
   ) {
   }
 
@@ -34,6 +39,7 @@ export class CartComponent implements OnInit{
     this.getProductOnCart(1) //passing userId
     this.getCartById(1) //passing userId
     this.toggleSelectAll()
+    this.getDefaultAddress()
   }
 
   onQuantityInputChange(item: any): void {
@@ -218,8 +224,10 @@ export class CartComponent implements OnInit{
       const data = {
         userId: this.userId,
         cartTotal: this.sumItemPrice + this.selectedShipping.fees,
+        addressId: this.defaultAddress.id ,
+        shippingId: this.selectedShipping.id
       };
-      
+      console.log("data to order: ", data)
       const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
 
       const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
@@ -314,5 +322,14 @@ export class CartComponent implements OnInit{
         Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");
       }
     }
+  }
+
+  getDefaultAddress() {
+    this.addressService.getDefaultAddress(1).subscribe(res => {
+      this.defaultAddress = res
+    })
+  }
+  defaultAddressChanged() {
+    this.getDefaultAddress()
   }
 }

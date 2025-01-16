@@ -1,37 +1,38 @@
-<h3 class="history-header text-center">ประวัติการสั่งซื้อ</h3>
+<h3 class="history-header">ประวัติการสั่งซื้อ</h3>
 
 <div class="container">
-  <div class="filter-section mb-3">
+  <div class="filter-section mb-3 d-flex justify-content-center">
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+      
       <input type="radio" class="btn-check" name="btnradio" id="all" value="" autocomplete="off" 
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" checked>
-      <label class="btn btn-outline-primary" for="all">ทั้งหมด</label>
+      <label class="btn btn-outline-primary filter-button" for="all">ทั้งหมด</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="NOT_PROCESSED" value="NOT_PROCESSED" autocomplete="off"
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary" for="NOT_PROCESSED">รอชำระเงิน</label>
+      <label class="btn btn-outline-primary filter-button" for="NOT_PROCESSED">รอชำระเงิน</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="PROCESSED" value="PROCESSED" autocomplete="off"
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary" for="PROCESSED">ยืนยันการสั่งซื้อ</label>
+      <label class="btn btn-outline-primary filter-button" for="PROCESSED">ยืนยันการสั่งซื้อ</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="SHIPPED" value="SHIPPED" autocomplete="off"
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary" for="SHIPPED">กำลังจัดส่ง</label>
+      <label class="btn btn-outline-primary filter-button" for="SHIPPED">กำลังจัดส่ง</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="DELIVERED" value="DELIVERED" autocomplete="off"
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary" for="DELIVERED">จัดส่งสำเร็จ</label>
+      <label class="btn btn-outline-primary filter-button" for="DELIVERED">จัดส่งสำเร็จ</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="CANCELLED" value="CANCELLED" autocomplete="off"
       [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary" for="CANCELLED">ยกเลิก</label>
+      <label class="btn btn-outline-primary filter-button" for="CANCELLED">ยกเลิก</label>
 </div>
   </div>
   <div *ngFor="let order of filteredOrders" class="card mb-3">
     <div *ngFor="let item of order.products" class="order-detail card-body">
       <div class="row">
-        <div class="col-2">
+        <div class="col-2 d-flex justify-content-center align-items-center">
           <img src="assets/SUT-Logo.png" class="card-img-top">
         </div>
         <div class="col-4 item-title">
@@ -60,18 +61,12 @@
         </div>
       </div>
 
-      <div [ngSwitch]="order?.orderStatus">
-        <div *ngSwitchCase="'NOT_PROCESSED'" class="d-flex">
-          <button class="payment-btn me-2" (click)="NavigateToPayment(order)">ชำระเงิน</button>
-          <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>
-        </div>
-        <div *ngSwitchCase="'SHIPPED'" class="d-flex">
-          <button class="payment-btn me-2">รีวิว</button>
-        </div>
-        <div *ngSwitchDefault class="d-flex">
-          <button class="payment-btn me-2">ตรวจสอบคำสั่งซื้อ</button>
-        </div>
+      <div type="button" class="d-flex" data-bs-toggle="modal" data-bs-target="#historyDetail">
+        <button class="payment-btn me-2" (click)="selectOrder(order)">ตรวจสอบคำสั่งซื้อ</button>
       </div>
     </div>
   </div>
 </div>
+<app-history-detail class="modal fade" id="historyDetail" tabindex="-1" aria-labelledby="historyDetailLabel" aria-hidden="true"
+  [order]="selectedOrder" (getUserStorageItem)="getUserStorageItem()"
+></app-history-detail>

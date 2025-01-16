@@ -1,0 +1,99 @@
+<div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">รายละเอียดคำสั่งซื้อ</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="order-header d-flex flex-row ms-3 me-3">
+                สั่งซื่อวันที่ {{order?.createdAt | formatDateToThai}}
+                <div class="order-status ms-4">
+                    สถานะคำสั่งซื้อ:
+                </div>
+                <div class="badge ms-1" [ngStyle]="{
+                        background: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
+                                    order?.orderStatus === 'CANCELLED'? '#DD0000' :
+                                    order?.orderStatus === 'DELIVERED'? '#47E036' : 
+                                    order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
+                                    order?.orderStatus === 'PROCESSED'? '#4BB5DE' : ''
+                      }">
+                    {{ showStatus(order?.orderStatus) }}
+                </div>
+
+                <div [ngSwitch]="order?.orderStatus" class="ms-auto">
+                    <div *ngSwitchCase="'NOT_PROCESSED'" class="d-flex">
+                        <button class="payment-btn me-2" (click)="NavigateToPayment(order)" data-bs-dismiss="modal">ชำระเงิน</button>
+                        <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>
+                    </div>
+                    <div *ngSwitchCase="'DELIVERED'" class="d-flex">
+                        <button class="payment-btn me-2">รีวิว</button>
+                    </div>
+                    <div *ngSwitchCase="'SHIPPED'" class="d-flex">
+                        <button class="payment-btn me-2" (click)="changeStatusToDELIVERED(order)">ยืนยันรับสินค้า</button>
+                    </div>
+                </div>
+            </div>
+            <div class="shipping ms-3 me-3 d-flex flex-column">
+                <span>จัดส่งโดย {{order?.shipping.company}}</span>
+                <span>tracking number: </span>
+                
+            </div>
+            <div *ngFor="let item of order?.products" class="border rounded m-3">
+                <div class="row ps-3 pb-3 pt-2">
+                    <div class="col-2 d-flex justify-content-center align-items-center">
+                        <img src="assets/SUT-Logo.png" class="img-fluid rounded" alt="Product Image">
+                    </div>
+                    <div class="col-4 item-title">
+                        <span class="product-title">{{item.product.title}}</span>
+                        <span class="product-quantity text-muted">ราคา: {{item.product.price}}</span>
+                        <span class="product-quantity text-muted">จำนวน: {{item.count}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-between m-3 ">
+                <div class="address col-5 border rounded ">
+                    <div class="ms-3 mt-3">
+                        <h3>
+                            ที่อยู่ในการจัดส่ง
+                        </h3>
+                        <div class="d-flex justify-content-between">
+                            <div class="name">
+                                {{order?.address.firstName}} {{order?.address.lastName}}
+                            </div>
+                        </div>
+                        <div class="address">
+                            {{order?.address.street}} {{order?.address.subDistrict}}
+                            {{order?.address.district}} {{order?.address.province}}
+                            {{order?.address.postalCode}} {{order?.address.phoneNumber}}
+                        </div>
+                    </div>
+                </div>
+                <div class="summary col-6 border rounded">
+                    <div class="m-3">
+                        <h3>สรุปข้อมูลคำสั่งซื้อ</h3>
+                        <div class="d-flex justify-content-between">
+                            <p>ราคาสินค้า</p>
+                            {{(productOnOrderTotal).toLocaleString('en', {useGrouping:true})}}
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>ค่าส่ง</p>
+                            <p>{{order?.shipping.fees}}</p>
+                        </div>
+                        <hr class="mt-1 mb-1" />
+                        <div class="d-flex justify-content-between summary-sum-price">
+                            <p>รวมทั้งสิ้น</p>
+                            {{
+                            (order?.cartTotal).toLocaleString('en', {useGrouping:true})
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        </div>
+    </div>
+</div>

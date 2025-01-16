@@ -42,6 +42,7 @@ export class PaymentComponent implements OnInit{
   defaultAddressChanged() {
     this.getDefaultAddress()
   }
+  
   getProductOnOrder(id: any): void {
     // console.log(id)
     this.orderService.getProductOnOrderById(id).subscribe({
