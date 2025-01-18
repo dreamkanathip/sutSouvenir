@@ -36,7 +36,7 @@ export class FavouriteService {
   // ฟังก์ชันดึงสินค้าที่ถูกกดถูกใจโดยใช้ userId
   getLikedProducts(): Observable<FavouriteResponse[]> {
     // const params = new HttpParams().set('userId', userId.toString()); // สร้าง query parameter สำหรับ userId
-    return this.http.get<FavouriteResponse[]>(`${this.apiUrl}/favourites/${userId}`, {
+    return this.http.get<FavouriteResponse[]>(`${this.apiUrl}/favourites`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     }); // ส่งคำขอ HTTP ไปที่ API
@@ -58,7 +58,7 @@ export class FavouriteService {
   }
 
   loadLikedProducts(): void {
-    this.getLikedProducts(this.userId).subscribe(
+    this.getLikedProducts().subscribe(
       (data) => {
         this.favouritesList = data;
         this.productList = []
