@@ -13,7 +13,7 @@
     scrollbar-width: none;
     width: 1920px;
     max-width: 100%;
-    /* height: 694px; */
+    height: 694px;
     /* max-height: 100%; */
     font-family: 'SUT', sans-serif;
     font-size: larger;
@@ -132,7 +132,7 @@
     transition: opacity 0.3s ease;
 }
   
-.modal.show .modal-backdrop {
+.modal-backdrop {
     opacity: 1;
 }
   
@@ -142,7 +142,7 @@
 }
   
 .modal.show {
-    opacity: 0.5    ;
+    opacity: 1    ;
 }
 
 .form-submit-container {
@@ -170,7 +170,6 @@
 .no-user-page {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     font-family: 'SUT', sans-serif;
@@ -187,10 +186,10 @@
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     border: none;
-    width: 200px; /* กำหนดขนาดปุ่มที่เหมาะสม */
+    width: 150px;
     height: 50px;
     letter-spacing: 1px;
-    margin-top: 20px; /* เว้นระยะห่างจากข้อความ */
+    margin-top: 20px;
     cursor: pointer;
 }
 

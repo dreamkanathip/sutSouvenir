@@ -52,7 +52,7 @@ export class HomepageComponent {
 
   loadFavourite(){
     this.favourites = []
-    this.favouriteService.getLikedProducts(this.userId).subscribe((result) => {
+    this.favouriteService.getLikedProducts().subscribe((result) => {
       this.favouriteList = result
       if (this.favouriteList) {
         this.favouriteList.forEach(list => {
@@ -150,13 +150,13 @@ export class HomepageComponent {
   }
 
   likeProduct(item: any) {
-    this.favouriteService.likeProduct(this.userId, item).subscribe((result) => {
+    this.favouriteService.likeProduct(item).subscribe((result) => {
       this.loadFavourite()
     })
   }
 
   unlikeProduct(item: any) {
-    this.favouriteService.removeFromFavourites(this.userId, item.id).subscribe((result) => {
+    this.favouriteService.removeFromFavourites(item.id).subscribe((result) => {
       this.loadFavourite()
     })
   }

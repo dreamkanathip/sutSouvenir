@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AddressModel } from '../../interfaces/address/address.model';
 
@@ -14,8 +14,18 @@ export class AddressService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders(): HttpHeaders {
+        const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+        return new HttpHeaders({
+          Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+        });
+    }
+
   getAllAddress(uid: number): Observable<AddressModel[]> {
-    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress/${uid}`)
+    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    })
   }
 
   getAddress(id: number): Observable<AddressModel> {
@@ -23,15 +33,24 @@ export class AddressService {
   }
 
   getDefaultAddress(uid: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/getDefaultAddr/${uid}`);
+    return this.http.get<AddressModel>(`${this.apiUrl}/defaultAddress`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
   createAddress(address: any, uid: number): Observable<AddressModel[]> {
-    return this.http.post<AddressModel[]>(`${this.apiUrl}/address/${uid}`, address)
+    return this.http.post<AddressModel[]>(`${this.apiUrl}/address`, address, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    })
   }
 
   updateAddress(address: any, uid: number, id: number): Observable<AddressModel[]> {
-    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${uid}/${id}`, address);
+    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${id}`, address, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
   deleteAddress(id: number): Observable<AddressModel> {

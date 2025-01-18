@@ -71,6 +71,7 @@
                 [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
               ></i>
             </div>
+            {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.
             <div>{{ review.user?.firstName }} : {{ review.comment }}</div>
             <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
               <p>
@@ -110,6 +111,7 @@
               [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
             ></i>
           </div>
+          <div> {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</div>
           <div>{{ review.comment }}</div>
         </div>
       </div>

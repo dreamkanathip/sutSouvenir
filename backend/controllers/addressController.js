@@ -2,7 +2,7 @@ const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
   try {
-    const { uid } = req.params;
+    const uid  = req.user.id;
 
     const {
       firstName,
@@ -56,7 +56,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    const { uid } = req.params;
+    const uid  = req.user.id;
     const address = await prisma.address.findMany({
       where: {
         userId: Number(uid),
@@ -84,9 +84,10 @@ exports.read = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 exports.getDefaultAddress = async(req, res) => {
   try {
-    const { uid } = req.params;
+    const uid  = req.user.id;
     const address = await prisma.address.findFirst({
       where: {
         userId: Number(uid),
@@ -102,7 +103,7 @@ exports.getDefaultAddress = async(req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id }  = req.params;
 
     await prisma.address.delete({
       where: {
@@ -119,7 +120,8 @@ exports.remove = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { uid, id } = req.params;
+    const uid  = req.user.id;
+    const { id } = req.params;
 
     const {
       firstName,

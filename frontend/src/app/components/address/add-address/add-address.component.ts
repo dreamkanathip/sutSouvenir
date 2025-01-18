@@ -25,14 +25,26 @@ export class AddAddressComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private addressService: AddressService) {
     this.addressForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: [
+        '', 
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/)] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+      ],
+      lastName: [
+        '', 
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/)] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+      ],
       street: ['', [Validators.required]],
       province: ['', [Validators.required]],
       district: ['', [Validators.required]],
       subDistrict: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      postalCode: ['', [Validators.required]]
+      phoneNumber: [
+        '', 
+        [Validators.required, Validators.pattern(/^[0-9]{10}$/)] // เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก
+      ],
+      postalCode: [
+        '', 
+        [Validators.required, Validators.pattern(/^[0-9]{5}$/)] // รหัสไปรษณีย์เป็นตัวเลข 5 หลัก
+      ]
     });
   }
 
