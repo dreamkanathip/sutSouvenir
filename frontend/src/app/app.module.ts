@@ -101,7 +101,6 @@ import { HistoryDetailComponent } from './components/user-storage/history-detail
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FormsModule,
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,

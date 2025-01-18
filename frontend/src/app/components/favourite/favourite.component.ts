@@ -24,7 +24,7 @@ export class FavouriteComponent implements OnInit {
 
   getProductList() {
     this.productList = []
-    this.favouriteService.getLikedProducts(this.userId).subscribe((result) => {
+    this.favouriteService.getLikedProducts().subscribe((result) => {
       this.likeList = result
       if (this.likeList) {
         this.likeList.forEach(list => {
@@ -43,7 +43,7 @@ export class FavouriteComponent implements OnInit {
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        this.favouriteService.removeFromFavourites(this.userId, productId).subscribe(
+        this.favouriteService.removeFromFavourites(productId).subscribe(
           (result) => {
             this.getProductList();
           },

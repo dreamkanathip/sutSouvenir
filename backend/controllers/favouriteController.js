@@ -59,8 +59,8 @@ const getLikeProducts = async (req, res) => {
 
 const checkLikeProduct = async (req, res) => {
   try {
-    const { productId } = req.params;
     const userId = req.user.id;
+    const { productId } = req.params;
 
     const likeProduct = await prisma.favourite.findFirst({
       where: {
@@ -78,8 +78,8 @@ const checkLikeProduct = async (req, res) => {
 
 const unLikeProduct = async (req, res) => {
   try {
-    const { productId } = req.params;
     const userId = req.user.id;
+    const { productId } = req.params;
 
     // ตรวจสอบว่าค่าที่รับมาถูกต้อง
     if (!userId || isNaN(Number(userId))) {

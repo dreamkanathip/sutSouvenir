@@ -10,15 +10,16 @@ const {
   remove,
   getDefaultAddress,
 } = require("../controllers/addressController");
+
 const { authenticateToken } = require("../middlewares/authMiddleware");
 
 // @ENDPOINT http://localhost:5000/api/address
-router.post("/address/:uid", authenticateToken, create);
-router.get("/listAddress/:uid", authenticateToken, list);
-router.get("/address/:id", authenticateToken, read);
-router.get("/address/getDefaultAddr/:uid", authenticateToken, getDefaultAddress)
-router.patch("/address/default/:id", authenticateToken, defaultAddress);
-router.put("/address/:uid/:id", authenticateToken, update);
-router.delete("/address/:id", authenticateToken, remove);
+router.post("/address", authenticateToken, create);
+router.get("/listAddress", authenticateToken, list);
+router.get("/address/:id", read);
+router.get("/defaultAddress", authenticateToken, getDefaultAddress)
+router.patch("/address/default/:id", defaultAddress);
+router.put("/address/:id", authenticateToken, update);
+router.delete("/address/:id", remove);
 
 module.exports = router;

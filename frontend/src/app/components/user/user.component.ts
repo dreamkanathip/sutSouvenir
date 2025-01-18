@@ -55,7 +55,6 @@ export class UserComponent implements OnInit{
     this.userService.getUserData().subscribe({
       next: (result: UserModel) => {
         if (result) {
-          console.log(result)
           this.user = result;
           this.editUserUpdate()
         }
@@ -94,9 +93,10 @@ export class UserComponent implements OnInit{
   getDefaultAddress() {
     this.addressService.getDefaultAddress(this.userId).subscribe(result => {
       if (result) {
+        console.log("Default:",result)
         this.defaultAddress = result.street + ' ตำบล' + result.subDistrict + ' อำเภอ' + result.district + ' ' + result.province
       } else {
-        this.defaultAddress = "ไม่พบที่อยู่ที่ได้บันทึกไว้"
+        this.defaultAddress = "ไม่พบที่อยู่จัดส่งที่ได้บันทึกไว้"
       }
     })
   }

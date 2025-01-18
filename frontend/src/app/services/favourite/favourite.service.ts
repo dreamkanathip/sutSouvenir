@@ -34,7 +34,7 @@ export class FavouriteService {
   }
 
   // ฟังก์ชันดึงสินค้าที่ถูกกดถูกใจโดยใช้ userId
-  getLikedProducts(userId: Number): Observable<FavouriteResponse[]> {
+  getLikedProducts(): Observable<FavouriteResponse[]> {
     // const params = new HttpParams().set('userId', userId.toString()); // สร้าง query parameter สำหรับ userId
     return this.http.get<FavouriteResponse[]>(`${this.apiUrl}/favourites/${userId}`, {
       headers: this.getAuthHeaders(),

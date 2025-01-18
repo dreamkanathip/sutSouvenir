@@ -54,7 +54,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   checkLiked(id: number) {
-    this.favouriteService.checkLikeProduct(this.userId, id).subscribe((result) => {
+    this.favouriteService.checkLikeProduct(id).subscribe((result) => {
       if (result) {
         this.likeProductStatus = true
       } else {
@@ -64,7 +64,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   likeProduct(item: any) {
-    this.favouriteService.likeProduct(this.userId, item).subscribe((result) => {
+    this.favouriteService.likeProduct(item).subscribe((result) => {
       if (result) {
         this.likeProductStatus = true
       }
@@ -72,7 +72,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   unlikeProduct(item: any) {
-    this.favouriteService.removeFromFavourites(this.userId, item.id).subscribe((result) => {
+    this.favouriteService.removeFromFavourites(item.id).subscribe((result) => {
       if (result) {
         this.likeProductStatus = false
       }

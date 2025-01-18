@@ -16,11 +16,11 @@ const {
     listProductRating,
 } = require("../controllers/reviewController");
 
-router.post("/review/:pid/:uid", authenticateToken, createReview);
+router.post("/review/:pid", authenticateToken, createReview);
 router.get("/review/:pid", listReview);
-router.get("/userReview/",authenticateToken, getUserReview);
+router.get("/userReview/", authenticateToken, getUserReview);
 router.delete("/review/:rid", removeReview);
-router.put("/review/:pid/:uid", updateReview);
+// router.put("/review/:pid", authenticateToken, updateReview);
 
 router.get("/productRating", listProductRating);
 

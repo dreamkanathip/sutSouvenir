@@ -84,6 +84,7 @@ exports.read = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 exports.getDefaultAddress = async(req, res) => {
   try {
     const uid = req.user.id;

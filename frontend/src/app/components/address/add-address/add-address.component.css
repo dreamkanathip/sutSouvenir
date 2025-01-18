@@ -57,19 +57,14 @@
     overflow-x: hidden;
     padding: 5px 0;
     border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .input-field .form-group input,
 .input-field .form-group .dropdown a {
     height: 40px;
     line-height: 1.5;
-    border: 1px solid #ccc;
-    border-radius: 5px; /* เพิ่ม border-radius เพื่อความโค้งมน */
-    padding: 5px 10px; /* เพิ่ม padding ให้ input */
-}
-
-.input-field .form-group {
-    margin-bottom: 20px;
+    padding: 8px;
 }
 
 .input-field .dropdown .dropdown-toggle {
@@ -77,13 +72,22 @@
     line-height: 40px;
     display: inline-flex;
     align-items: center;
-    border: 1px solid #000;
+    border: 1px solid #ddd;
     min-width: 120px;
     width: auto;
     max-width: 175px;
     white-space: nowrap;
-    border-radius: 5px; /* เพิ่ม border-radius */
-    padding: 0 10px; /* เพิ่ม padding */
+    border-radius: 5px;
+}
+
+.input-field .dropdown .dropdown-toggle:focus {
+    border-color: #F36523;
+    outline: none;
+    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
+}
+
+.input-field .form-group small.text-danger {
+    font-size: small;
 }
 
 @media (max-width: 768px) {

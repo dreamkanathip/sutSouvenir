@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReviewModel, ReviewResponse } from '../../interfaces/review/review.model';
 
@@ -15,15 +16,14 @@ export class ReviewService {
   apiUrl = "http://localhost:5000/api"
 
   editedReview: any
-  reviewList: ReviewModel[] = [];
 
   private getAuthHeaders(): HttpHeaders {
       const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
       return new HttpHeaders({
         Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
       });
-    }
-    
+  }
+
   listReview(pid: number): Observable<ReviewResponse> {
     return this.http.get<any>(`${this.apiUrl}/review/${pid}`)
   }

@@ -130,7 +130,7 @@ export class ReviewComponent implements OnInit {
               },
             });
             this.reviewService
-              .createReview(this.productId, this.user.id, this.review)
+              .createReview(this.productId, this.review)
               .subscribe({
                 next: () => {
                   Swal.fire({
