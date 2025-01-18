@@ -9,12 +9,21 @@ const authenticateToken = async (req, res, next) => {
 
     if (!token) {
       // หากไม่มี token
-      return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });
+      const token = req.cookies.jwt;
+      if(!token) {
+        return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });        
+      }
     }
 
     // ตรวจสอบ token ว่าถูกต้องหรือไม่
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // ใช้ JWT_SECRET ในการตรวจสอบ
-    req.user = decoded; // เก็บข้อมูล user ที่ได้จาก token ไว้ใน req.user
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+     // ใช้ JWT_SECRET ในการตรวจสอบ
+     const user = await prisma.user.findFirst({
+      where: {
+        id: Number(decoded.id)
+      }
+     })
+    req.user = user; // เก็บข้อมูล user ที่ได้จาก token ไว้ใน req.user
     next(); // ไปที่ middleware หรือ route ถัดไป
   } catch (err) {
     console.error("Token verification failed:", err); // พิมพ์ข้อผิดพลาดใน server log

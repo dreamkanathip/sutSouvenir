@@ -41,7 +41,7 @@ export class UserService {
       },
       withCredentials: true,
     });
-  }
+  } 
   // ฟังก์ชันดึงข้อมูลโปรไฟล์ของผู้ใช้
   getUserData(): Observable<UserModel> {
     return this.http.get<UserModel>(`${this.apiUrl}/user/profile`, {

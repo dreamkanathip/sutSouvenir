@@ -1,11 +1,16 @@
 const express = require('express');
-const { initOrder, addOrderDetail, getProductOnOrder, getAllOrder, getAllProductOnOrder, cancelOrder } = require('../controllers/orederController');
+const { initOrder, addOrderDetail, getProductOnOrder, getAllOrder, getAllProductOnOrder, cancelOrder, getAllProductOnOrderByUserId, getOrderStatusEnum, changeOrderStatus, getOrderById } = require('../controllers/orderController');
+const { authenticateToken } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
-router.post("/initialOrder", initOrder)
-router.post("/addOrderDetail", addOrderDetail)
-router.get("/productOnOrder/:id", getProductOnOrder)
-router.get("/productsOnOrders", getAllProductOnOrder)
-router.patch("/cancelOrder/:id", cancelOrder)
+router.post("/initialOrder",authenticateToken, initOrder)
+router.post("/addOrderDetail",authenticateToken, addOrderDetail)
+router.get("/productOnOrder/:id",authenticateToken, getProductOnOrder)
+router.get("/productsOnOrders",authenticateToken, getAllProductOnOrder)
+router.patch("/cancelOrder/:id",authenticateToken, cancelOrder)
+router.get("/order-status-enum",authenticateToken, getOrderStatusEnum)
+router.get("/order/:orderId", getOrderById)
+router.patch("/updateOrderStatus", changeOrderStatus)
+
 
 module.exports = router

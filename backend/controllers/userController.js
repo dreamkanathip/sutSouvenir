@@ -156,6 +156,8 @@ const getUserStorage = async (req, res) => {
             product: true, // ดึงข้อมูลสินค้าผ่าน ProductOnOrder
           },
         },
+        address: true,
+        shipping: true
       },
     });
 

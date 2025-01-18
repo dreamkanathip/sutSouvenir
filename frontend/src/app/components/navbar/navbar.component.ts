@@ -24,11 +24,13 @@ export class NavbarComponent {
     private userService: UserService,
     private router: Router
   ) {
-
-    this.cartService.updateCartItemCount(this.userId)
-    this.cartService.cartItemCount$.subscribe((count) => {
+    if (typeof window !== 'undefined') {
+      this.cartService.updateCartItemCount(this.userId)
+      this.cartService.cartItemCount$.subscribe((count) => {
       this.cartItemCount = count
     })
+    }
+    
   }
   ngOnInit(): void {
   }

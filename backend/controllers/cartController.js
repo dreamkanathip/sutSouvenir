@@ -441,9 +441,6 @@ const deleteExpiredCartItems = async() => {
                 }
             }
         })
-        // const gmtPlus7Time = new Date(now.getTime() - 11 * 60 * 60 * 1000);
-        // now.setDate(now.getDate() + 3)
-        // console.log('Expired cart items deleted', now);
     } catch (err) {
         console.error('Failed to delete expired items:', err);
     }
