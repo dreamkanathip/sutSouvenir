@@ -120,30 +120,29 @@
     border-radius: 10px
 }
 
-.modal-backdrop {
+/* .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1040; /* ให้ backdrop อยู่ด้านหลัง modal */
+    z-index: 1040;
     opacity: 0.5;
     transition: opacity 0.3s ease;
-}
+} */
   
-.modal.show .modal-backdrop {
+/* .modal.show .modal-backdrop {
     opacity: 1;
-}
+} */
   
 .modal.fade {
-    opacity: 0.5;
     transition: opacity 0.3s ease;
 }
   
-.modal.show {
+/* .modal.show {
     opacity: 0.5    ;
-}
+} */
 
 .form-submit-container {
     display: flex;

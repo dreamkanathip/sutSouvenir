@@ -5,14 +5,14 @@ import { OrderService } from '../../../services/order/order.service';
 import { Order, userOrder } from '../../../interfaces/order/order';
 import { Router } from '@angular/router';
 import { ProductOnOrder } from '../../../interfaces/order/product-on-order';
-import { OrderStatus } from '../../../interfaces/order/status';
+import { Product } from '../../../interfaces/products/products.model';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
 })
-export class HistoryComponent implements OnInit{
+export class HistoryComponent implements OnInit {
 
   orders: any[] = []
   storage: any[] = [];
@@ -25,15 +25,19 @@ export class HistoryComponent implements OnInit{
   filteredOrders: any[] = [];
   filterStatus: string = '';
 
+  productRating!: any
+
+
   constructor(
     private userService: UserService, 
     private orderService: OrderService, 
-    private router: Router
+    private router: Router,
   ){}
 
   ngOnInit(): void {
     this.getUserStorageItem();
   }
+
   getUserStorageItem() {
     this.userService.getUserStorage().subscribe({
       next: (items: userOrder) => {
@@ -70,6 +74,7 @@ export class HistoryComponent implements OnInit{
       }
     });
   }
+ 
   showStatus(status: string){
     switch (status) {
       case 'NOT_PROCESSED' : return 'รอชำระเงิน';
@@ -182,5 +187,20 @@ export class HistoryComponent implements OnInit{
   }
   selectOrder(order: any): void {
     this.selectedOrder = order
+  }
+
+  getLatestProductRating(products: ProductOnOrder): number {
+    if (!products.product.reviews || products.product.reviews.length === 0) {
+      return 0;
+    }
+  
+    const latestReview = products.product.reviews.reduce((latest, current) => {
+      const latestDate = new Date(latest.createdAt).getTime();
+      const currentDate = new Date(current.createdAt).getTime();
+      return currentDate > latestDate ? current : latest;
+    });
+  
+    this.productRating = latestReview.star
+    return latestReview ? latestReview.star : 0;
   }
 }

@@ -109,7 +109,9 @@ export class ReviewComponent implements OnInit {
         star: this.rating,
         comment: this.comment,
         userId: this.user.id,
-        productId: this.productId
+        productId: this.productId,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
         Swal.fire({
           title: "ต้องการบันทึกรีวิวหรือไม่?",
@@ -131,7 +133,13 @@ export class ReviewComponent implements OnInit {
               .createReview(this.productId, this.user.id, this.review)
               .subscribe({
                 next: () => {
-                  Swal.fire("บันทึกรีวิวเรียบร้อยแล้ว");
+                  Swal.fire({
+                    title: "บันทึกรีวิวเรียบร้อยแล้ว",
+                    showCancelButton: true,
+                    confirmButtonText: "ตกลง",
+                    cancelButtonText: "ยกเลิก",
+                    icon: "success",
+                  });
                   this.formReset()
                   this.router.navigate(['/details', this.productId]);
                 },

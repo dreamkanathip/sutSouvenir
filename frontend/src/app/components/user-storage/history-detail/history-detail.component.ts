@@ -5,6 +5,9 @@ import { OrderService } from '../../../services/order/order.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
 import Swal from 'sweetalert2';
+import { ReviewModel } from '../../../interfaces/review/review.model';
+import { Product } from '../../../interfaces/products/products.model';
+import { ReviewService } from '../../../services/review/review.service';
 
 @Component({
   selector: 'app-history-detail',
@@ -13,20 +16,27 @@ import Swal from 'sweetalert2';
 })
 export class HistoryDetailComponent implements OnInit, OnChanges {
 
-  @Input() order!: any
+  @Input() order!: any 
+  @Input() productRating!: any
   @Output() getUserStorageItem = new EventEmitter<void>();
   productOnOrderTotal: number = 0
-  historyModal: boolean = false
+  productReviewList: ReviewModel[] = [];
+  selectedProductToReview?: Product;
+  selectedProduct: any; // ใช้เก็บข้อมูลสินค้าที่เลือกสำหรับรีวิว
+  
+  userReview!: ReviewModel[]
+  productReview!: ReviewModel[]
 
   constructor(
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private reviewService: ReviewService
   ) {
-
   }
 
   ngOnInit() {
     this.calculateProductOnOrderTotal();
+    this.getReview();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -39,7 +49,13 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
     this.productOnOrderTotal = this.order?.products?.reduce(
       (sum: number, p: ProductOnOrder) => sum + (p.price), 0) || 0
   }
-
+  getReview() {
+    this.reviewService.getUserReview().subscribe({
+      next: (reviews) => {
+        this.userReview = reviews;
+      },
+    });
+  }
   showStatus(status: string) {
     switch (status) {
       case 'NOT_PROCESSED': return 'รอชำระเงิน';
@@ -106,11 +122,6 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
     this.orderService.setOrderId(item.id)
     this.router.navigate(['/payment'])
   }
-
-  closeHistory() {
-    this.historyModal = false
-  }
-
   changeStatusToDELIVERED(order: any) {
     const data = {
       orderId: order.id,
@@ -158,5 +169,20 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
         })
       }
     })
+  }
+  roundRating(rating: number): number {
+    return Math.floor(rating);
+  }
+  
+  isHalfStar(rating: number, index: number): boolean {
+    return index === Math.floor(rating) && rating % 1 >= 0.5;
+  }
+  
+  fullStars(rating: number, index: number): boolean {
+    return index < Math.floor(rating);
+  }
+  
+  emptyStars(rating: number, index: number): boolean {
+    return index >= Math.ceil(rating);
   }
 }

@@ -25,7 +25,7 @@ export class CartComponent implements OnInit{
   selectedQuantity: number = 0;
   userId: number = 1;
   selectedShipping!: Shipping
-  defaultAddress!: AddressModel;
+  defaultAddress?: AddressModel;
   
   constructor(
     private cartService: CartService, 
@@ -224,7 +224,7 @@ export class CartComponent implements OnInit{
       const data = {
         userId: this.userId,
         cartTotal: this.sumItemPrice + this.selectedShipping.fees,
-        addressId: this.defaultAddress.id ,
+        addressId: this.defaultAddress?.id ,
         shippingId: this.selectedShipping.id
       };
       console.log("data to order: ", data)
@@ -263,6 +263,21 @@ export class CartComponent implements OnInit{
 
     } catch (error) {
       console.error('Error during payment process:', error);
+      if(!this.defaultAddress) {
+        Swal.fire({
+          title: "กรุณาเลือกที่อยู่สำหรับจัดส่ง",
+          confirmButtonText: "ยืนยัน",
+          icon: "warning",
+          confirmButtonColor: "#d33",
+        })
+      } else if (!this.selectedShipping){
+        Swal.fire({
+          title: "กรุณาเลือกวิธีการจัดส่ง",
+          confirmButtonText: "ยืนยัน",
+          icon: "warning",
+          confirmButtonColor: "#d33",
+        })
+      }
     }
   }
 
@@ -333,3 +348,4 @@ export class CartComponent implements OnInit{
     this.getDefaultAddress()
   }
 }
+

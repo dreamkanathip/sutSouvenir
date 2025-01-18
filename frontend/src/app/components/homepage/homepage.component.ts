@@ -165,3 +165,4 @@ export class HomepageComponent {
     this.router.navigate(['/details', item.id]);
   }
 }
+

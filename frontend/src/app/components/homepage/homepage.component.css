@@ -45,8 +45,8 @@
 }
 .favourite-icon {
     margin-top: 1rem;
+    color: #636363;
     text-align: end;
-    color: #ff0000;
     cursor: pointer;
 }
 .price {

@@ -3,42 +3,51 @@
 <div class="container">
   <div class="filter-section mb-3 d-flex justify-content-center">
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-      
-      <input type="radio" class="btn-check" name="btnradio" id="all" value="" autocomplete="off" 
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" checked>
+
+      <input type="radio" class="btn-check" name="btnradio" id="all" value="" autocomplete="off"
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" checked>
       <label class="btn btn-outline-primary filter-button" for="all">ทั้งหมด</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="NOT_PROCESSED" value="NOT_PROCESSED" autocomplete="off"
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="NOT_PROCESSED">รอชำระเงิน</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="PROCESSED" value="PROCESSED" autocomplete="off"
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="PROCESSED">ยืนยันการสั่งซื้อ</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="SHIPPED" value="SHIPPED" autocomplete="off"
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="SHIPPED">กำลังจัดส่ง</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="DELIVERED" value="DELIVERED" autocomplete="off"
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="DELIVERED">จัดส่งสำเร็จ</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="CANCELLED" value="CANCELLED" autocomplete="off"
-      [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="CANCELLED">ยกเลิก</label>
-</div>
+    </div>
   </div>
   <div *ngFor="let order of filteredOrders" class="card mb-3">
     <div *ngFor="let item of order.products" class="order-detail card-body">
       <div class="row">
-        <div class="col-2 d-flex justify-content-center align-items-center">
+        <div class="col-3 d-flex justify-content-center align-items-center">
           <img src="assets/SUT-Logo.png" class="card-img-top">
         </div>
         <div class="col-4 item-title">
           <span class="product-title">{{item.product.title}}</span>
           <span class="product-quantity text-muted">ราคา: {{item.product.price}}</span>
           <span class="product-quantity text-muted">จำนวน: {{item.count}}</span>
+        </div>
+        <div class="col-2 ms-auto d-flex align-items-end">
+          <div *ngIf="order?.orderStatus === 'DELIVERED'" class="d-flex flex-column">
+            <div class="ms-1">รีวิวของคุณ</div>
+            <div class="stars">
+              <i class="fa" *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
+              [ngClass]="i < getLatestProductRating(item) ? 'fa-star' : 'fa-star-o'"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,6 +76,7 @@
     </div>
   </div>
 </div>
-<app-history-detail class="modal fade" id="historyDetail" tabindex="-1" aria-labelledby="historyDetailLabel" aria-hidden="true"
-  [order]="selectedOrder" (getUserStorageItem)="getUserStorageItem()"
-></app-history-detail>
+
+<app-history-detail class="modal fade" id="historyDetail" tabindex="-1" aria-labelledby="historyDetailLabel"
+  aria-hidden="true" [order]="selectedOrder" [productRating]="productRating"
+  (getUserStorageItem)="getUserStorageItem()"></app-history-detail>

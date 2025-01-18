@@ -3,45 +3,34 @@
     <a class="navbar-brand" href="#">
       <img src="assets/logo.jpg" class="logo d-inline-block align-text-top" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="p-2 flex-grow-1 bd-highlight">
         <form class="d-flex mx-auto search-bar">
-          <input
-            class="me-2 search-input"
-            type="search"
-            placeholder="ค้นหา"
-            aria-label="Search"
-          />
+          <input class="me-2 search-input" type="search" placeholder="ค้นหา" aria-label="Search" />
           <button class="search-btn" type="submit">
             <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
           </button>
         </form>
       </div>
+
       <div class="p-2 bd-highlight">
         <a class="favourite" (click)="NavigateToFavourite()">
-          <span class="favourite"><i class="bx bx-heart"></i></span>
+          <i class="bx bx-heart">
+            
+          </i>
         </a>
       </div>
+      
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <div
-            class="badge position-relative translate-middle"
-            [ngStyle]="{
+          <div class="badge position-relative translate-middle" [ngStyle]="{
               visibility: cartItemCount === 0 ? 'hidden' : 'visible'
-            }"
-          >
+            }">
             {{ cartItemCount }}
           </div>
         </a>
@@ -49,15 +38,8 @@
       <div class="vr"></div>
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a
-            class="user-dropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            data-bs-auto-close="inside, outside"
-          >
-            <i class="bx bx-user bx-flip-horizontal"></i>บัญชีผู้ใช้งาน<i
-              class="bx bx-chevron-down"
-            ></i>
+          <a class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+            <i class="bx bx-user bx-flip-horizontal"></i>บัญชีผู้ใช้งาน<i class="bx bx-chevron-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
@@ -65,9 +47,7 @@
               <a class="dropdown-item" (click)="NavigateToStorage()">รายการสินค้าของคุณ</a>
               <a class="dropdown-item" (click)="NavigateToHistory()">ประวัติการสั่งซื้อ</a>
               <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
-              <a routerLink="/login" (click)="logout()" class="dropdown-item"
-                >Logout</a
-              >
+              <a routerLink="/login" (click)="logout()" class="dropdown-item">Logout</a>
             </li>
           </ul>
         </li>

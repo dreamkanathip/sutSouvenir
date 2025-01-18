@@ -213,10 +213,6 @@ export class ProductDetailsComponent implements OnInit {
 
       const totalStars = this.uniqueReview.reduce((sum, review) => sum + review.star, 0);
       this.averageRating = this.uniqueReview.length > 0 ? totalStars / this.uniqueReview.length : 0;
-
-      // console.log("Reviews:", this.reviews);
-      // console.log("Unique Reviews:", this.uniqueReview)
-      // console.log("Average Rating:", this.averageRating);
     });
   }
 
@@ -242,4 +238,5 @@ export class ProductDetailsComponent implements OnInit {
   NavigateToReview(id: any){
     this.router.navigate(['/review', id])
   }
+
 }

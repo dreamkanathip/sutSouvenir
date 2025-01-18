@@ -1,21 +1,21 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <div class="row row-cols-1 row-cols-md-3 g-8">
+  <div class="row row-cols-1 row-cols-md-3 g-8" >
     <div class="card col" *ngFor="let item of productItems; index as i">
       <form (ngSubmit)="addItemToCart(item)">
         <div>
-          <div class="add-to-fav" (click)="likeProduct(item)" *ngIf="checkFavourite(item) else favourite">
-            <i class="bx bx-heart bx-sm"></i>
+          <div class="add-to-fav" *ngIf="checkFavourite(item) else favourite">
+            <i (click)="likeProduct(item)" class="bx bx-heart bx-sm"></i>
           </div>
           <ng-template #favourite>
-            <div class="favourite-icon" (click)="unlikeProduct(item)">
-              <i class="bx bxs-heart bx-sm"></i>
+            <div class="favourite-icon" >
+              <i class="bx bxs-heart bx-sm" (click)="unlikeProduct(item)"></i>
             </div>
           </ng-template>
           <!-- <img src="assets/SUT-Logo.png" class="card-img-top"> -->
           <img src="assets/SUT-Logo.png" class="card-img-top">
 
-          <div class="card-body">
+          <div class="card-body" (click)="goToDetails(item)">
             <p class="title">{{ item.title }}</p>
             <div class="stars">
               <i
@@ -33,10 +33,10 @@
           </div>
         </div>
         <div class="form-group">
-          <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>
-          <button class="main-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
+          <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>   
         </div>
       </form>
+      <button class="main-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
     </div>
   </div>
 </div>

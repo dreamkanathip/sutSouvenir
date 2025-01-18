@@ -3,6 +3,7 @@ import { AddressService } from '../../../services/address/address.service';
 import { AddressModel } from '../../../interfaces/address/address.model';
 import Swal from 'sweetalert2';
 import { switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-address-modal',
@@ -17,7 +18,7 @@ export class ChangeAddressModalComponent {
   allAddress!: AddressModel[]
   updateMessage!: string;
 
-  constructor(private addressService: AddressService) {
+  constructor(private addressService: AddressService, private router: Router) {
     this.getAllAddress()
   }
 
@@ -50,4 +51,8 @@ export class ChangeAddressModalComponent {
         },
       });
   }
+  addNavigate() {
+    this.router.navigate(['/address/add']);
+  }
 }
+

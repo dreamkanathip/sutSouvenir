@@ -88,7 +88,7 @@ export class AddressComponent implements OnInit{
           next: () => {
             Swal.close();
             Swal.fire({
-              icon: "error",
+              icon: "success",
               title: "ลบข้อมูลแล้ว",
               text: "ลบข้อมูลที่อยู่เรียบร้อยแล้ว",
               showConfirmButton: true,

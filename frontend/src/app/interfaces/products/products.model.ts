@@ -1,4 +1,5 @@
 import { Category } from '../category/category.model';
+import { ReviewModel } from '../review/review.model';
 export interface Product {
   id: number;
   title: string;
@@ -10,12 +11,12 @@ export interface Product {
   //   orderItems:   ProductOnOrder[],
   //   cartItems:    ProductOnCart[],
   //   images:       Image[],
-  //   createdAt:    DateTime,
-  //   updatedAt:    DateTime,
+    createdAt:    Date,
+    updatedAt:    Date,
   //   category:     Category?,
   //   categoryId:   Int?,
   //   status:       ProductStatus,
   //   stockRecords: StockRecord[],
   //   bookmarks:    Bookmark[],
-  //   reviews:      Review[]
+    reviews:      ReviewModel[],
 }

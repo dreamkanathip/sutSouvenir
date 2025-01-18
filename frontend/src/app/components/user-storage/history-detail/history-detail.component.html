@@ -22,31 +22,39 @@
 
                 <div [ngSwitch]="order?.orderStatus" class="ms-auto">
                     <div *ngSwitchCase="'NOT_PROCESSED'" class="d-flex">
-                        <button class="payment-btn me-2" (click)="NavigateToPayment(order)" data-bs-dismiss="modal">ชำระเงิน</button>
+                        <button class="payment-btn me-2" (click)="NavigateToPayment(order)"
+                            data-bs-dismiss="modal">ชำระเงิน</button>
                         <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>
                     </div>
-                    <div *ngSwitchCase="'DELIVERED'" class="d-flex">
-                        <button class="payment-btn me-2">รีวิว</button>
-                    </div>
                     <div *ngSwitchCase="'SHIPPED'" class="d-flex">
-                        <button class="payment-btn me-2" (click)="changeStatusToDELIVERED(order)">ยืนยันรับสินค้า</button>
+                        <button class="payment-btn me-2"
+                            (click)="changeStatusToDELIVERED(order)">ยืนยันรับสินค้า</button>
                     </div>
                 </div>
             </div>
             <div class="shipping ms-3 me-3 d-flex flex-column">
                 <span>จัดส่งโดย {{order?.shipping.company}}</span>
                 <span>tracking number: </span>
-                
+
             </div>
             <div *ngFor="let item of order?.products" class="border rounded m-3">
                 <div class="row ps-3 pb-3 pt-2">
                     <div class="col-2 d-flex justify-content-center align-items-center">
                         <img src="assets/SUT-Logo.png" class="img-fluid rounded" alt="Product Image">
                     </div>
-                    <div class="col-4 item-title">
+                    <div class="col-6 item-title">
                         <span class="product-title">{{item.product.title}}</span>
                         <span class="product-quantity text-muted">ราคา: {{item.product.price}}</span>
                         <span class="product-quantity text-muted">จำนวน: {{item.count}}</span>
+                    </div>
+                    <div class="col-3 ms-auto d-flex align-items-end">
+                        <div *ngIf="order?.orderStatus === 'DELIVERED'" class="d-flex flex-column">
+                            <div class="ms-1">รีวิวของคุณ</div>
+                            <div class="stars">
+                            <i class="fa" *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
+                            [ngClass]="i < productRating ? 'fa-star' : 'fa-star-o'"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,6 +68,7 @@
                             <div class="name">
                                 {{order?.address.firstName}} {{order?.address.lastName}}
                             </div>
+                            
                         </div>
                         <div class="address">
                             {{order?.address.street}} {{order?.address.subDistrict}}

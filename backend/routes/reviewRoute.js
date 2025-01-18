@@ -16,7 +16,7 @@ const {
     listProductRating,
 } = require("../controllers/reviewController");
 
-router.post("/review/:pid/:uid", createReview);
+router.post("/review/:pid/:uid", authenticateToken, createReview);
 router.get("/review/:pid", listReview);
 router.get("/userReview/",authenticateToken, getUserReview);
 router.delete("/review/:rid", removeReview);

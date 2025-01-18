@@ -1,7 +1,7 @@
 const prisma = require("../configs/prisma");
 
 const likeProduct = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user.id;
   const { id } = req.body;
   try {
     // ตรวจสอบว่าผู้ใช้เคยกดถูกใจสินค้านี้หรือยัง
@@ -37,7 +37,7 @@ const likeProduct = async (req, res) => {
 
 const getLikeProducts = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id;
 
     // ค้นหาสินค้าที่ผู้ใช้ชอบ โดยใช้ userId และ productId
     const likeProducts = await prisma.favourite.findMany({
@@ -59,7 +59,8 @@ const getLikeProducts = async (req, res) => {
 
 const checkLikeProduct = async (req, res) => {
   try {
-    const { userId, productId } = req.params;
+    const { productId } = req.params;
+    const userId = req.user.id;
 
     const likeProduct = await prisma.favourite.findFirst({
       where: {
@@ -77,7 +78,8 @@ const checkLikeProduct = async (req, res) => {
 
 const unLikeProduct = async (req, res) => {
   try {
-    const { userId, productId } = req.params;
+    const { productId } = req.params;
+    const userId = req.user.id;
 
     // ตรวจสอบว่าค่าที่รับมาถูกต้อง
     if (!userId || isNaN(Number(userId))) {

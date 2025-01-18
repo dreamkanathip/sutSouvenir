@@ -148,16 +148,23 @@ const getUserStorage = async (req, res) => {
     const orders = await prisma.order.findMany({
       where: {
         userId: Number(userId),
-        // orderStatus: "Success", // กรองเฉพาะคำสั่งซื้อที่สำเร็จ
       },
       include: {
         products: {
           include: {
-            product: true, // ดึงข้อมูลสินค้าผ่าน ProductOnOrder
+            product: {
+              include: {
+                reviews: {
+                  where: {
+                    userId: userId
+                  }
+                }, // ดึงข้อมูลรีวิวที่เกี่ยวข้องกับสินค้า
+              },
+            },
           },
         },
         address: true,
-        shipping: true
+        shipping: true,
       },
     });
 
@@ -171,6 +178,7 @@ const getUserStorage = async (req, res) => {
     res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
   }
 };
+
 // ฟังก์ชันลบผู้ใช้
 const deleteUser = async (req, res) => {
   try {
