@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReviewModel, ReviewResponse } from '../../interfaces/review/review.model';
 
@@ -14,16 +14,29 @@ export class ReviewService {
 
   editedReview: any
 
+  private getAuthHeaders(): HttpHeaders {
+      const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+      return new HttpHeaders({
+        Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+      });
+  }
+
   listReview(pid: number): Observable<ReviewResponse> {
     return this.http.get<any>(`${this.apiUrl}/review/${pid}`)
   }
 
   getUserReview(): Observable<ReviewModel[]> {
-    return this.http.get<ReviewModel[]>(`${this.apiUrl}/userReview/`) 
+    return this.http.get<ReviewModel[]>(`${this.apiUrl}/userReview/`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    }) 
   }
 
-  createReview(pid: number, uid: number, review: any): Observable<ReviewModel> {
-    return this.http.post<ReviewModel>(`${this.apiUrl}/review/${pid}/${uid}`, review) 
+  createReview(pid: number, review: any): Observable<ReviewModel> {
+    return this.http.post<ReviewModel>(`${this.apiUrl}/review/${pid}`, review, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    }) 
   }
 
   updateReview(pid: number, uid: number, review: any): Observable<ReviewModel> {

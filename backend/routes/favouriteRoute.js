@@ -9,9 +9,9 @@ const {
 const { authenticateToken } = require("../middlewares/authMiddleware");
 
 // POST - กดถูกใจสินค้า
-router.post("/favourites/:userId", likeProduct);
-router.get("/favourites/:userId", getLikeProducts);
-router.get("/favourites/:userId/:productId", checkLikeProduct)
-router.delete("/favourites/:userId/:productId", unLikeProduct)
+router.post("/favourites", authenticateToken, likeProduct);
+router.get("/favourites", authenticateToken, getLikeProducts);
+router.get("/favourites/:productId", authenticateToken, checkLikeProduct)
+router.delete("/favourites/:productId", authenticateToken, unLikeProduct)
 
 module.exports = router;

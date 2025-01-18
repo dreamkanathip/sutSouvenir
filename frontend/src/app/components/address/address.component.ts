@@ -158,4 +158,8 @@ export class AddressComponent implements OnInit{
     this.router.navigate(['/user']);
   }
 
+  NavigateToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 }

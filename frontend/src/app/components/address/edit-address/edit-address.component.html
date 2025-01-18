@@ -25,6 +25,9 @@
                                         <small class="text-danger" *ngIf="editAddressForm.get('firstName')?.errors?.['required']">
                                           กรุณากรอกชื่อ
                                         </small>
+                                        <small class="text-danger" *ngIf="editAddressForm.get('firstName')?.hasError('pattern')">
+                                            ชื่อที่กรอกต้องเป็นตัวอักษรไทย/อังกฤษเท่านั้น
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -60,6 +63,9 @@
                                         <small class="text-danger" *ngIf="editAddressForm.get('phoneNumber')?.errors?.['required']">
                                           กรุณากรอกเบอร์โทรศัพท์
                                         </small>
+                                        <small class="text-danger" *ngIf="editAddressForm.get('phoneNumber')?.hasError('pattern')">
+                                            เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +78,9 @@
                                     <div *ngIf="editAddressForm.get('lastName')?.touched && editAddressForm.get('lastName')?.invalid">
                                         <small class="text-danger" *ngIf="editAddressForm.get('lastName')?.errors?.['required']">
                                           กรุณากรอกนามสกุล
+                                        </small>
+                                        <small class="text-danger" *ngIf="editAddressForm.get('lastName')?.hasError('pattern')">
+                                            นามสกุลที่กรอกต้องเป็นตัวอักษรไทย/อังกฤษเท่านั้น
                                         </small>
                                     </div>
                                 </div>
@@ -115,6 +124,9 @@
                                     <div *ngIf="editAddressForm.get('postalCode')?.touched && editAddressForm.get('postalCode')?.invalid">
                                         <small class="text-danger" *ngIf="editAddressForm.get('postalCode')?.errors?.['required']">
                                           กรุณากรอกรหัสไปรษณีย์
+                                        </small>
+                                        <small class="text-danger" *ngIf="editAddressForm.get('postalCode')?.hasError('pattern')">
+                                            รหัสไปรษณีย์ต้องเป็นตัวเลข 5 หลัก
                                         </small>
                                     </div>
                                 </div>
