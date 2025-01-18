@@ -74,7 +74,7 @@ h1 {
 .add-to-fav i {
     margin-top: 0.5rem;
     text-align: end;
-    color: #ff0000;
+    color: #636363;
     cursor: pointer;
 }
 .no-fav i {

@@ -26,8 +26,8 @@ export class FavouriteService {
     });
   }
 
-  likeProduct(userId: Number, product: Product) : Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/favourites/${userId}`, { id: product.id }, {
+  likeProduct( product: Product) : Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/favourites`, { id: product.id}, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
@@ -42,16 +42,16 @@ export class FavouriteService {
     }); // ส่งคำขอ HTTP ไปที่ API
   }
 
-  checkLikeProduct(userId: number, productId: number): Observable<FavouriteModel> {
-    return this.http.get<FavouriteModel>(`${this.apiUrl}/favourites/${userId}/${productId}`, {
+  checkLikeProduct(productId: number): Observable<FavouriteModel> {
+    return this.http.get<FavouriteModel>(`${this.apiUrl}/favourites/${productId}`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     })
   }
 
   // ฟังก์ชันลบสินค้าจากรายการโปรด
-  removeFromFavourites(userId: Number, productId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/favourites/${userId}/${productId}`, {
+  removeFromFavourites(productId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/favourites/${productId}`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
@@ -75,7 +75,7 @@ export class FavouriteService {
   }
 
   removeFavourites(productId: number): void {
-    this.removeFromFavourites(this.userId, productId).subscribe(
+    this.removeFromFavourites(productId).subscribe(
         (result) => {
           console.log("remove favourite success.")
           this.loadLikedProducts();
