@@ -17,7 +17,7 @@ const { authenticateToken } = require("../middlewares/authMiddleware");
 router.post("/address", authenticateToken, create);
 router.get("/listAddress", authenticateToken, list);
 router.get("/address/:id", read);
-router.get("/address/getDefaultAddr", authenticateToken, getDefaultAddress)
+router.get("/defaultAddress", authenticateToken, getDefaultAddress)
 router.patch("/address/default/:id", defaultAddress);
 router.put("/address/:id", authenticateToken, update);
 router.delete("/address/:id", remove);

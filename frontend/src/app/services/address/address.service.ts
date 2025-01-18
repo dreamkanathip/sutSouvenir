@@ -33,7 +33,7 @@ export class AddressService {
   }
 
   getDefaultAddress(uid: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/getDefaultAddr`, {
+    return this.http.get<AddressModel>(`${this.apiUrl}/defaultAddress`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });

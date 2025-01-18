@@ -15,19 +15,47 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="p-2 flex-grow-1 bd-highlight">
+      <div class="p-2 flex-grow-1 bd-highlight position-relative">
         <form class="d-flex mx-auto search-bar">
           <input
             class="me-2 search-input"
-            type="search"
+            type="text"
             placeholder="ค้นหา"
             aria-label="Search"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchInput()"
+            name="searchInput"
           />
-          <button class="search-btn" type="submit">
+          <button class="search-btn" type="button" (click)="NavigateToSearch()">
             <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
           </button>
         </form>
+        
+        <!-- Dropdown สำหรับแสดงผลการค้นหา -->
+        <div
+          class="dropdown-menu show"
+          *ngIf="searchTerm.trim() !== ''"
+          style="position: absolute; top: 50px; left: 0; right: 0; z-index: 1050;"
+        >
+          <!-- กรณีที่มีสินค้า -->
+          <a
+            class="dropdown-item"
+            *ngFor="let product of searchResults"
+            (click)="goToDetails(product)"
+          >
+            {{ product.title }}
+          </a>
+
+          <!-- กรณีไม่มีสินค้า -->
+          <div
+            class="dropdown-item text-muted text-center"
+            *ngIf="searchResults.length === 0"
+          >
+            ไม่พบสินค้า
+          </div>
+        </div>
       </div>
+      
       <div class="p-2 bd-highlight">
         <a class="favourite" (click)="NavigateToFavourite()">
           <span class="favourite"><i class="bx bx-heart"></i></span>
