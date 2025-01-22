@@ -59,8 +59,8 @@
         <div class="order-status ms-5">
           สถานะคำสั่งซื้อ:
         </div>
-        <div class="badge ms-1" [ngStyle]="{
-                  background: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
+        <div class="status ms-1" [ngStyle]="{
+                  color: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
                               order?.orderStatus === 'CANCELLED'? '#DD0000' :
                               order?.orderStatus === 'DELIVERED'? '#47E036' : 
                               order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 

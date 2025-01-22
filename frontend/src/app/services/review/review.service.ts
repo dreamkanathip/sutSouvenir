@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReviewModel, ReviewResponse } from '../../interfaces/review/review.model';
+import { GetTokenService } from '../get-token/get-token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private getTokenService: GetTokenService) {
     this.getUserReview()
   }
 
@@ -17,7 +18,7 @@ export class ReviewService {
   editedReview: any
 
   private getAuthHeaders(): HttpHeaders {
-      const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+      const token = window.localStorage.getItem('jwt'); // ดึง token จาก localStorage
       return new HttpHeaders({
         Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
       });
@@ -29,7 +30,7 @@ export class ReviewService {
 
   getUserReview(): Observable<ReviewModel[]> {
     return this.http.get<ReviewModel[]>(`${this.apiUrl}/userReview/`, {
-      headers: this.getAuthHeaders(),
+      headers: this.getTokenService.getToken(),
       withCredentials: true, // ส่งคุกกี้
     }) 
   }

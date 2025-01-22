@@ -59,16 +59,16 @@
           </h2>
           <div class="d-flex justify-content-between">
             <div class="name">
-              {{defaultAddress?.firstName}} {{defaultAddress?.lastName}}
+              {{defaultAddress.firstName}} {{defaultAddress.lastName}}
             </div>
             <div class="change-address" data-bs-toggle="modal" data-bs-target="#change-address">
               <button class="btn btn-primary"> เปลี่ยน </button>
             </div>
           </div>
           <div class="address">
-            {{defaultAddress?.street}} {{defaultAddress?.subDistrict}}
-            {{defaultAddress?.district}} {{defaultAddress?.province}}
-            {{defaultAddress?.postalCode}} {{defaultAddress?.phoneNumber}}
+            {{defaultAddress.street}} {{defaultAddress.subDistrict}}
+            {{defaultAddress.district}} {{defaultAddress.province}}
+            {{defaultAddress.postalCode}} {{defaultAddress.phoneNumber}}
           </div>
           <hr class="mt-1 mb-1" />
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
@@ -96,7 +96,12 @@
 <app-footer></app-footer>
 <app-change-address-modal class="modal fade" id="change-address"
   (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
-<app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice" [orderSum]="sumItemPrice + selectedShipping.fees"></app-upload-receipt>
+<app-upload-receipt class="modal fade" id="upload-receipt" 
+[sumItemPrice]="sumItemPrice" 
+[orderSum]="sumItemPrice + selectedShipping.fees"
+[address]="defaultAddress"
+[shipping]="selectedShipping"
+></app-upload-receipt>
 <app-select-shipping class="modal fade" id="select-shipping" (selectedShippingChange)="onShippingSelected($event)"> </app-select-shipping>
 
 

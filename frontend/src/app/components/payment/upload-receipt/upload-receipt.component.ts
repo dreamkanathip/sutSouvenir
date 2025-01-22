@@ -10,6 +10,8 @@ import { PaymentService } from '../../../services/order/payment.service';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../../services/address/address.service';
 import { OrderService } from '../../../services/order/order.service';
+import { AddressModel } from '../../../interfaces/address/address.model';
+import { Shipping } from '../../../interfaces/shipping/shipping.model';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -20,6 +22,8 @@ export class UploadReceiptComponent implements AfterViewInit {
 
   @Input() sumItemPrice!: number
   @Input() orderSum!: number
+  @Input() address!: AddressModel;
+  @Input() shipping!: Shipping
 
   hrArray: string[] = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
   minArray: string[] = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
@@ -101,6 +105,9 @@ export class UploadReceiptComponent implements AfterViewInit {
     formData.append('destBankId', this.paymentForm.get('destBankId')?.value?? '');
     formData.append('lastFourDigits', this.paymentForm.get('lastFourDigits')?.value?? '');
     formData.append('transferAt', this.paymentForm.get('transferAt')?.value?? '');
+    formData.append('addressId', this.address?.id?.toString());
+    formData.append('shippingId', this.shipping.id.toString());
+    formData.append('cartTotal', this.orderSum.toString());
     if (this.selectedFile) {
       formData.append('receipt', this.selectedFile, this.selectedFile.name);
     }

@@ -91,8 +91,11 @@ exports.uploadReceipt = async (req, res) => {
       destBankId,
       lastFourDigits,
       transferAt,
+      addressId,
+      cartTotal,
+      shippingId
     } = req.body;
-    
+
     if (
       !req.file ||
       !total ||
@@ -113,20 +116,63 @@ exports.uploadReceipt = async (req, res) => {
       ContentType: req.file.mimetype,
     };
 
-    await s3Client.send(new PutObjectCommand(params));
+    try {
+      await s3Client.send(new PutObjectCommand(params));
+    } catch (s3Error) {
+      console.error("S3 Upload Error:", s3Error);
+      return res.status(500).json({ message: "Failed to upload receipt" });
+    }
 
-    const payment = await prisma.payment.create({
-      data: {
-        total: Number(total),
-        orderId: Number(orderId),
-        originBankId: Number(originBankId),
-        destBankId: Number(destBankId),
-        lastFourDigits,
-        transferAt: new Date(transferAt),
-        receipt: uniqueKey,
-      },
-    });
+    let payment;
+    try {
+      payment = await prisma.payment.create({
+        data: {
+          total: Number(total),
+          orderId: Number(orderId),
+          originBankId: Number(originBankId),
+          destBankId: Number(destBankId),
+          lastFourDigits,
+          transferAt: new Date(transferAt),
+          receipt: uniqueKey,
+        },
+      });
+    } catch (prismaError) {
+      console.error("Prisma Payment Error:", prismaError);
+      return res.status(500).json({ message: "Failed to create payment" });
+    }
 
+    // Check and update order
+    try {
+      const checkIfUpdate = await prisma.order.findFirst({
+        where: {
+          id: Number(orderId),
+        },
+      });
+
+      if (!checkIfUpdate) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      if (
+        addressId != checkIfUpdate.addressId ||
+        shippingId != checkIfUpdate.shippingId ||
+        cartTotal != checkIfUpdate.cartTotal
+      ) {
+        await prisma.order.update({
+          where: {
+            id: Number(orderId),
+          },
+          data: {
+            addressId: Number(addressId),
+            shippingId: Number(shippingId),
+            cartTotal: Number(cartTotal),
+          },
+        });
+      }
+    } catch (orderError) {
+      console.error("Order Update Error:", orderError);
+      return res.status(500).json({ message: "Failed to update order" });
+    }
     res.status(201).send(payment);
   } catch (err) {
     console.error(err);

@@ -16,7 +16,7 @@ export class PaymentComponent implements OnInit{
   
   productOnOrder!: ProductOnOrder[];
   sumItemPrice: number = 0;
-  defaultAddress?: AddressModel;
+  defaultAddress!: AddressModel;
   orderId: number = 0;
   selectedShipping!: Shipping
   orderSum: number = 0

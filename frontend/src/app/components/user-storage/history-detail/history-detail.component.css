@@ -45,8 +45,10 @@
     height: 1rem;
     color: #f5c518;
     margin-bottom: 10px;
-}
-  
+} 
 .stars .fa {
     margin-right: 5px;
+}
+.status {
+    font-weight: bold;
 }

@@ -253,6 +253,7 @@ enum Role {
 }
 
 enum OrderStatus {
+  PENDING
   NOT_PROCESSED
   PROCESSED
   SHIPPED
