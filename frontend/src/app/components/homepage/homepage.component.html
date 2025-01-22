@@ -1,7 +1,52 @@
 <app-navbar></app-navbar>
 <div class="container">
+  <h3 class="text-center">รายการสินค้า</h3>
+  <form class="d-flex mx-auto search-bar">
+    <input
+      class="me-2 search-input"
+      type="text"
+      placeholder="ค้นหา"
+      aria-label="Search"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchInput()"
+      name="searchInput"
+    />
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+          หมวดหมู่<i class="bx bx-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" (click)="onCategoryChange('')">ทั้งหมด</a>
+          </li>
+          <div *ngFor="let category of categories">
+            <li>
+              <a class="dropdown-item" (click)="onCategoryChange(category.name)">{{ category.name }}</a>
+            </li>
+          </div>
+        </ul>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+          จัดเรียง<i class="bx bx-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" (click)="onSortChange(true)">เรียงตามราคาน้อยไปมาก</a>
+            <a class="dropdown-item" (click)="onSortChange(false)">เรียงตามราคามากไปน้อย</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <button class="search-btn" type="button">
+      <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
+    </button> -->
+  </form>
   <div class="row row-cols-1 row-cols-md-3 g-8" >
-    <div class="card col" *ngFor="let item of productItems; index as i">
+    <div class="card col" *ngFor="let item of productShow; index as i">
       <form (ngSubmit)="addItemToCart(item)">
         <div>
           <div class="add-to-fav" *ngIf="checkFavourite(item) else favourite">

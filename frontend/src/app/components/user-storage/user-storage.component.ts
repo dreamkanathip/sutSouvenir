@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../../interfaces/user/user.model';
 import { UserService } from '../../services/user/user.service';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,7 +19,7 @@ export class UserStorageComponent implements OnInit {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.getUserData();
@@ -70,6 +71,14 @@ export class UserStorageComponent implements OnInit {
         console.error('Error fetching user storage items', err);
       }
     });
+  }
+
+  NavigateToHome() {
+    this.router.navigate(['/home'])
+  }
+
+  userLogin(){
+    this.router.navigate(['/login']);
   }
 
   openPages(page: Number){

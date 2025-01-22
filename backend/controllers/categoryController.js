@@ -1,40 +1,24 @@
 const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
-  const { title, description, price, quantity, categoryId } = req.body;
-
   try {
-    // ตรวจสอบว่า categoryId เป็นตัวเลขที่ถูกต้อง
-    const categoryIdParsed = parseInt(categoryId, 10);
-    if (isNaN(categoryIdParsed)) {
-      return res.status(400).json({ message: "Invalid categoryId" });
-    }
+    console.log(req.body); // ตรวจสอบข้อมูลที่ส่งมา
 
-    // สร้างผลิตภัณฑ์ใหม่ในฐานข้อมูล
-    const product = await prisma.product.create({
+    const { name } = req.body;
+
+    // สร้างสินค้าและเชื่อมโยงกับหมวดหมู่
+    const category = await prisma.category.create({
       data: {
-        title,
-        description,
-        price,
-        quantity,
-        category: {
-          connect: {
-            id: categoryIdParsed, // ใช้ categoryIdParsed ที่แปลงแล้ว
-          },
-        },
+        name: name
       },
     });
 
-    res.status(201).json({ message: "Product created successfully", product });
+    res.status(201).json(category);
   } catch (error) {
-    console.error("Error creating product:", error);
+    console.error("Error creating category:", error);
     res
-
       .status(500)
-      .json({ message: "Error creating product", error: error.message });
-    console.log("categoryId:", req.body.categoryId);
-    const categoryIdParsed = parseInt(req.body.categoryId, 10);
-    console.log("categoryIdParsed:", categoryIdParsed); // ตรวจสอบค่า
+      .json({ message: "ไม่สามารถสร้างหมวดหมู่ได้", error: error.message });
   }
 };
 exports.list = async (req, res) => {
