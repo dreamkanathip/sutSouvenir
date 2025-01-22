@@ -2,7 +2,10 @@
     background: #F36523;
     border-radius: 10px;
     border: none;
-  }
+}
+.upload-btn :active{
+  background: #ea7945;
+}
 .form-control-file {
     display: none;
 }

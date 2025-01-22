@@ -132,17 +132,17 @@
     transition: opacity 0.3s ease;
 } */
   
-/* .modal.show .modal-backdrop {
-    opacity: 1;
-} */
-  
-.modal.fade {
-    transition: opacity 0.3s ease;
+.modal-backdrop {
+    opacity: 0.5;
 }
   
-/* .modal.show {
-    opacity: 0.5    ;
-} */
+.modal.fade {
+    transition: opacity 0.3s ease-in-out;
+}
+  
+.modal.show {
+    opacity: 1;
+}
 
 .form-submit-container {
     display: flex;

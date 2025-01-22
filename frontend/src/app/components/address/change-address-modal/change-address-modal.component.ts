@@ -14,7 +14,6 @@ export class ChangeAddressModalComponent {
 
   @Output() changeDefaultAddress = new EventEmitter<void>();
 
-  userId: number = 1
   allAddress!: AddressModel[]
   updateMessage!: string;
 
@@ -23,7 +22,7 @@ export class ChangeAddressModalComponent {
   }
 
   getAllAddress() {
-    this.addressService.getAllAddress(this.userId).subscribe((res) => {
+    this.addressService.getAllAddress().subscribe((res) => {
       this.allAddress = res
     })
   }

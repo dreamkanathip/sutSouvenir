@@ -118,7 +118,6 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
   }
 
   NavigateToPayment(item: Order) {
-    console.log(item)
     this.orderService.setOrderId(item.id)
     this.router.navigate(['/payment'])
   }

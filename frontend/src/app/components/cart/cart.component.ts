@@ -227,7 +227,6 @@ export class CartComponent implements OnInit{
         addressId: this.defaultAddress?.id ,
         shippingId: this.selectedShipping.id
       };
-      console.log("data to order: ", data)
       const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
 
       const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
@@ -340,7 +339,7 @@ export class CartComponent implements OnInit{
   }
 
   getDefaultAddress() {
-    this.addressService.getDefaultAddress(1).subscribe(res => {
+    this.addressService.getDefaultAddress().subscribe(res => {
       this.defaultAddress = res
     })
   }

@@ -10,7 +10,7 @@
       <div class="total d-flex align-items-center">
         <span class="total-description me-3">ยอดเงินที่ต้องชำระ: </span>
         <span class="total-money">
-          {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
+          {{orderSum.toLocaleString('en', {useGrouping:true})}}
         </span>
       </div>
       <div class="row">
@@ -60,7 +60,7 @@
         <div class="row">
           <div class="col-md-6">
             จำนวนเงิน:
-            <input type="text" [value]="sumItemPrice" class="total-text" formControlName="total">
+            <input type="text" [value]="orderSum" class="total-text" formControlName="total">
           </div>
           <div class="col-md-6">
             4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:

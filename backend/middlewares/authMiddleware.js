@@ -42,9 +42,6 @@ const authenticateRole = (roles) => {
         .status(403)
         .send({ message: "Token ไม่ถูกต้อง หรือ ไม่มีข้อมูลผู้ใช้" });
     }
-
-    console.log(req.user); // เพิ่มคำสั่งนี้เพื่อตรวจสอบข้อมูลของ user ที่ decoded มาจาก Token
-
     // เช็คว่า role ของผู้ใช้ที่ login เข้ามาตรงกับ role ที่ได้รับอนุญาตหรือไม่
     if (!roles.includes(req.user.role)) {
       return res

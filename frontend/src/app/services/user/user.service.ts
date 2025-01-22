@@ -3,7 +3,8 @@ import { Observable, shareReplay } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
 import { userOrder } from '../../interfaces/order/order';
 import { BehaviorSubject } from 'rxjs';
-import { Injectable} from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -18,28 +19,27 @@ export class UserService {
   // 1 = History
   // 2 = Favourite
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
 
-  // ฟังก์ชันสร้าง headers พร้อม Authorization
+  getItem(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+    const token = this.getItem('jwt')
     return new HttpHeaders({
       Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
     });
   }
 
   getAllUsers(): Observable<UserModel[]> {
-    const token = localStorage.getItem('jwt');
-
-    if (!token) {
-      throw new Error('No token found. Please log in again.');
-    }
 
     return this.http.get<UserModel[]>(`${this.apiUrl}/superadmin/users`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
     });
   } 
   // ฟังก์ชันดึงข้อมูลโปรไฟล์ของผู้ใช้

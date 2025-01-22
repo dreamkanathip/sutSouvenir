@@ -24,7 +24,7 @@ export class UserComponent implements OnInit{
   emailModalOpen = false
   passwordModalOpen = false
 
-  defaultAddress? : string
+  defaultAddress! : string
 
   constructor(
     private userService: UserService,
@@ -91,7 +91,7 @@ export class UserComponent implements OnInit{
   }
   
   getDefaultAddress() {
-    this.addressService.getDefaultAddress(this.userId).subscribe(result => {
+    this.addressService.getDefaultAddress().subscribe(result => {
       if (result) {
         console.log("Default:",result)
         this.defaultAddress = result.street + ' ตำบล' + result.subDistrict + ' อำเภอ' + result.district + ' ' + result.province

@@ -93,3 +93,9 @@ input[type="checkbox"] {
 .table-order tr td {
     padding: 1rem 1.75rem;
 }
+.select-shipping :hover {
+    cursor: pointer;
+}
+.select-shipping {
+    color: #F36523;
+}

@@ -87,20 +87,19 @@ exports.uploadReceipt = async (req, res) => {
     const {
       total,
       orderId,
-      userId,
       originBankId,
       destBankId,
       lastFourDigits,
       transferAt,
     } = req.body;
-
+    
     if (
       !req.file ||
       !total ||
       !orderId ||
-      !userId ||
       !originBankId ||
       !destBankId ||
+      !lastFourDigits ||
       !transferAt
     ) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -119,7 +118,6 @@ exports.uploadReceipt = async (req, res) => {
     const payment = await prisma.payment.create({
       data: {
         total: Number(total),
-        userId: Number(userId),
         orderId: Number(orderId),
         originBankId: Number(originBankId),
         destBankId: Number(destBankId),
@@ -255,7 +253,7 @@ exports.getOrderById = async (req, res) => {
       return res.status(404).send({ message: "ไม่พบประวัติการสั่งซื้อ" });
     }
 
-    return res.status(200).send({ orders });
+    return res.status(200).send( orders );
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:", error);
     res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });

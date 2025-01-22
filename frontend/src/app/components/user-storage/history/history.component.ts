@@ -16,7 +16,7 @@ export class HistoryComponent implements OnInit {
 
   orders: any[] = []
   storage: any[] = [];
-  selectedOrder!: any;
+  selectedOrder!  : Order;
   productOnOrder!: ProductOnOrder[];
   historyModal: boolean = false
   selectedHistory?: number

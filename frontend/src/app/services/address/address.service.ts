@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AddressModel } from '../../interfaces/address/address.model';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +13,45 @@ export class AddressService {
 
   editAddress: any
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
+
+  getItem(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
 
   private getAuthHeaders(): HttpHeaders {
-      const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
-      return new HttpHeaders({
-        Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
-      });
-    }
+    const token = localStorage.getItem('jwt')
+    return new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+    });
+  }
     
-  getAllAddress(uid: number): Observable<AddressModel[]> {
-    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress/${uid}`, {
+  getAllAddress(): Observable<AddressModel[]> {
+    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     })
   }
 
-  getAddress(id: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/${id}`, {
+  getAddress(): Observable<AddressModel> {
+    return this.http.get<AddressModel>(`${this.apiUrl}/address`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
   }
 
-  getDefaultAddress(uid: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/getDefaultAddr/${uid}`, {
+  getDefaultAddress(): Observable<AddressModel> {
+    return this.http.get<AddressModel>(`${this.apiUrl}/defaultAddress`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
   }
 
-  createAddress(address: any, uid: number): Observable<AddressModel[]> {
-    return this.http.post<AddressModel[]>(`${this.apiUrl}/address/${uid}`, address, {
+  createAddress(address: any): Observable<AddressModel[]> {
+    return this.http.post<AddressModel[]>(`${this.apiUrl}/address`, address, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     })

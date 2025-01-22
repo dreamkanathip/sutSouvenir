@@ -48,7 +48,7 @@ export class AddressComponent implements OnInit{
   }
 
   getAllAddress(){
-    this.addressService.getAllAddress(1).subscribe((result: any) => {
+    this.addressService.getAllAddress().subscribe((result: any) => {
       this.allAddress = result
       result.forEach((address: any) => {
         if (address.default) {

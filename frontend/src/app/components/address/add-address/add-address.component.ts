@@ -107,7 +107,7 @@ export class AddAddressComponent implements OnInit {
 
   submit() {
     if (this.addressForm.valid) {
-      const newAddress: AddressModel = {
+      const newAddress = {
         id: 0,
         firstName: this.addressForm.get('firstName')?.value,
         lastName: this.addressForm.get('lastName')?.value,
@@ -117,7 +117,6 @@ export class AddAddressComponent implements OnInit {
         subDistrict: this.addressForm.get('subDistrict')?.value,
         phoneNumber: this.addressForm.get('phoneNumber')?.value,
         postalCode: this.addressForm.get('postalCode')?.value,
-        userID: 1,
       };
       Swal.fire({
         title: "ต้องการเพิ่มข้อมูลหรือไม่",
@@ -135,7 +134,7 @@ export class AddAddressComponent implements OnInit {
             },
           });
     
-          this.addressService.createAddress(newAddress, 1).subscribe({
+          this.addressService.createAddress(newAddress).subscribe({
             next: () => {
               Swal.close();
               Swal.fire({

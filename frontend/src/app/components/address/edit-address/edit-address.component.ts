@@ -69,7 +69,7 @@ export class EditAddressComponent implements OnInit {
   }
 
   getAddressData() {
-    this.addressService.getAddress(this.addressService.getEditAddressId()).subscribe((result: AddressModel) => {
+    this.addressService.getAddress().subscribe((result: AddressModel) => {
       this.editAddressForm.patchValue({
         firstName: result.firstName,
         lastName: result.lastName,

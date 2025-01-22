@@ -4,6 +4,8 @@ import { ProductOnOrder } from '../../interfaces/order/product-on-order';
 import { Router } from '@angular/router';
 import { AddressModel } from '../../interfaces/address/address.model';
 import { AddressService } from '../../services/address/address.service';
+import { Shipping } from '../../interfaces/shipping/shipping.model';
+import { Order } from '../../interfaces/order/order';
 
 @Component({
   selector: 'app-payment',
@@ -16,7 +18,8 @@ export class PaymentComponent implements OnInit{
   sumItemPrice: number = 0;
   defaultAddress?: AddressModel;
   orderId: number = 0;
-
+  selectedShipping!: Shipping
+  orderSum: number = 0
 
   constructor(
     private orderService: OrderService, 
@@ -35,16 +38,17 @@ export class PaymentComponent implements OnInit{
     }
   }
   getDefaultAddress() {
-    this.addressService.getDefaultAddress(1).subscribe(res => {
+    this.addressService.getDefaultAddress().subscribe(res => {
       this.defaultAddress = res
     })
   }
   defaultAddressChanged() {
     this.getDefaultAddress()
   }
-  
+  onShippingSelected($e:any) {
+    this.selectedShipping = $e
+  }
   getProductOnOrder(id: any): void {
-    // console.log(id)
     this.orderService.getProductOnOrderById(id).subscribe({
       next: (res) => {
         this.productOnOrder = res;
@@ -54,6 +58,9 @@ export class PaymentComponent implements OnInit{
         console.error('Failed to fetch products:', err);
       }
     });
+
+    this.orderService.getOrderById(this.orderId).subscribe((res) => {
+      this.selectedShipping = res.shipping
+    });
   }
-  
 }

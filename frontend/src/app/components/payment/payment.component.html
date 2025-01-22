@@ -36,6 +36,15 @@
             </tr>
           </tbody>
         </table>
+        <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping" >
+          <div></div>
+          ประเภทการจัดส่งที่คุณเลือก
+          <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
+          <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
+            <u>เลือกวิธีการการจัดส่ง</u>
+          </a>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -69,12 +78,12 @@
           </div>
           <div class="d-flex justify-content-between shipping-cost">
             <p>ค่าส่ง</p>
-            <p>50</p>
+            <p>{{selectedShipping.fees}}</p>
           </div>
           <hr class="mt-1 mb-1" />
           <div *ngIf="productOnOrder" class="d-flex justify-content-between summary-sum-price">
             <p>รวมทั้งสิ้น</p>
-            {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
+            {{(sumItemPrice + selectedShipping.fees).toLocaleString('en', {useGrouping:true})}}
           </div>
           <button type="submit" class="main-btn w-100" data-bs-toggle="modal" data-bs-target="#upload-receipt">
             ชำระเงิน
@@ -87,6 +96,7 @@
 <app-footer></app-footer>
 <app-change-address-modal class="modal fade" id="change-address"
   (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
-<app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice"></app-upload-receipt>
-<app-select-shipping class="modal fade" id="select-shipping"></app-select-shipping>
+<app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice" [orderSum]="sumItemPrice + selectedShipping.fees"></app-upload-receipt>
+<app-select-shipping class="modal fade" id="select-shipping" (selectedShippingChange)="onShippingSelected($event)"> </app-select-shipping>
+
 

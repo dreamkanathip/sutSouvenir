@@ -70,6 +70,7 @@ export class OrderService {
   getOrderById(orderId: number) {
     return this.http.get<any>(`${this.apiUrl}/order/${orderId}`)
   }
+  
   setOrderId(id: number): void {
     this.orderId = id;
   }

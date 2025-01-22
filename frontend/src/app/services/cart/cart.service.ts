@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,21 @@ export class CartService {
   private cartItemCountSubject = new BehaviorSubject<number>(0); // Observable for cart item count
   cartItemCount$ = this.cartItemCountSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
   
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
-    return new HttpHeaders({
-      Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
-    });
-  }
+  getItem(key: string): string | null {
+      if (isPlatformBrowser(this.platformId)) {
+        return localStorage.getItem(key);
+      }
+      return null;
+    }
+  
+    private getAuthHeaders(): HttpHeaders {
+      const token = localStorage.getItem('jwt')
+      return new HttpHeaders({
+        Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+      });
+    }
 
   apiUrl = 'http://localhost:5000/api';
 

@@ -2,8 +2,6 @@ const prisma = require("../configs/prisma");
 
 exports.create = async (req, res) => {
   try {
-    // พิมพ์ข้อมูลที่ได้รับ
-    console.log(req.body); // ตรวจสอบข้อมูลที่ส่งมา
 
     const { title, description, price, quantity, categoryId } = req.body;
 
