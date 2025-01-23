@@ -60,7 +60,7 @@
           สถานะคำสั่งซื้อ:
         </div>
         <div class="status ms-1" [ngStyle]="{
-                  color: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
+                  color: order?.orderStatus === 'PENDING'? '#F7AB05' : 
                               order?.orderStatus === 'CANCELLED'? '#DD0000' :
                               order?.orderStatus === 'DELIVERED'? '#47E036' : 
                               order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 

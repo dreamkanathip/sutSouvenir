@@ -1,6 +1,6 @@
 const { OrderStatus } = require("@prisma/client");
 const prisma = require("../configs/prisma");
-const { S3Client, PutObjectCommand, StorageClassAnalysisSchemaVersion } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = new S3Client({
   credentials: {
@@ -91,9 +91,6 @@ exports.uploadReceipt = async (req, res) => {
       destBankId,
       lastFourDigits,
       transferAt,
-      addressId,
-      cartTotal,
-      shippingId
     } = req.body;
 
     if (
@@ -110,7 +107,7 @@ exports.uploadReceipt = async (req, res) => {
 
     const uniqueKey = `images/${Date.now()}-${req.file.originalname}`;
     const params = {
-      Bucket: "sutsouvenir-seniorproject",
+      Bucket: process.env.BUCKET_NAME,
       Key: uniqueKey,
       Body: req.file.buffer,
       ContentType: req.file.mimetype,

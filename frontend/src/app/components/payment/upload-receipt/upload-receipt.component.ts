@@ -75,12 +75,12 @@ export class UploadReceiptComponent implements AfterViewInit {
   }
 
   onImageAdd(event: any) {
-    console.log("add image")
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
   }
+  
   show() {
     this.stringToDateTime()
   }

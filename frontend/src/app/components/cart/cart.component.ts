@@ -243,9 +243,6 @@ export class CartComponent implements OnInit{
       });
       await Promise.all(orderDetailsPromises);
 
-      // this.removeAllProductOnCart()
-      // await firstValueFrom(this.cartService.deleteCart(data.userId))
-
       this.sumItemPrice = this.productOnCart
       .filter((i) => i.selected)
       .reduce((sum, item) => sum + (item.newTotalPrice ?? 0), 0) || 0
@@ -256,7 +253,6 @@ export class CartComponent implements OnInit{
       await Promise.all(removePromises);
 
       this.cartService.updateCartItemCount(this.userId);
-      console.log('Order and details processed successfully!');
       this.orderService.setOrderId(this.orderId)
       await this.router.navigate(['/payment'])
 

@@ -12,4 +12,5 @@ const upload = multer({ storage });
 router.post("/payment", upload.single("receipt"), uploadReceipt);
 router.get("/allPayment", getPayment);
 
+
 module.exports = router;

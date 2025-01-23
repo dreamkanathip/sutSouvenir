@@ -108,7 +108,7 @@ model Order {
   products    ProductOnOrder[]
 
   cartTotal   Float
-  orderStatus OrderStatus      @default(NOT_PROCESSED)
+  orderStatus OrderStatus      @default(PENDING)
   shipping    Shipping         @relation(fields: [shippingId], references: [id])
   shippingId  Int
   address     Address          @relation(fields: [addressId], references: [id])

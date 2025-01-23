@@ -17,7 +17,7 @@ import { AdminHistoryComponent } from './components/admin-history/admin-history.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { ReviewComponent } from './components/review/review.component';

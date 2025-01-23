@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
@@ -35,7 +33,7 @@
         <div class="receipt d-flex align-items-center m-2">
           อัพโหลดหลักฐาน:
           <label class="btn btn-primary upload-btn m-1" for="menu-image">
-            เลือกไฟล์:
+            เลือกไฟล์
           </label>
           <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImage /> 
           <div *ngIf="selectedFile"> {{selectedFile.name}}</div>

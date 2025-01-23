@@ -58,7 +58,7 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
   }
   showStatus(status: string) {
     switch (status) {
-      case 'NOT_PROCESSED': return 'รอชำระเงิน';
+      case 'PENDING': return 'รอชำระเงิน';
       case 'CANCELLED': return 'ยกเลิก';
       case 'SHIPPED': return 'กำลังจัดส่ง';
       case 'DELIVERED': return 'จัดส่งสำเร็จ';

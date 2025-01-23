@@ -11,7 +11,7 @@
                     สถานะคำสั่งซื้อ:
                 </div>
                 <div class="status ms-1" [ngStyle]="{
-                        color: order?.orderStatus === 'NOT_PROCESSED'? '#F7AB05' : 
+                        color: order?.orderStatus === 'PENDING'? '#F7AB05' : 
                                     order?.orderStatus === 'CANCELLED'? '#DD0000' :
                                     order?.orderStatus === 'DELIVERED'? '#47E036' : 
                                     order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
@@ -21,7 +21,7 @@
                 </div>
 
                 <div [ngSwitch]="order?.orderStatus" class="ms-auto">
-                    <div *ngSwitchCase="'NOT_PROCESSED'" class="d-flex">
+                    <div *ngSwitchCase="'PENDING'" class="d-flex">
                         <button class="payment-btn me-2" (click)="NavigateToPayment(order)"
                             data-bs-dismiss="modal">ชำระเงิน</button>
                         <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>

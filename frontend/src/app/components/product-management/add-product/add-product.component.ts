@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductManagementService } from './../../services/product-management/product-management.service';
-import { CategoryService } from './../../services/category/category.service';
+import { ProductManagementService } from '../../../services/product-management/product-management.service';
+import { CategoryService } from '../../../services/category/category.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-product-management',
+  selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css'],
 })
 export class AddProductComponent implements OnInit {
   form!: FormGroup;
   categories: any[] = []; // ตัวแปรเก็บข้อมูลหมวดหมู่
+  selectedFile: File[] = [];
+  imagePreview: string[] | ArrayBuffer[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -25,8 +28,8 @@ export class AddProductComponent implements OnInit {
     // สร้างฟอร์ม
     this.form = this.fb.group({
       title: ['', [Validators.required]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      quantity: [ [Validators.required, Validators.min(1)]],
+      price: [ [Validators.required, Validators.min(1)]],
       description: ['', [Validators.required]],
       category: ['', [Validators.required]], // ฟอร์มสำหรับ category
     });
@@ -52,10 +55,35 @@ export class AddProductComponent implements OnInit {
     this.router.navigate(['/admin/management']); // นำทางไปยังหน้าที่ต้องการ
   }
 
+  onImageAdd(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("file")
+      this.selectedFile.push(file);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview?.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  removeFile(index: number) {
+    this.selectedFile.splice(index, 1)
+  }
   // ฟังก์ชันสำหรับการ submit
-  submit(): void {
+  
+  async submit() {
     if (this.form.invalid) {
       console.log('ฟอร์มไม่ถูกต้อง');
+      return;
+    }
+
+    if (this.selectedFile.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ไม่มีไฟล์',
+        text: 'กรุณาเลือกไฟล์ภาพสินค้าอย่างน้อย 1 ไฟล์',
+      });
       return;
     }
 
@@ -66,41 +94,52 @@ export class AddProductComponent implements OnInit {
       quantity: this.form.value.quantity,
       categoryId: this.form.value.category, // ใช้ categoryId แทน category name
     };
-
+    
     Swal.fire({
       title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,
       confirmButtonText: 'บันทึก',
       icon: 'warning',
-    }).then((result) => {
+    }).then( async (result) => {
       if (result.isConfirmed) {
-        this.productManagementService.addProduct(formData).subscribe(
-          () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'สำเร็จ',
-              text: 'สินค้าถูกบันทึกแล้ว!',
-            }).then(() => {
-              // รีเซ็ตฟอร์มหลังจากบันทึกสำเร็จ
-              this.form.reset({
-                title: '',
-                quantity: 1,
-                price: 0.01,
-                description: '',
-                category: null, // ตั้งค่าเป็น null แทนที่จะเป็น ''
-              });
-              this.goToManagements();
+        const newProduct = await firstValueFrom(this.productManagementService.addProduct(formData))
+        const productId = newProduct.id
+
+        const uploadImage = this.selectedFile.map((file) => {
+          
+          const data = new FormData();
+
+          data.append('image', file, file.name);
+          data.append('productId', productId)
+          return firstValueFrom(this.productManagementService.uploadProductImage(data))
+        })
+
+        await Promise.all(uploadImage);
+
+        if (uploadImage) {
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'สินค้าถูกบันทึกแล้ว!',
+          }).then(() => {
+            this.selectedFile = []
+            this.imagePreview = []
+            this.form.reset({
+              title: '',
+              quantity:'',
+              price: '',
+              description: '',
+              category: null, // ตั้งค่าเป็น null แทนที่จะเป็น ''
             });
-          },
-          (error) => {
-            console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า:', error);
+          });
+        } else {
+          console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า');
             Swal.fire({
               icon: 'error',
               title: 'ข้อผิดพลาด',
               text: 'ไม่สามารถบันทึกสินค้าได้!',
             });
-          }
-        );
+        }
       }
     });
   }

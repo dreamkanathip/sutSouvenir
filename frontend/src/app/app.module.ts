@@ -45,7 +45,7 @@ import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.com
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
 import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
 import { AddShippingComponent } from './components/shipping/add-shipping/add-shipping.component';
 import { UpdateShippingComponent } from './components/shipping/update-shipping/update-shipping.component';
