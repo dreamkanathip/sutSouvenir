@@ -74,8 +74,7 @@
     align-items: center;
     border: 1px solid #ddd;
     min-width: 120px;
-    width: auto;
-    max-width: 175px;
+    width: 75%;
     white-space: nowrap;
     border-radius: 5px;
 }
@@ -119,4 +118,33 @@
 
 .add-btn:hover {
     background-color: #e0521e; /* เปลี่ยนสีปุ่มเมื่อ hover */
+}
+
+.input-field .form-group input,
+.input-field .form-group select {
+    height: 40px;
+    line-height: 1.5;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 75%;
+    box-sizing: border-box;
+}
+
+.input-field .form-group select:focus,
+.input-field .form-group input:focus {
+    border-color: #F36523;
+    outline: none;
+    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
+}
+
+.input-field .form-group small.text-danger {
+    font-size: small;
+}
+
+@media (max-width: 768px) {
+    .input-field .form-group input,
+    .input-field .form-group select {
+        width: 75%;
+    }
 }

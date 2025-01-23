@@ -37,7 +37,7 @@ export class AddressService {
   }
 
   getAddress(): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address`, {
+    return this.http.get<AddressModel>(`${this.apiUrl}/address/${this.editAddress}`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
@@ -57,8 +57,8 @@ export class AddressService {
     })
   }
 
-  updateAddress(address: any, uid: number, id: number): Observable<AddressModel[]> {
-    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${uid}/${id}`, address, {
+  updateAddress(address: any, id: number): Observable<AddressModel[]> {
+    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${id}`, address, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });

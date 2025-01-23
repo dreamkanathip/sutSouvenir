@@ -30,7 +30,8 @@ export class AuthService {
     if (this.isBrowser) {
       // ตรวจสอบว่าเป็นเบราว์เซอร์ก่อน
       const token = localStorage.getItem('jwt');
-      console.log('Token in localStorage:', token); // แสดงค่า token ใน console
+      // console.log('Token in localStorage:', token); 
+      // แสดงค่า token ใน console
 
       if (token) {
         this.authStatusSubject.next(true); // ถ้ามี token กำหนดสถานะเป็น true
@@ -52,7 +53,7 @@ export class AuthService {
             localStorage.setItem('jwt', token);
 
             const storedToken = localStorage.getItem('jwt');
-            console.log('Token in localStorage:', storedToken);
+            // console.log('Token in localStorage:', storedToken);
 
             this.authStatusSubject.next(true); // อัปเดตสถานะการล็อกอิน
           }

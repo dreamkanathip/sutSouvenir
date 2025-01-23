@@ -72,7 +72,7 @@ exports.list = async (req, res) => {
 
 exports.read = async (req, res) => {
   try {
-    const id = req.user.id;
+    const { id } = req.params;
     const address = await prisma.address.findFirst({
       where: {
         id: Number(id),
@@ -103,7 +103,7 @@ exports.getDefaultAddress = async(req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    const id = req.user.id;
+    const { id } = req.params;
 
     await prisma.address.delete({
       where: {
