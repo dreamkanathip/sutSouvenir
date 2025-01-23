@@ -78,6 +78,16 @@ export class ProductDetailsComponent implements OnInit {
       }
     })
   }
+
+  showProductDescription() {
+    let detail = ""
+    if (this.product && this.product.description != undefined && this.product.description != "") {
+      detail = this.product.description
+    } else {
+      detail = "ไม่พบรายละเอียดของสินค้า"
+    }
+    return detail
+  }
   
   onQuantityInputChange(item: any): void {
     if (item.quantity < this.quantityToOrder) {

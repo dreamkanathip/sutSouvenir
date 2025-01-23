@@ -36,7 +36,9 @@
             *ngFor="let product of searchResults"
             (click)="goToDetails(product)"
           >
+            <img src="assets/SUT-Logo.png" class="product-image" />
             {{ product.title }}
+            <small class="dropdown-description">{{product.category.name}}</small>
           </a>
 
           <!-- กรณีไม่มีสินค้า -->

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../../services/address/address.service';
@@ -27,11 +27,11 @@ export class AddAddressComponent implements OnInit {
     this.addressForm = this.fb.group({
       firstName: [
         '', 
-        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/)] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/), this.noWhitespaceValidator()] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
       ],
       lastName: [
         '', 
-        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/)] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/), this.noWhitespaceValidator()] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
       ],
       street: ['', [Validators.required]],
       province: ['', [Validators.required]],
@@ -57,7 +57,9 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  provinceSelect(province: string) {
+  provinceSelect(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const province = target.value;
     this.selectedProvince = province;
     this.selectedDistrict = undefined;
     this.selectedSubDistrict = undefined;
@@ -73,7 +75,9 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  districtSelect(district: string) {
+  districtSelect(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const district = target.value;
     this.selectedDistrict = district;
     this.selectedSubDistrict = undefined;
 
@@ -106,11 +110,32 @@ export class AddAddressComponent implements OnInit {
   
 
   submit() {
+    const firstNameControl = this.addressForm.get('firstName');
+    const lastNameControl = this.addressForm.get('lastName');
+    
+    if (firstNameControl && typeof firstNameControl.value === 'string') {
+      firstNameControl.setValue(firstNameControl.value.trim());
+    }
+    
+    if (lastNameControl && typeof lastNameControl.value === 'string') {
+      lastNameControl.setValue(lastNameControl.value.trim());
+    }
+  
+    // Check if firstName or lastName is empty after trimming
+    if (firstNameControl?.value === '' || lastNameControl?.value === '') {
+      if (firstNameControl?.value === '') {
+        firstNameControl.setErrors({ 'whitespace': true });
+      }
+      if (lastNameControl?.value === '') {
+        lastNameControl.setErrors({ 'whitespace': true });
+      }
+    }
+  
     if (this.addressForm.valid) {
       const newAddress = {
         id: 0,
-        firstName: this.addressForm.get('firstName')?.value,
-        lastName: this.addressForm.get('lastName')?.value,
+        firstName: firstNameControl?.value,
+        lastName: lastNameControl?.value,
         street: this.addressForm.get('street')?.value,
         province: this.addressForm.get('province')?.value,
         district: this.addressForm.get('district')?.value,
@@ -159,11 +184,12 @@ export class AddAddressComponent implements OnInit {
             }
           });
         }
-      })
+      });
     } else {
-      console.log("Form is invalid", this.addressForm.value);
+      this.addressForm.markAllAsTouched();
     }
   }
+  
 
   cancel() {
     this.addressForm.reset();
@@ -172,6 +198,14 @@ export class AddAddressComponent implements OnInit {
 
   addressNavigate(){
     this.router.navigate(['/address']);
+  }
+
+  noWhitespaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+    };
   }
 
 }

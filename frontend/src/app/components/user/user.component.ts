@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../services/address/address.service';
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit{
   emailModalOpen = false
   passwordModalOpen = false
 
-  defaultAddress! : string
+  defaultAddress! : any
 
   constructor(
     private userService: UserService,
@@ -32,9 +32,8 @@ export class UserComponent implements OnInit{
     private fb: FormBuilder, 
     private router: Router) {
     this.editedUser = this.fb.group({
-      // id: 0,
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, this.noWhitespaceValidator()]],
+      lastName: ['', [Validators.required, this.noWhitespaceValidator()]],
       email: ['', [Validators.required, Validators.email]],
       gender: ['', [Validators.required]],
     })
@@ -93,10 +92,7 @@ export class UserComponent implements OnInit{
   getDefaultAddress() {
     this.addressService.getDefaultAddress().subscribe(result => {
       if (result) {
-        console.log("Default:",result)
         this.defaultAddress = result.street + ' ตำบล' + result.subDistrict + ' อำเภอ' + result.district + ' ' + result.province
-      } else {
-        this.defaultAddress = "ไม่พบที่อยู่จัดส่งที่ได้บันทึกไว้"
       }
     })
   }
@@ -332,6 +328,14 @@ export class UserComponent implements OnInit{
 
   NavigateToAddress(){
     this.router.navigate(['/address']);
+  }
+
+  noWhitespaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+    };
   }
 
 }
