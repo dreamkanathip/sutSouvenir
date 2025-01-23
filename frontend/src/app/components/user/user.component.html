@@ -10,79 +10,53 @@
 </div>
 <div *ngIf="user">
   <div class="row mx-auto user-page">
-    <!-- <div class="col-md-4">
-        <div class="user-menu">
-            <div class="menu">
-                <h3 class="container-header">บัญชีผู้ใช้</h3>
-                <hr/>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <p>ข้อมูลส่วนตัว</p>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/address">ที่อยู่</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
-    <!-- <div class="col-md-8"> -->
-        <div class="user-container">
-            <h3 class="container-header">ข้อมูลส่วนตัว</h3>
-            <br/>
-            <div>
-                <table class="table table-sm">
-                    <!-- <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead> -->
-                    <tbody>
-                        <tr>
-                            <td class="topic">ชื่อ - สกุล</td>
-                            <td>{{ showFullName() }}</td>
-                        </tr>
-                        <tr>
-                            <td>เพศ</td>
-                            <td>{{showGender()}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="edit-btn">
-                <button class="edit-modal-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
-            </div>
-            <hr/>
-            <h3 class="container-header">ข้อมูลบัญชี</h3>
-            <br />
-            <div>
-              <table class="table table-sm">
-                <!-- <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead> -->
-                <tbody>
-                  <tr>
-                    <td class="topic">อีเมล</td>
-                    <td>{{user.email}}</td>
-                  </tr>
-                  <tr>
-                    <td>ที่อยู่สำหรับจัดส่ง</td>
-                    <td>{{defaultAddress}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="edit-btn">
-              <button class="edit-modal-btn" (click)="NavigateToAddress()">แก้ไขที่อยู่</button>
-              <button class="edit-modal-btn" (click)="emailModal()">แก้ไขอีเมล</button>
-              <button class="edit-modal-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
-            </div>
-        </div>
-    <!-- </div> -->
+    <div class="user-container">
+      <h3 class="container-header">ข้อมูลส่วนตัว</h3>
+      <br/>
+      <div>
+        <table class="table table-sm">
+          <tbody>
+            <tr>
+              <td class="topic">ชื่อ - สกุล</td>
+              <td>{{ showFullName() }}</td>
+            </tr>
+            <tr>
+              <td>เพศ</td>
+              <td>{{showGender()}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="edit-btn">
+        <button class="edit-modal-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
+      </div>
+      <hr/>
+      <h3 class="container-header">ข้อมูลบัญชี</h3>
+      <br />
+      <div>
+        <table class="table table-sm">
+          <tbody>
+            <tr>
+              <td class="topic">อีเมล</td>
+              <td>{{user.email}}</td>
+            </tr>
+            <tr>
+              <td>ที่อยู่สำหรับจัดส่ง</td>
+              <td [ngClass]="defaultAddress ? 'default-address' : 'no-address'">
+                {{ defaultAddress ? defaultAddress : 'ไม่พบที่อยู่จัดส่งที่บันทึกไว้' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="edit-btn">
+        <button class="edit-modal-btn" (click)="NavigateToAddress()">แก้ไขที่อยู่</button>
+        <button class="edit-modal-btn" (click)="emailModal()">แก้ไขอีเมล</button>
+        <button class="edit-modal-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Backdrop -->
   <div *ngIf="ModalOpen" class="modal-backdrop fade show"></div>
 
@@ -111,6 +85,9 @@
                 <small class="text-danger" *ngIf="editedUser.get('firstName')?.errors?.['required']">
                   กรุณากรอกชื่อ
                 </small>
+                <small class="text-danger" *ngIf="editedUser.get('firstName')?.hasError('whitespace') && !editedUser.get('firstName')?.errors?.['required']">
+                  กรุณากรอกชื่อที่ไม่ใช่ช่องว่าง
+                </small>
               </div>
             </div>
             <div class="mb-3">
@@ -127,6 +104,9 @@
               <div *ngIf="editedUser.get('lastName')?.touched && editedUser.get('lastName')?.invalid">
                 <small class="text-danger" *ngIf="editedUser.get('lastName')?.errors?.['required']">
                   กรุณากรอกนามสกุล
+                </small>
+                <small class="text-danger" *ngIf="editedUser.get('lastName')?.hasError('whitespace') && !editedUser.get('lastName')?.errors?.['required']">
+                  กรุณากรอกนามสกุลที่ไม่ใช่ช่องว่าง
                 </small>
               </div>
             </div>
@@ -246,7 +226,7 @@
                   กรุณากรอกรหัสผ่านใหม่
                 </small>
                 <small class="text-danger" *ngIf="passwordForm.get('newPassword')?.errors?.['minlength']">
-                  รหัสผ่านต้องมีอย่างน้อย 6 ตัว
+                  รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว
                 </small>
               </div>
             </div>
@@ -271,7 +251,7 @@
                 กรุณากรอกรหัสผ่านใหม่
               </small>
               <small class="text-danger" *ngIf="passwordForm.get('repeatNewPassword')?.errors?.['minlength']">
-                รหัสผ่านต้องมีอย่างน้อย 6 ตัว
+                รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว
               </small>
             </div>
           

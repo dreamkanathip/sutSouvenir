@@ -66,19 +66,17 @@ h1 {
 .quantity {
     display: inline;
     align-items: center;
-  }
+}
 .quantity-input {
     width: 60px;
     font-size: 22px;
 }
 .add-to-fav i {
-    margin-top: 0.5rem;
     text-align: end;
-    color: #636363;
+    color: #F36523;
     cursor: pointer;
 }
 .no-fav i {
-    margin-top: 0.5rem;
     text-align: end;
     color: #636363;
     cursor: pointer;
@@ -97,7 +95,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-  }
+}
   
 .review-section h2 {
     margin: 0; /* ลบระยะห่างเริ่มต้น */
@@ -115,9 +113,9 @@ h1 {
 
 .review-container {
     margin-top: 20px;
-  }
+}
   
-  .review-card {
+.review-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -127,54 +125,55 @@ h1 {
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     height: 100%;
-  }
+}
   
-  .review-card:hover {
+.review-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: scale(1.02);
     transition: 0.3s ease-in-out;
-  }
+}
   
-  .stars {
+.stars {
+    margin-top: 0.25rem;
     color: #f5c518; /* สีเหลือง */
     margin-bottom: 10px;
-    font-size: 20px;
-  }
+    font-size: 24px;
+}
   
-  .stars .fa {
+.stars .fa {
     margin-right: 5px;
-  }
+}
   
-  .review-history-btn {
+.review-history-btn {
     color: #F36523;
     text-decoration: underline;
     cursor: pointer;
-  }
+}
   
-  .review-history-btn:hover {
+.review-history-btn:hover {
     filter: brightness(0.8);
     text-decoration: none;
-  }
+}
   
-  .row.g-4 {
+.row.g-4 {
     gap: 1.5rem; /* ระยะห่างระหว่างการ์ด */
-  }
+}
   
-  .review-content {
+.review-content {
     flex-grow: 1; /* ขยายส่วนนี้ให้อยู่กลางการ์ด */
     margin-bottom: 1rem;
-  }
+}
   
-  .mt-auto {
+.mt-auto {
     margin-top: auto; /* ดันส่วนล่างสุดให้อยู่ปลายการ์ด */
-  }
+}
 
-  .review-edit {
+.review-edit {
     display: flex;
     justify-content: end;
-  }
+}
 
-  .review-btn {
+.review-btn {
     background-color: #F36523;
     color: #fff;
     font-size: 22px;
@@ -182,5 +181,15 @@ h1 {
     border-radius: 10px;
     border: none;
     width: 15%;
-  }
-  
+}
+
+.align-center {
+    display: flex;
+    align-items: center;
+}
+
+.product-description p {
+  font-size: 20px;
+  color: #333;
+  font-style: italic;
+}
