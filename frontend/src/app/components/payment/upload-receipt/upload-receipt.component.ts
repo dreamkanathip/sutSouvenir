@@ -68,6 +68,7 @@ export class UploadReceiptComponent implements AfterViewInit {
       });
     }
   }
+  
   stringToDateTime(){
     const datetimeString = `${this.date} ${this.hr.padStart(2, '0')}:${this.min.padStart(2, '0')}:00`;
     const datetime = new Date(datetimeString);

@@ -14,77 +14,48 @@
   transform: translate(-50%, -50%);
 }
 
-.bottom-right-word {
-  position: fixed;
-  width: auto; /* Adjust width as needed */
-  height: auto; /* Adjust height as needed */
-  display: block;
-  justify-content: flex-end;
-  align-items: flex-end;
-  border-radius: 10px;
-  bottom: 0;
-  right: 0;
-  z-index: 99;
+.container {
+  padding-top: calc(var(--navbar-height, 8%));
+  margin-bottom: 2%;
+  font-family: 'SUT', sans-serif;
+}
+.dashboard {
+  background-color: #fff;
 }
 
-.bottom-left-word {
-  position: fixed;
-  width: 100%; /* Adjust width as needed */
-  height: 90%; /* Adjust height as needed */
-  display: block;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border-radius: 10px;
-  bottom: 0;
-  left: 0;
-  z-index: 99;
+.day-range {
+  border: false;
+  cursor: pointer;
+  width: 50%;
 }
-
-.bottom-right-word a {
-  background-color: rgba(255, 255, 255, 0.71);
+.sales-label-text, .order-label-text {
+  font-size: 22px;
+}
+.sales-text {
+  font-size: 49px;
+}
+.select-date {
+  width: 30%
+}
+.date {
+  width: 25%;
   padding: 10px;
-  border-radius: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.date:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+  cursor: pointer;
 }
 
-.bottom-left-word a {
-  background-color: rgba(255, 255, 255, 0.71);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-a:hover {
-  background-color: rgb(255, 255, 255);
-}
-
-/* Middle text styling */
-.middle-word {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 12vw;
-  text-align: center;
-  z-index: 1;
-  letter-spacing: 0.2em;
-}
-
-/* Bottom-right credit link */
-.bottom-right-word {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1;
-}
-
-.bottom-right-word a {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  border-radius: 10px;
-  color: black;
-  text-decoration: none;
-}
-
-.bottom-right-word a:hover {
-  background-color: rgba(255, 255, 255, 1);
+.date:focus {
+  border-color: #0056b3;
+  outline: none;
+  background-color: #ffffff;
+  cursor: pointer;
 }

@@ -2,11 +2,54 @@
 <link rel="stylesheet" href="admin-dashboard.component.css" />
 
 <div class="main-video">
-  <!-- <div class="middle-word">
-    <h1>SUT SOUVENIR</h1>
-  </div> -->
-  <!-- Corrected video element with src attribute -->
+  <div class="container">
+    <div class="dashboard container-fluid p-5">
+      <div class="select-range d-flex felx-row mb-4">
+        <input type="radio" class="btn-check" name="range" id="day" autocomplete="off" [(ngModel)]="selectedRange" 
+         (change)="defaultDateRange()" value="day">
+        <label class="btn" for="day">1 วัน</label>
+
+        <input type="radio" class="btn-check" name="range" id="week" autocomplete="off" [(ngModel)]="selectedRange" 
+         (change)="defaultDateRange()" value="week">
+        <label class="btn" for="week">1 สัปดาห์</label>
+
+        <input type="radio" class="btn-check" name="range" id="month" autocomplete="off" [(ngModel)]="selectedRange" 
+         (change)="defaultDateRange()" value="month">
+        <label class="btn" for="month">1 เดือน</label>
+
+        <input type="radio" class="btn-check" name="range" id="annual" autocomplete="off" [(ngModel)]="selectedRange" 
+         (change)="defaultDateRange()" value="annual">
+        <label class="btn" for="annual">1 ปี</label>
+
+        <div class="select-date ms-3 d-flex align-items-center">
+          <input id="startDate" type="date" class="date shadow-none me-2" [(ngModel)]="startDate" placeholder="วว-ดด-ปปปป">
+          <span class="me-2">ถึง</span>
+          <input id="endDate" type="date" class="date shadow-none" [(ngModel)]="endDate" placeholder="วว-ดด-ปปปป">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 border rounded">
+          <div class="sales-label-text ms-1 mt-2">ยอดขายทั้งหมด</div>
+          <div class="sales-text ms-1"> ฿1,234 </div>
+        </div>
+        <div class="col-md-4 border rounded ">
+          <div class="order-label-text ms-1 mt-2">จำนวนออเดอร์ใหม่</div>
+          <div class="sales-text ms-1"> 200 </div>
+        </div>
+        <div class="col-md-4 border rounded">
+        </div>
+      </div>
+      <hr />
+      <div style="display: block;">
+        <canvas id="salesByCategory"></canvas>
+      </div>
+      <p>จำนวนคำสั่งซื้อ = ตามสถานะ order</p>
+      <p>สินค้าที่หมด เอา product ที่ amount = 0</p>
+      <p>สินค้าที่เหลือน้อยกว่า 10 ชิ้น เอา product ที่ amount < 10</p>
+      <p>ขายดี 5 อันดับ ()</p>
+      <p>กราฟยอดขาย</p>
+    </div>
+  </div>
   <video autoplay loop muted src="../../../assets/video-homeadmin.mp4">
-    Your browser does not support the video tag.
   </video>
 </div>

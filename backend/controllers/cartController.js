@@ -46,6 +46,10 @@ exports.addItemToCart = async(req, res) => {
         const { productId, quantity } = req.body
         const userId = req.user.id
 
+        if (!productId || !quantity || quantity <= 0) {
+            return res.status(400).json({ message: "Invalid input" });
+        }
+        
         const cart = await prisma.cart.findFirst({
             where: {
                 userId: Number(userId)
@@ -164,8 +168,13 @@ exports.addItemToCart = async(req, res) => {
                 }
             })
         ])
-        res.json({
-            addItem, updateCartTotal, updateProductAmount
+        res.status(200).json({
+            success: true,
+            data: {
+                addItem,
+                updateCartTotal,
+                updateProductAmount
+            }
         });  
     } catch (err) {
         console.log(err);

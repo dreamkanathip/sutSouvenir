@@ -3,6 +3,9 @@
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
 }
+.title-swal {
+    font-family: 'SUT', sans-serif !important;
+  }
 .bg {
     background-color: #FFDDBE;
 }
