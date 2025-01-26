@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Category } from './../../interfaces/category/category.model'; // Import Category model
+import { Category } from './../../interfaces/category/category.model'; // ใช้สำหรับหมวดหมู่สินค้า
 
 @Component({
   selector: 'app-product-management',
@@ -13,13 +13,13 @@ import { Category } from './../../interfaces/category/category.model'; // Import
   styleUrls: ['./product-management.component.css'],
 })
 export class ProductManagementComponent implements OnInit {
-  products: Product[] = [];
-  categories: Category[] = []; // เก็บข้อมูลหมวดหมู่
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
-  pagedProducts: any[] = [];
-  editMode: boolean = false;
-  selectedProduct: Product = {} as Product; // เก็บข้อมูลสินค้าที่เลือกแก้ไข
+  products: Product[] = []; // รายการสินค้าทั้งหมด
+  categories: Category[] = []; // รายการหมวดหมู่สินค้า
+  currentPage: number = 1; // หน้าปัจจุบัน
+  itemsPerPage: number = 5; // จำนวนแถวต่อหน้า
+  pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
+  editMode: boolean = false; // สถานะการแก้ไขสินค้า
+  selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -27,62 +27,94 @@ export class ProductManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts(); // เรียกฟังก์ชันเพื่อดึงข้อมูลสินค้าทั้งหมด
-    this.loadPage(this.currentPage);
+    this.loadProducts(); // เรียกข้อมูลสินค้าเมื่อโหลดหน้าจอ
   }
 
-  // ฟังก์ชันที่เรียกใช้เมื่อคลิกปุ่ม "แก้ไข"
-  editProduct(productId: number) {
-    this.selectedProduct = this.products.find(
-      (product) => product.id === productId
-    ) as Product; // คัดเลือกสินค้าที่จะถูกแก้ไข
-    this.editMode = true; // เปิดการแสดงผล edit-card
-    document.body.classList.add('modal-open'); // เพิ่ม class เพื่อให้ dark overlay
-  }
-
-  // ฟังก์ชันสำหรับปิด modal หรือ cancel การแก้ไข
-  closeEditCard() {
-    this.editMode = false; // ปิด modal
-    document.body.classList.remove('modal-open'); // เอา class ออก
-  }
-
-  getAllProducts(): void {
+  // โหลดข้อมูลสินค้าทั้งหมด
+  loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
-        console.log('ข้อมูลสินค้าทั้งหมด:', data); // ตรวจสอบว่า category มีข้อมูล
         this.products = data;
+        this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {
-        console.error('เกิดข้อผิดพลาดในการดึงข้อมูลสินค้า:', error);
+        console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
       }
     );
   }
 
-  // ฟังก์ชันบันทึกการแก้ไขข้อมูลสินค้า
+  // เพิ่มสินค้าใหม่
+  addProduct(newProduct: Product): void {
+    this.productManagementService
+      .addProduct(newProduct)
+      .pipe(
+        catchError((error) => {
+          console.error('เกิดข้อผิดพลาดในการเพิ่มสินค้า:', error);
+          Swal.fire({
+            title: 'เกิดข้อผิดพลาด!',
+            text: 'ไม่สามารถเพิ่มสินค้าได้ กรุณาลองอีกครั้ง',
+            icon: 'error',
+          });
+          return of(null);
+        })
+      )
+      .subscribe((response: Product | null) => {
+        if (response) {
+          Swal.fire({
+            title: 'สำเร็จ!',
+            text: 'เพิ่มสินค้าเรียบร้อยแล้ว',
+            icon: 'success',
+          });
+
+          this.products.push(response);
+          this.loadPage(this.currentPage);
+
+          // หากหน้าปัจจุบันเต็ม ให้เปลี่ยนไปหน้าถัดไป
+          if (this.pagedProducts.length === this.itemsPerPage) {
+            this.loadPage(Math.ceil(this.products.length / this.itemsPerPage));
+          }
+        }
+      });
+  }
+
+  // แก้ไขสินค้า
+  editProduct(productId: number): void {
+    this.selectedProduct = this.products.find(
+      (product) => product.id === productId
+    ) as Product;
+    this.editMode = true;
+    document.body.classList.add('modal-open');
+  }
+
+  // ปิดหน้าต่างแก้ไข
+  closeEditCard(): void {
+    this.editMode = false;
+    document.body.classList.remove('modal-open');
+  }
+
+  // บันทึกสินค้าเมื่อแก้ไขเสร็จ
   saveEditProduct(): void {
     if (this.selectedProduct && this.selectedProduct.id) {
       const { id, title, quantity, price, description, category } =
         this.selectedProduct;
 
-      // ตรวจสอบให้แน่ใจว่าไม่มีข้อมูลที่สำคัญขาดหาย
       if (!title || !quantity || !price || !description || !category) {
         Swal.fire({
           title: 'ข้อมูลไม่ครบถ้วน',
-          text: 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนทำการบันทึก',
+          text: 'กรุณากรอกข้อมูลให้ครบก่อนบันทึก',
           icon: 'warning',
         });
         return;
       }
 
-      // เรียกใช้ฟังก์ชัน updateProduct โดยส่ง productId และข้อมูลสินค้าที่ต้องการอัปเดต
       this.productManagementService
         .updateProduct(id, { title, quantity, price, description, category })
         .pipe(
           catchError((error) => {
-            console.error('เกิดข้อผิดพลาดในการอัปเดตสินค้า:', error);
+            console.error('เกิดข้อผิดพลาดในการแก้ไขสินค้า:', error);
             Swal.fire({
               title: 'เกิดข้อผิดพลาด!',
-              text: 'ไม่สามารถอัปเดตข้อมูลสินค้าได้ กรุณาลองใหม่',
+              text: 'ไม่สามารถแก้ไขสินค้าได้ กรุณาลองอีกครั้ง',
               icon: 'error',
             });
             return of(null);
@@ -92,26 +124,26 @@ export class ProductManagementComponent implements OnInit {
           if (response) {
             Swal.fire({
               title: 'สำเร็จ!',
-              text: 'ข้อมูลสินค้าได้รับการอัปเดต',
+              text: 'แก้ไขสินค้าเรียบร้อยแล้ว',
               icon: 'success',
             });
-            this.getAllProducts(); // รีเฟรชข้อมูลสินค้า
-            this.closeEditCard(); // ปิดการ์ดฟอร์มแก้ไข
+            this.loadProducts(); // โหลดข้อมูลสินค้าใหม่
+            this.closeEditCard();
           }
         });
     } else {
       Swal.fire({
         title: 'ข้อมูลไม่ถูกต้อง',
-        text: 'ไม่พบสินค้าที่จะอัปเดต กรุณาลองใหม่',
+        text: 'ไม่พบสินค้าที่ต้องการแก้ไข กรุณาลองอีกครั้ง',
         icon: 'error',
       });
     }
   }
 
-  // ฟังก์ชันลบสินค้าตาม ID
+  // ลบสินค้าตาม ID
   deleteProductById(event: MouseEvent, productId: number): void {
     Swal.fire({
-      title: 'คุณแน่ใจหรือไม่?',
+      title: 'ยืนยันการลบ?',
       text: 'คุณต้องการลบสินค้านี้หรือไม่?',
       icon: 'warning',
       showCancelButton: true,
@@ -121,11 +153,6 @@ export class ProductManagementComponent implements OnInit {
       cancelButtonText: 'ยกเลิก',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.products = this.products.filter(
-          (product) => product.id !== productId
-        );
-        this.loadPage(this.currentPage);
-
         this.productManagementService
           .deleteProductById(productId)
           .pipe(
@@ -133,58 +160,69 @@ export class ProductManagementComponent implements OnInit {
               console.error('เกิดข้อผิดพลาดในการลบสินค้า:', error);
               Swal.fire({
                 title: 'เกิดข้อผิดพลาด!',
-                text: 'ไม่สามารถลบสินค้าได้ กรุณาลองใหม่อีกครั้ง',
+                text: 'ไม่สามารถลบสินค้าได้ กรุณาลองอีกครั้ง',
                 icon: 'error',
               });
               return of(null);
             })
           )
-          .subscribe((res: any) => {
+          .subscribe((res) => {
             if (res) {
-              this.getAllProducts();
+              this.products = this.products.filter(
+                (product) => product.id !== productId
+              );
               Swal.fire({
                 title: 'สำเร็จ!',
-                text: 'ลบสินค้าสำเร็จ',
+                text: 'ลบสินค้าเรียบร้อยแล้ว',
                 icon: 'success',
               });
+              this.loadPage(this.currentPage);
             }
           });
       }
     });
 
-    event.stopPropagation(); // ป้องกัน Event Bubbling
+    event.stopPropagation();
   }
 
-  loadPage(page: number) {
+  // โหลดหน้าสินค้าในหน้าที่กำหนด
+  loadPage(page: number): void {
     this.currentPage = page;
-    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const start = (page - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.pagedProducts = this.products.slice(start, end);
 
-    const emptyRows = this.itemsPerPage - this.pagedProducts.length;
-    for (let i = 0; i < emptyRows; i++) {
-      this.pagedProducts.push({
+    // ตัดข้อมูลตามหน้าปัจจุบัน
+    const slicedProducts = this.products.slice(start, end);
+
+    // หากข้อมูลไม่ครบ 5 แถว ให้เพิ่ม placeholder
+    this.pagedProducts = [
+      ...slicedProducts,
+      ...Array(this.itemsPerPage - slicedProducts.length).fill({
+        id: 0,
         title: '',
         quantity: '',
         price: '',
         description: '',
-        category: {} as Category, // เพิ่ม category เป็นอ็อบเจ็กต์ว่าง
-      });
-    }
+        category: '',
+      }),
+    ];
   }
 
-  nextPage() {
+  // ไปหน้าถัดไป
+  nextPage(): void {
     if (this.currentPage * this.itemsPerPage < this.products.length) {
       this.loadPage(this.currentPage + 1);
     }
   }
 
-  prevPage() {
+  // ไปหน้าก่อนหน้า
+  prevPage(): void {
     if (this.currentPage > 1) {
       this.loadPage(this.currentPage - 1);
     }
   }
 
+  // ไปหน้าเพิ่มสินค้า
   navigateToAddProduct(): void {
     this.router.navigate(['/admin/add/product']);
   }

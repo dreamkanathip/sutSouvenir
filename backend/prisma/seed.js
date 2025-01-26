@@ -26,7 +26,7 @@ async function main() {
         email: superadminEmail,
         password: hashedPassword,
         role: "SUPERADMIN",
-        gender: "male",
+        gender: "ชาย",
         enabled: true,
       },
     });
@@ -48,24 +48,24 @@ async function main() {
     console.log("Superadmin already exists!");
   }
 
-  // เพิ่มหมวดหมู่ (Category)
-  const categories = ["เสื้อผ้า", "อุปกรณ์เครื่องใช้", "อื่นๆ"];
+  // ลบส่วนที่เกี่ยวข้องกับหมวดหมู่ (Category)
+  // const categories = ["เสื้อผ้า", "อุปกรณ์เครื่องใช้", "อื่นๆ"];
 
-  for (const categoryName of categories) {
-    const existingCategory = await prismaClient.category.findUnique({
-      where: { name: categoryName },
-    });
+  // for (const categoryName of categories) {
+  //   const existingCategory = await prismaClient.category.findUnique({
+  //     where: { name: categoryName },
+  //   });
 
-    if (!existingCategory) {
-      // ถ้ายังไม่มีหมวดหมู่นี้ในฐานข้อมูล
-      const newCategory = await prismaClient.category.create({
-        data: { name: categoryName },
-      });
-      console.log(`Category "${categoryName}" created successfully.`);
-    } else {
-      console.log(`Category "${categoryName}" already exists.`);
-    }
-  }
+  //   if (!existingCategory) {
+  //     // ถ้ายังไม่มีหมวดหมู่นี้ในฐานข้อมูล
+  //     const newCategory = await prismaClient.category.create({
+  //       data: { name: categoryName },
+  //     });
+  //     console.log(`Category "${categoryName}" created successfully.`);
+  //   } else {
+  //     console.log(`Category "${categoryName}" already exists.`);
+  //   }
+  // }
 }
 
 // เรียกใช้ฟังก์ชัน main

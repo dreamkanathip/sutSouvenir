@@ -30,9 +30,6 @@
   background-color: #f9f9f9;
   transition: all 0.3s ease;
 }
-.custom-flatpickr {
-  width: 150px !important;
-}
 .date:hover {
   border-color: #007bff;
   background-color: #f0f8ff;

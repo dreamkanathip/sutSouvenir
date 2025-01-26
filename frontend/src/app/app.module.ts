@@ -52,6 +52,8 @@ import { UpdateShippingComponent } from './components/shipping/update-shipping/u
 import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
 import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { ReviewComponent } from './components/review/review.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { CategoryComponent } from './components/category/category.component';
 import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
 import { HistoryDetailComponent } from './components/user-storage/history-detail/history-detail.component';
 import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.component';
@@ -93,6 +95,8 @@ import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.com
     SelectShippingComponent,
     AdminUpdateOrderStatusComponent,
     ReviewComponent,
+    AddCategoryComponent,
+    CategoryComponent,
     FormatDateToThaiPipe,
     HistoryDetailComponent,
     UserSidenavComponent,

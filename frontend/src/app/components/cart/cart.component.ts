@@ -266,12 +266,17 @@ export class CartComponent implements OnInit{
           confirmButtonColor: "#d33",
         })
       } else if (!this.selectedShipping){
-        Swal.fire({
+        const customSwal = Swal.mixin({
+          customClass: {
+            title: "title-swal",
+          },
+        });
+        customSwal.fire({
           title: "กรุณาเลือกวิธีการจัดส่ง",
           confirmButtonText: "ยืนยัน",
           icon: "warning",
           confirmButtonColor: "#d33",
-        })
+        });
       }
     }
   }

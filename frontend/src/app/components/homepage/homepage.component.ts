@@ -203,7 +203,12 @@ export class HomepageComponent {
           product.quantity -= 1;
           this.cartService.updateCartItemCount(this.userId);
           console.log('Item added to cart:', response);
-          Swal.fire({
+          const customSwal = Swal.mixin({
+                    customClass: {
+                      popup: "title-swal",
+                    },
+                  });
+          customSwal.fire({
             title: "เพิ่มสินค้าเรียบร้อย",
             icon: "success",
             confirmButtonText: "ตกลง",
