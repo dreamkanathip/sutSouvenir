@@ -34,6 +34,7 @@
     "flatpickr": "^4.6.13",
     "frontend": "file:",
     "jquery": "^3.7.1",
+    "ng2-charts": "^6.0.0",
     "ngx-material-timepicker": "^13.1.1",
     "popper": "^1.0.1",
     "popper.js": "^1.16.1",
