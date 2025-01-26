@@ -1,54 +1,38 @@
-<!-- favourites.component.html -->
-<!-- <div class="body">
-  <div class="main-wrapper">
-    <div class="wrapper-left">
-      <div class="container-left">
-        <p>แถบการทำรายการข้างซ้าย</p>
-      </div>
-    </div>
-
-    <div class="wrapper-right">
-      <p class="fav-title">รายการที่ชอบ</p>
-      <div class="container-right">
-        <div class="card-group">
-          <div class="card" *ngFor="let item of likedProducts">
+<h3 class="fav-title text-center">รายการโปรดของคุณ</h3>
+<div class="fav-container">
+  <div class="row" *ngIf="productList.length > 0 else noList">
+    <div class="col-12 mb-3" *ngFor="let item of productList; index as i">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-3">
+            <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="img-fluid rounded-start" alt="{{ item.title }}">
+          </div>
+          <div class="col-md-5">
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-category">{{ item.category.name }}</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body">
               <p class="card-text">฿{{ item.price }}</p>
-              <button
-                class="btn btn-danger"
-                (click)="removeFromFavourites(item.id)"
-              >
-                ลบจากรายการโปรด
-              </button>
+              <p class="card-quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
+              <div class="button-group">
+                <button class="btn btn-primary" (click)="addItemToCart(item)">
+                  <i class="bx bx-cart"></i>
+                </button>
+                <button class="btn btn-primary" (click)="goToDetails(item)">
+                  <i class="bx bx-search"></i>
+                </button>
+                <button class="btn btn-danger" (click)="removeFromFavourites(item.id)">
+                  <i class="bx bx-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div> -->
-
-<h3 class="favourite-header text-center">รายการโปรดของคุณ</h3>
-<div class="row row-cols-1 row-cols-md-3 g-8" *ngIf="productList.length > 0 else noList">
-  <div class="card col" *ngFor="let item of productList; index as i">
-    <form>
-      <div>
-        <img src="assets/SUT-Logo.png" class="card-img-top">
-        <div class="card-body">
-          <p class="title">{{item.title}}</p>
-          <p class="price">฿{{item.price}}</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="main-btn w-100" (click)="goToDetails(item)">
-          สั่งซื้อ
-        </button>
-        <button class="rmv-fav w-100" (click)="removeFromFavourites(item.id)">
-          นำออกจากรายการโปรด
-        </button>
-      </div>
-    </form>
   </div>
 </div>
 <ng-template #noList>

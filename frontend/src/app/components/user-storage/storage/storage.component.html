@@ -1,23 +1,57 @@
 <h3 class="storage-header text-center">รายการสินค้าของคุณ</h3>
-<div class="row row-cols-1 row-cols-md-3 g-8">
-  <div class="card col" *ngFor="let item of storage; index as i">
-    <form>
-      <div (click)="NavigateToProduct(item)">
-        <img src="assets/SUT-Logo.png" class="card-img-top">
-        <div class="card-body">
-            <p class="title">{{item.title}}</p>
-            <p class="price">฿{{item.price}}</p>
+<div *ngIf="storage.length > 0">
+    <div class="col-12 mb-3" *ngFor="let item of storage; index as i">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-3">
+            <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="img-fluid rounded-start" alt="{{ item.title }}">
+          </div>
+          <div class="col-md-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-category">{{ item.category.name }}</p>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="ms-1">รีวิวของคุณ</div>
+            <div class="stars">
+              <i
+                class="fa"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [ngClass]="{
+                  'fa-star': latestReview(item) >= (i + 1),
+                  'fa-star-half-o': latestReview(item) > i && latestReview(item) < (i + 1),
+                  'fa-star-o': latestReview(item) < (i + 1)
+                }"
+              ></i>
+            </div>
+            <button class="btn btn-primary btn-review" (click)="showModal(item)">
+              <i class='bx bxs-edit-alt'></i>
+            </button>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body">
+              <p class="card-text">฿{{ item.price }}</p>
+              <p class="card-quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
+              <div class="button-group mt-1">
+                <button class="btn btn-primary" (click)="addItemToCart(item)">
+                  <i class="bx bx-cart"></i>
+                </button>
+                <button class="btn btn-primary" (click)="NavigateToProduct(item)">
+                  <i class="bx bx-search"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <button class="main-btn w-100" (click)="NavigateToProduct(item)">
-            สั่งซื้อ
-          </button>
-          <button class="main-btn w-100" (click)="showModal(item)">
-              รีวิวสินค้า
-          </button>
       </div>
-    </form>
+    </div>
+</div>
+<div *ngIf="storage.length === 0">
+  <div class="no-list text-center">
+    <h3>
+      คุณยังไม่มีรายการสินค้า
+    </h3>
   </div>
 </div>
 

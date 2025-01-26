@@ -53,6 +53,13 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
+  }
+
   checkLiked(id: number) {
     this.favouriteService.checkLikeProduct(id).subscribe((result) => {
       if (result) {

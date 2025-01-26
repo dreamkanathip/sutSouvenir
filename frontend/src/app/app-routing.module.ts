@@ -30,13 +30,12 @@ const routes: Routes = [
   { path: 'details/:id', component: ProductDetailsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'favourite', component: FavouriteComponent },
-  { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'admin/management', component: ProductManagementComponent },
-  { path: 'user', component: UserComponent },
+  { path: 'user', component: UserStorageComponent },
   { path: 'bank', component: BankComponent },
   { path: 'admin/historyPay', component: AdminHistoryComponent },
   { path: 'admin/dashboard', component: AdminDashboardComponent },
@@ -48,7 +47,6 @@ const routes: Routes = [
   { path: 'admin/add/product', component: AddProductComponent },
   { path: 'admin-order', component: AdminUpdateOrderStatusComponent},
   // { path: "**", redirectTo: '/home'},
-  { path: 'user/storage', component: UserStorageComponent },
   { path: 'review/:id', component: ReviewComponent },
 ];
 

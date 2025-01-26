@@ -75,9 +75,9 @@ export class UserComponent implements OnInit{
 
   showGender() {
     switch (this.user?.gender) {
-      case 'Male': return 'ชาย';
-      case 'Female': return 'หญิง';
-      case 'Other': return 'อื่นๆ';
+      case 'male': return 'ชาย';
+      case 'female': return 'หญิง';
+      case 'other': return 'อื่นๆ';
       default: return 'ไม่ระบุ';
     }
   }
@@ -320,6 +320,10 @@ export class UserComponent implements OnInit{
   passwordModal(){
     this.ModalOpen = !this.ModalOpen
     this.passwordModalOpen = !this.passwordModalOpen
+  }
+
+  openPages(page: Number){
+    this.userService.setStoragePage(page);
   }
 
   userLogin(){

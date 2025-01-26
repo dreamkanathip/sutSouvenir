@@ -1,5 +1,5 @@
 .container {
-    width: 1920px;
+    width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
 }
 
 .user-page {
@@ -11,9 +11,9 @@
     padding-top: calc(var(--navbar-height, 70px));
     overflow: auto;
     scrollbar-width: none;
-    width: 1920px;
+    width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
     max-width: 100%;
-    height: 694px;
+    height: 100vh; /* กำหนดความสูงให้เต็มหน้า */
     font-family: 'SUT', sans-serif;
     font-size: larger;
 }
@@ -43,12 +43,12 @@
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    width: 1050px;
-    max-width: 100%;
+    width: 75%; /* กำหนดความกว้างให้เต็มหน้า */
+    max-width: 75%; /* กำหนดความกว้างสูงสุดให้เต็มหน้า */
     height: auto;
     background-color: white;
     margin-top: 90px;
-    margin-left: 3%;
+    margin-left: 0; /* ลบ margin-left */
     margin-bottom: 50px;
     overflow-y: auto;
     scrollbar-width: none;
@@ -170,7 +170,7 @@
 
 .modal {
     font-family: 'SUT', sans-serif;
-    font-size: larger;
+    font-size: large;
 }
 
 .form-submit-container {

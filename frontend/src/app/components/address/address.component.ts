@@ -58,13 +58,13 @@ export class AddressComponent implements OnInit{
     })
   }
 
-  addNavigate() {
-    this.router.navigate(['/address/add']);
-  }
+  // addNavigate() {
+  //   this.router.navigate(['/address/add']);
+  // }
 
   editAddressNavigate(id: number) {
     this.addressService.selectedEditAddress(id)
-    this.router.navigate(['/address/edit']);
+    this.openPages(6)
   }
 
   deleteAddress(id: number){
@@ -152,6 +152,10 @@ export class AddressComponent implements OnInit{
     const toastElement = this.toast.nativeElement;
     const toastInstance = new bootstrap.Toast(toastElement, { delay: 3000 });
     toastInstance.show();
+  }
+
+  openPages(page: Number){
+    this.userService.setStoragePage(page);
   }
 
   NavigateToUser() {

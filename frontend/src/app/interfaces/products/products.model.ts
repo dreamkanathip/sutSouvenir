@@ -1,3 +1,4 @@
+import { Interface } from 'readline';
 import { Category } from '../category/category.model';
 import { ReviewModel } from '../review/review.model';
 export interface Product {
@@ -19,4 +20,13 @@ export interface Product {
   //   stockRecords: StockRecord[],
   //   bookmarks:    Bookmark[],
     reviews:      ReviewModel[],
+    images: Images[],
+}
+
+export interface Images {
+  id:         number;
+  asset_id:   String;
+  public_id:  String
+  url:        String
+  secure_url: String
 }

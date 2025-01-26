@@ -155,6 +155,8 @@ const getUserStorage = async (req, res) => {
                     userId: userId
                   }
                 }, // ดึงข้อมูลรีวิวที่เกี่ยวข้องกับสินค้า
+                category: true,
+                images: true,
               },
             },
           },

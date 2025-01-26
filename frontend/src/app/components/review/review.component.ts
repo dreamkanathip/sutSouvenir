@@ -93,13 +93,21 @@ export class ReviewComponent implements OnInit {
   //   // }
   // }
 
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
+  }
+
   setRating(rating: number) {
     this.rating = rating;
   }
 
-  formReset(){
+  cancel(){
     this.rating = 0
     this.comment = ""
+    this.router.navigate(['/user']);
   }
 
   onSubmit() {
@@ -140,7 +148,7 @@ export class ReviewComponent implements OnInit {
                     cancelButtonText: "ยกเลิก",
                     icon: "success",
                   });
-                  this.formReset()
+                  this.cancel()
                   this.router.navigate(['/details', this.productId]);
                 },
                 error: (err) => {

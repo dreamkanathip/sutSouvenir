@@ -221,6 +221,13 @@ export class HomepageComponent {
     }
   }
 
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
+  }
+
   likeProduct(item: any) {
     this.favouriteService.likeProduct(item).subscribe((result) => {
       this.loadFavourite()

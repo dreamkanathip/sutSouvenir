@@ -1,6 +1,6 @@
-<app-navbar></app-navbar>
-<div class="row edit-address-page">
-    <div class="edit-address-container">
+<!-- <app-navbar></app-navbar> -->
+<div class="row">
+    <div class="container">
         <h3 class="container-header">แก้ไขที่อยู่</h3>
         <br />
         <div class="form-container">
@@ -90,7 +90,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="subDistrict" class="form-label">ตำบล</label>
-                                <select class="form-control" id="subDistrict" formControlName="subDistrict" [disabled]="!editAddressForm.get('district')?.value">
+                                <select class="form-control" id="subDistrict" formControlName="subDistrict" [disabled]="!editAddressForm.get('district')?.value" (change)="subDistrictSelect($event)">
                                     <option disabled value="">เลือกตำบล</option>
                                     <option disabled value="" *ngIf="!editAddressForm.get('district')?.value">โปรดเลือกอำเภอก่อน</option>
                                     <option *ngFor="let subDistrict of filteredSubDistricts" [value]="subDistrict">{{ subDistrict }}</option>
@@ -125,4 +125,4 @@
     </div>
 </div>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

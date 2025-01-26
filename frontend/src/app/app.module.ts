@@ -54,6 +54,7 @@ import { AdminUpdateOrderStatusComponent } from './components/admin-update-order
 import { ReviewComponent } from './components/review/review.component';
 import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
 import { HistoryDetailComponent } from './components/user-storage/history-detail/history-detail.component';
+import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +95,7 @@ import { HistoryDetailComponent } from './components/user-storage/history-detail
     ReviewComponent,
     FormatDateToThaiPipe,
     HistoryDetailComponent,
+    UserSidenavComponent,
   ],
   imports: [
     BrowserModule,

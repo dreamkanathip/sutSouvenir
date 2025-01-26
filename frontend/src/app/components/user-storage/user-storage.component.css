@@ -1,105 +1,138 @@
 .user-page {
-    display: flex;
-    align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
-    justify-content: center;
-    flex-wrap: wrap;
-    background-color: #FFDDBE;
-    padding-top: calc(var(--navbar-height, 70px));
-    overflow: auto;
-    scrollbar-width: none;
-    max-width: 100%;
-    height: 694px;
-    /* max-height: 100%; */
-    font-family: 'SUT', sans-serif;
-    font-size: larger;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: calc(var(--navbar-height, 70px));
+  overflow: auto;
+  scrollbar-width: none;
+  font-family: 'SUT', sans-serif;
+  font-size: larger;
 }
 
 .user-page > [class^="col-"] {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .user-storage {
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    /* width: 1050px;
-    max-width: 100%;
-    height: 500px;
-    max-height: 100%; */
-    min-width: 800px;
-    background-color: white;
-    margin-top: 90px;
-    margin-left: 2%;
-    margin-bottom: 50px;
-    overflow-y: fixed;
-    scrollbar-width: none;
-    border-radius: 10px;
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  height: auto;
+  background-color: #FFDDBE;
+  margin-top: 90px;
+  margin-bottom: 50px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  border-radius: 10px;
+}
+
+.user-storage::-webkit-scrollbar,
+.user-page::-webkit-scrollbar {
+  display: none;
+}
+
+.storage-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidenav {
+  width: 25%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.storage-content {
+  width: 75%;
+  height: 600px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  scrollbar-width: none;
 }
 
 /* --- Storage NavBar --- */
 
 .navbar {
-    justify-content: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .storage-nav {
-    color: #F36523;
-    cursor: pointer;
-    align-items: center;
+  color: #F36523;
+  cursor: pointer;
+  align-items: center;
+}
+
+.storage-nav .nav-link {
+  cursor: pointer;
 }
 
 .storage-nav:hover {
-    filter: brightness(0.8);
-    text-decoration: underline;
+  filter: brightness(0.8);
+  text-decoration: underline;
 }
 
 /* --- Storage --- */
 .storage {
-    justify-content: center;
+  justify-content: center;
 }
 
 /* --- History --- */
 
-
 .no-storage-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'SUT', sans-serif;
-    font-size: larger;
-    text-align: center;
-    /* background-color: #FFDDBE; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SUT', sans-serif;
+  font-size: larger;
+  text-align: center;
+  height: 100%;
 }
 
 .no-user-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'SUT', sans-serif;
-    font-size: larger;
-    text-align: center;
-    background-color: #FFDDBE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SUT', sans-serif;
+  font-size: larger;
+  text-align: center;
+  background-color: #FFDDBE;
+  height: 100%;
 }
 
 .no-user-login {
-    background-color: #F36523;
-    color: #fff;
-    font-size: 26px;
-    font-weight: 600;
-    border-radius: 10px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: none;
-    width: 150px;
-    height: 50px;
-    letter-spacing: 1px;
-    margin-top: 20px;
-    cursor: pointer;
+  background-color: #F36523;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: none;
+  width: 150px;
+  height: 50px;
+  letter-spacing: 1px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 .no-user-login:hover {
-    transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเมื่อ hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* เงาเมื่อ hover */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
