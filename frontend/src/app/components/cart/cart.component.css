@@ -1,7 +1,13 @@
 .container {
-    margin-top: 8%;
+    padding-top: calc(var(--navbar-height, 8%));
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
+}
+.title-swal {
+    font-family: 'SUT', sans-serif !important;
+  }
+.bg {
+    background-color: #FFDDBE;
 }
 .card {
     margin-top: 2%;
@@ -10,6 +16,10 @@
 .card-img {
     width: 90px;
     height: auto;
+} 
+
+.btn {
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 .main-btn {
     background-color: #F36523;
@@ -28,6 +38,11 @@
 input[type="checkbox"] {
     cursor: pointer;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .select-items {
     width: 20px;
     height: 20px;
@@ -39,7 +54,7 @@ input[type="checkbox"] {
 .select-items-label {
     cursor: pointer;
 }
-.checkbox, .price, .sum-price, .quantity, .delete {
+.checkbox, .price, .sum-price, .quantity, .delete, .delete-all {
 
     font-size: 20px;
 }
@@ -73,7 +88,11 @@ input[type="checkbox"] {
 .sum-price {
     color: #F36523;
 }
-.delete :hover {
+.delete-all {
+    display: flex; /*มีส่วนทำให้ icon inline with text*/
+    align-items: center; /*มีส่วนทำให้ icon inline with text*/
+}
+.delete, .delete-all :hover {
     cursor: pointer;
 }
 .no-cart-shopping {
@@ -102,6 +121,28 @@ input[type="checkbox"] {
     font-weight: bold;
     color: #F36523;
 }
+.shipping {
+    font-size: 20px;
+    font-weight: bold;
+}
+.select-shipping :hover {
+    cursor: pointer;
+}
+.select-shipping {
+    color: #F36523;
+}
 th {
     font-size: 20px;
+}
+.change-address {
+    font-size: 20px;
+}
+
+.change-address-btn {
+    background-color: gray;
+    border: none;
+}
+.change-address-btn:active {
+    background-color: #676767 ;
+    border: none;
 }

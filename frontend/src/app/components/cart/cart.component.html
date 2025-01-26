@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
+<div class="bg">
 <div class="container">
-  <div class="row">
+  <div class="row pb-5">
     <!-- <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate"> -->
-
     <div class="col-8" *ngIf="productOnCart && productOnCart.length > 0; else emptyCartTemplate">
       <div class="card p-2">
         <div class="d-flex justify-content-between align-items-center checkbox ms-3 me-3">
@@ -10,7 +10,7 @@
             (change)="calculateSelectedQuantity()" [checked]="selectAll">
           <label for="flexCheckChecked" class="mb-0 select-items-label">เลือกทั้งหมด ({{selectedQuantity}}
             รายการ)</label>
-          <div class="delete ms-auto" (click)="removeAllProductOnCart()">
+          <div class="delete-all ms-auto" (click)="removeAllProductOnCart()">
             <i class='bx bx-trash me-1'></i><a>ลบทั้งหมด</a>
           </div>
         </div>
@@ -42,7 +42,7 @@
 
               <td class="item-title">
                 <span class="product-title d-block">{{ item.product.title }}</span>
-                <span class="product-quantity text-muted">จำนวนที่มี: {{ item.product.quantity }}</span>
+                <span class="product-quantity text-muted">จำนวนที่มี: {{ item.product.quantity }} </span>
               </td>
 
               <td class="text-center price">
@@ -52,14 +52,22 @@
               <td class="text-center quantity">
                 <div class="d-flex align-items-center justify-content-center">
                   <button (click)="decreaseQuantity(item)" class="btn btn-outline-secondary btn-sm">-</button>
-                  <input type="input" [(ngModel)]="item.quantity" class="form-control mx-2 text-center quantity-input"
-                    [min]="1" [max]="item.quantity" style="width: 60px;" />
+                  <input 
+                    type="number" 
+                    [(ngModel)]="item.quantity" 
+                    class="form-control mx-2 text-center quantity-input"
+                    [min]="1" [max]="item.quantity"
+                    (change)="onQuantityInputChange(item)"
+                    (change)="calculateSumItemPrice()"
+                  />
+                    <!-- <span class="m-3">{{item.quantity}}</span> -->
                   <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
                 </div>
               </td>
 
               <td class="text-center sum-price">
-                {{ (item.product.price * item.quantity).toLocaleString('en', {useGrouping:true}) }}
+                <!-- {{ (item.product.price * item.quantity).toLocaleString('en', {useGrouping:true}) }} -->
+                {{item?.newTotalPrice?.toLocaleString('en', {useGrouping:true})}}
               </td>
 
               <td class="text-center delete">
@@ -68,45 +76,37 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-
-    <!-- <div *ngFor="let item of productOnCart; index as i" class="card p-3 shadow-sm" style="width: 100%;">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-1 checkbox">
-              <input class="select-items" type="checkbox" id="flexCheckChecked" 
-                [checked]="item.selected"
-                (change)="individualSelect(item.productId)"
-                (change)="checkIndividualSelect()"
-                (change)="calculateSelectedQuantity()"
-              >
-            </div>
-            <div class="col-2">
-              <img src="assets/SUT-Logo.png" class="card-img">
-            </div>
-            <div class="col-3 item-title">
-              <span class="product-title">{{ item.product.title }}</span>
-              <span class="product-quantity">จำนวนที่มี: {{ item.product.quantity }}</span>
-            </div>
-            <div class="col-1 price"> {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}</div>
-            <div class="col-3 quantity d-flex align-items-center">
-              <button (click)="decreaseQuantity(item)" class="btn btn-outline-secondary btn-sm">-</button>
-              <input type="input" [(ngModel)]="item.quantity" class="form-control mx-2 text-center quantity-input"
-              [min]="1" [max]="item.quantity" />
-              <button (click)="increaseQuantity(item)" class="btn btn-outline-secondary btn-sm">+</button>
-            </div>
-            <div class="col-1 sum-price">{{ (item.product.price*item.quantity).toLocaleString('en', {useGrouping:true}) }}</div>
-            <div class="col-1 delete">
-              <i class='bx bx-trash' (click)="removeItem(item.productId)"></i>
-            </div>
-          </div>
+        <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping" >
+          <div></div>
+          ประเภทการจัดส่งที่คุณเลือก
+          <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
+          <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
+            <u>เลือกวิธีการการจัดส่ง</u>
+          </a>
+          <div></div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="col-4" *ngIf="productOnCart && productOnCart.length > 0">
       <div class="card shadow-sm summary">
         <div class="card-body">
+          <h2>
+            ที่อยู่ในการจัดส่ง
+          </h2>
+          <div class="d-flex justify-content-between">
+            <div class="name">
+              {{defaultAddress?.firstName}} {{defaultAddress?.lastName}}
+            </div>
+            <div class="change-address" data-bs-toggle="modal" data-bs-target="#change-address">
+              <button class="btn btn-primary change-address-btn"> เปลี่ยน </button>
+            </div>
+          </div>
+          <div class="address">
+            {{defaultAddress?.street}} {{defaultAddress?.subDistrict}}
+            {{defaultAddress?.district}} {{defaultAddress?.province}}
+            {{defaultAddress?.postalCode}} {{defaultAddress?.phoneNumber}}
+          </div>
+          <hr class="mt-1 mb-1" />
           <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
           <div *ngIf="cart" class="d-flex justify-content-between">
             <p>ราคาสินค้า</p>
@@ -114,12 +114,16 @@
           </div>
           <div class="d-flex justify-content-between">
             <p>ค่าส่ง</p>
-            <p>50</p>
+            <p>{{selectedShipping? selectedShipping.fees : "โปรดเลือกวิธีการจัดส่ง"}}</p>
           </div>
           <hr class="mt-1 mb-1" />
-          <div *ngIf="cart" class="d-flex justify-content-between summary-sum-price">
+          <div class="d-flex justify-content-between summary-sum-price">
             <p>รวมทั้งสิ้น</p>
-            {{(sumItemPrice + 50).toLocaleString('en', {useGrouping:true})}}
+            {{
+              selectedShipping? 
+                (sumItemPrice + selectedShipping.fees).toLocaleString('en', {useGrouping:true}) : 
+                (sumItemPrice).toLocaleString('en', {useGrouping:true})
+            }}
           </div>
           <button type="submit" (click)="goToPayment()" class="main-btn w-100">
             ชำระเงิน
@@ -136,4 +140,13 @@
     <button class="no-cart-shopping mt-5" (click)="toHome()">เลือกซื้อสินค้าเลย</button>
   </div>
 </ng-template>
+</div>
+<div class="end-page">
+
+</div>
+
 <app-footer></app-footer>
+<app-select-shipping class="modal fade" id="select-shipping" data-bs-scroll="true" (selectedShippingChange)="onShippingSelected($event)" > </app-select-shipping>
+<app-change-address-modal class="modal fade" id="change-address"
+  (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
+

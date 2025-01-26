@@ -3,45 +3,68 @@
     <a class="navbar-brand" href="#">
       <img src="assets/logo.jpg" class="logo d-inline-block align-text-top" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="p-2 flex-grow-1 bd-highlight">
+      <div class="p-2 flex-grow-1 bd-highlight position-relative">
         <form class="d-flex mx-auto search-bar">
           <input
             class="me-2 search-input"
-            type="search"
+            type="text"
             placeholder="ค้นหา"
             aria-label="Search"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchInput()"
+            name="searchInput"
           />
-          <button class="search-btn" type="submit">
+          <button class="search-btn" type="button" (click)="searchItem()">
             <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
           </button>
         </form>
+        
+        <!-- Dropdown สำหรับแสดงผลการค้นหา -->
+        <div
+          class="dropdown-menu show"
+          *ngIf="searchTerm.trim() !== ''"
+          style="position: absolute; top: 50px; left: 0; right: 0; z-index: 1050;"
+        >
+          <!-- กรณีที่มีสินค้า -->
+          <a
+            class="dropdown-item"
+            *ngFor="let product of searchResults"
+            (click)="goToDetails(product)"
+          >
+            <img src="assets/SUT-Logo.png" class="product-image" />
+            {{ product.title }}
+            <small class="dropdown-description">{{product.category.name}}</small>
+          </a>
+
+          <!-- กรณีไม่มีสินค้า -->
+          <div
+            class="dropdown-item text-muted text-center"
+            *ngIf="searchResults.length === 0"
+          >
+            ไม่พบสินค้า
+          </div>
+        </div>
       </div>
+
       <div class="p-2 bd-highlight">
-        <a class="favourite" href="/favourite">
-          <span class="favourite"><i class="bx bx-heart"></i></span>
+        <a class="favourite" (click)="NavigateToFavourite()">
+          <i class="bx bx-heart">
+            
+          </i>
         </a>
       </div>
+      
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <div
-            class="badge position-relative translate-middle"
-            [ngStyle]="{
+          <div class="badge position-relative translate-middle" [ngStyle]="{
               visibility: cartItemCount === 0 ? 'hidden' : 'visible'
-            }"
-          >
+            }">
             {{ cartItemCount }}
           </div>
         </a>
@@ -49,25 +72,16 @@
       <div class="vr"></div>
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a
-            class="user-dropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            data-bs-auto-close="inside, outside"
-          >
-            <i class="bx bx-user bx-flip-horizontal"></i>บัญชีผู้ใช้งาน<i
-              class="bx bx-chevron-down"
-            ></i>
+          <a class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+            <i class="bx bx-user bx-flip-horizontal"></i>บัญชีผู้ใช้งาน<i class="bx bx-chevron-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
-              <a class="dropdown-item" href="/user/storage"
-                >ประวัติการสั่งซื้อ</a
-              >
-              <a routerLink="/login" (click)="logout()" class="dropdown-item"
-                >Logout</a
-              >
+              <a class="dropdown-item" (click)="NavigateToStorage()">รายการสินค้าของคุณ</a>
+              <a class="dropdown-item" (click)="NavigateToHistory()">ประวัติการสั่งซื้อ</a>
+              <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
+              <a routerLink="/login" (click)="logout()" class="dropdown-item">Logout</a>
             </li>
           </ul>
         </li>

@@ -8,13 +8,11 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
     transition: transform 0.3s, box-shadow 0.3s; /* เพิ่มเอฟเฟกต์เมื่อ hover */
 }
-
 .item-card:hover {
     transform: translateY(-5px); /* ยกการ์ดขึ้นเล็กน้อย */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ hover */
 }
 /* End of History Card */
-
 .history-detail {
     color: #F36523;
     text-decoration: underline;
@@ -30,15 +28,86 @@
 .cancel-order {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
 }
 
-.cancel-btn {
-    margin-top: 10px;
+.payment-btn {
     width: 120px;
+    height: auto;
     max-width: 100%;
-    padding: 5px;
     background-color: #F36523;
     color: white;
     border: hidden;
     border-radius: 10px
+}
+.cancel-btn {
+    width: 120px;
+    height: auto;
+    max-width: 100%;
+    background-color: #747474;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+input[type="radio"]:checked + label {
+    background-color: #F36523;
+    color: #fff;
+    border-color: #F36523;
+  }
+
+.filter-button {
+    border-color: #999999;
+    color: black;
+    font-size: 22px;
+}
+.filter-button:hover {
+    border-color: #F36523;
+    color: #F36523;
+}
+.badge {
+    font-size: 1rem;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+}
+td .badge {
+    margin: 0 auto; /* จัดให้ badge อยู่ตรงกลาง */
+}
+.card-img-top {
+    padding: 5%;
+    width: 70%;
+}
+.item-title {
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+.product-quantity {
+    text-align: left;
+    color: gray;
+}
+.order-footer {
+    flex-direction:row;
+    display: flex;   
+}
+.stars {
+    display: flex;
+    height: 1rem;
+    color: #f5c518;
+    margin-bottom: 10px;
+}
+.stars .fa {
+    margin-right: 5px;
+}   
+.status {
+    font-weight: bold;
 }

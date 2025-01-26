@@ -7,5 +7,6 @@ export interface ProductOnCart {
     product: Product,
     quantity: number,
     price: number,
-    selected?: boolean;
+    selected?: boolean,
+    newTotalPrice?: number
 }

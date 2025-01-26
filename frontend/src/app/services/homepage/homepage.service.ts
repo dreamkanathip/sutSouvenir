@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../interfaces/products/products.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomepageService {
   apiUrl = 'http://localhost:5000/api';
+
+  private Search = new BehaviorSubject<string>("");
+  SearchTerm$ = this.Search.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +37,13 @@ export class HomepageService {
       productId: productId.toString(),
     };
     return this.http.get<Product>(`${this.apiUrl}/favourites`, { params });
+  }
+
+  setSearchWord(word: string){
+    this.Search.next(word)
+  }
+
+  getSearchWord(){
+    return this.Search.value
   }
 }

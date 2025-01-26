@@ -8,6 +8,10 @@ import { OriginBank } from '../../../interfaces/bank/origin-bank';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PaymentService } from '../../../services/order/payment.service';
 import Swal from 'sweetalert2';
+import { AddressService } from '../../../services/address/address.service';
+import { OrderService } from '../../../services/order/order.service';
+import { AddressModel } from '../../../interfaces/address/address.model';
+import { Shipping } from '../../../interfaces/shipping/shipping.model';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -17,8 +21,13 @@ import Swal from 'sweetalert2';
 export class UploadReceiptComponent implements AfterViewInit {
 
   @Input() sumItemPrice!: number
+  @Input() orderSum!: number
+  @Input() address!: AddressModel;
+  @Input() shipping!: Shipping
+
   hrArray: string[] = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
   minArray: string[] = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
+  
   date!: string;
   hr: string = '00';
   min: string = '00';
@@ -29,7 +38,6 @@ export class UploadReceiptComponent implements AfterViewInit {
   paymentForm = new FormGroup({
     total: new FormControl(''),
     orderId: new FormControl(''),
-    userId: new FormControl(''),
     originBankId: new FormControl(''),
     destBankId: new FormControl(''),
     lastFourDigits: new FormControl(''),
@@ -41,7 +49,9 @@ export class UploadReceiptComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) 
     private platformId: Object, 
     private bankService: BankService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private orderService: OrderService
+
   ) {
     this.getBank()
   }
@@ -58,6 +68,7 @@ export class UploadReceiptComponent implements AfterViewInit {
       });
     }
   }
+  
   stringToDateTime(){
     const datetimeString = `${this.date} ${this.hr.padStart(2, '0')}:${this.min.padStart(2, '0')}:00`;
     const datetime = new Date(datetimeString);
@@ -65,12 +76,12 @@ export class UploadReceiptComponent implements AfterViewInit {
   }
 
   onImageAdd(event: any) {
-    console.log("add image")
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
   }
+  
   show() {
     this.stringToDateTime()
   }
@@ -84,27 +95,23 @@ export class UploadReceiptComponent implements AfterViewInit {
   }
 
   upload() {
-
-    this.paymentForm.get("userId")?.setValue('1')
-    this.paymentForm.get("orderId")?.setValue('1')
-
     const datetimeString = `${this.date} ${this.hr.padStart(2, '0')}:${this.min.padStart(2, '0')}:00`;
     this.paymentForm.get("transferAt")?.setValue(datetimeString)
 
     const formData = new FormData();
 
-    formData.append('total', this.paymentForm.get('total')?.value?? '');
-    formData.append('orderId', this.paymentForm.get('orderId')?.value?? '');
-    formData.append('userId', this.paymentForm.get('userId')?.value?? '');
+    formData.append('total', this.orderSum.toString());  
+    formData.append('orderId', this.orderService.getOrderId().toString());
     formData.append('originBankId', this.paymentForm.get('originBankId')?.value?? '');
     formData.append('destBankId', this.paymentForm.get('destBankId')?.value?? '');
     formData.append('lastFourDigits', this.paymentForm.get('lastFourDigits')?.value?? '');
     formData.append('transferAt', this.paymentForm.get('transferAt')?.value?? '');
+    formData.append('addressId', this.address?.id?.toString());
+    formData.append('shippingId', this.shipping.id.toString());
+    formData.append('cartTotal', this.orderSum.toString());
     if (this.selectedFile) {
       formData.append('receipt', this.selectedFile, this.selectedFile.name);
     }
-
-    console.log(this.paymentForm.value)
 
     Swal.fire({
           title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',

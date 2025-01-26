@@ -9,7 +9,13 @@ const {
   remove,
   listby,
   searchFilters,
+  uploadImage,
 } = require("../controllers/productController");
+
+const multer = require("multer");
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // @ENDPOINT http://localhost:5000/api/product
 router.post("/product", create);
@@ -19,5 +25,6 @@ router.put("/product/:id", update);
 router.delete("/product/:id", remove);
 router.post("/productby", listby);
 router.post("/search/filters", searchFilters);
+router.post("/productImage", upload.single("image"), uploadImage)
 
 module.exports = router;

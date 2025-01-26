@@ -14,7 +14,7 @@
       <app-navbar-admin></app-navbar-admin>
       <div class="card shadow-lg">
         <div class="card-header">
-          <button class="submit" (click)="navigateToAddProduct()">
+          <button class="submit" data-bs-toggle="modal" data-bs-target="#addProductModal">
             + เพิ่มสินค้า
           </button>
         </div>
@@ -140,3 +140,5 @@
     </div>
   </div>
 </div>
+
+<app-add-product class="modal fade" id="addProductModal" ></app-add-product>

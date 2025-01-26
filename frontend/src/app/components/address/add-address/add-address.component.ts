@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../../services/address/address.service';
@@ -25,14 +25,26 @@ export class AddAddressComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private addressService: AddressService) {
     this.addressForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: [
+        '', 
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/), this.noWhitespaceValidator()] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+      ],
+      lastName: [
+        '', 
+        [Validators.required, Validators.pattern(/^[A-Za-zก-๙\s]+$/), this.noWhitespaceValidator()] // อนุญาตเฉพาะตัวอักษรไทย/อังกฤษและช่องว่าง
+      ],
       street: ['', [Validators.required]],
       province: ['', [Validators.required]],
       district: ['', [Validators.required]],
       subDistrict: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      postalCode: ['', [Validators.required]]
+      phoneNumber: [
+        '', 
+        [Validators.required, Validators.pattern(/^[0-9]{10}$/)] // เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก
+      ],
+      postalCode: [
+        '', 
+        [Validators.required, Validators.pattern(/^[0-9]{5}$/)] // รหัสไปรษณีย์เป็นตัวเลข 5 หลัก
+      ]
     });
   }
 
@@ -41,18 +53,20 @@ export class AddAddressComponent implements OnInit {
       this.ThaiData = result;
 
       // สร้างรายการจังหวัด
-      this.uniqueProvinces = [...new Set(this.ThaiData.map(item => item.name_th))];
+      this.uniqueProvinces = [...new Set(this.ThaiData.map(item => item.name_th))].sort((a, b) => a.localeCompare(b, 'th-TH'));
     });
   }
 
-  provinceSelect(province: string) {
+  provinceSelect(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const province = target.value;
     this.selectedProvince = province;
     this.selectedDistrict = undefined;
     this.selectedSubDistrict = undefined;
 
     // กรองอำเภอตามจังหวัด
     const selectedProvinceData = this.ThaiData.find(p => p.name_th === province);
-    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th) : [];
+    this.filteredDistricts = selectedProvinceData ? selectedProvinceData.amphure.map((a: any) => a.name_th).sort((a: any, b: any) => a.localeCompare(b, 'th-TH')): [];
 
     this.addressForm.patchValue({
       province: this.selectedProvince,
@@ -61,14 +75,16 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  districtSelect(district: string) {
+  districtSelect(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const district = target.value;
     this.selectedDistrict = district;
     this.selectedSubDistrict = undefined;
 
     // กรองตำบลตามจังหวัดและอำเภอ
     const provinceData = this.ThaiData.find(p => p.name_th === this.selectedProvince);
     const selectedDistrictData = provinceData?.amphure.find((a: any) => a.name_th === district);
-    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((t: any) => t.name_th) : [];
+    this.filteredSubDistricts = selectedDistrictData ? selectedDistrictData.tambon.map((a: any) => a.name_th).sort((a: any, b: any) => a.localeCompare(b, 'th-TH')): [];
 
     this.addressForm.patchValue({
       district: this.selectedDistrict,
@@ -94,20 +110,39 @@ export class AddAddressComponent implements OnInit {
   
 
   submit() {
+    const firstNameControl = this.addressForm.get('firstName');
+    const lastNameControl = this.addressForm.get('lastName');
+    
+    if (firstNameControl && typeof firstNameControl.value === 'string') {
+      firstNameControl.setValue(firstNameControl.value.trim());
+    }
+    
+    if (lastNameControl && typeof lastNameControl.value === 'string') {
+      lastNameControl.setValue(lastNameControl.value.trim());
+    }
+  
+    // Check if firstName or lastName is empty after trimming
+    if (firstNameControl?.value === '' || lastNameControl?.value === '') {
+      if (firstNameControl?.value === '') {
+        firstNameControl.setErrors({ 'whitespace': true });
+      }
+      if (lastNameControl?.value === '') {
+        lastNameControl.setErrors({ 'whitespace': true });
+      }
+    }
+  
     if (this.addressForm.valid) {
-      const newAddress: AddressModel = {
+      const newAddress = {
         id: 0,
-        firstName: this.addressForm.get('firstName')?.value,
-        lastName: this.addressForm.get('lastName')?.value,
+        firstName: firstNameControl?.value,
+        lastName: lastNameControl?.value,
         street: this.addressForm.get('street')?.value,
         province: this.addressForm.get('province')?.value,
         district: this.addressForm.get('district')?.value,
         subDistrict: this.addressForm.get('subDistrict')?.value,
         phoneNumber: this.addressForm.get('phoneNumber')?.value,
         postalCode: this.addressForm.get('postalCode')?.value,
-        userID: 1,
       };
-
       Swal.fire({
         title: "ต้องการเพิ่มข้อมูลหรือไม่",
         showCancelButton: true,
@@ -124,7 +159,7 @@ export class AddAddressComponent implements OnInit {
             },
           });
     
-          this.addressService.createAddress(newAddress, 1).subscribe({
+          this.addressService.createAddress(newAddress).subscribe({
             next: () => {
               Swal.close();
               Swal.fire({
@@ -135,6 +170,7 @@ export class AddAddressComponent implements OnInit {
               });
               this.addressForm.reset();
               this.addressNavigate();
+              
             },
             error: (error) => {
               Swal.close();
@@ -148,11 +184,12 @@ export class AddAddressComponent implements OnInit {
             }
           });
         }
-      })
+      });
     } else {
-      console.log("Form is invalid", this.addressForm.value);
+      this.addressForm.markAllAsTouched();
     }
   }
+  
 
   cancel() {
     this.addressForm.reset();
@@ -162,4 +199,13 @@ export class AddAddressComponent implements OnInit {
   addressNavigate(){
     this.router.navigate(['/address']);
   }
+
+  noWhitespaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+    };
+  }
+
 }

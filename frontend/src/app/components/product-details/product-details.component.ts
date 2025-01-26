@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
 import { catchError, of, switchMap } from 'rxjs';
 import { CartService } from '../../services/cart/cart.service';
+import Swal from 'sweetalert2';
 import { ReviewService } from '../../services/review/review.service';
 import { ReviewModel } from '../../interfaces/review/review.model';
+import { FavouriteService } from '../../services/favourite/favourite.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,7 +18,7 @@ export class ProductDetailsComponent implements OnInit {
 
   product!: Product;
   quantityToOrder: number = 1;
-  userId: number = 2;
+  userId: number = 1;
 
   reviews: ReviewModel[] = []
   uniqueReview: any[] = []
@@ -26,9 +28,12 @@ export class ProductDetailsComponent implements OnInit {
   reviewHistoryUser?: any
   reviewHistory: any[] = []
 
+  likeProductStatus: boolean = false
+
   constructor(
     private reviewService: ReviewService,
     private productDetails: ProductDetailsService,
+    private favouriteService: FavouriteService,
     private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
@@ -39,6 +44,7 @@ export class ProductDetailsComponent implements OnInit {
     const productIdFromRoute = Number(routeParams.get('id'));
     this.getProductById(productIdFromRoute);
     this.listProductReview(productIdFromRoute)
+    this.checkLiked(productIdFromRoute)
   }
 
   getProductById(id: number) {
@@ -46,7 +52,61 @@ export class ProductDetailsComponent implements OnInit {
       this.product = result;
     });
   }
+
+  checkLiked(id: number) {
+    this.favouriteService.checkLikeProduct(id).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = true
+      } else {
+        this.likeProductStatus = false
+      }
+    })
+  }
+
+  likeProduct(item: any) {
+    this.favouriteService.likeProduct(item).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = true
+      }
+    })
+  }
+
+  unlikeProduct(item: any) {
+    this.favouriteService.removeFromFavourites(item.id).subscribe((result) => {
+      if (result) {
+        this.likeProductStatus = false
+      }
+    })
+  }
+
+  showProductDescription() {
+    let detail = ""
+    if (this.product && this.product.description != undefined && this.product.description != "") {
+      detail = this.product.description
+    } else {
+      detail = "ไม่พบรายละเอียดของสินค้า"
+    }
+    return detail
+  }
   
+  onQuantityInputChange(item: any): void {
+    if (item.quantity < this.quantityToOrder) {
+      console.log("aaaaa")
+      Swal.fire({
+        title: "สินค้าเกินจำนวนที่มีในคลัง",
+        text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      });
+      item.quantity = item.product.quantity;
+    } else if(item.quantity <= 0) {
+        item.quantity = Math.max(1, Math.min(Number(item.quantity), item.product.quantity));
+
+      if (isNaN(item.quantity)) {
+        item.quantity = 1;
+      }
+    }
+  }
   decreaseQuantity() {
     if (this.quantityToOrder > 1) {
       this.quantityToOrder--;
@@ -65,30 +125,80 @@ export class ProductDetailsComponent implements OnInit {
       productId: this.product.id,
       quantity: this.quantityToOrder,
     };
-
-    this.cartService.getCartById(data.userId).pipe(
-      switchMap((checkCart) => {
-        if (!checkCart) {
-          return this.cartService.initialCart({ userId: 1, cartTotal: 0 }).pipe(
-            switchMap(() => this.cartService.addItemToCart(data))
-          );
-        }
-        return this.cartService.addItemToCart(data);
-        }),
-        catchError((err) => {
-          console.error('Error during add to cart:', err);
-          return of(null); // Handle errors gracefully
-        })
-      )
-      .subscribe((response) => {
-        if (response) {
-          if (this.product && this.product.quantity > 0) {
-            this.product.quantity -= this.quantityToOrder; // Update quantity only on success
+    if ((this.product && this.product.quantity > 0) && (this.product.quantity - this.quantityToOrder >= 0)) {
+      this.cartService.getCartById(data.userId).pipe(
+        switchMap((checkCart) => {
+          if (!checkCart) {
+            return this.cartService.initialCart({ userId: 1, cartTotal: 0 }).pipe(
+              switchMap(() => this.cartService.addItemToCart(data))
+            );
           }
-          this.cartService.updateCartItemCount(this.userId)
-          console.log('Item added to cart:', response);
-        }
+          return this.cartService.addItemToCart(data);
+          }),
+          catchError((err) => {
+            console.error('Error during add to cart:', err);
+            Swal.fire({
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถเพิ่มสินค้าลงในรถเข็นได้ กรุณาลองอีกครั้ง",
+              icon: "error",
+              confirmButtonText: "ตกลง",
+              confirmButtonColor: "#F36523",
+            });
+          return of(null);
+          })
+        )
+        .subscribe((response) => {
+          if (response) {
+            this.product.quantity -= this.quantityToOrder;
+            this.cartService.updateCartItemCount(this.userId)
+            console.log('Item added to cart:', response);
+            Swal.fire({
+              title: "เพิ่มสินค้าเรียบร้อย",
+              icon: "success",
+              confirmButtonText: "ตกลง",
+              confirmButtonColor: "#28a745",
+            });
+          } else {
+              Swal.fire({
+                title: "สินค้าหมดแล้ว",
+                text: "โปรดรอสินค้า",
+                confirmButtonText: "ตกลง",
+                icon: "warning",
+                confirmButtonColor: "#F36523",
+            }).then(() => {
+              const routeParams = this.route.snapshot.paramMap;
+              const productIdFromRoute = Number(routeParams.get('id'));
+              this.getProductById(productIdFromRoute);
+            });
+          }
       });
+    } else if(this.product.quantity === 0) {
+      Swal.fire({
+        title: "สินค้าเกินจำนวนที่มีในคลัง",
+        confirmButtonText: "ตกลง",
+        icon: "warning",
+      }).then(() => {
+        const routeParams = this.route.snapshot.paramMap;
+        const productIdFromRoute = Number(routeParams.get('id'));
+        this.getProductById(productIdFromRoute);
+      }).then(() => {
+        const routeParams = this.route.snapshot.paramMap;
+        const productIdFromRoute = Number(routeParams.get('id'));
+        this.getProductById(productIdFromRoute);
+      })
+    } else if(this.product.quantity < this.quantityToOrder) {
+      Swal.fire({
+        title: "สินค้าเกินจำนวนที่มีในคลัง",
+        text: `จำนวนสินค้าในคลังมีเพียง ${this.product.quantity} ชิ้น`,
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        this.quantityToOrder = this.product.quantity
+        const routeParams = this.route.snapshot.paramMap;
+        const productIdFromRoute = Number(routeParams.get('id'));
+        this.getProductById(productIdFromRoute);
+      })
+    }
   }
 
   listProductReview(id: number) {
@@ -113,10 +223,6 @@ export class ProductDetailsComponent implements OnInit {
 
       const totalStars = this.uniqueReview.reduce((sum, review) => sum + review.star, 0);
       this.averageRating = this.uniqueReview.length > 0 ? totalStars / this.uniqueReview.length : 0;
-
-      // console.log("Reviews:", this.reviews);
-      // console.log("Unique Reviews:", this.uniqueReview)
-      // console.log("Average Rating:", this.averageRating);
     });
   }
 
@@ -142,4 +248,5 @@ export class ProductDetailsComponent implements OnInit {
   NavigateToReview(id: any){
     this.router.navigate(['/review', id])
   }
+
 }

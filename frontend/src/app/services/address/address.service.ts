@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AddressModel } from '../../interfaces/address/address.model';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,30 +13,62 @@ export class AddressService {
 
   editAddress: any
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
 
-  getAllAddress(uid: number): Observable<AddressModel[]> {
-    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress/${uid}`)
+  getItem(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
   }
 
-  getAddress(id: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/${id}`);
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('jwt')
+    return new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+    });
+  }
+    
+  getAllAddress(): Observable<AddressModel[]> {
+    return this.http.get<AddressModel[]>(`${this.apiUrl}/listAddress`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    })
   }
 
-  getDefaultAddress(uid: number): Observable<AddressModel> {
-    return this.http.get<AddressModel>(`${this.apiUrl}/address/getDefaultAddr/${uid}`);
+  getAddress(): Observable<AddressModel> {
+    return this.http.get<AddressModel>(`${this.apiUrl}/address/${this.editAddress}`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
-  createAddress(address: any, uid: number): Observable<AddressModel[]> {
-    return this.http.post<AddressModel[]>(`${this.apiUrl}/address/${uid}`, address)
+  getDefaultAddress(): Observable<AddressModel> {
+    return this.http.get<AddressModel>(`${this.apiUrl}/defaultAddress`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
-  updateAddress(address: any, uid: number, id: number): Observable<AddressModel[]> {
-    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${uid}/${id}`, address);
+  createAddress(address: any): Observable<AddressModel[]> {
+    return this.http.post<AddressModel[]>(`${this.apiUrl}/address`, address, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    })
+  }
+
+  updateAddress(address: any, id: number): Observable<AddressModel[]> {
+    return this.http.put<AddressModel[]>(`${this.apiUrl}/address/${id}`, address, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
   deleteAddress(id: number): Observable<AddressModel> {
-    return this.http.delete<AddressModel>(`${this.apiUrl}/address/${id}`);
+    return this.http.delete<AddressModel>(`${this.apiUrl}/address/${id}`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
   }
 
   selectedEditAddress(id: number) {
@@ -47,7 +80,10 @@ export class AddressService {
   }
 
   setDefaultAddress(id: number, status: boolean){
-    return this.http.patch(`${this.apiUrl}/address/default/${id}`, { default: status })
+    return this.http.patch(`${this.apiUrl}/address/default/${id}`, { default: status }, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    })
   }
 
   fetchThaiData() {

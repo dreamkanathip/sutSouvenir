@@ -1,9 +1,66 @@
 const prisma = require("../configs/prisma");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+
+const s3Client = new S3Client({
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY,
+  },
+  region: process.env.AWS_REGION,
+});
+
+exports.uploadImage = async (req, res) => {
+  try {
+    const { productId } = req.body;
+
+    if(!req.file || !productId) return res.status(400).json({ message: "Missing required fields" });
+
+    const uniqueKey = `images/${Date.now()}-${req.file.originalname}`
+    const params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: uniqueKey,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    try {
+      await s3Client.send(new PutObjectCommand(params));
+    } catch (s3Error) {
+      console.error("S3 Upload Error:", s3Error);
+      return res.status(500).json({ message: "Failed to upload receipt" });
+    }
+    let product;
+    try {
+     product = await prisma.product.findFirst({
+        where: {
+          id: Number(productId)
+        }
+      })
+      if(!product) return res.status(404).send("product not found")
+
+      const uploadImage = await prisma.image.create({
+        data: {
+          public_id: '',
+          secure_url: '',
+          asset_id: uniqueKey,
+          url: process.env.BUCKET_URL,
+          productId: Number(productId)
+        }
+      })
+      return res.status(201).json(uploadImage);
+    } catch (dbError) {
+      console.error(dbError);
+      res.status(500).json({ message: "Server error" });
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  } 
+}
 
 exports.create = async (req, res) => {
   try {
-    // พิมพ์ข้อมูลที่ได้รับ
-    console.log(req.body); // ตรวจสอบข้อมูลที่ส่งมา
 
     const { title, description, price, quantity, categoryId } = req.body;
 

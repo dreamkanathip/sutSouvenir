@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FavouriteService } from '../../services/favourite/favourite.service'; // นำเข้า FavouriteService
 import { Product } from '../../interfaces/products/products.model'; // นำเข้า interface Product
+import { FavouriteResponse } from '../../interfaces/favourite/favourite.model';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-favourite',
@@ -8,39 +11,51 @@ import { Product } from '../../interfaces/products/products.model'; // นำเ
   styleUrls: ['./favourite.component.css'],
 })
 export class FavouriteComponent implements OnInit {
-  likedProducts!: Product[]; // รายการสินค้าที่ถูกกดถูกใจ
-  userId: number = 1; // ใช้ userId ที่ต้องการ (สามารถดึงจากการเข้าสู่ระบบ)
+  likeList!: FavouriteResponse[]; // รายการสินค้าที่ถูกกดถูกใจ
+  userId: number = 1;
 
-  constructor(private favouriteService: FavouriteService) {}
+  productList : Product[] = []
+
+  constructor(private favouriteService: FavouriteService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadLikedProducts(); // โหลดรายการสินค้าที่ถูกกดถูกใจเมื่อ component ถูกสร้าง
+    this.getProductList();
   }
 
-  // ฟังก์ชันเพื่อโหลดสินค้าที่ถูกกดถูกใจ
-  loadLikedProducts(): void {
-    this.favouriteService.getLikedProducts(this.userId).subscribe(
-      (data) => {
-        this.likedProducts = data; // เก็บข้อมูลสินค้าที่ถูกกดถูกใจใน likedProducts
-        console.log('Liked Products:', this.likedProducts);
-      },
-      (error) => {
-        console.error('Error loading liked products', error); // แสดงข้อผิดพลาดถ้ามี
+  getProductList() {
+    this.productList = []
+    this.favouriteService.getLikedProducts().subscribe((result) => {
+      this.likeList = result
+      if (this.likeList) {
+        this.likeList.forEach(list => {
+          this.productList.push(list.product)
+        })
       }
-    );
+    })
   }
 
-  // ฟังก์ชันลบรายการออกจากรายการโปรด
   removeFromFavourites(productId: number): void {
-    this.favouriteService
-      .removeFromFavourites(this.userId, productId)
-      .subscribe(
-        () => {
-          this.loadLikedProducts(); // รีเฟรชรายการโปรด
-        },
-        (error) => {
-          console.error('Error removing from favourites', error); // แสดงข้อผิดพลาดถ้ามี
-        }
-      );
+    Swal.fire({
+      title: "ต้องการลบสินค้านี้ออกจากรายการโปรดหรือไม่",
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.favouriteService.removeFromFavourites(productId).subscribe(
+          (result) => {
+            this.getProductList();
+          },
+          (error) => {
+            console.error('Error removing from favourites', error);
+          }
+        );
+      }
+    })
+  }
+
+  goToDetails(item: any) {
+    this.router.navigate(['/details', item.id]);
   }
 }

@@ -2,24 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { OrderService } from '../../../services/order/order.service';
-import { userOrder } from '../../../interfaces/order/order';
+import { Order, userOrder } from '../../../interfaces/order/order';
+import { Router } from '@angular/router';
+import { ProductOnOrder } from '../../../interfaces/order/product-on-order';
+import { Product } from '../../../interfaces/products/products.model';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
 })
-export class HistoryComponent implements OnInit{
+export class HistoryComponent implements OnInit {
 
-  order: any[] = []
+  orders: any[] = []
   storage: any[] = [];
-
+  selectedOrder!  : Order;
+  productOnOrder!: ProductOnOrder[];
   historyModal: boolean = false
   selectedHistory?: number
   selectedHistoryDetail? : any // ProductsOnOrder
   selectedHistoryProducts? : any[] // รายการสินค้า
+  filteredOrders: any[] = [];
+  filterStatus: string = '';
 
-  constructor(private userService: UserService, private orderService: OrderService){}
+  productRating!: any
+
+
+  constructor(
+    private userService: UserService, 
+    private orderService: OrderService, 
+    private router: Router,
+  ){}
 
   ngOnInit(): void {
     this.getUserStorageItem();
@@ -28,13 +41,14 @@ export class HistoryComponent implements OnInit{
   getUserStorageItem() {
     this.userService.getUserStorage().subscribe({
       next: (items: userOrder) => {
-        this.order = items.orders;  // ดึงข้อมูล orders
-      if (this.order) {
-        this.order.forEach((order: any) => {
+        this.orders = items.orders;
+        this.filteredOrders = items.orders;
+      if (this.orders) {
+        this.orders.forEach((order: any) => {
           if (order.products) {
 
             // เรียง orders จาก createdAt
-            this.order.sort((a: any, b: any) => {
+            this.orders.sort((a: any, b: any) => {
               const dateA = new Date(a.createdAt).getTime();
               const dateB = new Date(b.createdAt).getTime();
               return dateB - dateA; // ใหม่สุดก่อน
@@ -60,13 +74,13 @@ export class HistoryComponent implements OnInit{
       }
     });
   }
-
+ 
   showStatus(status: string){
     switch (status) {
-      case 'NOT_PROCESSED' : return 'กำลังตรวจสอบ';
-      case 'CANCELLED' : return 'ยกเลิกการสั่งซื้อ';
+      case 'PENDING' : return 'รอชำระเงิน';
+      case 'CANCELLED' : return 'ยกเลิก';
       case 'SHIPPED' : return 'กำลังจัดส่ง';
-      case 'DELIVERED' : return 'จัดส่งเรียบร้อย';
+      case 'DELIVERED' : return 'จัดส่งสำเร็จ';
       case 'PROCESSED' : return 'ยืนยันการสั่งซื้อ'
       default : return 'สถานะการสั่งซื้อผิดพลาด'
       // NOT_PROCESSED
@@ -106,7 +120,7 @@ export class HistoryComponent implements OnInit{
               next: (res) => {
                 Swal.close();
                 Swal.fire({
-                  icon: "error",
+                  icon: "success",
                   title: "ยกเลิกคำสั่งซื้อ",
                   text: "ยกเลิกคำสั่งซื้อเรียบร้อยแล้ว",
                   showConfirmButton: true,
@@ -137,7 +151,7 @@ export class HistoryComponent implements OnInit{
   }
 
   setHistoryDetail() {
-    const selectedOrder = this.order.find(order => order.id === this.selectedHistory);
+    const selectedOrder = this.orders.find(order => order.id === this.selectedHistory);
 
     if (selectedOrder) {
       this.selectedHistoryDetail = selectedOrder;
@@ -160,4 +174,33 @@ export class HistoryComponent implements OnInit{
     this.historyModal = false
   }
 
+  NavigateToPayment(item: Order){
+    console.log(item)
+    this.orderService.setOrderId(item.id)
+    this.router.navigate(['/payment'])
+  }
+
+  applyFilters(): void {
+    this.filteredOrders = this.orders.filter(order => {
+      return this.filterStatus? order.orderStatus === this.filterStatus: true;
+    });
+  }
+  selectOrder(order: any): void {
+    this.selectedOrder = order
+  }
+
+  getLatestProductRating(products: ProductOnOrder): number {
+    if (!products.product.reviews || products.product.reviews.length === 0) {
+      return 0;
+    }
+  
+    const latestReview = products.product.reviews.reduce((latest, current) => {
+      const latestDate = new Date(latest.createdAt).getTime();
+      const currentDate = new Date(current.createdAt).getTime();
+      return currentDate > latestDate ? current : latest;
+    });
+  
+    this.productRating = latestReview.star
+    return latestReview ? latestReview.star : 0;
+  }
 }

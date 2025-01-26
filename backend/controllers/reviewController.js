@@ -2,7 +2,8 @@ const prisma = require("../configs/prisma");
 
 exports.createReview = async (req, res) => {
     try {
-        const { uid, pid } = req.params;
+        const uid = req.user.id
+        const { pid } = req.params;
         const { comment, star } = req.body
 
         const user = await prisma.user.findFirst({
@@ -118,7 +119,8 @@ exports.removeReview = async (req, res) => {
 
 exports.updateReview = async (req, res) => {
   try {
-    const { uid, pid } = req.params;
+    const { uid } = req.user.id
+    const { pid } = req.params;
     const { id, comment, star } = req.body;
 
     if (!id || isNaN(id)) {

@@ -2,7 +2,10 @@
     background: #F36523;
     border-radius: 10px;
     border: none;
-  }
+}
+.upload-btn :active{
+  background: #ea7945;
+}
 .form-control-file {
     display: none;
 }
@@ -26,9 +29,6 @@
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   transition: all 0.3s ease;
-}
-.custom-flatpickr {
-  width: 150px !important;
 }
 .date:hover {
   border-color: #007bff;

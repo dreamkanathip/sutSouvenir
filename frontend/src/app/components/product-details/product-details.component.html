@@ -9,7 +9,7 @@
       <div class="title">
         <h1 class="title">{{ product.title }}</h1>
       </div>
-      <div class="d-flex justify-content-start align-items-center">
+      <div class="d-flex justify-content-start align-items-center align-center">
         <div class="stars">
           <i
             class="fa"
@@ -22,19 +22,29 @@
           ></i>
         </div>
         
-        <div class="add-to-fav ms-5">
-          <i class='bx bx-heart bx-sm'></i>
+        <div class="favourite" *ngIf="likeProductStatus else noLike">
+          <div class="add-to-fav ms-5" (click)="unlikeProduct(product)">
+            <i class='bx bxs-heart bx-sm'></i>
+          </div>
         </div>
+        <ng-template #noLike>
+          <div class="no-fav ms-5" (click)="likeProduct(product)">
+            <i class='bx bx-heart bx-sm'></i>
+          </div>
+        </ng-template>
       </div>
-      
       
       <h1 class="price">฿{{ product.price }}</h1>
 
       <div class="d-flex justify-content-start align-items-center">
         <div class="quantity d-flex align-items-center me-3">
           <button (click)="decreaseQuantity()" class="btn btn-outline-secondary btn-sm">-</button>
-          <input type="input" [(ngModel)]="quantityToOrder" class="form-control mx-2 text-center quantity-input"
-            [min]="1" [max]="product.quantity" />
+          <input 
+            type="number" 
+            [(ngModel)]="quantityToOrder" 
+            class="form-control mx-2 text-center quantity-input"
+            [min]="1" [max]="product.quantity"
+          />
           <button (click)="increaseQuantity()" class="btn btn-outline-secondary btn-sm">+</button>
         </div>
         <div class="amount">
@@ -45,31 +55,46 @@
       <button type="button" class="main-btn mt-5" (click)="addItemToCart()">เพิ่มในรถเข็น</button>
     </div>
     <hr />
+    <div class="product-description">
+      <h2>รายละเอียดสินค้า</h2>
+      <p>{{ showProductDescription() }}</p>
+    </div>
+    <hr />
     <!-- Section รีวิว -->
     <div class="row-cols-1 review-section">
       <h2>รีวิว</h2>
-      <div class="review-edit">
-        <button class="review-btn" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
-      </div>
     </div>
-    <div class="review-container row-cols-1 row-cols-md-3 g-8" *ngIf="reviews">
-      <div class="review-card col" *ngFor="let review of uniqueReview">
-        <div class="stars">
-          <i
-            class="fa"
-            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-            [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
-          ></i>
+    <div class="review-container">
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let review of uniqueReview">
+          <div class="review-card">
+            <div class="stars">
+              <i
+                class="fa"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
+              ></i>
+            </div>
+            {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.
+            <div>{{ review.user?.firstName }} : {{ review.comment }}</div>
+            <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
+              <p>
+                รีวิวนี้ได้รับการแก้ไขจากผู้เขียนรีวิว 
+                <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a>
+              </p>
+            </div>
+          </div>
         </div>
-        <div>{{review.user?.firstName}} : {{ review.comment }}</div>
-        <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
-          <p>รีวิวนี้มีได้รับการแก้ไขจากผู้เขียนรีวิว <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a></p>
-        </div>
       </div>
-    </div>
-    <div *ngIf="!reviews">
-      <p>ยังไม่มีรีวิวสำหรับสินค้านี้</p>
-    </div>
+    </div>    
+    <ng-template #noReview>
+      <div class="no-review text-center">
+        <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
+      </div>
+    </ng-template>
+    <!-- <div class="review-edit">
+      <button class="review-btn mt-5" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
+    </div> -->
   </div>
 </div>
 
@@ -90,6 +115,7 @@
               [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
             ></i>
           </div>
+          <div> {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.</div>
           <div>{{ review.comment }}</div>
         </div>
       </div>

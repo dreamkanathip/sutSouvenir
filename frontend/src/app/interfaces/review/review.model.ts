@@ -7,8 +7,11 @@ export interface ReviewModel {
     userId: number,
     star: number,
     comment?: string,
+    createdAt:    Date,
+    updatedAt:    Date,
     user?: UserModel
-    product?: Product
+    product?: Product,
+    
 }
 
 export interface ReviewResponse {

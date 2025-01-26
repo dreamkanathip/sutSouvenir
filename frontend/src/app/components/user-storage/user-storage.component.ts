@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../../interfaces/user/user.model';
 import { UserService } from '../../services/user/user.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-storage',
@@ -13,13 +15,21 @@ export class UserStorageComponent implements OnInit {
   order: any[] = []
   storage: any[] = [];
 
-  storageOpen: boolean = false
+  userStoragePage: Number = 0
 
-  constructor(private userService: UserService) {}
+  private subscription: Subscription = new Subscription();
+
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.getUserData();
     this.getUserStorageItem();
+
+    this.subscription.add(
+      this.userService.storagePage$.subscribe((page) => {
+        this.userStoragePage = page;
+      })
+    );
   }
 
   getUserData() {
@@ -63,11 +73,15 @@ export class UserStorageComponent implements OnInit {
     });
   }
 
-  openStorage(){
-    this.storageOpen = true
+  NavigateToHome() {
+    this.router.navigate(['/home'])
   }
 
-  openHistory() {
-    this.storageOpen = false
+  userLogin(){
+    this.router.navigate(['/login']);
+  }
+
+  openPages(page: Number){
+    this.userService.setStoragePage(page);
   }
 }

@@ -1,109 +1,128 @@
 <app-navbar></app-navbar>
 <div class="row add-address-page">
-    <div class="col-md-5">
-        <div class="user-menu">
-            <div class="menu">
-                <h3 class="container-header">บัญชีผู้ใช้</h3>
-                <hr/>
-                <p>จัดการบัญชี</p>
-            </div>
+    <div class="add-address-container">
+        <h3 class="container-header">เพิ่มที่อยู่</h3>
+        <br />
+        <div class="form-container">
+            <form [formGroup]="addressForm" (ngSubmit)="submit()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">ชื่อ</label>
+                                <input type="text" class="form-control" id="firstName-input" formControlName="firstName" required>
+                                <div *ngIf="addressForm.get('firstName')?.touched && addressForm.get('firstName')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('firstName')?.errors?.['required']">
+                                        กรุณากรอกชื่อ
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('firstName')?.hasError('pattern')">
+                                        ชื่อที่กรอกต้องเป็นตัวอักษรไทย/อังกฤษเท่านั้น
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('firstName')?.hasError('whitespace') && !addressForm.get('firstName')?.errors?.['required']">
+                                        กรุณากรอกชื่อที่ไม่ใช่ช่องว่าง
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">ที่อยู่</label>
+                                <input type="text" class="input form-control" id="street-input" formControlName="street" required>
+                                <div *ngIf="addressForm.get('street')?.touched && addressForm.get('street')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('street')?.errors?.['required']">
+                                        กรุณากรอกที่อยู่
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="district" class="form-label">อำเภอ</label>
+                                <select class="form-control" id="district" formControlName="district" [disabled]="!addressForm.get('province')?.value" (change)="districtSelect($event)">
+                                    <option disabled value="">เลือกอำเภอ</option>
+                                    <option disabled value="" *ngIf="!addressForm.get('province')?.value">โปรดเลือกจังหวัดก่อน</option>
+                                    <option *ngFor="let district of filteredDistricts" [value]="district">{{ district }}</option>
+                                </select>
+                                <div *ngIf="addressForm.get('district')?.touched && addressForm.get('district')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('district')?.errors?.['required']">
+                                        กรุณาเลือกอำเภอ
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber" class="form-label">เบอร์โทรศัพท์</label>
+                                <input type="text" class="form-control" id="phone-input" formControlName="phoneNumber" required>
+                                <div *ngIf="addressForm.get('phoneNumber')?.touched && addressForm.get('phoneNumber')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('phoneNumber')?.errors?.['required']">
+                                        กรุณากรอกเบอร์โทรศัพท์
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('phoneNumber')?.hasError('pattern')">
+                                        เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">นามสกุล</label>
+                                <input type="text" class="form-control" id="lastName-input" formControlName="lastName" required>
+                                <div *ngIf="addressForm.get('lastName')?.touched && addressForm.get('lastName')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('lastName')?.errors?.['required']">
+                                        กรุณากรอกนามสกุล
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('lastName')?.hasError('pattern')">
+                                        นามสกุลที่กรอกต้องเป็นตัวอักษรไทย/อังกฤษเท่านั้น
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('lastName')?.hasError('whitespace') && !addressForm.get('lastName')?.errors?.['required']">
+                                        กรุณากรอกนามสกุลที่ไม่ใช่ช่องว่าง
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="province" class="form-label">จังหวัด</label>
+                                <select class="form-control" id="province" formControlName="province" (change)="provinceSelect($event)">
+                                    <option disabled value="">เลือกจังหวัด</option>
+                                    <option *ngFor="let province of uniqueProvinces" [value]="province">{{ province }}</option>
+                                </select>
+                                <div *ngIf="addressForm.get('province')?.touched && addressForm.get('province')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('province')?.errors?.['required']">
+                                        กรุณาเลือกจังหวัด
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subDistrict" class="form-label">ตำบล</label>
+                                <select class="form-control" id="subDistrict" formControlName="subDistrict" [disabled]="!addressForm.get('district')?.value">
+                                    <option disabled value="">เลือกตำบล</option>
+                                    <option disabled value="" *ngIf="!addressForm.get('district')?.value">โปรดเลือกอำเภอก่อน</option>
+                                    <option *ngFor="let subDistrict of filteredSubDistricts" [value]="subDistrict">{{ subDistrict }}</option>
+                                </select>
+                                <div *ngIf="addressForm.get('subDistrict')?.touched && addressForm.get('subDistrict')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('subDistrict')?.errors?.['required']">
+                                        กรุณาเลือกตำบล
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode" class="form-label">รหัสไปรษณีย์</label>
+                                <input type="text" class="form-control" id="postalCode-input" formControlName="postalCode" required>
+                                <div *ngIf="addressForm.get('postalCode')?.touched && addressForm.get('postalCode')?.invalid">
+                                    <small class="text-danger" *ngIf="addressForm.get('postalCode')?.errors?.['required']">
+                                        กรุณากรอกรหัสไปรษณีย์
+                                    </small>
+                                    <small class="text-danger" *ngIf="addressForm.get('postalCode')?.hasError('pattern')">
+                                        รหัสไปรษณีย์ต้องเป็นตัวเลข 5 หลัก
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-submit-container">
+                    <button type="button" class="add-btn" (click)="cancel()">ยกเลิก</button>
+                    <button type="submit" class="add-btn">ยืนยัน</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="col-md-7">
-        <div class="add-address-container">
-            <h3 class="container-header">เพิ่มที่อยู่</h3>
-            <br />
-            <div class="form-container">
-                <form [formGroup]="addressForm" (ngSubmit)="submit()">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-field">
-                                <div class="form-group">
-                                    <h5>ชื่อ</h5>
-                                    <input type="search" class="input" id="firstName-input" formControlName="firstName" required>
-                                </div>
-                                <div class="form-group">
-                                    <h5>บ้านเลขที่ / ถนน</h5>
-                                    <input type="search" class="input" id="address-input" formControlName="street" required>
-                                </div>
-                                <div class="form-group">
-                                    <h5>อำเภอ</h5>
-                                    <div class="dropdown">
-                                        <a 
-                                            class="btn dropdown-toggle input" 
-                                            role="button" 
-                                            data-bs-toggle="dropdown" 
-                                            aria-expanded="false">
-                                            {{ selectedDistrict || 'เลือกอำเภอ' }}
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li *ngFor="let district of filteredDistricts">
-                                                <a class="dropdown-item" (click)="districtSelect(district)">{{ district }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <h5>เบอร์โทรศัพท์</h5>
-                                    <input type="search" class="input" id="phone-input" formControlName="phoneNumber" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-field">
-                                <div class="form-group">
-                                    <h5>นามสกุล</h5>
-                                    <input type="search" class="input" id="lastName-input" formControlName="lastName" required>
-                                </div>
-                                <div class="form-group">
-                                    <h5>จังหวัด</h5>
-                                    <div class="dropdown">
-                                        <a 
-                                            class="btn dropdown-toggle input" 
-                                            role="button" 
-                                            data-bs-toggle="dropdown" 
-                                            aria-expanded="false">
-                                            {{ selectedProvince || 'เลือกจังหวัด' }}
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li *ngFor="let province of uniqueProvinces">
-                                                <a class="dropdown-item" (click)="provinceSelect(province)">{{ province }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <h5>ตำบล</h5>
-                                    <div class="dropdown">
-                                        <a 
-                                            class="btn dropdown-toggle input" 
-                                            role="button" 
-                                            data-bs-toggle="dropdown" 
-                                            aria-expanded="false">
-                                            {{ selectedSubDistrict || 'เลือกตำบล' }}
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li *ngFor="let subDistrict of filteredSubDistricts">
-                                                <a class="dropdown-item" (click)="subDistrictSelect(subDistrict)">{{ subDistrict }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <h5>รหัสไปรษณีย์</h5>
-                                    <input type="search" class="input" id="postal-input" formControlName="postalCode" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-submit-container">
-                        <button type="button" class="add-btn" (click)="cancel()">ยกเลิก</button>
-                        <button type="submit" class="add-btn">ยืนยัน</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>    
 </div>
 
 <app-footer></app-footer>

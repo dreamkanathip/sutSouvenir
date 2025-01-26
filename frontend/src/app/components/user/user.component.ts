@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../interfaces/user/user.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AddressService } from '../../services/address/address.service';
 
 @Component({
   selector: 'app-user',
@@ -16,31 +17,39 @@ export class UserComponent implements OnInit{
   editedUser: FormGroup
   passwordForm: FormGroup
 
+  userId: number = 1
+
   ModalOpen = false
   dataModalOpen = false
   emailModalOpen = false
   passwordModalOpen = false
 
-  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) {
+  defaultAddress! : any
+
+  constructor(
+    private userService: UserService,
+    private addressService: AddressService,
+    private fb: FormBuilder, 
+    private router: Router) {
     this.editedUser = this.fb.group({
-      id: 0,
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, this.noWhitespaceValidator()]],
+      lastName: ['', [Validators.required, this.noWhitespaceValidator()]],
       email: ['', [Validators.required, Validators.email]],
       gender: ['', [Validators.required]],
     })
 
     this.passwordForm = this.fb.group({
       oldPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required]],
-      repeatNewPassword: ['', [Validators.required]]
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      repeatNewPassword: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
   ngOnInit(): void {
     this.getUserData()
+    this.getDefaultAddress()
   }
-
+  
   getUserData() {
     this.userService.getUserData().subscribe({
       next: (result: UserModel) => {
@@ -77,14 +86,21 @@ export class UserComponent implements OnInit{
     if (this.user?.firstName && this.user?.lastName) {
       return `${this.user.firstName} ${this.user.lastName}`;
     }
-    return "NAME ERROR";
+    return "ไม่พบชื่อในระบบ";
   }
   
+  getDefaultAddress() {
+    this.addressService.getDefaultAddress().subscribe(result => {
+      if (result) {
+        this.defaultAddress = result.street + ' ตำบล' + result.subDistrict + ' อำเภอ' + result.district + ' ' + result.province
+      }
+    })
+  }
 
   onDataSubmit(): void {
     if (this.editedUser.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -137,7 +153,7 @@ export class UserComponent implements OnInit{
   onEmailSubmit(){
     if (this.editedUser.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -207,7 +223,7 @@ export class UserComponent implements OnInit{
   onPasswordSubmit(){
     if (this.passwordForm.invalid) {
       Swal.fire({
-        title: "กรุณากรอกแบบฟอร์มให้ครบถ้วน",
+        title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
@@ -308,6 +324,18 @@ export class UserComponent implements OnInit{
 
   userLogin(){
     this.router.navigate(['/login']);
+  }
+
+  NavigateToAddress(){
+    this.router.navigate(['/address']);
+  }
+
+  noWhitespaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+    };
   }
 
 }

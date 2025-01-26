@@ -23,7 +23,7 @@ export class AddressComponent implements OnInit{
   updateMessage?: String
   defaultAddress?: number
 
-  @ViewChild('toast', { static: true }) toastElement!: ElementRef;
+  @ViewChild('toast', { static: false }) toast!: ElementRef;
 
   constructor(private router: Router, private userService: UserService, private addressService: AddressService) {
     
@@ -48,7 +48,7 @@ export class AddressComponent implements OnInit{
   }
 
   getAllAddress(){
-    this.addressService.getAllAddress(1).subscribe((result: any) => {
+    this.addressService.getAllAddress().subscribe((result: any) => {
       this.allAddress = result
       result.forEach((address: any) => {
         if (address.default) {
@@ -88,7 +88,7 @@ export class AddressComponent implements OnInit{
           next: () => {
             Swal.close();
             Swal.fire({
-              icon: "error",
+              icon: "success",
               title: "ลบข้อมูลแล้ว",
               text: "ลบข้อมูลที่อยู่เรียบร้อยแล้ว",
               showConfirmButton: true,
@@ -149,10 +149,17 @@ export class AddressComponent implements OnInit{
   }
 
   showToast() {
-    const toast = new bootstrap.Toast(this.toastElement.nativeElement, {
-      delay: 3000 // แสดงผล 3 วินาที
-    });
-    toast.show();
+    const toastElement = this.toast.nativeElement;
+    const toastInstance = new bootstrap.Toast(toastElement, { delay: 3000 });
+    toastInstance.show();
+  }
+
+  NavigateToUser() {
+    this.router.navigate(['/user']);
+  }
+
+  NavigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
 }

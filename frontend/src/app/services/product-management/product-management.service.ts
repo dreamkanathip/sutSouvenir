@@ -42,6 +42,10 @@ export class ProductManagementService implements OnInit {
     );
   }
 
+  uploadProductImage(data: any):  Observable<any> {
+    return this.http.post(`${this.apiUrl}/productImage`, data)
+  }
+
   // ลบสินค้าตาม ID
   deleteProductById(id: number) {
     console.log(`Sending DELETE request for product ID: ${id}`);

@@ -45,11 +45,17 @@ import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.com
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
 import { NavbarSuperAdminComponent } from './components/navbar-super-admin/navbar-super-admin.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { ShippingComponent } from './components/shipping/shipping.component';
+import { AddShippingComponent } from './components/shipping/add-shipping/add-shipping.component';
+import { UpdateShippingComponent } from './components/shipping/update-shipping/update-shipping.component';
+import { SelectShippingComponent } from './components/payment/select-shipping/select-shipping.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { ReviewComponent } from './components/review/review.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { CategoryComponent } from './components/category/category.component';
-
+import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
+import { HistoryDetailComponent } from './components/user-storage/history-detail/history-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,9 +88,16 @@ import { CategoryComponent } from './components/category/category.component';
     NavbarSuperAdminComponent,
     RegisterAdminComponent,
     AddProductComponent,
+    ShippingComponent,
+    AddShippingComponent,
+    UpdateShippingComponent,
+    SelectShippingComponent,
+    AdminUpdateOrderStatusComponent,
     ReviewComponent,
     AddCategoryComponent,
     CategoryComponent,
+    FormatDateToThaiPipe,
+    HistoryDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +105,6 @@ import { CategoryComponent } from './components/category/category.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FormsModule,
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,

@@ -17,22 +17,24 @@ import { AdminHistoryComponent } from './components/admin-history/admin-history.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { SuperAdminDashboardComponent } from './components/super-admin-dashboard/super-admin-dashboard.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddProductComponent } from './components/product-management/add-product/add-product.component';
+import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { ReviewComponent } from './components/review/review.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { CategoryComponent } from './components/category/category.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: ProductDetailsComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'favourite', component: FavouriteComponent },
   { path: 'address', component: AddressComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'payment/:id', component: PaymentComponent },
+  { path: 'payment', component: PaymentComponent },
   { path: 'address/add', component: AddAddressComponent },
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'admin/management', component: ProductManagementComponent },
@@ -46,6 +48,8 @@ const routes: Routes = [
     component: SuperAdminDashboardComponent,
   },
   { path: 'admin/add/product', component: AddProductComponent },
+  { path: 'admin-order', component: AdminUpdateOrderStatusComponent},
+  // { path: "**", redirectTo: '/home'},
   { path: 'user/storage', component: UserStorageComponent },
   { path: 'review/:id', component: ReviewComponent },
   { path: 'admin/add/category', component: AddCategoryComponent },
