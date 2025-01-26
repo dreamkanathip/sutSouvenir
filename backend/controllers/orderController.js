@@ -91,6 +91,9 @@ exports.uploadReceipt = async (req, res) => {
       destBankId,
       lastFourDigits,
       transferAt,
+      addressId,
+      shippingId,
+      cartTotal
     } = req.body;
 
     if (

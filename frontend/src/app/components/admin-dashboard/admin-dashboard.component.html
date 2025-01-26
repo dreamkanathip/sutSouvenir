@@ -4,50 +4,131 @@
 <div class="main-video">
   <div class="container">
     <div class="dashboard container-fluid p-5">
+
       <div class="select-range d-flex felx-row mb-4">
-        <input type="radio" class="btn-check" name="range" id="day" autocomplete="off" [(ngModel)]="selectedRange" 
-         (change)="defaultDateRange()" value="day">
+        <input type="radio" class="btn-check" name="range" id="day" autocomplete="off" [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()" value="day">
         <label class="btn" for="day">1 วัน</label>
 
-        <input type="radio" class="btn-check" name="range" id="week" autocomplete="off" [(ngModel)]="selectedRange" 
-         (change)="defaultDateRange()" value="week">
+        <input type="radio" class="btn-check" name="range" id="week" autocomplete="off" [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()" value="week">
         <label class="btn" for="week">1 สัปดาห์</label>
 
-        <input type="radio" class="btn-check" name="range" id="month" autocomplete="off" [(ngModel)]="selectedRange" 
-         (change)="defaultDateRange()" value="month">
+        <input type="radio" class="btn-check" name="range" id="month" autocomplete="off" [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()" value="month">
         <label class="btn" for="month">1 เดือน</label>
 
-        <input type="radio" class="btn-check" name="range" id="annual" autocomplete="off" [(ngModel)]="selectedRange" 
-         (change)="defaultDateRange()" value="annual">
+        <input type="radio" class="btn-check" name="range" id="annual" autocomplete="off" [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()" value="annual">
         <label class="btn" for="annual">1 ปี</label>
 
         <div class="select-date ms-3 d-flex align-items-center">
-          <input id="startDate" type="date" class="date shadow-none me-2" [(ngModel)]="startDate" placeholder="วว-ดด-ปปปป">
+          <input id="startDate" type="date" class="date shadow-none me-2" [(ngModel)]="startDate"
+            placeholder="วว-ดด-ปปปป">
           <span class="me-2">ถึง</span>
           <input id="endDate" type="date" class="date shadow-none" [(ngModel)]="endDate" placeholder="วว-ดด-ปปปป">
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-4 border rounded">
-          <div class="sales-label-text ms-1 mt-2">ยอดขายทั้งหมด</div>
-          <div class="sales-text ms-1"> ฿1,234 </div>
+
+      <div class="row gap-5">
+        <div class="col-md-7">
+          <div class="row row-cols-md-2 d-flex justify-content-between">
+            <div class="card col">
+              <div class="sales-label-text ms-1 mt-2">ยอดขายทั้งหมด</div>
+              <div class="sales-text ms-1"> ฿1,234 </div>
+            </div>
+            <div class="card col ">
+              <div class="order-label-text ms-1 mt-2">จำนวนคำสั่งซื้อ</div>
+              <div class="sales-text ms-1"> 200 </div>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="order-header">
+              ข้อมูลคำสั่งซื้อ
+            </div>
+            <div class="col-md-4 card">
+              <div class="order-label">
+                <span>ยังไม่ได้ชำระเงิน</span>
+                <div class="order-quantity">
+                  21
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 card">
+              <div class="order-label">
+                <span>รอยืนยันการชำระเงิน</span>
+                <div class="order-quantity">
+                  21
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-4 card">
+              <div class="order-label">
+                <span>รอกาารจัดส่ง</span>
+                <div class="order-quantity">
+                  21
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="order-header">
+              สถานะสินค้า
+            </div>
+            <div class="col-md-6 card">
+              <div class="order-label">
+                <span>สินค้าใกล้จะหมด</span>
+                <div class="order-quantity">
+                  21
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 card">
+              <div class="order-label">
+                <span>สินค้าหมดแล้ว</span>
+                <div class="order-quantity">
+                  21
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 border rounded ">
-          <div class="order-label-text ms-1 mt-2">จำนวนออเดอร์ใหม่</div>
-          <div class="sales-text ms-1"> 200 </div>
-        </div>
-        <div class="col-md-4 border rounded">
+
+        <div class="col-md-4 ">
+          <div class="row border rounded">
+            <div class="top-five-sales">
+              <div class="top-five-sales-label-text ms-1 mt-2">สินค้าขายดี 3 อันดับ</div>
+              <div class="first d-flex align-items-center">
+                <i class='bx bx-medal medal-gold'></i>
+                <span class="first-title">เสื้อเลือดหมู ยอดขาย xx ชิ้น</span>
+              </div>
+              <div class="second d-flex align-items-center">
+                <i class='bx bx-medal medal-silver'></i>
+                <span class="second-title">สมุดโน้ต ยอดขาย xx ชิ้น</span>
+              </div>
+              <div class="third d-flex align-items-center">
+                <i class='bx bx-medal medal-copper'></i>
+                <span class="third-title">ปากกา ยอดขาย xx ชิ้น</span>
+              </div>
+            </div>
+            <div style="width: 80%; margin: auto;">
+              <canvas baseChart [type]="'doughnut'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
+                [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+          <div class="row border rounded">
+            <div class="top-five-sales-label-text ms-1 mt-2">หมวดหมู่ขายดี</div>
+            <div style="width: 80%; margin: auto;">
+              <canvas baseChart [type]="'doughnut'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
+                [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
         </div>
       </div>
-      <hr />
-      <div style="display: block;">
-        <canvas id="salesByCategory"></canvas>
-      </div>
-      <p>จำนวนคำสั่งซื้อ = ตามสถานะ order</p>
-      <p>สินค้าที่หมด เอา product ที่ amount = 0</p>
-      <p>สินค้าที่เหลือน้อยกว่า 10 ชิ้น เอา product ที่ amount < 10</p>
-      <p>ขายดี 5 อันดับ ()</p>
-      <p>กราฟยอดขาย</p>
     </div>
   </div>
   <video autoplay loop muted src="../../../assets/video-homeadmin.mp4">

@@ -2,7 +2,12 @@
   width: 100%;
   height: 100%;
 }
-
+.card {
+  /* width: 24rem; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  /* cursor: pointer; */
+}
 .main-video video {
   position: fixed;
   z-index: -9;
@@ -28,10 +33,10 @@
   cursor: pointer;
   width: 50%;
 }
-.sales-label-text, .order-label-text {
+.sales-label-text, .order-label-text, .top-five-sales-label-text, .order-header{
   font-size: 22px;
 }
-.sales-text {
+.sales-text, .order-quantity {
   font-size: 49px;
 }
 .select-date {
@@ -58,4 +63,16 @@
   outline: none;
   background-color: #ffffff;
   cursor: pointer;
+}
+.medal-gold {
+  color: gold;
+}
+.medal-silver {
+  color: silver 
+}
+.medal-copper {
+  color: #B87333;
+}
+.bx-medal, .first-title, .second-title, .third-title {
+  font-size: 22px;
 }

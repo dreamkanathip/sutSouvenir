@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import flatpickr from 'flatpickr';
-import { Chart } from 'chart.js';
-import { start } from 'repl';
 import Swal from 'sweetalert2';
+import { Chart, ChartConfiguration, ChartOptions, registerables } from 'chart.js';
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -17,31 +16,52 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit{
   endDatePicker: any;
 
   salesByCategory: any
+  title = 'ng2-charts-demo';
 
-  data = {
-    labels: ['Red', 'Yellow', 'Blue'], // ชื่อของแต่ละส่วนในกราฟ
-    datasets: [{
-      data: [10, 20, 30], // ข้อมูลของแต่ละส่วน
-      backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB'], // สีของแต่ละส่วน
-      borderColor: ['#FF6384', '#FFCE56', '#36A2EB'], // สีของเส้นขอบ
-      borderWidth: 1 
-    }]
+  // Pie
+  public pieChartOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
   };
+  public pieChartLabels = [ [ 'Download', 'Sales' ], [ 'In', 'Store', 'Sales' ], 'Mail Sales' ];
+  public pieChartDatasets = [ {
+    data: [ 300, 500, 100 ]
+  } ];
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
 
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+        fill: true,
+        tension: 0,
+        borderColor: 'black',
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderWidth: 1
+      }
+    ]
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true
+  };
+  public lineChartLegend = true;
+  
   constructor( @Inject(PLATFORM_ID) private platformId: Object ) {
     this.defaultDateRange()
+    Chart.register(...registerables);
   }
 
   ngOnInit() {
-  
-    this.salesByCategory = new Chart('salesByCategory', {
-      type: 'doughnut', // ประเภทของกราฟ
-      data: this.data, // ข้อมูลของกราฟ
-      options: { // ตัวเลือกเพิ่มเติม (ถ้ามี)
-        responsive: true, // ทำให้กราฟปรับขนาดตามหน้าจอ
-        maintainAspectRatio: false // ไม่คงสัดส่วนของกราฟ
-      }
-    });
   }
 
   ngAfterViewInit() {
