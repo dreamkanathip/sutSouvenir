@@ -7,7 +7,7 @@
       </nav>
         <div class="row">
             <div class="card col-5 img-container">
-              <img src="assets/SUT-Logo.png" class="product-image" />
+              <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
             </div>
             <div class="col-1"></div>
             <div class="col-5">
@@ -35,7 +35,7 @@
                   placeholder="กรุณาแสดงความคิดเห็นอย่างสุภาพ"
                 ></textarea>
                 <div class="form-submit-container">
-                  <button type="button" class="main-btn mt-5" (click)="formReset()">ยกเลิก</button>
+                  <button type="button" class="main-btn mt-5" (click)="cancel()">ยกเลิก</button>
                   <button type="button" class="main-btn mt-5" (click)="onSubmit()">ยืนยัน</button>
                 </div>
               </form>

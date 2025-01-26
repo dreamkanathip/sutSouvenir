@@ -1,16 +1,15 @@
 .address-page {
     display: flex;
-    align-items: stretch; /* ให้ child ขยายความสูงเท่ากัน */
+    align-items: stretch;
     justify-content: center;
     flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
     overflow: auto;
     scrollbar-width: none;
-    width: 1920px;
+    width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
     max-width: 100%;
-    height: 694px;
-    /* max-height: 100%; */
+    height: 100vh; /* กำหนดความสูงให้เต็มหน้า */
     font-family: 'SUT', sans-serif;
     font-size: larger;
 }
@@ -28,11 +27,11 @@
     background-color: white;
     margin-top: 90px;
     margin-left: 20%;
-    border-radius: 10px
+    border-radius: 10px;
 }
 
 .nav-item {
-    color:#333;
+    color: #333;
     padding: 10px;
 }
 
@@ -40,17 +39,21 @@
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    width: 1050px;
-    max-width: 100%;
-    height: 500px;
-    max-height: 100%;
+    width: 75%; /* กำหนดความกว้างให้เต็มหน้า */
+    max-width: 75%; /* กำหนดความกว้างสูงสุดให้เต็มหน้า */
+    height: auto;
     background-color: white;
     margin-top: 90px;
-    margin-left: 3%;
+    margin-left: 0; /* ลบ margin-left */
     margin-bottom: 50px;
     overflow-y: auto;
     scrollbar-width: none;
     border-radius: 10px;
+}
+
+.my-address-container::-webkit-scrollbar,
+.address-page::-webkit-scrollbar {
+    display: none;
 }
 
 .address-table {
@@ -59,31 +62,33 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: none;
     border-collapse: collapse;
+    margin: 0 auto;
 }
 
 .table th,
 .table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  word-wrap: break-word;
-  white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
-  overflow-wrap: break-word; /* รองรับการตัดคำในกรณีที่มีคำยาวๆ */
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+    white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
+    overflow-wrap: break-word; /* รองรับการตัดคำในกรณีที่มีคำยาวๆ */
 }
 
+/* มุมซ้าย */
 .table th:first-child,
 .table td:first-child {
-  border-radius: 10px 0 0 10px; /* มุมซ้าย */
+    border-radius: 10px 0 0 10px;
 }
 
+/* มุมขวา */
 .table th:last-child,
 .table td:last-child {
-  border-radius: 0 10px 10px 0; /* มุมขวา */
+    border-radius: 0 10px 10px 0;
 }
-
 
 .table td.address-column {
     max-width: 275px; /* จำกัดความกว้าง */
-  }
+}
 
 .action-btn {
     display: flex;
@@ -91,7 +96,8 @@
     gap: 10px;
 }
 
-.add-button-btn, .user-back-btn {
+.add-button-btn,
+.user-back-btn {
     margin-top: 10px;
     width: 120px;
     max-width: 100%;
@@ -99,7 +105,13 @@
     background-color: #F36523;
     color: white;
     border: hidden;
-    border-radius: 10px
+    border-radius: 10px;
+}
+
+.add-button-btn:hover,
+.user-back-btn:hover {
+    background-color: #d9531e; /* สี hover */
+    cursor: pointer;
 }
 
 .set-default-link {
@@ -184,4 +196,72 @@
 .no-user-login:hover {
     transform: scale(1.05); /* เพิ่มเอฟเฟกต์ขยายเมื่อ hover */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* เงาเมื่อ hover */
+}
+
+.modal-backdrop {
+    opacity: 0.5;
+}
+
+.modal.fade {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal {
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+}
+
+.form-submit-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #F36523;
+    outline: none;
+    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
+}
+
+.form-group small.text-danger {
+    font-size: small;
+}
+
+@media (max-width: 768px) {
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        height: 30px;
+        padding: 5px; /* ปรับ padding ให้เหมาะกับหน้าจอขนาดเล็ก */
+    }
+
+    .my-address-container {
+        padding: 15px;
+    }
+}
+
+.default-address {
+    font-size: large;
+}
+
+.no-address {
+    color: #333;
+    font-size: large;
 }

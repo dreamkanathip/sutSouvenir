@@ -5,25 +5,28 @@
 }
 
 .main-wrapper {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
   margin-top: 135px; /* เพิ่มระยะห่างจาก navbar */
+  width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+  height: 100vh; /* กำหนดความสูงให้เต็มหน้า */
 }
 
 .wrapper-left {
-  width: 550px; /* กำหนดความกว้างให้ชัดเจนมากขึ้น */
-  height: 300px; /* ตั้งความสูงให้ชัดเจน */
+  width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+  height: auto; /* ให้การ์ดยืดตามเนื้อหา */
   padding: 20px; /* เพิ่มระยะห่างภายใน */
   background-color: #f0f0f0; /* สีพื้นหลังสำหรับฝั่งซ้าย */
   border-radius: 8px; /* มุมที่โค้งมน */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
-  float: left; /* ให้ฝั่งซ้ายอยู่ทางซ้าย */
-  margin-right: 20px; /* เพิ่มระยะห่างระหว่างฝั่งซ้ายและขวา */
+  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
 }
 
 .wrapper-right {
-  width: 900px; /* กำหนดความกว้างให้มากกว่าฝั่งซ้าย */
-  height: 500px; /* ตั้งความสูงให้มากกว่าฝั่งซ้าย */
+  width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+  height: auto; /* ให้การ์ดยืดตามเนื้อหา */
   padding: 20px; /* เพิ่มระยะห่างภายใน */
   background-color: #ffffff;
   border-radius: 8px; /* มุมที่โค้งมน */
@@ -50,7 +53,11 @@
   background: #d3d3d3; /* สีของ scrollbar เมื่อ hover (สีเข้มกว่า) */
 }
 
-.container-right {
+.container {
+  width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+  max-width: 100%; /* กำหนดความกว้างสูงสุดของ container */
+  height: auto; /* ให้การ์ดยืดตามเนื้อหา */
+  overflow-y: auto; /* เพิ่ม scrollbar แนวตั้งเมื่อเนื้อหามากเกินไป */
   display: flex; /* ใช้ Flexbox */
   flex-direction: column; /* ให้รายการในแนวตั้ง */
   gap: 20px; /* เว้นระยะห่างระหว่างการ์ด */
@@ -65,48 +72,80 @@
 }
 
 .card {
-  flex: 1 0 18rem; /* ยืดได้ตามพื้นที่ที่มีอยู่โดยมีขนาดเริ่มต้นเป็น 18rem */
-  max-width: 18rem; /* กำหนดความกว้างสูงสุดของการ์ด */
+  width: 100%; /* กำหนดความกว้างของการ์ดให้เต็มความกว้างของ container */
+  max-width: 100%; /* กำหนดความกว้างสูงสุดของการ์ด */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
   border-radius: 8px; /* มุมที่โค้งมน */
+  margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+  height: auto; /* ให้การ์ดยืดตามเนื้อหา */
 }
 
-.card-img-top {
-  border-top-left-radius: 8px; /* โค้งมนมุมซ้ายบน */
-  border-top-right-radius: 8px; /* โค้งมนมุมขวาบน */
-}
 .body {
   margin: 0;
-  font-family: Arial, sans-serif; /* ตั้งค่าแบบอักษร */
+  font-family: 'SUT', sans-serif; /* ตั้งค่าแบบอักษร */
   background-color: #ffddbe;
 }
 
-/* *** *** */
-
-/* Card */
-
-.row {
+.card-body {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  padding: 20px;
+}
+
+.img-fluid {
+  width: 80%;
+  max-width: 150px;
+  height: 80%;
+  max-height: 200px;
+  object-fit: contain;
+  margin: 15px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-category {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.card-quantity {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 1.25rem;
+  color: #F36523;
+  margin-bottom: 10px;
+}
+
+.btn-danger {
+  align-self: flex-start;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+.no-list {
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-family: 'SUT', sans-serif;
+  font-size: larger;
+  text-align: center;
+  height: 100vh; /* Full viewport height */
 }
 
-.card {
-  width: 16rem;
-  margin: 1.5%;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
-.card:hover {
-  transform: scale(1.05); /* Enlarges the card */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
-}
-
-.card-img-top {
-  margin-top: 1rem;
-  padding: 5%;
-}
 .title {
   text-align: center;
   height: 3.5rem;
@@ -143,7 +182,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 15rem;
+  height: 45vh;
   text-align: center;
   color: #636363;
 }

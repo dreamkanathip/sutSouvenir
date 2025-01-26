@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="card col-5 img-container">
-      <img src="assets/SUT-Logo.png" class="product-image" />
+      <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
     </div>
     <div class="col-1"></div>
     <div class="col-5" *ngIf="product">
@@ -64,7 +64,7 @@
     <div class="row-cols-1 review-section">
       <h2>รีวิว</h2>
     </div>
-    <div class="review-container">
+    <div class="review-container" *ngIf="uniqueReview.length > 0">
       <div class="row g-4">
         <div class="col-12 col-md-6 col-lg-4" *ngFor="let review of uniqueReview">
           <div class="review-card">
@@ -87,11 +87,9 @@
         </div>
       </div>
     </div>    
-    <ng-template #noReview>
-      <div class="no-review text-center">
-        <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
-      </div>
-    </ng-template>
+    <div class="no-review text-center" *ngIf="uniqueReview.length === 0">
+      <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
+    </div>
     <!-- <div class="review-edit">
       <button class="review-btn mt-5" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
     </div> -->

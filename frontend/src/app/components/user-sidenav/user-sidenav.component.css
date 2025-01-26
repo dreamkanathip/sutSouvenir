@@ -1,0 +1,46 @@
+.storage-nav, .user-nav {
+    color: #F36523;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+.storage-nav .nav-link, .user-nav {
+    cursor: pointer;
+}
+  
+.storage-nav:hover, .user-nav:hover {
+    /* filter: brightness(0.8); */
+    text-decoration: underline;
+}
+
+.user-name {
+  margin-bottom: 20px;
+}
+
+.user-sidenav {
+  width: 100%;
+}
+
+.nav-link {
+  cursor: pointer;
+  color: #333;
+  padding: 10px;
+  /* transition: background-color 0.3s; */
+}
+
+.nav-link.active {
+    font-weight: bold;
+    background-color: #e0e0e0;
+  }
+
+.sub-nav {
+  padding-left: 20px;
+}
+
+.sub-nav .nav-link {
+  padding: 5px 10px;
+}
+
+hr {
+  margin: 20px 0;
+}

@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 <div class="no-user" *ngIf="!user; else userTemplate">
     <div class="address-page">
         <div class="no-user-page text-center">
@@ -7,9 +7,9 @@
             <button class="no-user-login" (click)="NavigateToLogin()">เข้าสู่ระบบ</button>
           </div>
     </div>
-</div>
-<ng-template #userTemplate>
-    <div class="row mx-auto address-page">
+</div> -->
+<div>
+    <div class="row mx-auto">
         <!-- <div class="col-md-4">
             <div class="user-menu">
                 <div class="menu">
@@ -27,7 +27,7 @@
             </div>
         </div> -->
         <!-- <div class="col-md-8"> -->
-            <div class="my-address-container">
+            <div class="container">
                 <h3 class="container-header">ที่อยู่ของฉัน</h3>
                 <br/>
                 <div>
@@ -72,8 +72,8 @@
                     </table>
                 </div>
                 <div class="action-btn">
-                    <button class="user-back-btn" (click)="NavigateToUser()">ย้อนกลับ</button>
-                    <button class="add-button-btn" (click)="addNavigate()">+ เพิ่มที่อยู่</button>
+                    <!-- <button class="user-back-btn" (click)="openPages(3)">ย้อนกลับ</button> -->
+                    <button class="add-button-btn" (click)="openPages(5)">+ เพิ่มที่อยู่</button>
                 </div>
             </div>
         <!-- </div> -->
@@ -89,5 +89,5 @@
             </div>
         </div>
     </div>
-</ng-template>
-<app-footer></app-footer>
+</div>
+<!-- <app-footer></app-footer> -->
