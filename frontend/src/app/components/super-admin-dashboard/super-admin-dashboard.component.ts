@@ -18,6 +18,13 @@ export class SuperAdminDashboardComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
+  roles: { [key: string]: string } = {
+    SUPERADMIN: 'ซุปเปอร์แอดมิน',
+    ADMIN: 'แอดมิน',
+    USER: 'ผู้ใช้งาน',
+    ALL: 'ทั้งหมด',
+  };
+
   constructor(
     private authService: AuthService,
     private userService: UserService
@@ -146,5 +153,10 @@ export class SuperAdminDashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  // ฟังก์ชันแปลงบทบาทเป็นภาษาไทย
+  getRoleName(role: string): string {
+    return this.roles[role] || role; // คืนค่าบทบาทเป็นภาษาไทย
   }
 }
