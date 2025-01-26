@@ -21,6 +21,8 @@ import { AddProductComponent } from './components/product-management/add-product
 import { AdminUpdateOrderStatusComponent } from './components/admin-update-order-status/admin-update-order-status.component';
 import { UserStorageComponent } from './components/user-storage/user-storage.component';
 import { ReviewComponent } from './components/review/review.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { CategoryComponent } from './components/category/category.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -50,6 +52,8 @@ const routes: Routes = [
   // { path: "**", redirectTo: '/home'},
   { path: 'user/storage', component: UserStorageComponent },
   { path: 'review/:id', component: ReviewComponent },
+  { path: 'admin/add/category', component: AddCategoryComponent },
+  { path: 'admin/show/category', component: CategoryComponent },
 ];
 
 @NgModule({

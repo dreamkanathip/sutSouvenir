@@ -1,0 +1,114 @@
+<div class="body">
+  <!-- วิดีโอพื้นหลัง -->
+  <video
+    autoplay
+    loop
+    muted
+    class="video-background"
+    src="../../../assets/video-homeadmin.mp4"
+  >
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="table-container">
+    <app-navbar-admin></app-navbar-admin>
+    <div class="card shadow-lg">
+      <div class="card-header">
+        <button class="submit" (click)="openAddCategory()">
+          + เพิ่มหมวดหมู่สินค้า
+        </button>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ลำดับ</th>
+              <th scope="col">ชื่อหมวดหมู่สินค้า</th>
+              <th scope="col">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of pagedCategories; let i = index">
+              <td scope="row">
+                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+              </td>
+
+              <td>{{ category.name }}</td>
+              <td>
+                <button
+                  class="btn btn-warning"
+                  (click)="openEditCategory(category.id)"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteCategoryById($event, category.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination-controls">
+          <button
+            class="btn btn-secondary"
+            (click)="prevPage()"
+            [disabled]="currentPage === 1"
+          >
+            ก่อนหน้า
+          </button>
+          <button
+            class="btn btn-secondary"
+            (click)="nextPage()"
+            [disabled]="currentPage * itemsPerPage >= categories.length"
+          >
+            ถัดไป
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ฟอร์มเพิ่มหมวดหมู่สินค้า -->
+  <div *ngIf="showCategoryForm" class="category-card show">
+    <h3>เพิ่มหมวดหมู่สินค้า</h3>
+    <div class="form-group mb-3">
+      <label for="category-name">ชื่อหมวดหมู่</label>
+      <input
+        type="text"
+        id="category-name"
+        [(ngModel)]="newCategory.name"
+        name="category-name"
+        class="form-control"
+        required
+      />
+    </div>
+    <button type="button" class="btn btn-primary me-3" (click)="addCategory()">
+      เพิ่มหมวดหมู่
+    </button>
+  </div>
+</div>
+<!-- แสดงผล Card แก้ไขหมวดหมู่ -->
+<div *ngIf="editMode" class="edit-card show">
+  <h3>แก้ไขข้อมูลหมวดหมู่</h3>
+  <form (ngSubmit)="saveEditCategory()">
+    <div class="form-group mb-3">
+      <label for="name">ชื่อหมวดหมู่</label>
+      <input
+        type="text"
+        id="name"
+        [(ngModel)]="selectedCategory.name"
+        name="name"
+        class="form-control"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary me-3">บันทึกการแก้ไข</button>
+    <button type="button" class="btn btn-secondary" (click)="closeEditCard()">
+      ยกเลิก
+    </button>
+  </form>
+</div>

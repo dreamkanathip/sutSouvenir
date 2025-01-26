@@ -14,10 +14,10 @@
           [(ngModel)]="selectedRole"
           (change)="filterUsers()"
         >
-          <option value="ALL">ทั้งหมด</option>
-          <option value="SUPERADMIN">Superadmin</option>
-          <option value="ADMIN">Admin</option>
-          <option value="USER">User</option>
+          <option [value]="'ALL'">{{ roles["ALL"] }}</option>
+          <option [value]="'SUPERADMIN'">{{ roles["SUPERADMIN"] }}</option>
+          <option [value]="'ADMIN'">{{ roles["ADMIN"] }}</option>
+          <option [value]="'USER'">{{ roles["USER"] }}</option>
         </select>
       </div>
       <div class="card-body">
@@ -49,7 +49,8 @@
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.gender }}</td>
-              <td>{{ user.role }}</td>
+              <td>{{ roles[user.role] }}</td>
+              <!-- แสดงบทบาทเป็นภาษาไทย -->
               <td>
                 <!-- ปุ่มลบจะถูกแสดงเฉพาะสำหรับผู้ใช้ที่ไม่ใช่ SUPERADMIN -->
                 <button
