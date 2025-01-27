@@ -26,11 +26,6 @@ export class AddCategoryComponent implements OnInit {
   }
 
   // ฟังก์ชันย้อนกลับ
-  goToCategories(): void {
-    this.router.navigate(['/admin/show/category']); // นำทางไปยังหน้าที่ต้องการ
-  }
-
-  // ฟังก์ชันสำหรับการ submit
   submit(): void {
     if (this.form.invalid) {
       console.log('ฟอร์มไม่ถูกต้อง');
@@ -59,7 +54,7 @@ export class AddCategoryComponent implements OnInit {
               this.form.reset({
                 name: '', // ตั้งค่าเป็นค่าว่างหลังจากบันทึก
               });
-              this.goToCategories();
+              this.goToCategories(); // รีเฟรชหน้าหมวดหมู่
             });
           },
           (error) => {
@@ -73,5 +68,14 @@ export class AddCategoryComponent implements OnInit {
         );
       }
     });
+  }
+
+  goToCategories(): void {
+    // รีเฟรชหน้าหมวดหมู่โดยนำทางไปยังหน้าเดียวกัน
+    this.router
+      .navigateByUrl('/admin/show/category', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate([decodeURIComponent(this.router.url)]); // รีเฟรชหน้าโดยตรง
+      });
   }
 }

@@ -1,86 +1,202 @@
+/* เริ่มต้นการตั้งค่า */
 * {
-  font-family: "SUT-Light"; /* ตั้งชื่อฟอนต์ */
-  src: url("/assets/fonts/SUT-Light.otf") format("opentype"); /* เรียกใช้งานฟอนต์ */
-  font-weight: normal;
-  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar-brand {
-  font-weight: 500;
-  color: #f26522;
-  font-size: 24px;
-  transition: 0.3s color;
-}
-.offcanvas-title {
-  font-weight: 500;
-  color: #f26522;
-  font-size: 24px;
-  transition: 0.3s color;
-}
-.logout-button {
-  background-color: #f26522;
-  color: #fff;
-  font-size: 15px;
-  padding: 8px 20px;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: 0.3s background-color;
-  display: inline-flex; /* Use flexbox to adjust vertical alignment */
-  align-items: center; /* Center text vertically */
-  justify-content: center; /* Center text horizontally */
-}
-.logout-button:hover {
-  background-color: #f26522;
-}
-.navbar {
-  background-color: #fff;
-  height: 80px;
-  margin: 20px;
-  border-radius: 16px;
-  padding: 0.5rem;
-}
-.navbar-toggler {
-  border: none;
-  font-size: 1.25rem;
+/* การตั้งค่า Sidebar */
+.sidebar {
+  width: 270px;
+  position: fixed;
+  left: 0;
+  top: 0; /* ตั้งให้ตรงกับขอบบนของหน้าจอ */
+  border-radius: 0 16px 16px 0; /* โค้งเฉพาะด้านขวา */
+  background: #fff;
+  height: 100vh; /* ทำให้สูงเต็มหน้าจอ */
+  transition: 0.4s ease;
 }
 
-.navbar-toggler:focus,
-.btn-close:focus {
-  box-shadow: none;
-  outline: none;
+.sidebar.collapsed {
+  width: 85px;
 }
 
-.nav-link {
-  color: #666777;
-  font-weight: 500;
+/* การตั้งค่า Sidebar header */
+.sidebar-header {
   position: relative;
-}
-.nav-link:hover,
-.nav-link.active {
-  color: #000;
+  display: flex;
+  padding: 25px 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@media (min-width: 991px) {
-  .nav-link::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background-color: #f26522;
-    visibility: hidden;
-    transition: 0.3s ease-in-out;
-  }
+/* การตั้งค่าโลโก้ใน Sidebar */
+.sidebar-header .header-logo img {
+  position: relative;
+  width: 80%; /* ให้โลโก้ใช้ความกว้างเต็มที่ */
+  height: auto; /* ให้ความสูงของโลโก้ปรับอัตโนมัติ */
+  object-fit: contain; /* ให้รักษาอัตราส่วนของภาพ */
+}
 
-  .nav-link:hover::before,
-  .nav-link.active::before {
-    width: 100%;
-    visibility: visible;
+/* ปรับขนาดโลโก้และไอคอนเมื่อขนาดหน้าจอเล็กลง */
+@media (max-width: 800px) {
+  /* ปรับขนาดโลโก้ */
+  .sidebar-header .header-logo img {
+    width: 40%; /* ลดขนาดความกว้างโลโก้เมื่อหน้าจอเล็ก */
+    height: auto; /* ให้สูงปรับอัตโนมัติตามความกว้าง */
   }
 }
-.nav-item {
-  font-size: 17px;
-  margin: 0 60px; /* Horizontal spacing between nav items */
+
+/* การตั้งค่าปุ่ม Toggler */
+/* การตั้งค่าปุ่ม Toggler */
+.sidebar-header .toggler {
+  position: absolute;
+  height: 35px;
+  right: 20px;
+  width: 35px;
+  background: #f26522;
+  border-color: #f26522; /* ขอบสีส้มเมื่อเมาส์ชี้ */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.4s ease;
+  border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
+}
+
+/* เพิ่มขอบสีส้มเมื่อเมาส์ชี้ที่ปุ่ม Toggler */
+.sidebar-header .toggler:hover {
+  background: #fb8a55;
+  border-color: #f26522; /* ขอบสีส้มเมื่อเมาส์ชี้ */
+}
+
+.sidebar.collapsed .sidebar-header .toggler {
+  transform: translate(-4px, 65px);
+}
+
+.sidebar-header .toggler span {
+  font-size: 1.75rem;
+  transition: 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-header .toggler span {
+  transform: rotate(180deg);
+}
+
+/* การตั้งค่าการแสดงผลของเมนูหลัก */
+.sidebar-nav .nav-list {
+  list-style: none;
+  display: flex;
+  gap: 4px;
+  padding: 0 15px;
+  flex-direction: column;
+  transform: translateY(15px);
+  transition: 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-nav .primary-nav {
+  transform: translateY(65px);
+}
+
+/* การตั้งค่า link ของเมนู */
+.sidebar-nav .nav-link {
+  color: #151a2d;
+  display: flex;
+  padding: 12px 15px;
+  border-radius: 8px;
+  gap: 12px;
+  white-space: nowrap;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.4s ease;
+  position: relative; /* ทำให้ tooltip อยู่ในตำแหน่งที่สัมพันธ์กับไอคอน */
+  border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
+}
+
+.sidebar-nav .nav-item {
+  position: relative; /* เพิ่ม position relative สำหรับ tooltip */
+}
+
+/* ซ่อนชื่อเมนูเมื่อ Sidebar ยุบ */
+.sidebar-nav .nav-link .nav-label {
+  transition: opacity 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-link .nav-label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* การตั้งค่า Tooltip */
+.sidebar-nav .nav-tooltip {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%); /* ให้ tooltip อยู่กลางไอคอน */
+  opacity: 0;
+  pointer-events: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #151a2d;
+  white-space: nowrap;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.4s ease;
+  display: none;
+}
+
+/* เมื่อเมนูถูกโฮเวอร์และ Sidebar ยุบ Tooltip จะแสดง */
+.sidebar.collapsed .sidebar-nav .nav-item:hover .nav-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(20px); /* ขยับ tooltip ไปทางขวาเล็กน้อย */
+  display: block;
+}
+/* การตั้งค่า link ของเมนู */
+.sidebar-nav .nav-link {
+  color: #151a2d;
+  display: flex;
+  padding: 12px 15px;
+  border-radius: 8px;
+  gap: 12px;
+  white-space: nowrap;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.4s ease;
+  position: relative;
+  border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
+}
+
+/* เพิ่มขอบสีดำเมื่อเมาส์ชี้ที่เมนู */
+.sidebar-nav .nav-link:hover {
+  border-color: #f26522; /* ขอบสีดำเมื่อเมาส์ชี้ */
+  background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ */
+}
+
+/* การตั้งค่าหลังจากที่ Sidebar ยุบแล้ว */
+.sidebar.collapsed .sidebar-nav .nav-link:hover {
+  background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ในกรณีที่ Sidebar ยุบ */
+}
+
+/* ซ่อนชื่อเมนูเมื่อ Sidebar ยุบ */
+.sidebar-nav .nav-link .nav-label {
+  transition: opacity 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-link .nav-label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* การตั้งเมนูย่อย */
+.sidebar-nav .secondary-nav {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+}
+/* การตั้งค่าหลังจากที่ Sidebar ยุบแล้ว */
+.sidebar.collapsed .sidebar-nav .nav-link:hover {
+  background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ในกรณีที่ Sidebar ยุบ */
 }

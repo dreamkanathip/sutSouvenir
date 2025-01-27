@@ -22,18 +22,28 @@
 /* Table Container Styles */
 .table-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* ชิดซ้าย */
+  margin-left: 373px; /* ขยับไปทางขวาจาก Sidebar */
+  margin-top: 50px; /* ลดระยะจากด้านบน */
   overflow-x: auto;
-  margin-top: 50px;
-  padding-top: 70px;
+  padding-top: 20px; /* ลดระยะห่างด้านบน */
+  width: calc(100% - 373px); /* ลดความกว้างของคอนเทนเนอร์ */
 }
 
 /* Table Styles */
+.table {
+  width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
+  max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
+  margin: 0 auto; /* จัดกึ่งกลาง */
+}
+
 .table th,
 .table td {
   text-align: center;
   vertical-align: middle;
   height: 50px;
+  padding: 10px; /* ลด padding เพื่อให้ตารางดูเล็กลง */
+  font-size: 14px; /* ลดขนาดฟอนต์ในเซลล์ */
 }
 
 .table td {
@@ -42,8 +52,8 @@
 
 /* Button Styles in Table */
 .table .btn {
-  width: 30%;
-  height: 45px;
+  width: 27%;
+  height: 40px;
   background: #ececec;
   border: none;
   border-radius: 5px;
@@ -163,4 +173,17 @@ body.modal-open::before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .table-container {
+    margin-left: 100px; /* ลดระยะห่างจาก Sidebar บนอุปกรณ์เล็ก */
+    width: calc(100% - 100px); /* ลดความกว้าง */
+  }
+
+  .table th,
+  .table td {
+    font-size: 12px; /* ลดขนาดฟอนต์อีกสำหรับหน้าจอเล็ก */
+  }
 }

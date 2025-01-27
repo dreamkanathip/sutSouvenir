@@ -14,8 +14,12 @@
     <app-navbar-admin></app-navbar-admin>
     <div class="card shadow-lg">
       <div class="card-header">
-        <button class="submit" (click)="openAddCategory()">
-          + เพิ่มหมวดหมู่สินค้า
+        <button
+          class="submit"
+          data-bs-toggle="modal"
+          data-bs-target="#addCategoryModal"
+        >
+          + หมวดหมู่
         </button>
       </div>
       <div class="card-body">
@@ -112,3 +116,7 @@
     </button>
   </form>
 </div>
+<app-category-management
+  class="modal fade"
+  id="addCategoryModal"
+></app-category-management>
