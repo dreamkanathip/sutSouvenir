@@ -57,7 +57,7 @@
               <i class="bx bxs-heart bx-sm" (click)="unlikeProduct(item)"></i>
             </div>
           </ng-template>
-          <img src="assets/SUT-Logo.png" class="card-img-top">
+          <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="card-img-top">
           <!-- <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com" class="card-img-top"> -->
 
           <div class="card-body" (click)="goToDetails(item)">

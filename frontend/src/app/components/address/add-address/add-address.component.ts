@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../../services/address/address.service';
 import { AddressModel } from '../../../interfaces/address/address.model';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-add-address',
@@ -23,7 +24,12 @@ export class AddAddressComponent implements OnInit {
 
   addressForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private addressService: AddressService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private addressService: AddressService,
+    private userService: UserService,
+  ) {
     this.addressForm = this.fb.group({
       firstName: [
         '', 
@@ -92,7 +98,8 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  subDistrictSelect(subDistrict: string) {
+  subDistrictSelect(event: Event) {
+    const subDistrict = typeof event === 'string' ? event : (event.target as HTMLSelectElement).value;
     this.selectedSubDistrict = subDistrict;
   
     // กำหนดรหัสไปรษณีย์อัตโนมัติ
@@ -193,11 +200,11 @@ export class AddAddressComponent implements OnInit {
 
   cancel() {
     this.addressForm.reset();
-    this.router.navigate(['/address']);
+    this.userService.setStoragePage(4)
   }
 
   addressNavigate(){
-    this.router.navigate(['/address']);
+    this.userService.setStoragePage(4)
   }
 
   noWhitespaceValidator(): ValidatorFn {

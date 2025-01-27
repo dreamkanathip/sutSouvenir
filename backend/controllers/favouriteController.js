@@ -45,7 +45,12 @@ const getLikeProducts = async (req, res) => {
         userId: Number(userId), // ค้นหาตาม userId
       },
       include: {
-        product: true, // รวมข้อมูลสินค้าที่เกี่ยวข้อง
+        product: {
+          include: {
+            category: true, // รวมข้อมูลหมวดหมู่ที่เกี่ยวข้อง
+            images: true, // รวมข้อมูลรูปภาพที่เกี่ยวข้อง
+          }
+        }
       },
     });
 

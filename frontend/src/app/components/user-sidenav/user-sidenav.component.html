@@ -1,0 +1,30 @@
+<div class="user-name text-center">
+  <h3>{{ showFullName() }}</h3>
+</div>
+<hr />
+<div class="user-sidenav">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link">บัญชีผู้ใช้งาน</a>
+      <ul class="nav flex-column sub-nav">
+        <li class="nav-item user-nav">
+          <a class="nav-link" [ngClass]="{'active': userStoragePage === 3}" (click)="openPages(3)">ข้อมูลบัญชี</a>
+        </li>
+        <li class="nav-item user-nav">
+          <a class="nav-link" [ngClass]="{'active': userStoragePage === 4}" (click)="openPages(4)">ที่อยู่</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <ul class="nav flex-column">
+    <li class="nav-item storage-nav">
+      <a class="nav-link" [ngClass]="{'active': userStoragePage === 0}" (click)="openPages(0)">รายการสินค้าของคุณ</a>
+    </li>
+    <li class="nav-item storage-nav">
+      <a class="nav-link" [ngClass]="{'active': userStoragePage === 1}" (click)="openPages(1)">ประวัติการสั่งซื้อ</a>
+    </li>
+    <li class="nav-item storage-nav">
+      <a class="nav-link" [ngClass]="{'active': userStoragePage === 2}" (click)="openPages(2)">รายการโปรด</a>
+    </li>
+  </ul>
+</div>

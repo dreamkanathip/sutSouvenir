@@ -1,23 +1,43 @@
 .edit-address-page {
     display: flex;
-    flex-wrap: wrap;
+    align-items: stretch;
     justify-content: center;
+    flex-wrap: wrap;
     background-color: #FFDDBE;
     padding-top: calc(var(--navbar-height, 70px));
-    max-width: 1920px;
+    overflow: auto;
+    scrollbar-width: none;
+    width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+    max-width: 100%;
+    height: 100vh; /* กำหนดความสูงให้เต็มหน้า */
     font-family: 'SUT', sans-serif;
     font-size: larger;
 }
 
+.edit-address-page > [class^="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
 .edit-address-container {
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 20px;
-    max-width: 850px;
+    width: 75%; /* กำหนดความกว้างให้เต็มหน้า */
+    max-width: 75%; /* กำหนดความกว้างสูงสุดให้เต็มหน้า */
+    height: auto;
     background-color: white;
     margin-top: 90px;
+    margin-left: 0; /* ลบ margin-left */
     margin-bottom: 50px;
-    border-radius: 10px; /* เพิ่ม border-radius เพื่อความโค้งมน */
+    overflow-y: auto;
+    scrollbar-width: none;
+    border-radius: 10px;
+}
+
+.edit-address-container::-webkit-scrollbar,
+.edit-address-page::-webkit-scrollbar {
+    display: none;
 }
 
 .form-container {
@@ -36,19 +56,26 @@
     display: inline-block;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 75%;
     height: 40px;
     padding: 8px;
     font-size: medium;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     border-color: #F36523;
     outline: none;
     box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
+}
+
+.form-group small.text-danger {
+    font-size: small;
 }
 
 .dropdown-menu {
@@ -95,6 +122,10 @@
         height: 30px;
         padding: 5px; /* ปรับ padding ให้เหมาะกับหน้าจอขนาดเล็ก */
     }
+
+    .edit-address-container {
+        padding: 15px;
+    }
 }
 
 .form-submit-container {
@@ -105,7 +136,7 @@
 }
 
 .edit-btn {
-    width: 75px;
+    width: 120px;
     max-width: 100%;
     padding: 5px;
     background-color: #F36523;
@@ -117,34 +148,5 @@
 }
 
 .edit-btn:hover {
-    background-color: #e0521e; /* เปลี่ยนสีปุ่มเมื่อ hover */
-}
-
-.input-field .form-group input,
-.input-field .form-group select {
-    height: 40px;
-    line-height: 1.5;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 75%;
-    box-sizing: border-box;
-}
-
-.input-field .form-group select:focus,
-.input-field .form-group input:focus {
-    border-color: #F36523;
-    outline: none;
-    box-shadow: 0 0 4px rgba(243, 101, 35, 0.4);
-}
-
-.input-field .form-group small.text-danger {
-    font-size: small;
-}
-
-@media (max-width: 768px) {
-    .input-field .form-group input,
-    .input-field .form-group select {
-        width: 100%;
-    }
+    background-color: #d9531e; /* เปลี่ยนสีปุ่มเมื่อ hover */
 }

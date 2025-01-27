@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 <div class="no-user" *ngIf="!user">
   <div class="user-page">
     <div class="no-user-page text-center">
@@ -7,10 +7,10 @@
       <button class="no-user-login" (click)="userLogin()">เข้าสู่ระบบ</button>
     </div>
   </div>
-</div>
-<div *ngIf="user">
-  <div class="row mx-auto user-page">
-    <div class="user-container">
+</div> -->
+<div>
+  <div class="row mx-auto">
+    <div class="container">
       <h3 class="container-header">ข้อมูลส่วนตัว</h3>
       <br/>
       <div>
@@ -38,7 +38,7 @@
           <tbody>
             <tr>
               <td class="topic">อีเมล</td>
-              <td>{{user.email}}</td>
+              <td>{{user?.email}}</td>
             </tr>
             <tr>
               <td>ที่อยู่สำหรับจัดส่ง</td>
@@ -50,7 +50,7 @@
         </table>
       </div>
       <div class="edit-btn">
-        <button class="edit-modal-btn" (click)="NavigateToAddress()">แก้ไขที่อยู่</button>
+        <button class="edit-modal-btn" (click)="openPages(4)">แก้ไขที่อยู่</button>
         <button class="edit-modal-btn" (click)="emailModal()">แก้ไขอีเมล</button>
         <button class="edit-modal-btn" (click)="passwordModal()">แก้ไขรหัสผ่าน</button>
       </div>
@@ -113,9 +113,9 @@
             <div class="mb-3">
               <label for="gender" class="form-label">เพศ</label>
               <select id="gender" class="form-select" formControlName="gender">
-                <option value="Male">ชาย</option>
-                <option value="Female">หญิง</option>
-                <option value="Other">อื่นๆ</option>
+                <option value="male">ชาย</option>
+                <option value="female">หญิง</option>
+                <option value="other">อื่นๆ</option>
               </select>
             </div>
             <div class="form-submit-container">
@@ -269,4 +269,4 @@
   </div>
 </div>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

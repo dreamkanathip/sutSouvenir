@@ -93,7 +93,7 @@ exports.uploadReceipt = async (req, res) => {
       transferAt,
       addressId,
       shippingId,
-      cartTotal
+      cartTotal,
     } = req.body;
 
     if (

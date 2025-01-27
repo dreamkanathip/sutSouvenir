@@ -56,6 +56,7 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
 import { CategoryComponent } from './components/category/category.component';
 import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
 import { HistoryDetailComponent } from './components/user-storage/history-detail/history-detail.component';
+import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.component';
 import { BaseChartDirective } from 'ng2-charts';
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { BaseChartDirective } from 'ng2-charts';
     CategoryComponent,
     FormatDateToThaiPipe,
     HistoryDetailComponent,
+    UserSidenavComponent,
   ],
   imports: [
     BrowserModule,

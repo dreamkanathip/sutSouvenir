@@ -1,13 +1,10 @@
 <div>
-  <!-- Navbar with Sidebar -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light">
     <div class="container-fluid">
-      <!-- Logo -->
       <a class="navbar-brand me-auto" routerLink="/admin/dashboard">
         <img src="../../../assets/logo.jpg" alt="Logo" style="height: 55px" />
       </a>
 
-      <!-- Hamburger Button (For small screens) -->
       <button
         class="navbar-toggler"
         type="button"
@@ -18,46 +15,49 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <a href="../../../assets/logo.jpg"></a>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a routerLink="/admin/dashboard" class="nav-link mx-lg-2"
+                >แดชบอร์ด</a
+              >
+            </li>
+            <li class="nav-item">
+              <a routerLink="/admin/management" class="nav-link mx-lg-2"
+                >คลังสินค้า</a
+              >
+            </li>
+            <li class="nav-item">
+              <a routerLink="/admin/show/category" class="nav-link mx-lg-2"
+                >หมวดหมู่สินค้า</a
+              >
+            </li>
+          </ul>
+          <a routerLink="/login" (click)="logout()" class="logout-button"
+            >ออกจากระบบ</a
+          >
+        </div>
+      </div>
     </div>
   </nav>
-
-  <!-- Sidebar (Offcanvas) -->
-  <div
-    class="offcanvas offcanvas-start"
-    tabindex="-1"
-    id="offcanvasNavbar"
-    aria-labelledby="offcanvasNavbarLabel"
-  >
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-        <a href="../../../assets/logo.jpg"></a>
-      </h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a routerLink="/admin/dashboard" class="nav-link">แดชบอร์ด</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/admin/management" class="nav-link">คลังสินค้า</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/admin/show/category" class="nav-link"
-            >หมวดหมู่สินค้า</a
-          >
-        </li>
-      </ul>
-      <a routerLink="/login" (click)="logout()" class="logout-button"
-        >ออกจากระบบ</a
-      >
-    </div>
-  </div>
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
