@@ -12,7 +12,6 @@
   font-family: 'SUT', sans-serif;
   font-size: larger;
 }
-
 .user-page > [class^="col-"] {
   display: flex;
   flex-direction: column;
@@ -21,15 +20,15 @@
 .user-storage {
   display: flex;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1920px;
   margin: 0 auto;
   align-items: center;
   justify-content: flex-start;
   padding: 20px;
   height: auto;
   background-color: #FFDDBE;
-  margin-top: 90px;
-  margin-bottom: 50px;
+  padding-top: calc(var(--navbar-height, 4%));
+  padding-bottom: 2% ;
   overflow-y: auto;
   scrollbar-width: none;
   border-radius: 10px;

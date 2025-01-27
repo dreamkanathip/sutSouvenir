@@ -58,8 +58,6 @@
             </div>
           </ng-template>
           <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="card-img-top">
-          <!-- <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com" class="card-img-top"> -->
-
           <div class="card-body" (click)="goToDetails(item)">
             <p class="title">{{ item.title }}</p>
             <div class="stars">
@@ -81,7 +79,7 @@
           <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>   
         </div>
       </form>
-      <button class="main-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
+      <button class="second-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
     </div>
     <div class="no-product-list text-center" *ngIf="productShow.length == 0">
       <h3>ไม่พบรายการสินค้า</h3>

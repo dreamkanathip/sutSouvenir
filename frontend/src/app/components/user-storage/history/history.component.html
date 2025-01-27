@@ -8,9 +8,9 @@
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" checked>
       <label class="btn btn-outline-primary filter-button" for="all">ทั้งหมด</label>
 
-      <input type="radio" class="btn-check" name="btnradio" id="NOT_PROCESSED" value="NOT_PROCESSED" autocomplete="off"
+      <input type="radio" class="btn-check" name="btnradio" id="PENDING" value="PENDING" autocomplete="off"
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
-      <label class="btn btn-outline-primary filter-button" for="NOT_PROCESSED">รอชำระเงิน</label>
+      <label class="btn btn-outline-primary filter-button" for="PENDING">รอชำระเงิน</label>
 
       <input type="radio" class="btn-check" name="btnradio" id="PROCESSED" value="PROCESSED" autocomplete="off"
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">

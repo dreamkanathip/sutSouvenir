@@ -26,6 +26,7 @@
 }
 .dashboard {
   background-color: #fff;
+  border-radius: 10px;
 }
 
 .day-range {
@@ -35,6 +36,8 @@
 }
 .dashboard-card-label, .dashboard-card-unit{
   font-size: 22px;
+  display: flex;
+  align-items: center;
 }
 .dashboard-card-information {
   font-size: 49px;
@@ -75,6 +78,18 @@
 }
 .bx-medal, .first-title, .second-title, .third-title, .select-range {
   font-size: 22px;
+}
+.btn-check:active {
+  border-color: #fff;
+}
+.select-range:hover {
+  background-color: #F36523;
+  color: #fff;
+}
+input[type="radio"]:checked+label {
+  background-color: #f97131;
+  border: none ;
+  color: #fff;
 }
 .dashboard-header {
   font-size: 28px;
