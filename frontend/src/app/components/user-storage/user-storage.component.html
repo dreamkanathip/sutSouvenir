@@ -1,37 +1,37 @@
 <app-navbar></app-navbar>
 <div class="user-page">
   <div class="user-storage" *ngIf="user; else noUserTemplate">
-    <div class="storage-history" *ngIf="storage; else noStorageTemplate">
-      <nav id="navbar" class="navbar bg-body-tertiary px-3 mb-3">
-        <ul class="nav">
-          <li class="nav-item storage-nav">
-            <a class="nav-link" (click)="openPages(0)">รายการสินค้าของคุณ</a>
-          </li>
-          <li class="nav-item storage-nav">
-            <a class="nav-link" (click)="openPages(1)">ประวัติการสั่งซื้อ</a>
-          </li>
-          <li class="nav-item storage-nav">
-            <a class="nav-link" (click)="openPages(2)">รายการโปรด</a>
-          </li>
-        </ul>
-      </nav>
-      <!-- Storage / History / Favourite -->
-      <div class="storage" *ngIf="userStoragePage == 0">
-        <app-storage></app-storage>
+    <div class="storage-container">
+      <div class="sidenav">
+        <app-user-sidenav></app-user-sidenav>
       </div>
-      <div class="history" *ngIf="userStoragePage == 1">
-        <app-history></app-history>
-      </div>
-      <div class="favourite" *ngIf="userStoragePage == 2">
-        <app-favourite></app-favourite>
+      <div class="storage-content">
+        <div class="storage-history" *ngIf="storage; else noStorageTemplate">
+          <!-- Page -->
+          <div class="storage" *ngIf="userStoragePage == 0">
+            <app-storage></app-storage>
+          </div>
+          <div class="history" *ngIf="userStoragePage == 1">
+            <app-history></app-history>
+          </div>
+          <div class="favourite" *ngIf="userStoragePage == 2">
+            <app-favourite></app-favourite>
+          </div>
+          <div class="user" *ngIf="userStoragePage == 3">
+            <app-user></app-user>
+          </div>
+          <div class="address" *ngIf="userStoragePage == 4">
+            <app-address></app-address>
+          </div>
+          <div class="add-address" *ngIf="userStoragePage == 5">
+            <app-add-address></app-add-address>
+          </div>
+          <div class="edit-address" *ngIf="userStoragePage == 6">
+            <app-edit-address></app-edit-address>
+          </div>
+        </div>
       </div>
     </div>
-    <ng-template #noStorageTemplate>
-      <div class="no-storage-page text-center">
-        <h3 class="mt-3 text-muted">ไม่พบประวัติสินค้า</h3>
-        <button class="no-user-login" (click)="NavigateToHome()">สั่งซื้อสินค้า</button>
-      </div>
-    </ng-template>
   </div>
   <ng-template #noUserTemplate>
     <div class="no-user-page text-center">
@@ -40,6 +40,9 @@
       <button class="no-user-login" (click)="userLogin()">เข้าสู่ระบบ</button>
     </div>
   </ng-template>
+  <ng-template #noStorageTemplate>
+    <div class="no-storage-page text-center">
+      <h3 class="mt-3 text-muted">ไม่พบข้อมูลสินค้า</h3>
+    </div>
+  </ng-template>
 </div>
-
-<app-footer></app-footer>

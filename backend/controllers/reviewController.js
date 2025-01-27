@@ -90,8 +90,12 @@ exports.getUserReview = async (req, res) => {
                 userId: Number(userId),
             },
             include: {
-              product: true,
-            },
+              product: {
+                include: {
+                  images: true,
+                }
+              },
+            }
         })
         res.send(review)
     } catch (err) {

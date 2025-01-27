@@ -12,12 +12,16 @@ import { isPlatformBrowser } from '@angular/common';
 export class UserService {
   private apiUrl = 'http://localhost:5000/api'; // เปลี่ยน URL ให้ตรงกับ backend ของคุณ
 
-  private storagePageSubject = new BehaviorSubject<Number>(0);
+  private storagePageSubject = new BehaviorSubject<Number>(2);
   storagePage$ = this.storagePageSubject.asObservable();
 
   // 0 = Storage 
   // 1 = History
   // 2 = Favourite
+  // 3 = User Profile
+  // 4 = Address
+  // 5 = Add address
+  // 6 = Edit address
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
 

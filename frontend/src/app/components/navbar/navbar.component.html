@@ -36,7 +36,7 @@
             *ngFor="let product of searchResults"
             (click)="goToDetails(product)"
           >
-            <img src="assets/SUT-Logo.png" class="product-image" />
+            <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
             {{ product.title }}
             <small class="dropdown-description">{{product.category.name}}</small>
           </a>
@@ -77,7 +77,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" href="/user">จัดการข้อมูลส่วนตัว</a>
+              <a class="dropdown-item" (click)="NavigateToProfile()">จัดการข้อมูลส่วนตัว</a>
               <a class="dropdown-item" (click)="NavigateToStorage()">รายการสินค้าของคุณ</a>
               <a class="dropdown-item" (click)="NavigateToHistory()">ประวัติการสั่งซื้อ</a>
               <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>

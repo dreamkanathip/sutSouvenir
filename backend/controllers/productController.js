@@ -103,6 +103,7 @@ exports.list = async (req, res) => {
     const products = await prisma.product.findMany({
       include: {
         category: true,
+        images: true,
       },
     });
     res.send(products);

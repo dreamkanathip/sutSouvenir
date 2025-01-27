@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../../services/address/address.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-edit-address',
@@ -29,6 +30,7 @@ export class EditAddressComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private addressService: AddressService,
+    private userService: UserService,
   ) {
     this.editAddressForm = this.fb.group({
       firstName: [
@@ -111,7 +113,8 @@ export class EditAddressComponent implements OnInit {
     });
   }
 
-  subDistrictSelect(subDistrict: string) {
+  subDistrictSelect(event: Event) {
+    const subDistrict = typeof event === 'string' ? event : (event.target as HTMLSelectElement).value;
     this.selectedSubDistrict = subDistrict;
   
     // กำหนดรหัสไปรษณีย์อัตโนมัติ
@@ -210,11 +213,11 @@ export class EditAddressComponent implements OnInit {
 
   cancel() {
     this.editAddressForm.reset();
-    this.router.navigate(['/address']);
+    this.userService.setStoragePage(4)
   }
 
   addressNavigate(){
-    this.router.navigate(['/address']);
+    this.userService.setStoragePage(4)
   }
 
   noWhitespaceValidator(): ValidatorFn {
