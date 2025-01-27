@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth/auth.service'; // ปรับ 
 })
 export class NavbarAdminComponent {
   authenticated: boolean = false; // ตัวแปรเพื่อติดตามสถานะล็อกอิน
+  isCollapsed: boolean = false; // ตัวแปรที่เก็บสถานะของ sidebar
 
   constructor(
     private http: HttpClient,
@@ -36,5 +37,10 @@ export class NavbarAdminComponent {
           console.error('Logout failed', err);
         },
       });
+  }
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed; // สลับสถานะ
+    console.log('Sidebar toggled!'); // เช็คว่าฟังก์ชันทำงาน
   }
 }

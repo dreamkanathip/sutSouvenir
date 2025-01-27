@@ -1,8 +1,18 @@
-<div class="body">
-  <div class="ext-box">
-    <div class="wrapper">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">เพิ่มหมวดหมู่</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div class="modal-body">
       <div class="container">
-        <div class="row">
+        <div class="row main-row">
           <div class="col-md-12 right">
             <div>
               <div class="input-box">
@@ -31,7 +41,7 @@
                     </button>
                     <button
                       type="button"
-                      class="submit"
+                      class="cancel"
                       (click)="goToCategories()"
                     >
                       ย้อนกลับ
