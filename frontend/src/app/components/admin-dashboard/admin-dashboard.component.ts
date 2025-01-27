@@ -2,7 +2,8 @@ import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/
 import { isPlatformBrowser } from '@angular/common';
 import flatpickr from 'flatpickr';
 import Swal from 'sweetalert2';
-import { Chart, ChartConfiguration, ChartOptions, registerables } from 'chart.js';
+import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -18,47 +19,45 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit{
   salesByCategory: any
   title = 'ng2-charts-demo';
 
-  // Pie
   public pieChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            family: '"SUT", serif, Arial, sans-serif',
+            size: 16,
+          },
+        }
+      },
+      datalabels: {
+        color: '#fff',
+        font: {
+          family: '"SUT", serif, Arial, sans-serif',
+          size: 16
+        },
+        formatter: (value: number, ctx: any) => {
+          const total = ctx.dataset.data.reduce((a: number, b: number) => a + b, 0);
+          const percentage = ((value / total) * 100).toFixed(1) + '%';
+          return percentage;
+        }
+      }
+    }
   };
-  public pieChartLabels = [ [ 'Download', 'Sales' ], [ 'In', 'Store', 'Sales' ], 'Mail Sales' ];
-  public pieChartDatasets = [ {
-    data: [ 300, 500, 100 ]
-  } ];
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
 
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July'
-    ],
+
+  public pieChartData: ChartData<'doughnut', number[], string | string[]> = {
+    labels: [[ 'เสื้อเลือดหมู' ], [ 'สมุดโน้ต' ], 'ปากกา'],
     datasets: [
       {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
-        label: 'Series A',
-        fill: true,
-        tension: 0,
-        borderColor: 'black',
-        backgroundColor: 'rgba(0,0,0,0)',
-        borderWidth: 1
-      }
-    ]
+        data: [ 428, 326, 224 ]
+      },
+    ],
   };
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true
-  };
-  public lineChartLegend = true;
-  
+
   constructor( @Inject(PLATFORM_ID) private platformId: Object ) {
     this.defaultDateRange()
-    Chart.register(...registerables);
+    Chart.register(...registerables, ChartDataLabels);
   }
 
   ngOnInit() {

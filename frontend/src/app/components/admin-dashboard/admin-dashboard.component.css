@@ -33,10 +33,10 @@
   cursor: pointer;
   width: 50%;
 }
-.sales-label-text, .order-label-text, .top-five-sales-label-text, .order-header{
+.dashboard-card-label, .dashboard-card-unit{
   font-size: 22px;
 }
-.sales-text, .order-quantity {
+.dashboard-card-information {
   font-size: 49px;
 }
 .select-date {
@@ -73,6 +73,9 @@
 .medal-copper {
   color: #B87333;
 }
-.bx-medal, .first-title, .second-title, .third-title {
+.bx-medal, .first-title, .second-title, .third-title, .select-range {
   font-size: 22px;
+}
+.dashboard-header {
+  font-size: 28px;
 }
