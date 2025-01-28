@@ -6,7 +6,7 @@
         <app-user-sidenav></app-user-sidenav>
       </div>
       <div class="storage-content">
-        <div class="storage-history" *ngIf="storage; else noStorageTemplate">
+        <div class="storage-history">
           <!-- Page -->
           <div class="storage" *ngIf="userStoragePage == 0">
             <app-storage></app-storage>
@@ -38,11 +38,6 @@
       <h3 class="mt-3 text-muted">ไม่พบข้อมูลผู้ใช้งาน</h3>
       <h5 class="mt-5 text-muted">กรุณาเข้าสู่ระบบ</h5>
       <button class="no-user-login" (click)="userLogin()">เข้าสู่ระบบ</button>
-    </div>
-  </ng-template>
-  <ng-template #noStorageTemplate>
-    <div class="no-storage-page text-center">
-      <h3 class="mt-3 text-muted">ไม่พบข้อมูลสินค้า</h3>
     </div>
   </ng-template>
 </div>

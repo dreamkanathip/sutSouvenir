@@ -1,98 +1,100 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <div class="row">
-    <div class="card col-5 img-container">
-      <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
-    </div>
-    <div class="col-1"></div>
-    <div class="col-5" *ngIf="product">
-      <div class="title">
-        <h1 class="title">{{ product.title }}</h1>
+<div class="product-detail-page">
+  <div class="container">
+    <div class="row">
+      <div class="card col-5 img-container">
+        <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
       </div>
-      <div class="d-flex justify-content-start align-items-center align-center">
-        <div class="stars">
-          <i
-            class="fa"
-            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-            [ngClass]="{
-              'fa-star': averageRating >= (i + 1),
-              'fa-star-half-o': averageRating > i && averageRating < (i + 1),
-              'fa-star-o': averageRating < (i + 1)
-            }"
-          ></i>
+      <div class="col-1"></div>
+      <div class="col-5" *ngIf="product">
+        <div class="title">
+          <h1 class="title">{{ product.title }}</h1>
+        </div>
+        <div class="d-flex justify-content-start align-items-center align-center">
+          <div class="stars">
+            <i
+              class="fa"
+              *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+              [ngClass]="{
+                'fa-star': averageRating >= (i + 1),
+                'fa-star-half-o': averageRating > i && averageRating < (i + 1),
+                'fa-star-o': averageRating < (i + 1)
+              }"
+            ></i>
+          </div>
+          
+          <div class="favourite" *ngIf="likeProductStatus else noLike">
+            <div class="add-to-fav ms-5" (click)="unlikeProduct(product)">
+              <i class='bx bxs-heart bx-sm'></i>
+            </div>
+          </div>
+          <ng-template #noLike>
+            <div class="no-fav ms-5" (click)="likeProduct(product)">
+              <i class='bx bx-heart bx-sm'></i>
+            </div>
+          </ng-template>
         </div>
         
-        <div class="favourite" *ngIf="likeProductStatus else noLike">
-          <div class="add-to-fav ms-5" (click)="unlikeProduct(product)">
-            <i class='bx bxs-heart bx-sm'></i>
+        <h1 class="price">฿{{ product.price }}</h1>
+  
+        <div class="d-flex justify-content-start align-items-center">
+          <div class="quantity d-flex align-items-center me-3">
+            <button (click)="decreaseQuantity()" class="btn btn-outline-secondary btn-sm">-</button>
+            <input 
+              type="number" 
+              [(ngModel)]="quantityToOrder" 
+              class="form-control mx-2 text-center quantity-input"
+              [min]="1" [max]="product.quantity"
+            />
+            <button (click)="increaseQuantity()" class="btn btn-outline-secondary btn-sm">+</button>
+          </div>
+          <div class="amount">
+            มีสินค้าทัั้งหมด {{ product.quantity }} ชิ้น
           </div>
         </div>
-        <ng-template #noLike>
-          <div class="no-fav ms-5" (click)="likeProduct(product)">
-            <i class='bx bx-heart bx-sm'></i>
-          </div>
-        </ng-template>
+        <!-- <h2 class="review">รีวิว</h2> -->
+        <button type="button" class="main-btn mt-5" (click)="addItemToCart()">เพิ่มในรถเข็น</button>
       </div>
-      
-      <h1 class="price">฿{{ product.price }}</h1>
-
-      <div class="d-flex justify-content-start align-items-center">
-        <div class="quantity d-flex align-items-center me-3">
-          <button (click)="decreaseQuantity()" class="btn btn-outline-secondary btn-sm">-</button>
-          <input 
-            type="number" 
-            [(ngModel)]="quantityToOrder" 
-            class="form-control mx-2 text-center quantity-input"
-            [min]="1" [max]="product.quantity"
-          />
-          <button (click)="increaseQuantity()" class="btn btn-outline-secondary btn-sm">+</button>
-        </div>
-        <div class="amount">
-          มีสินค้าทัั้งหมด {{ product.quantity }} ชิ้น
-        </div>
+      <hr />
+      <div class="product-description">
+        <h2>รายละเอียดสินค้า</h2>
+        <p>{{ showProductDescription() }}</p>
       </div>
-      <!-- <h2 class="review">รีวิว</h2> -->
-      <button type="button" class="main-btn mt-5" (click)="addItemToCart()">เพิ่มในรถเข็น</button>
-    </div>
-    <hr />
-    <div class="product-description">
-      <h2>รายละเอียดสินค้า</h2>
-      <p>{{ showProductDescription() }}</p>
-    </div>
-    <hr />
-    <!-- Section รีวิว -->
-    <div class="row-cols-1 review-section">
-      <h2>รีวิว</h2>
-    </div>
-    <div class="review-container" *ngIf="uniqueReview.length > 0">
-      <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-4" *ngFor="let review of uniqueReview">
-          <div class="review-card">
-            <div class="stars">
-              <i
-                class="fa"
-                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-                [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
-              ></i>
-            </div>
-            {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.
-            <div>{{ review.user?.firstName }} : {{ review.comment }}</div>
-            <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
-              <p>
-                รีวิวนี้ได้รับการแก้ไขจากผู้เขียนรีวิว 
-                <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a>
-              </p>
+      <hr />
+      <!-- Section รีวิว -->
+      <div class="row-cols-1 review-section">
+        <h2>รีวิว</h2>
+      </div>
+      <div class="review-container" *ngIf="uniqueReview.length > 0">
+        <div class="row g-4">
+          <div class="col-12 col-md-6 col-lg-4" *ngFor="let review of uniqueReview">
+            <div class="review-card">
+              <div class="stars">
+                <i
+                  class="fa"
+                  *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
+                ></i>
+              </div>
+              {{ review.createdAt | date: 'dd/MM/yyyy HH:mm' }} น.
+              <div>{{ review.user?.firstName }} : {{ review.comment }}</div>
+              <div class="review-history" *ngIf="checkReviewHistory(review.userId)">
+                <p>
+                  รีวิวนี้ได้รับการแก้ไขจากผู้เขียนรีวิว 
+                  <a class="review-history-btn" (click)="showHistory(review.userId)">แสดงรีวิวก่อนหน้า</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </div>    
+      <div class="no-review text-center" *ngIf="uniqueReview.length === 0">
+        <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
       </div>
-    </div>    
-    <div class="no-review text-center" *ngIf="uniqueReview.length === 0">
-      <h3>ยังไม่มีรีวิวสำหรับสินค้านี้</h3>
+      <!-- <div class="review-edit">
+        <button class="review-btn mt-5" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
+      </div> -->
     </div>
-    <!-- <div class="review-edit">
-      <button class="review-btn mt-5" (click)="NavigateToReview(product.id)">เขียนรีวิวใหม่</button>
-    </div> -->
   </div>
 </div>
 
@@ -122,4 +124,4 @@
 </div>
 <!-- End of History Modal-->
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

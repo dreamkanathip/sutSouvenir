@@ -5,26 +5,36 @@
 <div class="user-sidenav">
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a class="nav-link">บัญชีผู้ใช้งาน</a>
+      <a class="nav-link d-flex align-items-center"><i class="bx bx-user bx-flip-horizontal icon me-2"></i><span>บัญชีผู้ใช้งาน</span></a>
       <ul class="nav flex-column sub-nav">
         <li class="nav-item user-nav">
-          <a class="nav-link" [ngClass]="{'active': userStoragePage === 3}" (click)="openPages(3)">ข้อมูลบัญชี</a>
+          <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 3}" (click)="openPages(3)">
+            <i class="bx bx-user me-2"></i><span>ข้อมูลบัญชีผู้ใช้งาน</span>
+          </a>
         </li>
         <li class="nav-item user-nav">
-          <a class="nav-link" [ngClass]="{'active': userStoragePage === 4}" (click)="openPages(4)">ที่อยู่</a>
+          <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 4}" (click)="openPages(4)">
+            <i class="bx bx-map me-2"></i><span>ที่อยู่</span>
+          </a>
         </li>
       </ul>
     </li>
   </ul>
   <ul class="nav flex-column">
     <li class="nav-item storage-nav">
-      <a class="nav-link" [ngClass]="{'active': userStoragePage === 0}" (click)="openPages(0)">รายการสินค้าของคุณ</a>
+      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 0}" (click)="openPages(0)">
+        <i class="bx bx-box me-2"></i><span>รายการสินค้าของคุณ</span>
+      </a>
     </li>
     <li class="nav-item storage-nav">
-      <a class="nav-link" [ngClass]="{'active': userStoragePage === 1}" (click)="openPages(1)">ประวัติการสั่งซื้อ</a>
+      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 1}" (click)="openPages(1)">
+        <i class="bx bx-history me-2"></i><span>ประวัติการสั่งซื้อ</span>
+      </a>
     </li>
     <li class="nav-item storage-nav">
-      <a class="nav-link" [ngClass]="{'active': userStoragePage === 2}" (click)="openPages(2)">รายการโปรด</a>
+      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 2}" (click)="openPages(2)">
+        <i class="bx bx-heart me-2"></i><span>รายการโปรด</span>
+      </a>
     </li>
   </ul>
 </div>
