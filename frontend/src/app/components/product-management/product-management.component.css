@@ -187,3 +187,23 @@ body.modal-open::before {
     font-size: 12px; /* ลดขนาดฟอนต์อีกสำหรับหน้าจอเล็ก */
   }
 }
+.body {
+  .body {
+    background: linear-gradient(
+      205deg,
+      rgba(255, 127, 80, 0.5),
+      /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+      /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+        /* สีขาวที่มี opacity น้อย */
+    );
+
+    background-size: cover; /* ทำให้แบ็คกราวด์ครอบคลุมเต็มหน้าจอ */
+    background-position: center; /* ตั้งแบ็คกราวด์ให้อยู่ตรงกลาง */
+    background-attachment: fixed; /* ทำให้พื้นหลังไม่เลื่อนตามการเลื่อนหน้า */
+    height: 100vh; /* ความสูงเต็มหน้าจอ */
+    width: 100%; /* ความกว้างเต็มหน้าจอ */
+    display: flex; /* ใช้เพื่อให้สามารถจัดตำแหน่งภายในได้ */
+    justify-content: center; /* จัดตำแหน่งแนวนอน */
+    align-items: center; /* จัดตำแหน่งแนวตั้ง */
+  }
+}

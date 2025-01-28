@@ -1,5 +1,5 @@
 * {
-  font-family: url("../../../assets/fonts/SUT-Light.otf");
+  font-family: "SUT", sans-serif;
 }
 
 .main {
@@ -8,33 +8,57 @@
   align-items: center;
   min-height: 100vh;
 }
+
 .header {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   font-size: 19px;
-  margin-left: 6px;
-}
-.ext-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding-top: 50px;
-}
-/* สำหรับ .wrapper ให้อยู่ตรงกลางและกำหนดขนาดที่แน่นอน */
-.wrapper {
-  width: 8000px;
-  padding: 0;
+  /* margin-left: 6px; */
+  color: #f26522;
 }
 
-/* สำหรับ .container ให้อยู่ตรงกลางภายใน wrapper และสามารถปรับขนาดได้ */
+.product-img-preview {
+  width: 250px; /* กำหนดความกว้างของรูป */
+  height: 250px; /* กำหนดความสูงของรูป */
+  object-fit: contain; /* ใช้เพื่อให้รูปภาพครอบพื้นที่ได้เต็มขนาด */
+  cursor: pointer;
+  display: block;
+  margin: 0 auto; /* ให้อยู่ตรงกลาง */
+}
+
+.d-flex {
+  display: flex;
+  justify-content: center; /* จัดแนวกลางในแนวนอน */
+  align-items: center; /* จัดแนวกลางในแนวตั้ง */
+  height: 100%; /* เพื่อให้มีความสูง 100% สำหรับการจัดแนวในแนวตั้ง */
+}
+
+/* ถ้าหากต้องการให้รูปภาพใน container อยู่กลาง */
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%; /* ใช้ความกว้างเต็มของ wrapper */
-  max-width: 100%; /* จำกัดความกว้างสูงสุดให้ไม่เกินขนาดของ wrapper */
-  padding: 20px; /* เพิ่ม padding สำหรับ container */
-  box-sizing: border-box; /* รวม padding และ border ไว้ในขนาดของกล่อง */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: center; /* เพิ่มการจัดแนวข้อความให้อยู่กลาง */
+}
+
+.main-row {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.side-image {
+  background-position: center;
+  background-size: auto;
+  background-repeat: no-repeat;
+  border-radius: 10px 0 0 10px;
+  margin: 0;
 }
 
 .img {
@@ -43,28 +67,7 @@
   top: 30px;
   left: 30px;
 }
-.row {
-  width: 400px;
-  height: 500px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
-  overflow: hidden; /* ทำให้เนื้อหาที่เกินจาก box ถูกตัด */
-}
-.text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.text p {
-  color: #fff;
-  font-size: 18px;
-}
-i {
-  font-weight: 400;
-  font-size: 15px;
-}
+
 .right {
   display: flex;
   justify-content: center;
@@ -86,19 +89,19 @@ i {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0 10px; /* เพิ่ม padding เพื่อให้มีพื้นที่รอบ ๆ input */
-  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง input-field */
+  padding: 0 10px;
+  margin-bottom: 20px;
 }
 
 .input {
-  height: 45px; /* ความสูงของ input */
-  width: 100%; /* ใช้ความกว้างเต็มของ input-field */
+  height: 45px;
+  width: 100%;
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
   color: #40414a;
-  box-sizing: border-box; /* รวม padding และ border ไว้ในขนาดของ input */
+  box-sizing: border-box;
 }
 
 .input-box .input-field label {
@@ -107,7 +110,7 @@ i {
   left: 10px;
   pointer-events: none;
   transition: 0.5s;
-  color: #aaa; /* สีของ label ในตอนเริ่มต้น */
+  color: #aaa;
 }
 
 .input-field .input:focus ~ label,
@@ -119,21 +122,50 @@ i {
 
 .input-field .input:focus,
 .input-field .input {
-  border-bottom: 1px solid #f26522; /* สีของขอบเมื่อมีการโฟกัส */
+  border-bottom: 1px solid #f26522;
 }
 
+.submit:enabled {
+  width: 100%;
+  height: 45px;
+  background: #f26522;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+}
 .submit {
-  width: 100%; /* ใช้ความกว้างเต็มของ input-box */
+  width: 100%;
   height: 45px;
   background: #ececec;
   border: none;
   border-radius: 5px;
   transition: 0.4s;
 }
-
-.submit:hover {
-  background: #f26522;
+.submit:hover:enabled {
+  background: #ce561e;
   color: #fff;
+  cursor: pointer;
+}
+
+.cancel {
+  width: 100%;
+  height: 45px;
+  background: #ececec;
+  border: none;
+  border-radius: 5px;
+  transition: 0.4s;
+}
+.cancel:hover:enabled {
+  background: #d6d6d6;
+  /* color: #fff; */
+  cursor: pointer;
+}
+.button-group {
+  display: flex; /* ใช้ flexbox เพื่อจัดเรียงปุ่มในแถว */
+  justify-content: space-between; /* เว้นระยะห่างระหว่างปุ่ม */
+  gap: 10px; /* ระยะห่างระหว่างปุ่ม */
+  width: 100%;
 }
 
 .signin {
@@ -154,224 +186,66 @@ span a:hover {
   color: #000;
 }
 
-@media only screen and (max-width: 768px) {
-  .side-image {
-    border-radius: 10px 10px 0 0;
-  }
-  img {
-    width: 35px;
-    position: absolute;
-    left: 47%;
-  }
-  .text {
-    position: absolute;
-    top: 70%;
-    text-align: center;
-  }
-
-  .text p,
-  .text i {
-    font-size: 17px;
-  }
-
-  .row {
-    max-width: 420px;
-    width: 100%;
-  }
+.form-control-file {
+  display: none;
 }
-.gender-container {
+
+.product-img-preview {
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+}
+
+.category {
+  cursor: pointer;
+}
+.modal-backdrop {
+  opacity: 0.5;
+}
+.upload-btn {
+  background: #f36523;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+  /* height: 70px; */
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  justify-content: center;
+}
+.upload-btn :active {
+  background: #ea7945;
+}
+.upload-btn :hover {
+  background: #db9474;
+}
+/* ปรับการแสดงผลของกลุ่มเพศ */
+.gender-container {
+  margin-top: 20px;
+  margin-left: 20px; /* ขยับกลุ่มตัวเลือกเพศ */
 }
 
 .gender-options {
   display: flex;
-  justify-content: center; /* จัดให้อยู่ตรงกลาง */
+  gap: 20px; /* เพิ่มระยะห่างระหว่างตัวเลือก */
   align-items: center;
 }
 
 .gender-option {
   display: flex;
   align-items: center;
-  margin-right: 20px; /* Space between the radio buttons */
-  font-family: "Poppins", sans-serif;
-  cursor: pointer;
-}
-
-.gender-option input[type="radio"] {
-  display: none; /* ซ่อน radio button แต่ยังให้ label คลิกได้ */
 }
 
 .gender-option-label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding-left: 2.5em; /* เพิ่มพื้นที่ให้กับปุ่ม radio */
-  margin-left: 10px; /* ขยับปุ่ม radio ไปทางขวา */
+  margin-left: 5px; /* เพิ่มระยะห่างจาก input */
 }
 
-.gender-option-label::before {
-  content: "";
-  display: inline-block;
-  height: 1em;
-  width: 1em;
-  border: 2px solid #f26522; /* สีขอบ */
-  border-radius: 50%; /* ทำให้เป็นวงกลม */
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent; /* ไม่มีสีพื้นหลัง */
+/* ปรับสีของ radio button */
+input[type="radio"] {
+  margin: 0; /* ลบ margin ที่เกิดจาก input */
+  accent-color: #f26522; /* ใช้สำหรับเปลี่ยนสีของ radio button เมื่อเลือก */
 }
 
-.gender-option input[type="radio"]:checked + .gender-option-label::after {
-  content: "";
-  display: inline-block;
-  height: 0.5em; /* ขนาดของจุด */
-  width: 0.5em; /* ขนาดของจุด */
-  background-color: #f26522; /* สีของจุด */
-  border-radius: 50%; /* ทำให้จุดเป็นวงกลม */
-  position: absolute;
-  left: 0.25em; /* จัดให้อยู่ตรงกลางวงกลม */
-  top: 50%;
-  transform: translateY(-50%);
-}
-/* Add this to your existing CSS */
-
-/* General container for the eye icon */
-.input-field {
-  position: relative;
-}
-
-/* Adjust the position of the eye icon */
-.input-field .fa-eye,
-.input-field .fa-eye-slash {
-  position: absolute;
-  right: 10px; /* Align it to the right of the input */
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #aaa; /* Default color for the eye icon */
-  transition: color 0.3s ease;
-}
-
-/* Eye icon hover effect */
-.input-field .fa-eye:hover,
-.input-field .fa-eye-slash:hover {
-  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Change color on hover */
-}
-
-/* Move eye icon up along with label on focus or valid */
-.input-field .input:focus ~ i,
-.input-field .input:valid ~ i {
-  top: -10px;
-  font-size: 13px;
-  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Color change */
-  transform: translateY(0); /* Adjust translation */
-}
-
-/* Handle error message and adjust spacing for eye icon */
-.input-field .input:focus:invalid ~ i,
-.input-field .input:invalid ~ i {
-  color: #333; /* เปลี่ยนสีเมื่อ hover */ /* Change eye icon color to red on validation error */
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-  position: absolute;
-  top: 55px; /* Adjust position so it doesn't overlap the icon */
-}
-
-.main-video {
-  width: 100%;
-  height: 100%;
-}
-
-.main-video video {
-  position: fixed;
-  z-index: -9;
-  object-fit: cover;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.bottom-right-word {
-  position: fixed;
-  width: auto; /* Adjust width as needed */
-  height: auto; /* Adjust height as needed */
-  display: block;
-  justify-content: flex-end;
-  align-items: flex-end;
-  border-radius: 10px;
-  bottom: 0;
-  right: 0;
-  z-index: 99;
-}
-
-.bottom-left-word {
-  position: fixed;
-  width: 100%; /* Adjust width as needed */
-  height: 90%; /* Adjust height as needed */
-  display: block;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border-radius: 10px;
-  bottom: 0;
-  left: 0;
-  z-index: 99;
-}
-
-.bottom-right-word a {
-  background-color: rgba(255, 255, 255, 0.71);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.bottom-left-word a {
-  background-color: rgba(255, 255, 255, 0.71);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-a:hover {
-  background-color: rgb(255, 255, 255);
-}
-
-/* Middle text styling */
-.middle-word {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 12vw;
-  text-align: center;
-  z-index: 1;
-  letter-spacing: 0.2em;
-}
-
-/* Bottom-right credit link */
-.bottom-right-word {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1;
-}
-
-.bottom-right-word a {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  border-radius: 10px;
-  color: black;
-  text-decoration: none;
-}
-
-.bottom-right-word a:hover {
-  background-color: rgba(255, 255, 255, 1);
+/* ปรับสีของ label เมื่อเลือก */
+input[type="radio"]:checked + .gender-option-label {
+  color: #f26522; /* เปลี่ยนสีของ label เมื่อเลือก */
 }

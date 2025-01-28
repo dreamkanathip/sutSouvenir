@@ -2,7 +2,13 @@
   font-family: url("../../../assets/fonts/SUT-Light.otf");
 }
 body {
-  background-image: url("../../../assets/bgtemp-login-regis.jpg");
+  background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+      /* สีขาวที่มี opacity น้อย */
+  );
   background-size: cover; /* ทำให้ภาพพื้นหลังขยายเต็มพื้นที่ */
   background-position: center; /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */
   background-repeat: no-repeat; /* ป้องกันการทำซ้ำของภาพพื้นหลัง */
@@ -43,13 +49,13 @@ body {
 }
 
 .side-image {
-  background-image: url("../../../assets/sunshine-2250.gif");
+  background-image: url("../../../assets/ENGi-Logo-Burgundy.png");
   background-position: center;
-  background-size: cover; /* ให้แสดงในขนาดจริง */
   background-repeat: no-repeat;
   position: relative;
   border-radius: 10px 0 0 10px; /* เพิ่มเฉพาะมุมของฝั่งรูปภาพ */
   margin: 0; /* นำ margin ออกเพื่อให้รูปภาพชิดกับ box */
+  left: 30px;
 }
 
 .img {

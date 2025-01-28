@@ -169,15 +169,19 @@
   border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
 }
 
-/* เพิ่มขอบสีดำเมื่อเมาส์ชี้ที่เมนู */
+/* เพิ่มความโปร่งแสงเมื่อเมาส์ชี้ที่เมนู */
 .sidebar-nav .nav-link:hover {
-  border-color: #f26522; /* ขอบสีดำเมื่อเมาส์ชี้ */
-  background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ */
+  border-color: #f26522; /* ขอบสีส้ม */
+  background: rgba(255, 255, 255, 0.8); /* พื้นหลังโปร่งแสง */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  transition: background 0.3s ease, box-shadow 0.3s ease; /* เพิ่ม transition ให้ลื่น */
 }
 
-/* การตั้งค่าหลังจากที่ Sidebar ยุบแล้ว */
+/* ในกรณี Sidebar ยุบ */
 .sidebar.collapsed .sidebar-nav .nav-link:hover {
-  background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ในกรณีที่ Sidebar ยุบ */
+  background: rgba(255, 255, 255, 0.8); /* พื้นหลังโปร่งแสง */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ซ่อนชื่อเมนูเมื่อ Sidebar ยุบ */
