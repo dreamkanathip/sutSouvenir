@@ -1,136 +1,142 @@
 <app-navbar-admin></app-navbar-admin>
 <link rel="stylesheet" href="admin-update-order-status.component.css" />
 
-<div class="main-video">
-    <div class="container">
-        <div class="order-container p-5">
-            <h1 style="font-weight: bold;">รายการคำสั่งซื้อ</h1>
-            <hr />
-            <div class="card d-flex justify-content-center align-items-center">
-                <div class="card-body">
-                    <div class="table align-middle">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="text-center">วันที่</th>
-                                <th class="text-center">สถานะคำสั่งซื้อ</th>
-                                <th class="text-center">สถานะการชำระเงิน</th>
-                                <th class="text-center">จำนวนเงินที่ต้องชำระ</th>
-                                <th class="text-center">วันที่ชำระเงิน</th>
-                                <th class="text-center">ตรวจสอบคำสั่งซื้อ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    12 มกราคม 2568 12:15
-                                </td>
-                                <td class="text-center" style="color: #4BB5DE; font-weight: bold;">
-                                    ยืนยันการสั่งซื้อ
-                                </td>
-                                <td class="text-center" style="color: #47E036; font-weight: bold;">
-                                    ชำระเงินแล้ว
-                                </td>
-                                <td class="text-center">
-                                    220
-                                </td>
-                                <td class="text-center">
-                                    14 มกราคม 2568 11:11
-                                </td>
-                                <td>
-                                    <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    18 มกราคม 2568 12:15
-                                </td>
-                                <td class="text-center" style="color: #4BB5DE; font-weight: bold;">
-                                    กำลังจัดส่ง
-                                </td>
-                                <td class="text-center" style="color: #47E036; font-weight: bold;">
-                                    ชำระเงินแล้ว
-                                </td>
-                                <td class="text-center">
-                                    220
-                                </td>
-                                <td class="text-center">
-                                    19 มกราคม 2568 11:11
-                                </td>
-                                <td>
-                                    <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    21 มกราคม 2568 12:15
-                                </td>
-                                <td class="text-center" style="color: #47E036; font-weight: bold;">
-                                    จัดส่งสำเร็จ
-                                </td>
-                                <td class="text-center" style="color: #47E036; font-weight: bold;">
-                                    ชำระเงินแล้ว
-                                </td>
-                                <td class="text-center">
-                                    220
-                                </td>
-                                <td class="text-center">
-                                    22 มกราคม 2568 11:11
-                                </td>
-                                <td>
-                                    <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    25 มกราคม 2568 12:15
-                                </td>
-                                <td class="text-center" style="color: #DD0000; font-weight: bold;">
-                                    ยกเลิก
-                                </td>
-                                <td class="text-center" style="color: #F7AB05; font-weight: bold;">
-                                    ยังไม่ได้ชำระเงิน
-                                </td>
-                                <td class="text-center">
-                                    220
-                                </td>
-                                <td class="text-center">
-                                    26 มกราคม 2568 11:11
-                                </td>
-                                <td>
-                                    <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    27 มกราคม 2568 12:15
-                                </td>
-                                <td class="text-center" style="color: #4BB5DE; font-weight: bold;">
-                                    ยืนยันการสั่งซื้อ
-                                </td>
-                                <td class="text-center" style="color: #47E036; font-weight: bold;">
-                                    ชำระเงินแล้ว
-                                </td>
-                                <td class="text-center">
-                                    220
-                                </td>
-                                <td class="text-center">
-                                    27 มกราคม 2568 11:11
-                                </td>
-                                <td>
-                                    <u class="check-payment" data-bs-toggle="modal" data-bs-target="#order-detail">
-                                        ตรวจสอบคำสั่งซื้อ
-                                    </u>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </div>
-                </div>
-            </div>
+<div class="body">
+  <div class="container">
+    <div class="order-container p-5">
+      <h1 style="font-weight: bold">รายการคำสั่งซื้อ</h1>
+      <hr />
+      <div class="card d-flex justify-content-center align-items-center">
+        <div class="card-body">
+          <div class="table align-middle">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center">วันที่</th>
+                <th class="text-center">สถานะคำสั่งซื้อ</th>
+                <th class="text-center">สถานะการชำระเงิน</th>
+                <th class="text-center">จำนวนเงินที่ต้องชำระ</th>
+                <th class="text-center">วันที่ชำระเงิน</th>
+                <th class="text-center">ตรวจสอบคำสั่งซื้อ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">12 มกราคม 2568 12:15</td>
+                <td
+                  class="text-center"
+                  style="color: #4bb5de; font-weight: bold"
+                >
+                  ยืนยันการสั่งซื้อ
+                </td>
+                <td
+                  class="text-center"
+                  style="color: #47e036; font-weight: bold"
+                >
+                  ชำระเงินแล้ว
+                </td>
+                <td class="text-center">220</td>
+                <td class="text-center">14 มกราคม 2568 11:11</td>
+                <td>
+                  <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">18 มกราคม 2568 12:15</td>
+                <td
+                  class="text-center"
+                  style="color: #4bb5de; font-weight: bold"
+                >
+                  กำลังจัดส่ง
+                </td>
+                <td
+                  class="text-center"
+                  style="color: #47e036; font-weight: bold"
+                >
+                  ชำระเงินแล้ว
+                </td>
+                <td class="text-center">220</td>
+                <td class="text-center">19 มกราคม 2568 11:11</td>
+                <td>
+                  <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">21 มกราคม 2568 12:15</td>
+                <td
+                  class="text-center"
+                  style="color: #47e036; font-weight: bold"
+                >
+                  จัดส่งสำเร็จ
+                </td>
+                <td
+                  class="text-center"
+                  style="color: #47e036; font-weight: bold"
+                >
+                  ชำระเงินแล้ว
+                </td>
+                <td class="text-center">220</td>
+                <td class="text-center">22 มกราคม 2568 11:11</td>
+                <td>
+                  <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">25 มกราคม 2568 12:15</td>
+                <td
+                  class="text-center"
+                  style="color: #dd0000; font-weight: bold"
+                >
+                  ยกเลิก
+                </td>
+                <td
+                  class="text-center"
+                  style="color: #f7ab05; font-weight: bold"
+                >
+                  ยังไม่ได้ชำระเงิน
+                </td>
+                <td class="text-center">220</td>
+                <td class="text-center">26 มกราคม 2568 11:11</td>
+                <td>
+                  <u class="check-payment">ตรวจสอบคำสั่งซื้อ</u>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">27 มกราคม 2568 12:15</td>
+                <td
+                  class="text-center"
+                  style="color: #4bb5de; font-weight: bold"
+                >
+                  ยืนยันการสั่งซื้อ
+                </td>
+                <td
+                  class="text-center"
+                  style="color: #47e036; font-weight: bold"
+                >
+                  ชำระเงินแล้ว
+                </td>
+                <td class="text-center">220</td>
+                <td class="text-center">27 มกราคม 2568 11:11</td>
+                <td>
+                  <u
+                    class="check-payment"
+                    data-bs-toggle="modal"
+                    data-bs-target="#order-detail"
+                  >
+                    ตรวจสอบคำสั่งซื้อ
+                  </u>
+                </td>
+              </tr>
+            </tbody>
+          </div>
         </div>
-        <app-admin-update-order-status-detail
-            class="modal fade" id="order-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        ></app-admin-update-order-status-detail>
+      </div>
     </div>
-    <video autoplay loop muted src="../../../assets/video-homeadmin.mp4">
-    </video>
+    <app-admin-update-order-status-detail
+      class="modal fade"
+      id="order-detail"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    ></app-admin-update-order-status-detail>
+  </div>
 </div>
