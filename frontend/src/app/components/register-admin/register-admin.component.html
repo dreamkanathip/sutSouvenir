@@ -1,135 +1,159 @@
 <app-navbar-super-admin></app-navbar-super-admin>
 <link rel="stylesheet" href="register-admin.component.css" />
 
-<div class="main-video">
-  <!-- Video background -->
-  <video autoplay loop muted src="../../../assets/video-homeadmin.mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">สมัครบัญชีแอดมิน</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row main-row">
+          <!-- ส่วนซ้าย -->
+          <div class="col-md-6">
+            <div class="d-flex flex-row image row ms-3 mt-3 mb-3">
+              <div class="col-12 d-flex justify-content-center mt-3">
+                <a
+                  href="../../../assets/ENGi-Logo-Burgundy.png"
+                  target="_blank"
+                  class="profile-link"
+                >
+                  <img
+                    src="../../../assets/ENGi-Logo-Burgundy.png"
+                    alt="Profile Picture"
+                    class="product-img-preview"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
 
-<div class="ext-box">
-  <div class="wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col-md right">
-          <div>
-            <div class="input-box">
-              <header class="header" style="color: #f26522">
-                สมัครบัญชีแอดมิน
-              </header>
-              <form [formGroup]="form" (ngSubmit)="submit()">
-                <!-- ชื่อ -->
-                <div class="input-field">
-                  <input
-                    type="text"
-                    class="input"
-                    id="registerPage-firstname"
-                    formControlName="firstName"
-                    required
-                  />
-                  <label for="registerPage-firstname">ชื่อ</label>
-                </div>
-                <!-- นามสกุล -->
-                <div class="input-field">
-                  <input
-                    type="text"
-                    class="input"
-                    id="registerPage-lastname"
-                    formControlName="lastName"
-                    required
-                  />
-                  <label for="registerPage-lastname">นามสกุล</label>
-                </div>
-                <!-- อีเมล -->
-                <div class="input-field">
-                  <input
-                    formControlName="email"
-                    type="email"
-                    class="input"
-                    id="registerPage-email"
-                    required
-                    autocomplete="off"
-                  />
-                  <label for="registerPage-email">อีเมล</label>
-                  <div *ngIf="form.get('email')?.hasError('invalidDomain')">
-                    <span class="error">
-                      สามารถลงท้ายได้แค่ gmail.com, hotmail.com, hotmail.co.th
-                      และ outlook.com
-                    </span>
+          <!-- ส่วนขวา -->
+          <div class="col-md-6 right">
+            <div>
+              <h4 class="mt-3">รายละเอียด</h4>
+              <div class="input-box mt-1 mb-3">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <!-- ชื่อ -->
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="input"
+                      id="registerPage-firstname"
+                      formControlName="firstName"
+                      required
+                    />
+                    <label for="registerPage-firstname">ชื่อ</label>
                   </div>
-                </div>
-                <!-- รหัสผ่าน -->
-                <div class="input-field">
-                  <input
-                    formControlName="password"
-                    [type]="showPassword ? 'text' : 'password'"
-                    class="input"
-                    id="registerPage-password"
-                    required
-                  />
-                  <label for="registerPage-password">รหัสผ่าน</label>
-                  <i
-                    class="fa"
-                    [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-                    (click)="togglePasswordVisibility()"
-                  ></i>
-                  <div
-                    *ngIf="
-                      form.get('password')?.hasError('minlength') &&
-                      form.get('password')?.touched
-                    "
-                  >
-                    <span class="error">รหัสผ่านต้องมากกว่า 6 ตัวอักษร</span>
+
+                  <!-- นามสกุล -->
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="input"
+                      id="registerPage-lastname"
+                      formControlName="lastName"
+                      required
+                    />
+                    <label for="registerPage-lastname">นามสกุล</label>
                   </div>
-                </div>
-                <!-- เพศ -->
-                <div class="gender-container">
-                  <div class="gender-options">
-                    <div class="gender-option">
-                      <input
-                        type="radio"
-                        id="registerPage-male"
-                        value="ชาย"
-                        formControlName="gender"
-                        name="gender"
-                      />
-                      <label for="registerPage-male" class="gender-option-label"
-                        >ชาย</label
-                      >
-                    </div>
-                    <div class="gender-option">
-                      <input
-                        type="radio"
-                        id="registerPage-female"
-                        value="หญิง"
-                        formControlName="gender"
-                        name="gender"
-                      />
-                      <label
-                        for="registerPage-female"
-                        class="gender-option-label"
-                        >หญิง</label
-                      >
+
+                  <!-- อีเมล -->
+                  <div class="input-field">
+                    <input
+                      formControlName="email"
+                      type="email"
+                      class="input"
+                      id="registerPage-email"
+                      required
+                      autocomplete="off"
+                    />
+                    <label for="registerPage-email">อีเมล</label>
+                  </div>
+
+                  <!-- รหัสผ่าน -->
+                  <div class="input-field">
+                    <input
+                      formControlName="password"
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="input"
+                      id="registerPage-password"
+                      required
+                    />
+                    <label for="registerPage-password">รหัสผ่าน</label>
+                  </div>
+
+                  <!-- เพศ -->
+                  <div class="gender-container">
+                    <div class="gender-options">
+                      <div class="gender-option">
+                        <input
+                          type="radio"
+                          id="registerPage-male"
+                          value="ชาย"
+                          formControlName="gender"
+                          name="gender"
+                        />
+                        <label
+                          for="registerPage-male"
+                          class="gender-option-label"
+                          >ชาย</label
+                        >
+                      </div>
+                      <div class="gender-option">
+                        <input
+                          type="radio"
+                          id="registerPage-female"
+                          value="หญิง"
+                          formControlName="gender"
+                          name="gender"
+                        />
+                        <label
+                          for="registerPage-female"
+                          class="gender-option-label"
+                          >หญิง</label
+                        >
+                      </div>
                     </div>
                   </div>
-                </div>
-                <!-- บทบาท -->
-                <div class="input-field">
-                  <input
-                    type="text"
-                    id="registerPage-role"
-                    formControlName="role"
-                    class="input"
-                    value="ADMIN"
-                    readonly
-                  />
-                </div>
-                <!-- ปุ่มลงทะเบียน -->
-                <div class="input-field">
-                  <button type="submit" class="submit">ลงทะเบียน</button>
-                </div>
-              </form>
+
+                  <!-- บทบาท -->
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      id="registerPage-role"
+                      formControlName="role"
+                      class="input"
+                      value="ADMIN"
+                      readonly
+                    />
+                  </div>
+
+                  <!-- ปุ่มลงทะเบียน -->
+                  <div class="button-group mt-3">
+                    <button
+                      type="submit"
+                      class="submit"
+                      [disabled]="form.invalid"
+                    >
+                      บันทึกข้อมูล
+                    </button>
+                    <button
+                      type="button"
+                      class="cancel"
+                      data-bs-dismiss="modal"
+                    >
+                      ย้อนกลับ
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

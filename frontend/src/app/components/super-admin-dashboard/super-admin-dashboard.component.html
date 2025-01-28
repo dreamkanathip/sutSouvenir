@@ -7,7 +7,7 @@
       <div
         class="card-header d-flex justify-content-between align-items-center"
       >
-        <h3>รายชื่อผู้ใช้งาน</h3>
+        <h3>รายชื่อผู้ใช้งานในระบบ</h3>
         <!-- Dropdown Filter -->
         <select
           class="form-select w-auto"
@@ -21,12 +21,12 @@
         </select>
       </div>
       <div class="card-body">
-        <!-- แสดงสถานะการโหลดข้อมูล -->
+        <!-- Loading Status -->
         <div *ngIf="isLoading" class="text-center">
           <p>กำลังโหลดข้อมูล...</p>
         </div>
 
-        <!-- แสดงตารางข้อมูลผู้ใช้ -->
+        <!-- User Table -->
         <table *ngIf="!isLoading" class="table table-hover">
           <thead>
             <tr>
@@ -40,7 +40,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- ใช้ *ngFor เพื่อแสดงผู้ใช้ในแต่ละหน้า -->
             <tr *ngFor="let user of pagedUsers; let i = index">
               <th scope="row">
                 {{ (currentPage - 1) * itemsPerPage + i + 1 }}
@@ -49,10 +48,10 @@
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.gender }}</td>
-              <td>{{ roles[user.role] }}</td>
-              <!-- แสดงบทบาทเป็นภาษาไทย -->
+              <td class="role-tag" [ngClass]="user.role">
+                <span>{{ roles[user.role] }}</span>
+              </td>
               <td>
-                <!-- ปุ่มลบจะถูกแสดงเฉพาะสำหรับผู้ใช้ที่ไม่ใช่ SUPERADMIN -->
                 <button
                   *ngIf="user.role !== 'SUPERADMIN'"
                   class="btn btn-danger"
@@ -60,13 +59,16 @@
                 >
                   <i class="bi bi-trash"></i>
                 </button>
-                <!-- หากผู้ใช้เป็น SUPERADMIN, ปุ่มลบจะไม่แสดง -->
-                <span *ngIf="user.role === 'SUPERADMIN'" class="text-muted">
-                </span>
+                <span
+                  *ngIf="user.role === 'SUPERADMIN'"
+                  class="text-muted"
+                ></span>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <!-- Pagination -->
         <div class="pagination-controls">
           <button
             class="btn btn-secondary"
@@ -89,15 +91,14 @@
       </div>
     </div>
 
-    <!-- Video Background -->
-    <video
-      autoplay
-      loop
-      muted
-      class="video-background"
-      src="../../../assets/video-homeadmin.mp4"
+    <!-- Button to Register Admin (Moved outside card) -->
+    <button
+      class="register-admin-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#registerAdmin"
     >
-      Your browser does not support the video tag.
-    </video>
+      <span class="material-symbols-rounded">group</span>
+    </button>
   </div>
 </div>
+<app-register-admin class="modal fade" id="registerAdmin"></app-register-admin>

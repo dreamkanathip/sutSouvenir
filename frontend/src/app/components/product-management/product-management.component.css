@@ -63,21 +63,29 @@
 }
 
 .table .btn-danger {
-  background: #f66a6a;
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f66a6a; /* ข้อความเป็นสีแดง */
+  border: 2px solid #f66a6a; /* ขอบเป็นสีแดง */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
 }
 
 .table .btn-danger:hover {
-  background: rgb(246, 74, 74);
-  color: #fff;
+  background: #f66a6a; /* พื้นหลังเป็นสีแดงเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f66a6a; /* ขอบยังคงเป็นสีแดง */
 }
 
 .table .btn-warning {
-  background: #f0ad4e;
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f0ad4e; /* ข้อความเป็นสีส้ม */
+  border: 2px solid #f0ad4e; /* ขอบเป็นสีส้ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
 }
 
 .table .btn-warning:hover {
-  background: rgb(240, 173, 78);
-  color: #fff;
+  background: #f0ad4e; /* พื้นหลังเป็นสีส้มเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f0ad4e; /* ขอบยังคงเป็นสีส้ม */
 }
 
 /* Card Styles */
@@ -185,5 +193,25 @@ body.modal-open::before {
   .table th,
   .table td {
     font-size: 12px; /* ลดขนาดฟอนต์อีกสำหรับหน้าจอเล็ก */
+  }
+}
+.body {
+  .body {
+    background: linear-gradient(
+      205deg,
+      rgba(255, 127, 80, 0.5),
+      /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+      /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+        /* สีขาวที่มี opacity น้อย */
+    );
+
+    background-size: cover; /* ทำให้แบ็คกราวด์ครอบคลุมเต็มหน้าจอ */
+    background-position: center; /* ตั้งแบ็คกราวด์ให้อยู่ตรงกลาง */
+    background-attachment: fixed; /* ทำให้พื้นหลังไม่เลื่อนตามการเลื่อนหน้า */
+    height: 100vh; /* ความสูงเต็มหน้าจอ */
+    width: 100%; /* ความกว้างเต็มหน้าจอ */
+    display: flex; /* ใช้เพื่อให้สามารถจัดตำแหน่งภายในได้ */
+    justify-content: center; /* จัดตำแหน่งแนวนอน */
+    align-items: center; /* จัดตำแหน่งแนวตั้ง */
   }
 }

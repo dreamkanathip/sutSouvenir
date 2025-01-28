@@ -4,6 +4,25 @@
 }
 
 /* Submit Button Styles */
+.body {
+  background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+      /* สีขาวที่มี opacity น้อย */
+  );
+
+  background-size: cover; /* ทำให้แบ็คกราวด์ครอบคลุมเต็มหน้าจอ */
+  background-position: center; /* ตั้งแบ็คกราวด์ให้อยู่ตรงกลาง */
+  background-attachment: fixed; /* ทำให้พื้นหลังไม่เลื่อนตามการเลื่อนหน้า */
+  height: 100vh; /* ความสูงเต็มหน้าจอ */
+  width: 100%; /* ความกว้างเต็มหน้าจอ */
+  display: flex; /* ใช้เพื่อให้สามารถจัดตำแหน่งภายในได้ */
+  justify-content: center; /* จัดตำแหน่งแนวนอน */
+  align-items: center; /* จัดตำแหน่งแนวตั้ง */
+}
+
 .submit {
   width: 10%;
   height: 45px;
@@ -24,7 +43,6 @@
   display: flex;
   justify-content: flex-start; /* ชิดซ้าย */
   margin-left: 373px; /* ขยับไปทางขวาจาก Sidebar */
-  margin-top: 50px; /* ลดระยะจากด้านบน */
   overflow-x: auto;
   padding-top: 20px; /* ลดระยะห่างด้านบน */
   width: calc(100% - 373px); /* ลดความกว้างของคอนเทนเนอร์ */
@@ -35,22 +53,39 @@
   width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
   max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
   margin: 0 auto; /* จัดกึ่งกลาง */
+  border-collapse: collapse; /* รวมเส้นขอบให้เป็นเส้นเดียว */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ลดความเข้มของ shadow */
+  border-radius: 8px; /* เพิ่มมุมโค้ง */
 }
 
-.table th,
+/* Table Header */
+.table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px 15px; /* ปรับขนาดของ padding */
+  font-size: 16px; /* ขนาดฟอนต์ */
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Table Body */
 .table td {
   text-align: center;
   vertical-align: middle;
-  height: 50px;
-  padding: 10px; /* ลด padding เพื่อให้ตารางดูเล็กลง */
+  padding: 10px 15px; /* ปรับขนาดของ padding */
   font-size: 14px; /* ลดขนาดฟอนต์ในเซลล์ */
+  border-bottom: 1px solid #ddd;
+  color: #6c757d;
 }
 
-.table td {
-  padding: 12px;
+/* Hover Effect for Rows */
+.table tr:hover {
+  background-color: #f1f1f1;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่ม shadow ที่อยู่ข้างในเมื่อ hover */
 }
 
-/* Button Styles in Table */
 .table .btn {
   width: 50%;
   height: 40px;
@@ -59,24 +94,24 @@
   border-radius: 5px;
   transition: 0.4s;
   font-size: 14px;
+  cursor: pointer;
+  display: flex; /* ใช้ flexbox เพื่อจัดไอคอนให้ตรงกลาง */
+  justify-content: center; /* จัดกลางแนวนอน */
+  align-items: center; /* จัดกลางแนวตั้ง */
+  margin-left: 22px;
 }
 
 .table .btn-danger {
-  background: #f66a6a;
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f66a6a; /* ข้อความเป็นสีแดง */
+  border: 2px solid #f66a6a; /* ขอบเป็นสีแดง */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
 }
 
 .table .btn-danger:hover {
-  background: rgb(246, 74, 74);
-  color: #fff;
-}
-
-.table .btn-warning {
-  background: #f0ad4e;
-}
-
-.table .btn-warning:hover {
-  background: rgb(240, 173, 78);
-  color: #fff;
+  background: #f66a6a; /* พื้นหลังเป็นสีแดงเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f66a6a; /* ขอบยังคงเป็นสีแดง */
 }
 
 /* Card Styles */
@@ -86,6 +121,7 @@
   overflow: hidden;
   background-color: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 .card-header {
@@ -98,10 +134,6 @@
 
 .card-body {
   padding: 15px;
-}
-
-.table {
-  margin-bottom: 0;
 }
 
 /* Pagination Controls */
@@ -177,12 +209,133 @@ body.modal-open::before {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .table-container {
-    margin-left: 100px; /* ลดระยะห่างจาก Sidebar บนอุปกรณ์เล็ก */
-    width: calc(100% - 100px); /* ลดความกว้าง */
+    margin-left: 20px; /* ลดระยะห่างจาก Sidebar */
+    width: calc(100% - 20px); /* เพิ่มความกว้างของคอนเทนเนอร์ */
   }
 
   .table th,
   .table td {
-    font-size: 12px; /* ลดขนาดฟอนต์อีกสำหรับหน้าจอเล็ก */
+    font-size: 12px; /* ลดขนาดฟอนต์สำหรับหน้าจอเล็ก */
+  }
+
+  .submit {
+    width: 50%; /* ปรับขนาดปุ่มให้เล็กลงบนหน้าจอเล็ก */
+    height: 40px; /* ลดขนาดของปุ่ม */
+  }
+
+  .card {
+    width: 100%; /* ทำให้การ์ดเต็มหน้าจอ */
+    padding: 10px; /* ลด padding ของการ์ด */
+  }
+
+  .edit-card {
+    width: 90%; /* ทำให้ modal กว้างขึ้น */
+  }
+
+  .video-background {
+    object-fit: cover; /* ทำให้วิดีโอปรับขนาดให้เต็มจอ */
+  }
+
+  .role-tag span {
+    font-size: 12px; /* ลดขนาดฟอนต์ใน role-tag */
+    padding: 4px 8px; /* ลดขนาดของ padding */
+  }
+}
+
+/* สไตล์สำหรับบทบาท */
+.role-tag {
+  justify-content: center; /* จัดให้อยู่ตรงกลางในแนวนอน */
+  align-items: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+  padding: 5px 10px;
+  font-weight: bold;
+  text-align: center;
+  box-sizing: border-box; /* เพื่อให้รวมขนาด padding และ border ในการคำนวณขนาด */
+}
+
+/* สไตล์สำหรับ span ภายใน role-tag */
+.role-tag span {
+  font-size: 14px;
+  padding: 2px 5px;
+  border-radius: 8px;
+  white-space: nowrap; /* ป้องกันการตัดคำ */
+  box-sizing: border-box; /* ให้การคำนวณขนาดรวมกรอบ */
+}
+
+/* สำหรับบทบาท SUPERADMIN */
+.role-tag.SUPERADMIN span {
+  color: #ffffff; /* ข้อความสีขาว */
+  background-color: #4caf50; /* สีเขียวสดใส */
+  border-color: #4caf50; /* ขอบสีเขียวสดใส */
+  opacity: 0.7; /* ทำให้โปร่งใส */
+}
+
+/* สำหรับบทบาท ADMIN */
+.role-tag.ADMIN span {
+  color: #ffffff; /* ข้อความสีขาว */
+  background-color: #f39c12; /* สีเหลืองทอง */
+  border-color: #f39c12; /* ขอบสีเหลืองทอง */
+  opacity: 0.7; /* ทำให้โปร่งใส */
+}
+
+/* สำหรับบทบาท USER */
+.role-tag.USER span {
+  color: #ffffff; /* ข้อความสีขาว */
+  background-color: #e74c3c; /* สีแดงสด */
+  border-color: #e74c3c; /* ขอบสีแดงสด */
+  opacity: 0.7; /* ทำให้โปร่งใส */
+}
+
+.register-admin-btn {
+  position: absolute; /* ใช้ position absolute */
+  top: 20px; /* ระยะห่างจากด้านบน */
+  right: 20px; /* ระยะห่างจากด้านขวา */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f26522; /* สีพื้นหลัง */
+  color: white; /* สีไอคอน */
+  padding: 0;
+  border: 2px solid #ffffff; /* ขอบสีขาว */
+  border-radius: 50%; /* ทำให้ปุ่มเป็นวงกลม */
+  font-size: 16px;
+  z-index: 1000; /* ทำให้ปุ่มอยู่เหนือเนื้อหาอื่น */
+  width: 60px; /* เส้นผ่านศูนย์กลางของปุ่ม */
+  height: 60px; /* เส้นผ่านศูนย์กลางของปุ่ม */
+  overflow: hidden; /* ซ่อนส่วนเกิน */
+  text-align: center;
+  cursor: pointer; /* เปลี่ยน cursor เป็น pointer */
+  transition: all 0.3s ease; /* เพิ่มเอฟเฟกต์นุ่มนวล */
+}
+
+.register-admin-btn:hover {
+  background-color: #d8541b; /* เปลี่ยนสีพื้นหลังเมื่อ hover */
+  border-color: #ffffff; /* รักษาขอบสีขาว */
+}
+
+/* ปรับขนาดไอคอน */
+.register-admin-btn .material-symbols-rounded {
+  font-size: 28px; /* ขนาดไอคอน */
+}
+
+/* ซ่อนข้อความ "แอดมิน" */
+.register-admin-btn span {
+  display: none;
+}
+
+/* สำหรับหน้าจอใหญ่แสดงข้อความ */
+@media (min-width: 768px) {
+  .register-admin-btn {
+    border-radius: 30px; /* ทำให้ปุ่มเป็นรูปทรงโค้งมน */
+    width: auto;
+    padding: 10px 20px;
+  }
+
+  .register-admin-btn span {
+    display: inline-block; /* แสดงข้อความ */
+    margin-left: 8px; /* เพิ่มระยะห่างจากไอคอน */
+  }
+
+  .register-admin-btn .material-symbols-rounded {
+    margin-right: 8px; /* ระยะห่างระหว่างไอคอนกับข้อความ */
   }
 }
