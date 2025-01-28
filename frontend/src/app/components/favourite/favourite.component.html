@@ -11,21 +11,21 @@
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
               <p class="card-category">{{ item.category.name }}</p>
+              <button class="btn btn-danger mt-1" (click)="removeFromFavourites(item.id)">
+                <i class="bx bx-trash"></i>
+              </button>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card-body">
               <p class="card-text">฿{{ item.price }}</p>
               <p class="card-quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
-              <div class="button-group">
+              <div class="button-group mt-1">
                 <button class="btn btn-primary" (click)="addItemToCart(item)">
                   <i class="bx bx-cart"></i>
                 </button>
                 <button class="btn btn-primary" (click)="goToDetails(item)">
                   <i class="bx bx-search"></i>
-                </button>
-                <button class="btn btn-danger" (click)="removeFromFavourites(item.id)">
-                  <i class="bx bx-trash"></i>
                 </button>
               </div>
             </div>

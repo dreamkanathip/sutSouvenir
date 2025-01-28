@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { ReviewService } from '../../services/review/review.service';
 import { UserModel } from '../../interfaces/user/user.model';
 import { Product } from '../../interfaces/products/products.model';
 import { ReviewModel } from '../../interfaces/review/review.model';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -31,10 +31,12 @@ export class ReviewComponent implements OnInit {
   stars: number[] = [0, 1, 2, 3, 4]; // ดาวทั้งหมด (5 ดาว)
 
   comment?: string = ""
+  commentWarning: boolean = false;
 
   constructor (
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     private userService: UserService, 
     private reviewService: ReviewService,
     private productService: ProductDetailsService,
@@ -72,27 +74,6 @@ export class ReviewComponent implements OnInit {
     })
   }
 
-  // getReviewData() {
-  //   this.reviewService.getReview(this.productId, this.user.id).subscribe({
-  //     next: (result: ReviewModel) => {
-  //       this.review = result
-  //       this.rating = result.star
-  //       this.comment = result.comment
-  //       this.editStatus = true
-  //       this.editReview = result.id
-  //     },
-  //     error: (err) => {
-  //       console.log('Error fetching review data', err);
-  //     }
-  //   })
-
-  //   //
-  //   // const editedReview = this.reviewService.getEditedReview()
-  //   // if (editedReview) {
-  //   //   this.review = editedReview
-  //   // }
-  // }
-
   getImageUrl(item: Product): string {
     if (item.images && item.images.length > 0) {
       return String(item.images[0].url) + String(item.images[0].asset_id);
@@ -104,10 +85,21 @@ export class ReviewComponent implements OnInit {
     this.rating = rating;
   }
 
+  onCommentInput(event: Event) {
+    const input = event.target as HTMLTextAreaElement;
+    if (input.value.length >= 191) {
+      this.comment = input.value.slice(0, 191);
+      this.commentWarning = true;
+    } else {
+      this.comment = input.value;
+      this.commentWarning = false;
+    }
+  }
+
   cancel(){
     this.rating = 0
     this.comment = ""
-    this.router.navigate(['/user']);
+    this.location.back();
   }
 
   onSubmit() {
@@ -149,7 +141,6 @@ export class ReviewComponent implements OnInit {
                     icon: "success",
                   });
                   this.cancel()
-                  this.router.navigate(['/details', this.productId]);
                 },
                 error: (err) => {
                   Swal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกรีวิวได้ในขณะนี้");

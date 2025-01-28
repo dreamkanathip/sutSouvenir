@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="home">
       <img src="assets/logo.jpg" class="logo d-inline-block align-text-top" />
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -80,7 +80,6 @@
               <a class="dropdown-item" (click)="NavigateToProfile()">จัดการข้อมูลส่วนตัว</a>
               <a class="dropdown-item" (click)="NavigateToStorage()">รายการสินค้าของคุณ</a>
               <a class="dropdown-item" (click)="NavigateToHistory()">ประวัติการสั่งซื้อ</a>
-              <a class="dropdown-item" href="managements">จัดการสต๊อกสินค้า</a>
               <a routerLink="/login" (click)="logout()" class="dropdown-item">Logout</a>
             </li>
           </ul>

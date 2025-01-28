@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
 
-<div class="container">
+<div class="review-page">
+  <div class="container">
     <div class="review" *ngIf="product">
       <nav class="navbar">
         <h1 class="title">รีวิวสินค้า</h1>
@@ -10,7 +11,7 @@
               <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
             </div>
             <div class="col-1"></div>
-            <div class="col-5">
+            <div class="col-5 review-form">
               <div class="title">
                 <h1 class="title">{{ product.title }}</h1>
               </div>
@@ -33,7 +34,14 @@
                   class="review-comment form-control mx-2 justify-content-start"
                   rows="3"
                   placeholder="กรุณาแสดงความคิดเห็นอย่างสุภาพ"
+                  maxlength="191"
+                  (input)="onCommentInput($event)"
                 ></textarea>
+                <div *ngIf="commentWarning">
+                  <small class="comment-warning text-danger">
+                    ไม่สามารถบันทึกข้อความที่ยาวเกินกว่านี้ได้
+                  </small>
+                </div>
                 <div class="form-submit-container">
                   <button type="button" class="main-btn mt-5" (click)="cancel()">ยกเลิก</button>
                   <button type="button" class="main-btn mt-5" (click)="onSubmit()">ยืนยัน</button>
@@ -42,6 +50,7 @@
             </div>
           </div>
     </div>
+  </div>
 </div>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

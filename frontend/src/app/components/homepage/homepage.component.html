@@ -1,88 +1,92 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <h3 class="text-center">รายการสินค้า</h3>
-  <form class="d-flex mx-auto search-bar">
-    <input
-      class="me-2 search-input"
-      type="text"
-      placeholder="ค้นหา"
-      aria-label="Search"
-      [(ngModel)]="searchTerm"
-      (input)="onSearchInput()"
-      name="searchInput"
-    />
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
-          หมวดหมู่<i class="bx bx-chevron-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" (click)="onCategoryChange('')">ทั้งหมด</a>
-          </li>
-          <div *ngFor="let category of categories">
+<div class="homepage">
+  <div class="container">
+    <h3 class="text-center">รายการสินค้า</h3>
+    <form class="d-flex mx-auto search-bar">
+      <input
+        class="me-2 search-input"
+        type="text"
+        placeholder="ค้นหา"
+        aria-label="Search"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchInput()"
+        name="searchInput"
+      />
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+            หมวดหมู่<i class="bx bx-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" (click)="onCategoryChange(category.name)">{{ category.name }}</a>
+              <a class="dropdown-item" (click)="onCategoryChange('')">ทั้งหมด</a>
             </li>
-          </div>
-        </ul>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
-          จัดเรียง<i class="bx bx-chevron-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" (click)="onSortChange(true)">เรียงตามราคาน้อยไปมาก</a>
-            <a class="dropdown-item" (click)="onSortChange(false)">เรียงตามราคามากไปน้อย</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <!-- <button class="search-btn" type="button">
-      <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
-    </button> -->
-  </form>
-  <div class="row row-cols-1 row-cols-md-3 g-8" >
-    <div class="card col" *ngFor="let item of productShow; index as i">
-      <form (ngSubmit)="addItemToCart(item)">
-        <div>
-          <div class="add-to-fav" *ngIf="checkFavourite(item) else favourite">
-            <i (click)="likeProduct(item)" class="bx bx-heart bx-sm"></i>
-          </div>
-          <ng-template #favourite>
-            <div class="favourite-icon" >
-              <i class="bx bxs-heart bx-sm" (click)="unlikeProduct(item)"></i>
+            <div *ngFor="let category of categories">
+              <li>
+                <a class="dropdown-item" (click)="onCategoryChange(category.name)">{{ category.name }}</a>
+              </li>
             </div>
-          </ng-template>
-          <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="card-img-top">
-          <div class="card-body" (click)="goToDetails(item)">
-            <p class="title">{{ item.title }}</p>
-            <div class="stars">
-              <i
-                class="fa"
-                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-                [ngClass]="{
-                  'fa-star': getProductRating(item.id) > 0 && fullStars(getProductRating(item.id), i),
-                  'fa-star-half-o': getProductRating(item.id) > 0 && isHalfStar(getProductRating(item.id), i),
-                  'fa-star-o': getProductRating(item.id) === 0 || emptyStars(getProductRating(item.id), i)
-                }"
-              ></i>
-            </div>  
-            <p class="price">฿{{ item.price }}</p>
-            <p class="quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="dropdown-bar" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
+            จัดเรียง<i class="bx bx-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" (click)="onSortChange(true)">เรียงตามราคาน้อยไปมาก</a>
+              <a class="dropdown-item" (click)="onSortChange(false)">เรียงตามราคามากไปน้อย</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- <button class="search-btn" type="button">
+        <i class="bx bx-search bx-sm mx-3 d-flex align-item-center"></i>
+      </button> -->
+    </form>
+    <div class="row row-cols-1 row-cols-md-3 g-8" >
+      <div class="card col" *ngFor="let item of productShow; index as i">
+        <form (ngSubmit)="addItemToCart(item)">
+          <div>
+            <div class="add-to-fav" *ngIf="checkFavourite(item) else favourite">
+              <i (click)="likeProduct(item)" class="bx bx-heart bx-sm"></i>
+            </div>
+            <ng-template #favourite>
+              <div class="favourite-icon" >
+                <i class="bx bxs-heart bx-sm" (click)="unlikeProduct(item)"></i>
+              </div>
+            </ng-template>
+            <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="card-img-top">
+            <!-- <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com" class="card-img-top"> -->
+
+            <div class="card-body" (click)="goToDetails(item)">
+              <p class="title">{{ item.title }}</p>
+              <div class="stars">
+                <i
+                  class="fa"
+                  *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  [ngClass]="{
+                    'fa-star': getProductRating(item.id) > 0 && fullStars(getProductRating(item.id), i),
+                    'fa-star-half-o': getProductRating(item.id) > 0 && isHalfStar(getProductRating(item.id), i),
+                    'fa-star-o': getProductRating(item.id) === 0 || emptyStars(getProductRating(item.id), i)
+                  }"
+                ></i>
+              </div>  
+              <p class="price">฿{{ item.price }}</p>
+              <p class="quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>   
-        </div>
-      </form>
-      <button class="second-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
-    </div>
-    <div class="no-product-list text-center" *ngIf="productShow.length == 0">
-      <h3>ไม่พบรายการสินค้า</h3>
+          <div class="form-group">
+            <button type="submit" class="main-btn w-100">เพิ่มในรถเข็น</button>   
+          </div>
+        </form>
+        <button class="main-btn w-100" (click)="goToDetails(item)">รายละเอียด</button>
+      </div>
+      <div class="no-product-list text-center" *ngIf="productShow.length == 0">
+        <h3>ไม่พบรายการสินค้า</h3>
+      </div>
     </div>
   </div>
 </div>

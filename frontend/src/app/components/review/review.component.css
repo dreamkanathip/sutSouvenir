@@ -1,5 +1,28 @@
+.review-page {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: calc(var(--navbar-height, 70px));
+  overflow: auto;
+  scrollbar-width: none;
+  font-family: 'SUT', sans-serif;
+  font-size: larger;
+
+    background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+      /* สีขาวที่มี opacity น้อย */
+  );
+}
+
 .container {
-    margin-top: 10%;
+    /* margin-top: 10%; */
     margin-bottom: 3%;
     font-family: 'SUT', sans-serif;
     font-size: larger;
@@ -25,6 +48,13 @@ h1 {
 
 h2 {
     font-weight: 500;
+}
+
+.review-form {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .title {
@@ -54,9 +84,13 @@ h2 {
     white-space: pre-wrap; /* รองรับการเว้นวรรคและขึ้นบรรทัดใหม่ */
     resize: vertical; /* อนุญาตให้ผู้ใช้ปรับความสูงของช่อง */
     padding: 10px; /* เพิ่มช่องว่างภายใน */
-    font-size: 16px; /* ขนาดตัวอักษร */
+    font-size: 20px; /* ขนาดตัวอักษร */
 }
 
+.comment-warning {
+    color: red;
+    font-size: 16px;
+}
 
 .form-submit-container {
     display: flex;

@@ -64,7 +64,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
-        <div *ngIf="productReviewList.length > 0; else noReviewHistory">
+        <div *ngIf="productReviewList.length > 0; else noReviewHistory" class="review-container">
           <div class="review-card col" *ngFor="let review of productReviewList">
             <div class="stars">
               <i
@@ -73,6 +73,7 @@
                 [ngClass]="i < review.star ? 'fa-star' : 'fa-star-o'"
               ></i>
             </div>
+            <div> {{ review.createdAt | formatDateToThai }}</div>
             <div>{{ review.comment }}</div>
           </div>
         </div>

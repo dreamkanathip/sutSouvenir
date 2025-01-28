@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddressService } from '../../services/address/address.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -29,6 +30,7 @@ export class UserComponent implements OnInit{
   constructor(
     private userService: UserService,
     private addressService: AddressService,
+    private authService: AuthService,
     private fb: FormBuilder, 
     private router: Router) {
     this.editedUser = this.fb.group({
@@ -196,7 +198,7 @@ export class UserComponent implements OnInit{
             this.user = { ...this.user, ...updatedData }; // อัปเดตข้อมูลใน UI
             this.editUserUpdate()
             this.dataModal();
-            
+            this.authService.logout();
           },
           error: (error) => {
             Swal.close();
@@ -272,6 +274,7 @@ export class UserComponent implements OnInit{
               });
               this.passwordForm.reset()
               this.passwordModal();
+              this.authService.logout();
             },
             error: (error) => {
               Swal.close();
