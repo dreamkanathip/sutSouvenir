@@ -70,8 +70,8 @@ export class EditAddressComponent implements OnInit {
 
   getAddressData() {
     this.route.params.subscribe(params => {
-      this.addressId = +params['id'];
       this.addressService.getAddress().subscribe((result: any) => {
+        this.addressId = result.id;
         this.editAddressForm.patchValue(result);
         this.provinceSelect(result.province);
         this.districtSelect(result.district);

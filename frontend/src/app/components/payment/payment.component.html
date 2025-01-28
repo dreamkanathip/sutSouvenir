@@ -1,98 +1,101 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <div class="row">
-    <div class="col-7">
-      <div class="card">
-        <div class="table-responsive">
-        <table class="table table-sm align-middle table-order">
-          <thead class="thead-light">
-            <tr>
-              <th class="text-center"></th>
-              <!-- <th class="text-center"></th> -->
-              <th class="text-center">ชื่อสินค้า</th>
-              <th class="text-center">ราคา</th>
-              <th class="text-center">จำนวน</th>
-              <th class="text-center">ราคารวม</th>
-              <!-- <th class="text-center"></th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of productOnOrder; index as i">
-              <td class="text-center">
-                <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" style="max-height: 50px;" />
-              </td>
-              <td class="text-center">
-                <span class="product-title">{{item.product.title}}</span>
-              </td>
-              <td class="text-center price">
-                {{item.product.price.toLocaleString('en', {useGrouping:true})}}
-              </td>
-              <td class="text-center quantity">
-                {{item.count}}
-              </td>
-              <td class="text-center sum-price">
-                {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping" >
-          <div></div>
-          ประเภทการจัดส่งที่คุณเลือก
-          <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
-          <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
-            <u>เลือกวิธีการการจัดส่ง</u>
-          </a>
-          <div></div>
+<div class="payment-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-7">
+        <div class="card">
+          <div class="table-responsive">
+          <table class="table table-sm align-middle table-order">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center"></th>
+                <!-- <th class="text-center"></th> -->
+                <th class="text-center">ชื่อสินค้า</th>
+                <th class="text-center">ราคา</th>
+                <th class="text-center">จำนวน</th>
+                <th class="text-center">ราคารวม</th>
+                <!-- <th class="text-center"></th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of productOnOrder; index as i">
+                <td class="text-center">
+                  <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" style="max-height: 50px;" />
+                </td>
+                <td class="text-center">
+                  <span class="product-title">{{item.product.title}}</span>
+                </td>
+                <td class="text-center price">
+                  {{item.product.price.toLocaleString('en', {useGrouping:true})}}
+                </td>
+                <td class="text-center quantity">
+                  {{item.count}}
+                </td>
+                <td class="text-center sum-price">
+                  {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping" >
+            <div></div>
+            ประเภทการจัดส่งที่คุณเลือก
+            <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
+            <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
+              <u>เลือกวิธีการการจัดส่ง</u>
+            </a>
+            <div></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-
-    <div class="col-5">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h2 style="font-weight: bold;">
-            ที่อยู่ในการจัดส่ง
-          </h2>
-          <div class="d-flex justify-content-between">
-            <div class="name">
-              {{defaultAddress.firstName}} {{defaultAddress.lastName}}
+  
+  
+  
+      <div class="col-5">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 style="font-weight: bold;">
+              ที่อยู่ในการจัดส่ง
+            </h2>
+            <div class="d-flex justify-content-between">
+              <div class="name">
+                {{defaultAddress.firstName}} {{defaultAddress.lastName}}
+              </div>
+              <div class="change-address" data-bs-toggle="modal" data-bs-target="#change-address">
+                <button class="btn btn-primary"> เปลี่ยน </button>
+              </div>
             </div>
-            <div class="change-address" data-bs-toggle="modal" data-bs-target="#change-address">
-              <button class="btn btn-primary"> เปลี่ยน </button>
+            <div class="address">
+              {{defaultAddress.street}} {{defaultAddress.subDistrict}}
+              {{defaultAddress.district}} {{defaultAddress.province}}
+              {{defaultAddress.postalCode}} {{defaultAddress.phoneNumber}}
             </div>
+            <hr class="mt-1 mb-1" />
+            <h2 style="font-weight: bold;">สรุปข้อมูลคำสั่งซื้อ</h2>
+            <div *ngIf="productOnOrder" class="d-flex justify-content-between price-summary">
+              <p>ราคาสินค้า</p>
+              {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
+            </div>
+            <div class="d-flex justify-content-between shipping-cost">
+              <p>ค่าส่ง</p>
+              <p>{{selectedShipping.fees}}</p>
+            </div>
+            <hr class="mt-1 mb-1" />
+            <div *ngIf="productOnOrder" class="d-flex justify-content-between summary-sum-price">
+              <p>รวมทั้งสิ้น</p>
+              {{(sumItemPrice + selectedShipping.fees).toLocaleString('en', {useGrouping:true})}}
+            </div>
+            <button type="submit" class="main-btn w-100" data-bs-toggle="modal" data-bs-target="#upload-receipt">
+              ชำระเงิน
+            </button>
           </div>
-          <div class="address">
-            {{defaultAddress.street}} {{defaultAddress.subDistrict}}
-            {{defaultAddress.district}} {{defaultAddress.province}}
-            {{defaultAddress.postalCode}} {{defaultAddress.phoneNumber}}
-          </div>
-          <hr class="mt-1 mb-1" />
-          <h2 style="font-weight: bold;">สรุปข้อมูลคำสั่งซื้อ</h2>
-          <div *ngIf="productOnOrder" class="d-flex justify-content-between price-summary">
-            <p>ราคาสินค้า</p>
-            {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
-          </div>
-          <div class="d-flex justify-content-between shipping-cost">
-            <p>ค่าส่ง</p>
-            <p>{{selectedShipping.fees}}</p>
-          </div>
-          <hr class="mt-1 mb-1" />
-          <div *ngIf="productOnOrder" class="d-flex justify-content-between summary-sum-price">
-            <p>รวมทั้งสิ้น</p>
-            {{(sumItemPrice + selectedShipping.fees).toLocaleString('en', {useGrouping:true})}}
-          </div>
-          <button type="submit" class="main-btn w-100" data-bs-toggle="modal" data-bs-target="#upload-receipt">
-            ชำระเงิน
-          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- <app-footer></app-footer> -->
 <app-change-address-modal class="modal fade" id="change-address"
   (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
