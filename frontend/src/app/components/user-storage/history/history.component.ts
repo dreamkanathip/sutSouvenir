@@ -179,7 +179,12 @@ export class HistoryComponent implements OnInit {
     this.orderService.setOrderId(item.id)
     this.router.navigate(['/payment'])
   }
-
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
+  }
   applyFilters(): void {
     this.filteredOrders = this.orders.filter(order => {
       return this.filterStatus? order.orderStatus === this.filterStatus: true;

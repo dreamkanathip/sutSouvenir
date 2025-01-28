@@ -1,53 +1,112 @@
 <app-navbar-admin></app-navbar-admin>
 <link rel="stylesheet" href="admin-dashboard.component.css" />
 
-<div class="main-video">
+<div class="body">
   <div class="container">
-    <div class="dashboard container-fluid p-5">
-      <h1>Dashboard</h1>
-      <div class="select-range d-flex felx-row mb-4">
-        <input type="radio" class="btn-check" name="range" id="day" autocomplete="off" [(ngModel)]="selectedRange"
-          (change)="defaultDateRange()" value="day">
+    <div class="dashboard p-5">
+      <h1 style="font-weight: bold">Dashboard</h1>
+      <div class="d-flex felx-row mb-4">
+        <input
+          type="radio"
+          class="btn-check"
+          name="range"
+          id="day"
+          autocomplete="off"
+          [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()"
+          value="day"
+        />
         <label class="btn select-range" for="day">1 วัน</label>
 
-        <input type="radio" class="btn-check" name="range" id="week" autocomplete="off" [(ngModel)]="selectedRange"
-          (change)="defaultDateRange()" value="week">
+        <input
+          type="radio"
+          class="btn-check"
+          name="range"
+          id="week"
+          autocomplete="off"
+          [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()"
+          value="week"
+        />
         <label class="btn select-range" for="week">1 สัปดาห์</label>
 
-        <input type="radio" class="btn-check" name="range" id="month" autocomplete="off" [(ngModel)]="selectedRange"
-          (change)="defaultDateRange()" value="month">
+        <input
+          type="radio"
+          class="btn-check"
+          name="range"
+          id="month"
+          autocomplete="off"
+          [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()"
+          value="month"
+        />
         <label class="btn select-range" for="month">1 เดือน</label>
 
-        <input type="radio" class="btn-check" name="range" id="annual" autocomplete="off" [(ngModel)]="selectedRange"
-          (change)="defaultDateRange()" value="annual">
+        <input
+          type="radio"
+          class="btn-check"
+          name="range"
+          id="annual"
+          autocomplete="off"
+          [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()"
+          value="annual"
+        />
         <label class="btn select-range" for="annual">1 ปี</label>
 
-        <input type="radio" class="btn-check" name="range" id="allTime" autocomplete="off" [(ngModel)]="selectedRange"
-          (change)="defaultDateRange()" value="allTime">
-        <label class="btn select-range" for="day">ทั้งหมด</label>
+        <input
+          type="radio"
+          class="btn-check"
+          name="range"
+          id="allTime"
+          autocomplete="off"
+          [(ngModel)]="selectedRange"
+          (change)="defaultDateRange()"
+          value="allTime"
+          checked
+        />
+        <label class="btn select-range" for="allTime">ทั้งหมด</label>
 
         <div class="select-date ms-3 d-flex align-items-center">
-          <input id="startDate" type="date" class="date select-range shadow-none me-2" [(ngModel)]="startDate"
-            placeholder="วว-ดด-ปปปป">
+          <input
+            id="startDate"
+            type="date"
+            class="date select-range shadow-none me-2"
+            [(ngModel)]="startDate"
+            placeholder="วว-ดด-ปปปป"
+          />
           <span class="me-2 select-range">ถึง</span>
-          <input id="endDate" type="date" class="date select-range shadow-none" [(ngModel)]="endDate"
-            placeholder="วว-ดด-ปปปป">
+          <input
+            id="endDate"
+            type="date"
+            class="date select-range shadow-none"
+            [(ngModel)]="endDate"
+            placeholder="วว-ดด-ปปปป"
+          />
         </div>
       </div>
-
       <div class="row gap-5">
         <div class="col-md-7">
           <div class="row row-cols-md-2 d-flex justify-content-between">
             <div class="card col">
-              <div class="dashboard-card-label ms-1 mt-2">ยอดขาย</div>
-              <div class="d-flex justify-content-between align-items-center me-4 ms-1">
+              <div class="dashboard-card-label ms-1 mt-2">
+                <i style="color: green" class="bx bx-money me-2"></i>ยอดขาย
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center me-4 ms-1"
+              >
                 <span class="dashboard-card-information">฿9,000</span>
                 <span class="dashboard-card-unit">บาท</span>
               </div>
             </div>
-            <div class="card col ">
-              <div class="dashboard-card-label ms-1 mt-2">จำนวนคำสั่งซื้อ</div>
-              <div class="d-flex justify-content-between align-items-center me-4 ms-1">
+            <div class="card col">
+              <div class="dashboard-card-label ms-1 mt-2">
+                <i style="color: #00a2ff" class="bx bx-file me-2"></i
+                >จำนวนคำสั่งซื้อ
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center me-4 ms-1"
+              >
                 <span class="dashboard-card-information">214</span>
                 <span class="dashboard-card-unit">รายการ</span>
               </div>
@@ -55,56 +114,76 @@
           </div>
           <hr />
           <div class="row">
-            <div class="dashboard-header">
-              ข้อมูลคำสั่งซื้อล่าสุด
-            </div>
+            <div class="dashboard-header">ข้อมูลคำสั่งซื้อล่าสุด</div>
             <div class="col-md-4 card">
               <div class="order-label">
-                <div class="dashboard-card-label ms-1 mt-2">ยังไม่ได้ชำระเงิน</div>
-                <div class="d-flex justify-content-between align-items-center me-4 ms-1">
-                  <span class="dashboard-card-information">2</span>
+                <div class="dashboard-card-label ms-1 mt-2">
+                  <i style="color: #ffbb00" class="bx bx-file me-2"></i
+                  >ยังไม่ได้ชำระเงิน
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center justify-items-center me-4 ms-1"
+                >
+                  <span class="dashboard-card-information ms-5">2</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
             </div>
             <div class="col-md-4 card">
               <div class="order-label">
-                <div class="dashboard-card-label ms-1 mt-2">รอยืนยันการชำระเงิน</div>
-                <div class="d-flex justify-content-between align-items-center me-4 ms-1">
-                  <span class="dashboard-card-information">4</span>
+                <div class="dashboard-card-label ms-1 mt-2">
+                  <i style="color: #ff0077" class="bx bx-file me-2"></i
+                  >รอยืนยันการชำระเงิน
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center me-4 ms-1"
+                >
+                  <span class="dashboard-card-information ms-5">4</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
-
               </div>
             </div>
             <div class="col-md-4 card">
               <div class="order-label">
-                <div class="dashboard-card-label ms-1 mt-2">รอกาารจัดส่ง</div>
-                <div class="d-flex justify-content-between align-items-center me-4 ms-1">
-                  <span class="dashboard-card-information">3</span>
+                <div class="dashboard-card-label ms-1 mt-2">
+                  <i style="color: #00a2ff" class="bx bx-file me-2"></i
+                  >รอการจัดส่ง
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center me-4 ms-1"
+                >
+                  <span class="dashboard-card-information ms-5">3</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="dashboard-header">
-              สถานะสินค้าล่าสุด
-            </div>
+            <div class="dashboard-header">สถานะสินค้าล่าสุด</div>
             <div class="col-md-6 card">
               <div class="order-label">
-                <div class="dashboard-card-label ms-1 mt-2">สินค้าใกล้จะหมด</div>
-                <div class="d-flex justify-content-between align-items-center me-4 ms-1">
-                  <span class="dashboard-card-information">0</span>
+                <div class="dashboard-card-label ms-1 mt-2">
+                  <i style="color: #ffbb00" class="bx bx-box me-2"></i
+                  >สินค้าใกล้จะหมด
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center me-4 ms-1"
+                >
+                  <span class="dashboard-card-information ms-5">0</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
             </div>
             <div class="col-md-6 card">
               <div class="order-label">
-                <div class="dashboard-card-label ms-1 mt-2">สินค้าหมดแล้ว</div>
-                <div class="d-flex justify-content-between align-items-center me-4 ms-1">
-                  <span class="dashboard-card-information">3</span>
+                <div class="dashboard-card-label ms-1 mt-2">
+                  <i style="color: #ff0000" class="bx bx-box me-2"></i
+                  >สินค้าหมดแล้ว
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center me-4 ms-1"
+                >
+                  <span class="dashboard-card-information ms-5">3</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -117,20 +196,25 @@
             <div class="top-five-sales">
               <div class="dashboard-header ms-1 mt-2">สินค้าขายดี 3 อันดับ</div>
               <div class="first d-flex align-items-center">
-                <i class='bx bx-medal medal-gold'></i>
+                <i class="bx bx-medal medal-gold"></i>
                 <span class="first-title">เสื้อเลือดหมู ยอดขาย 428 ชิ้น</span>
               </div>
               <div class="second d-flex align-items-center">
-                <i class='bx bx-medal medal-silver'></i>
+                <i class="bx bx-medal medal-silver"></i>
                 <span class="second-title">สมุดโน้ต ยอดขาย 326 ชิ้น</span>
               </div>
               <div class="third d-flex align-items-center">
-                <i class='bx bx-medal medal-copper'></i>
+                <i class="bx bx-medal medal-copper"></i>
                 <span class="third-title">ปากกา ยอดขาย 224 ชิ้น</span>
               </div>
             </div>
-            <div style="width: 80%; margin: auto;">
-              <canvas baseChart [data]="pieChartData" [type]="'doughnut'" [options]="pieChartOptions">
+            <div style="width: 80%; margin: auto">
+              <canvas
+                baseChart
+                [data]="pieChartData"
+                [type]="'doughnut'"
+                [options]="pieChartOptions"
+              >
               </canvas>
             </div>
           </div>
@@ -138,6 +222,4 @@
       </div>
     </div>
   </div>
-  <video autoplay loop muted src="../../../assets/video-homeadmin.mp4">
-  </video>
 </div>

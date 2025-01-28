@@ -34,13 +34,13 @@
             </div>
             <div class="shipping ms-3 me-3 d-flex flex-column">
                 <span>จัดส่งโดย {{order?.shipping.company}}</span>
-                <span>tracking number: </span>
+                <span>tracking number: THXXXXXXXXXX </span>
 
             </div>
             <div *ngFor="let item of order?.products" class="border rounded m-3">
                 <div class="row ps-3 pb-3 pt-2">
                     <div class="col-2 d-flex justify-content-center align-items-center">
-                        <img src="assets/SUT-Logo.png" class="img-fluid rounded" alt="Product Image">
+                        <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
                     </div>
                     <div class="col-6 item-title">
                         <span class="product-title">{{item.product.title}}</span>

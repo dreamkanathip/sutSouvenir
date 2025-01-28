@@ -18,7 +18,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export class AdminDashboardComponent implements AfterViewInit, OnInit {
   startDate: string = '';
   endDate: string = '';
-  selectedRange: string = 'day';
+  selectedRange: string = 'allTime';
   startDatePicker: any;
   endDatePicker: any;
 
@@ -152,7 +152,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     }
   }
 
-  updateDatePickerLimits() {
-    this.endDatePicker.set('maxDate', Date.now());
-  }
+    updateDatePickerLimits() {
+      this.endDatePicker.set('maxDate', Date.now());
+      this.startDatePicker.set('maxDate', Date.now());
+    }
 }

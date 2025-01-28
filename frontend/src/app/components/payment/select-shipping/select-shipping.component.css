@@ -1,0 +1,14 @@
+.modal-dialog {
+    font-family: 'SUT', sans-serif;
+}
+.modal-body {
+    font-size: 1.2rem;
+}
+.form-check-input:checked, .form-check-input:focus {
+    background-color: #F36523;
+    border-color: #F36523;
+    box-shadow: 0 0 5px #F36523;
+}
+.form-check-input {
+    transition: all 0.1s ease-in-out;
+}

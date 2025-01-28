@@ -98,22 +98,22 @@ export class NavbarComponent {
 
   NavigateToStorage(){
     this.userService.setStoragePage(0)
-    this.router.navigate(['/user']);
+    this.router.navigate(['/user/storage']);
   }
 
   NavigateToHistory(){
     this.userService.setStoragePage(1)
-    this.router.navigate(['/user']);
+    this.router.navigate(['/user/storage']);
   }
 
   NavigateToFavourite(){
     this.userService.setStoragePage(2)
-    this.router.navigate(['/user'])
+    this.router.navigate(['/user/storage'])
   }
 
   NavigateToProfile(){
     this.userService.setStoragePage(3)
-    this.router.navigate(['/user'])
+    this.router.navigate(['/user/storage'])
   }
 
   goToDetails(item: any) {

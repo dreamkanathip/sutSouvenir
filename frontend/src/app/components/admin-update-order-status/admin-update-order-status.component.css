@@ -1,0 +1,41 @@
+.card {
+  /* width: 24rem; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  /* cursor: pointer; */
+}
+.body {
+  background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+      /* สีขาวที่มี opacity น้อย */
+  );
+
+  background-size: cover; /* ทำให้แบ็คกราวด์ครอบคลุมเต็มหน้าจอ */
+  background-position: center; /* ตั้งแบ็คกราวด์ให้อยู่ตรงกลาง */
+  background-attachment: fixed; /* ทำให้พื้นหลังไม่เลื่อนตามการเลื่อนหน้า */
+  height: 100vh; /* ความสูงเต็มหน้าจอ */
+  width: 100%; /* ความกว้างเต็มหน้าจอ */
+  display: flex; /* ใช้เพื่อให้สามารถจัดตำแหน่งภายในได้ */
+  justify-content: center; /* จัดตำแหน่งแนวนอน */
+  align-items: center; /* จัดตำแหน่งแนวตั้ง */
+}
+.container {
+  font-family: "SUT", sans-serif;
+}
+.order-container {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: 300px;
+  margin-top: 1%;
+}
+.check-payment {
+  color: #f36523;
+  border: hidden;
+  cursor: pointer;
+}
+.table {
+  font-size: 1.2rem;
+}

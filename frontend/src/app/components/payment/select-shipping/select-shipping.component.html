@@ -1,7 +1,7 @@
 <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h2 class="modal-title" style="font-weight: bold;">เลือกการจัดส่ง</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -15,12 +15,11 @@
             </thead>
             <tbody class="table-group-divider">
                 <tr *ngFor="let s of shippings; index as i">
-                    <!-- <th scope="row">1</th> -->
                     <td>{{s.company}}</td>
                     <td>{{s.fees}}</td>
                     <td>
                       <input 
-                        class="form-check-input" 
+                        class="form-check-input" style="cursor: pointer;" 
                         type="radio" 
                         name="flexRadioDefault" 
                         id="flexRadioDefault1"
@@ -35,8 +34,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" >Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 20px;">เสร็จสิ้น</button>
       </div>
     </div>
   </div>
