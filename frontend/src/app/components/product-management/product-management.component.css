@@ -63,21 +63,29 @@
 }
 
 .table .btn-danger {
-  background: #f66a6a;
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f66a6a; /* ข้อความเป็นสีแดง */
+  border: 2px solid #f66a6a; /* ขอบเป็นสีแดง */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
 }
 
 .table .btn-danger:hover {
-  background: rgb(246, 74, 74);
-  color: #fff;
+  background: #f66a6a; /* พื้นหลังเป็นสีแดงเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f66a6a; /* ขอบยังคงเป็นสีแดง */
 }
 
 .table .btn-warning {
-  background: #f0ad4e;
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f0ad4e; /* ข้อความเป็นสีส้ม */
+  border: 2px solid #f0ad4e; /* ขอบเป็นสีส้ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
 }
 
 .table .btn-warning:hover {
-  background: rgb(240, 173, 78);
-  color: #fff;
+  background: #f0ad4e; /* พื้นหลังเป็นสีส้มเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f0ad4e; /* ขอบยังคงเป็นสีส้ม */
 }
 
 /* Card Styles */
