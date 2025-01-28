@@ -19,18 +19,18 @@
           <tbody>
             <tr *ngFor="let item of productOnOrder; index as i">
               <td class="text-center">
-                <img src="assets/SUT-Logo.png" class="img-fluid" style="max-height: 50px;">
+                <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" style="max-height: 50px;" />
               </td>
               <td class="text-center">
                 <span class="product-title">{{item.product.title}}</span>
               </td>
-              <td class="text-center">
+              <td class="text-center price">
                 {{item.product.price.toLocaleString('en', {useGrouping:true})}}
               </td>
-              <td class="text-center">
+              <td class="text-center quantity">
                 {{item.count}}
               </td>
-              <td class="text-center">
+              <td class="text-center sum-price">
                 {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
               </td>
             </tr>
@@ -54,7 +54,7 @@
     <div class="col-5">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h2>
+          <h2 style="font-weight: bold;">
             ที่อยู่ในการจัดส่ง
           </h2>
           <div class="d-flex justify-content-between">
@@ -71,7 +71,7 @@
             {{defaultAddress.postalCode}} {{defaultAddress.phoneNumber}}
           </div>
           <hr class="mt-1 mb-1" />
-          <h2>สรุปข้อมูลคำสั่งซื้อ</h2>
+          <h2 style="font-weight: bold;">สรุปข้อมูลคำสั่งซื้อ</h2>
           <div *ngIf="productOnOrder" class="d-flex justify-content-between price-summary">
             <p>ราคาสินค้า</p>
             {{sumItemPrice.toLocaleString('en', {useGrouping:true})}}
@@ -93,7 +93,7 @@
     </div>
   </div>
 </div>
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->
 <app-change-address-modal class="modal fade" id="change-address"
   (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
 <app-upload-receipt class="modal fade" id="upload-receipt" 

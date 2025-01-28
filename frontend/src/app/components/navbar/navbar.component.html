@@ -73,7 +73,7 @@
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside, outside">
-            <i class="bx bx-user bx-flip-horizontal"></i>{{user?.firstName}}<i class="bx bx-chevron-down"></i>
+            <i class="bx bx-user bx-flip-horizontal"></i>{{user? user.firstName : "บัญชีผู้ใช้งาน"}}<i class="bx bx-chevron-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>

@@ -1,3 +1,24 @@
 .set-default-link {
     cursor: pointer;
 }
+.modal-dialog {
+    font-family: 'SUT', sans-serif;
+}
+.modal-body {
+    font-size: 1.2rem;
+}
+.add-button-btn {
+    width: 120px;
+    height: auto;
+    max-width: 100%;
+    background-color: #F36523;
+    color: white;
+    border: hidden;
+    border-radius: 10px
+}
+.set-default-link {
+    color: #F36523;
+    text-decoration: underline;
+    cursor: pointer;
+    align-items: center;
+}

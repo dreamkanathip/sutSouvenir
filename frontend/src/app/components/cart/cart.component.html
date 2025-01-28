@@ -37,7 +37,9 @@
               </td>
 
               <td class="text-center">
-                <img src="assets/SUT-Logo.png" class="img-fluid" style="max-height: 50px;">
+                <!-- <img src="assets/SUT-Logo.png" class="img-fluid" style="max-height: 50px;"> -->
+                <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
+
               </td>
 
               <td class="item-title">

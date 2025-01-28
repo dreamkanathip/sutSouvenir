@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
 import { AddressService } from '../../services/address/address.service';
 import { AddressModel } from '../../interfaces/address/address.model';
+import { Product } from '../../interfaces/products/products.model';
 
 @Component({
   selector: 'app-cart',
@@ -26,6 +27,7 @@ export class CartComponent implements OnInit{
   userId: number = 1;
   selectedShipping!: Shipping
   defaultAddress?: AddressModel;
+  url!: string
   
   constructor(
     private cartService: CartService, 
@@ -347,5 +349,13 @@ export class CartComponent implements OnInit{
   defaultAddressChanged() {
     this.getDefaultAddress()
   }
+  getImageUrl(item: Product): string {
+      if (item.images && item.images.length > 0) {
+        this.url = String(item.images[0].url) + String(item.images[0].asset_id)
+        console.log(this.url)
+        return String(item.images[0].url) + String(item.images[0].asset_id);
+      }
+      return 'assets/SUT-Logo.png';
+    }
 }
 

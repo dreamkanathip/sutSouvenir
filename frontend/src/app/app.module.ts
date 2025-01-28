@@ -58,6 +58,7 @@ import { FormatDateToThaiPipe } from './pipes/format-date-to-thai.pipe';
 import { HistoryDetailComponent } from './components/user-storage/history-detail/history-detail.component';
 import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.component';
 import { BaseChartDirective } from 'ng2-charts';
+import { AdminUpdateOrderStatusDetailComponent } from './components/admin-update-order-status/admin-update-order-status-detail/admin-update-order-status-detail.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { BaseChartDirective } from 'ng2-charts';
     FormatDateToThaiPipe,
     HistoryDetailComponent,
     UserSidenavComponent,
+    AdminUpdateOrderStatusDetailComponent,
   ],
   imports: [
     BrowserModule,

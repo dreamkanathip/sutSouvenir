@@ -57,7 +57,6 @@ input[type="checkbox"] {
 .checkbox, .price, .sum-price, .quantity, .delete {
     align-items: center;
     justify-content: center;
-    display: flex;
     font-size: 20px;
 }
 .item-title {
@@ -87,9 +86,6 @@ input[type="checkbox"] {
     text-align: left;
     color: gray;
 }
-.price {
-    font-size: 20px;
-}
 .table-order tr td {
     padding: 1rem 1.75rem;
 }
@@ -98,4 +94,11 @@ input[type="checkbox"] {
 }
 .select-shipping {
     color: #F36523;
+}
+.shipping {
+    font-size: 20px;
+    font-weight: bold;
+}
+th {
+    font-size: 20px;
 }

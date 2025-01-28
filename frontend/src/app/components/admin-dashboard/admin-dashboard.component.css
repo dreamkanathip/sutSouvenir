@@ -20,13 +20,14 @@
 }
 
 .container {
-  padding-top: calc(var(--navbar-height, 8%));
-  margin-bottom: 2%;
   font-family: 'SUT', sans-serif;
 }
 .dashboard {
   background-color: #fff;
   border-radius: 10px;
+  /* width: calc(100% - 373px); */
+  margin-left: 200px;
+  margin-top: 1%;
 }
 
 .day-range {

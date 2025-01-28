@@ -33,7 +33,7 @@
     <div *ngFor="let item of order.products" class="order-detail card-body">
       <div class="row">
         <div class="col-3 d-flex justify-content-center align-items-center">
-          <img src="assets/SUT-Logo.png" class="card-img-top">
+          <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
         </div>
         <div class="col-4 item-title">
           <span class="product-title">{{item.product.title}}</span>
@@ -71,7 +71,7 @@
       </div>
 
       <div type="button" class="d-flex" data-bs-toggle="modal" data-bs-target="#historyDetail">
-        <button class="payment-btn me-2" (click)="selectOrder(order)">ตรวจสอบคำสั่งซื้อ</button>
+          <button class="payment-btn me-2" (click)="selectOrder(order)">ตรวจสอบคำสั่งซื้อ</button>
       </div>
     </div>
   </div>

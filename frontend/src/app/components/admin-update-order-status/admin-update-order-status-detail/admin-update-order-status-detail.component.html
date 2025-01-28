@@ -1,0 +1,132 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fw-bold" id="exampleModalLabel">รายละเอียดคำสั่งซื้อ</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="order-header d-flex flex-row ms-3 me-3" style="font-size: 20px;">
+                    สั่งซื่อวันที่ 27 มกราคม 2568 11:11
+                    <!-- <div [ngSwitch]="order?.orderStatus" class="ms-auto">
+                        <div *ngSwitchCase="'PENDING'" class="d-flex">
+                            <button class="payment-btn me-2" (click)="NavigateToPayment(order)"
+                                data-bs-dismiss="modal">ชำระเงิน</button>
+                            <button class="cancel-btn me-2" (click)="submitCancel(order)">ยกเลิกคำสั่งซื้อ</button>
+                        </div>
+                        <div *ngSwitchCase="'SHIPPED'" class="d-flex">
+                            <button class="payment-btn me-2"
+                                (click)="changeStatusToDELIVERED(order)">ยืนยันรับสินค้า</button>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="shipping ms-3 me-3 d-flex flex-column" style="font-size: 20px;">
+                    <span>จัดส่งโดย: kerry</span>
+                    <span>tracking number:</span>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <div class="order-status me-1" style="font-size: 20px;">
+                        สถานะคำสั่งซื้อ:
+                    </div>
+                    <div style="color: #FF0077; font-weight: bold; font-size: 20px">
+                        รอยืนยัน
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="order-status me-1" style="font-size: 20px;">
+                        สถานะการชำระเงิน:
+                    </div>
+                    <div style="color: #47E306; font-weight: bold; font-size: 20px">
+                        ชำระเงินแล้ว
+                    </div>
+                </div>
+                <div>
+                    <u class="check-receipt-btn me-1" style="font-size: 20px;" (click)="openImageModal('assets/slip_exam.jpg')">ตรวจสอบสลิป</u>
+                </div>
+                <!-- <img src='../../../../assets/SUT-Logo.png' style="width: 20%; cursor:zoom-in" > -->
+                <div *ngIf="isModalOpen" class="image-modal">
+                    <span class="close-btn" (click)="closeImageModal()">
+                        <button type="button" class="btn-close" style="background-color: #fff" aria-label="Close"></button>
+                    </span>
+                    <img class="modal-content-img" [src]="selectedImage" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="border rounded m-3">
+            <div class="row ps-3 pb-3 pt-2">
+                <div class="col-2 d-flex justify-content-center align-items-center">
+                    <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" class="img-fluid rounded" alt="Product Image">
+                </div>
+                <div class="col-6 item-title">
+                    <span class="product-title">Untrustable Souvenir</span>
+                    <span class="product-quantity text-muted">ราคา: 170</span>
+                    <span class="product-quantity text-muted">จำนวน: 1</span>
+                </div>
+                <!-- <div class="col-3 ms-auto d-flex align-items-end">
+                    <div *ngIf="order?.orderStatus === 'DELIVERED'" class="d-flex flex-column">
+                        <div class="ms-1">รีวิวของคุณ</div>
+                        <div class="stars">
+                        <i class="fa" *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
+                        [ngClass]="i < productRating ? 'fa-star' : 'fa-star-o'"></i>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="row d-flex justify-content-between m-3 ">
+            <div class="address col-5 border rounded ">
+                <div class="ms-3 mt-3">
+                    <h3>
+                        ที่อยู่ในการจัดส่ง
+                    </h3>
+                    <div class="d-flex justify-content-between" style="font-size: 20px;">
+                        <div class="name">
+                            <!-- {{order?.address.firstName}} {{order?.address.lastName}} -->
+                             สมบัติ ทับทอง
+                        </div>
+                        
+                    </div>
+                    <div class="address" style="font-size: 20px;">
+                        <!-- {{order?.address.street}} {{order?.address.subDistrict}}
+                        {{order?.address.district}} {{order?.address.province}}
+                        {{order?.address.postalCode}} {{order?.address.phoneNumber}} -->
+                        25/1 ออนใต้ สันกำแพง เชียงใหม่ 81120 
+                        <p>0930645312</p>
+                    </div>
+                </div>
+            </div>
+            <div class="summary col-6 border rounded">
+                <div class="m-3">
+                    <h3>สรุปข้อมูลคำสั่งซื้อ</h3>
+                    <div class="d-flex justify-content-between" style="font-size: 20px;">
+                        <p>ราคาสินค้า</p>
+                        170
+                        <!-- {{(productOnOrderTotal).toLocaleString('en', {useGrouping:true})}} -->
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-size: 20px;">
+                        <p>ค่าส่ง</p>
+                        50
+                        <!-- <p>{{order?.shipping.fees}}</p> -->
+                    </div>
+                    <hr class="mt-1 mb-1" />
+                    <div class="d-flex justify-content-between summary-sum-price" style="font-size: 20px;">
+                        <p>รวมทั้งสิ้น</p>
+                        220
+                        <!-- {{
+                        (order?.cartTotal).toLocaleString('en', {useGrouping:true})
+                        }} -->
+                    </div>
+                </div>
+            </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" style="font-size: 20px;" data-bs-dismiss="modal">ปิด</button>
+        <button type="button" class="btn btn-primary" style="font-size: 20px; background-color: #F36523; border: none;">ยืนยันการชำระเงิน</button>
+      </div>
+    </div>
+  </div>

@@ -116,7 +116,12 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
       }
     })
   }
-
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
+  }
   NavigateToPayment(item: Order) {
     this.orderService.setOrderId(item.id)
     this.router.navigate(['/payment'])

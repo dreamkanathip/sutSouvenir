@@ -6,6 +6,7 @@ import { AddressModel } from '../../interfaces/address/address.model';
 import { AddressService } from '../../services/address/address.service';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
 import { Order } from '../../interfaces/order/order';
+import { Product } from '../../interfaces/products/products.model';
 
 @Component({
   selector: 'app-payment',
@@ -62,5 +63,11 @@ export class PaymentComponent implements OnInit{
     this.orderService.getOrderById(this.orderId).subscribe((res) => {
       this.selectedShipping = res.shipping
     });
+  }
+  getImageUrl(item: Product): string {
+    if (item.images && item.images.length > 0) {
+      return String(item.images[0].url) + String(item.images[0].asset_id);
+    }
+    return 'assets/SUT-Logo.png';
   }
 }
