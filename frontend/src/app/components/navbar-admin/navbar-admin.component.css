@@ -28,6 +28,7 @@
   padding: 25px 20px;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 2px solid #ddd; /* ขอบด้านล่าง */
 }
 
 /* การตั้งค่าโลโก้ใน Sidebar */
@@ -64,6 +65,7 @@
   color: #fff;
   transition: 0.4s ease;
   border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ปุ่ม */
 }
 
 /* เพิ่มขอบสีส้มเมื่อเมาส์ชี้ที่ปุ่ม Toggler */
@@ -113,6 +115,7 @@
   transition: 0.4s ease;
   position: relative; /* ทำให้ tooltip อยู่ในตำแหน่งที่สัมพันธ์กับไอคอน */
   border: 2px solid transparent; /* ขอบเริ่มต้นเป็นโปร่งแสง */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้เมนู */
 }
 
 .sidebar-nav .nav-item {
@@ -175,6 +178,7 @@
   background: rgba(255, 255, 255, 0.8); /* พื้นหลังโปร่งแสง */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
   transition: background 0.3s ease, box-shadow 0.3s ease; /* เพิ่ม transition ให้ลื่น */
+  transform: translateX(5px); /* เลื่อนเมนูไปทางขวา */
 }
 
 /* ในกรณี Sidebar ยุบ */
@@ -203,4 +207,8 @@
 /* การตั้งค่าหลังจากที่ Sidebar ยุบแล้ว */
 .sidebar.collapsed .sidebar-nav .nav-link:hover {
   background: #fff; /* เปลี่ยนสีพื้นหลังเมื่อเมาส์ชี้ในกรณีที่ Sidebar ยุบ */
+}
+/* เพิ่มระยะห่างระหว่างเมนู */
+.sidebar-nav .nav-item {
+  margin-bottom: 10px; /* เพิ่มระยะห่างระหว่างเมนู */
 }
