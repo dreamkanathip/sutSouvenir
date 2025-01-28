@@ -1,26 +1,30 @@
-.main-video {
-  width: 100%;
-  height: 100%;
-}
 .card {
-  /* width: 24rem; */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   /* cursor: pointer; */
+  /* height: 100px; */
 }
-.main-video video {
-  position: fixed;
-  z-index: -9;
-  object-fit: cover;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.body {
+  background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+      /* สีขาวที่มี opacity น้อย */
+  );
+
+  background-size: cover; /* ทำให้แบ็คกราวด์ครอบคลุมเต็มหน้าจอ */
+  background-position: center; /* ตั้งแบ็คกราวด์ให้อยู่ตรงกลาง */
+  background-attachment: fixed; /* ทำให้พื้นหลังไม่เลื่อนตามการเลื่อนหน้า */
+  height: 100vh; /* ความสูงเต็มหน้าจอ */
+  width: 100%; /* ความกว้างเต็มหน้าจอ */
+  display: flex; /* ใช้เพื่อให้สามารถจัดตำแหน่งภายในได้ */
+  justify-content: center; /* จัดตำแหน่งแนวนอน */
+  align-items: center; /* จัดตำแหน่งแนวตั้ง */
 }
 
 .container {
-  font-family: 'SUT', sans-serif;
+  font-family: "SUT", sans-serif;
 }
 .dashboard {
   background-color: #fff;
@@ -35,7 +39,8 @@
   cursor: pointer;
   width: 50%;
 }
-.dashboard-card-label, .dashboard-card-unit{
+.dashboard-card-label,
+.dashboard-card-unit {
   font-size: 22px;
   display: flex;
   align-items: center;
@@ -44,7 +49,7 @@
   font-size: 49px;
 }
 .select-date {
-  width: 30%
+  width: 30%;
 }
 .date {
   width: 25%;
@@ -72,24 +77,28 @@
   color: gold;
 }
 .medal-silver {
-  color: silver 
+  color: silver;
 }
 .medal-copper {
-  color: #B87333;
+  color: #b87333;
 }
-.bx-medal, .first-title, .second-title, .third-title, .select-range {
+.bx-medal,
+.first-title,
+.second-title,
+.third-title,
+.select-range {
   font-size: 22px;
 }
 .btn-check:active {
   border-color: #fff;
 }
 .select-range:hover {
-  background-color: #F36523;
+  background-color: #f36523;
   color: #fff;
 }
-input[type="radio"]:checked+label {
+input[type="radio"]:checked + label {
   background-color: #f97131;
-  border: none ;
+  border: none;
   color: #fff;
 }
 .dashboard-header {
