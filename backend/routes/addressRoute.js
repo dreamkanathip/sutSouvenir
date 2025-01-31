@@ -9,6 +9,7 @@ const {
   update,
   remove,
   getDefaultAddress,
+  getData,
 } = require("../controllers/addressController");
 
 const { authenticateToken } = require("../middlewares/authMiddleware");
@@ -21,5 +22,6 @@ router.get("/defaultAddress", authenticateToken, getDefaultAddress)
 router.patch("/address/default/:id", defaultAddress);
 router.put("/address/:id", authenticateToken, update);
 router.delete("/address/:id", remove);
+// router.get('/test', getData)
 
 module.exports = router;

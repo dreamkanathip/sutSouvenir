@@ -74,6 +74,7 @@ export class ProductDetailsComponent implements OnInit {
     this.favouriteService.likeProduct(item).subscribe((result) => {
       if (result) {
         this.likeProductStatus = true
+        this.favouriteService.updateFavItemCount()
       }
     })
   }
@@ -82,6 +83,7 @@ export class ProductDetailsComponent implements OnInit {
     this.favouriteService.removeFromFavourites(item.id).subscribe((result) => {
       if (result) {
         this.likeProductStatus = false
+        this.favouriteService.updateFavItemCount()
       }
     })
   }
@@ -133,7 +135,7 @@ export class ProductDetailsComponent implements OnInit {
       quantity: this.quantityToOrder,
     };
     if ((this.product && this.product.quantity > 0) && (this.product.quantity - this.quantityToOrder >= 0)) {
-      this.cartService.getCartById(data.userId).pipe(
+      this.cartService.getCartById().pipe(
         switchMap((checkCart) => {
           if (!checkCart) {
             return this.cartService.initialCart({ userId: 1, cartTotal: 0 }).pipe(
@@ -157,7 +159,7 @@ export class ProductDetailsComponent implements OnInit {
         .subscribe((response) => {
           if (response) {
             this.product.quantity -= this.quantityToOrder;
-            this.cartService.updateCartItemCount(this.userId)
+            this.cartService.updateCartItemCount()
             console.log('Item added to cart:', response);
             Swal.fire({
               title: "เพิ่มสินค้าเรียบร้อย",

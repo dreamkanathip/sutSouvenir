@@ -81,7 +81,8 @@ export class HistoryComponent implements OnInit {
       case 'CANCELLED' : return 'ยกเลิก';
       case 'SHIPPED' : return 'กำลังจัดส่ง';
       case 'DELIVERED' : return 'จัดส่งสำเร็จ';
-      case 'PROCESSED' : return 'ยืนยันการสั่งซื้อ'
+      case 'PROCESSED' : return 'ยืนยันการสั่งซื้อ';
+      case 'NOT_PROCESSED' : return 'รอยืนยัน';
       default : return 'สถานะการสั่งซื้อผิดพลาด'
       // NOT_PROCESSED
       // PROCESSED

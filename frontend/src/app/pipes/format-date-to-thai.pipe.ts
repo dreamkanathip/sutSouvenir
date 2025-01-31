@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FormatDateToThaiPipe implements PipeTransform {
 
-  transform(date: Date | string | null): string {
+  transform(date: Date | string | null | undefined): string {
     if(!date) return '';
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',

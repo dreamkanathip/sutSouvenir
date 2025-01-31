@@ -337,7 +337,12 @@ exports.getItemsOnCart = async(req, res) => {
                 cartId: Number(cart.id)
             },
             include: {
-                product: true
+                product: {
+                    include: {
+                      category: true,
+                      images: true,
+                    },
+                  },
             }
         })
         res.status(200).send(itemsOnCart)

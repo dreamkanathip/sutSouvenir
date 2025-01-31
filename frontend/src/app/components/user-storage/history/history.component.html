@@ -32,7 +32,7 @@
   <div *ngFor="let order of filteredOrders" class="card mb-3">
     <div *ngFor="let item of order.products" class="order-detail card-body">
       <div class="row">
-        <div class="col-3 d-flex justify-content-center align-items-center">
+        <div class="col-3 d-flex img-container justify-content-center align-items-center">
           <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
         </div>
         <div class="col-4 item-title">
@@ -64,7 +64,8 @@
                               order?.orderStatus === 'CANCELLED'? '#DD0000' :
                               order?.orderStatus === 'DELIVERED'? '#47E036' : 
                               order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
-                              order?.orderStatus === 'PROCESSED'? '#4BB5DE' : ''
+                              order?.orderStatus === 'PROCESSED'? '#4BB5DE' :
+                              order?.orderStatus === 'NOT_PROCESSED'? '#FB0077': ''
                 }">
           {{ showStatus(order?.orderStatus) }}
         </div>

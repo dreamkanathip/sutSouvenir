@@ -38,8 +38,9 @@
 }
 
 .nav-link.active {
-  font-weight: bold;
+  /* font-weight: bold; */
   background-color: #e0e0e0;
+  color:#F36523;
 }
 
 .sub-nav {

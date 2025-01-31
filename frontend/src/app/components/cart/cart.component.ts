@@ -38,8 +38,8 @@ export class CartComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getProductOnCart(1) //passing userId
-    this.getCartById(1) //passing userId
+    this.getProductOnCart()
+    this.getCartById()
     this.toggleSelectAll()
     this.getDefaultAddress()
   }
@@ -77,12 +77,12 @@ export class CartComponent implements OnInit{
   onShippingSelected($e:any) {
     this.selectedShipping = $e
   }
-  getProductOnCart(userId: any) {
+  getProductOnCart() {
     const selectedMap = new Map(
       this.productOnCart?.map((item) => [item.productId, item.selected])
     );
 
-    this.cartService.getProductOnCart(userId).subscribe((res) => {
+    this.cartService.getProductOnCart().subscribe((res) => {
       const isArray = Array.isArray(res)
       if(isArray) {
         this.productOnCart = res.map((item) => ({
@@ -96,8 +96,8 @@ export class CartComponent implements OnInit{
       this.calculateIndividualItemPrice()
     });
   }
-  getCartById(userId: any) {
-    this.cartService.getCartById(userId).subscribe((res) => {
+  getCartById() {
+    this.cartService.getCartById().subscribe((res) => {
       this.cart = res
     })
   }
@@ -204,7 +204,7 @@ export class CartComponent implements OnInit{
           );
           this.updateTotalPrice();
           this.calculateSelectedQuantity();
-          this.cartService.updateCartItemCount(this.userId);
+          this.cartService.updateCartItemCount();
         }),
         catchError((err) => {
           console.error('Error during delete:', err);
@@ -218,7 +218,7 @@ export class CartComponent implements OnInit{
     this.cartService.removeWithoutRestock(productId).subscribe(() => {
       this.updateTotalPrice();
       this.calculateSelectedQuantity();
-      this.cartService.updateCartItemCount(this.userId);
+      this.cartService.updateCartItemCount();
     })
   }
   async goToPayment() {
@@ -254,7 +254,7 @@ export class CartComponent implements OnInit{
       );
       await Promise.all(removePromises);
 
-      this.cartService.updateCartItemCount(this.userId);
+      this.cartService.updateCartItemCount();
       this.orderService.setOrderId(this.orderId)
       await this.router.navigate(['/payment'])
 
@@ -351,8 +351,6 @@ export class CartComponent implements OnInit{
   }
   getImageUrl(item: Product): string {
       if (item.images && item.images.length > 0) {
-        this.url = String(item.images[0].url) + String(item.images[0].asset_id)
-        console.log(this.url)
         return String(item.images[0].url) + String(item.images[0].asset_id);
       }
       return 'assets/SUT-Logo.png';

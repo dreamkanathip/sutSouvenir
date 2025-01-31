@@ -53,16 +53,19 @@
 
       <div class="p-2 bd-highlight">
         <a class="favourite" (click)="NavigateToFavourite()">
-          <i class="bx bx-heart">
-            
-          </i>
+          <i class="bx bx-heart"></i>
+          <div class="heart-badge badge position-relative translate-middle" [ngStyle]="{
+            visibility: favCount === 0 ? 'hidden' : 'visible'
+          }">
+          {{ favCount }}
+        </div>
         </a>
       </div>
       
       <div class="p-2 bd-highlight">
         <a class="cart" href="/cart">
           <i class="bx bx-cart-alt"></i>
-          <div class="badge position-relative translate-middle" [ngStyle]="{
+          <div class="cart-badge badge position-relative translate-middle" [ngStyle]="{
               visibility: cartItemCount === 0 ? 'hidden' : 'visible'
             }">
             {{ cartItemCount }}

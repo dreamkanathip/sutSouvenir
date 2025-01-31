@@ -9,4 +9,5 @@ export interface Payment {
     receipt:        string,
     lastFourDigits: string,
     transferAt:     Date,
+    status: string
 }

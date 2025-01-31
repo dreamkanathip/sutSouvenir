@@ -1,7 +1,7 @@
 // favourite.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../../interfaces/products/products.model'; // นำเข้า Product interface
 import { FavouriteModel, FavouriteResponse } from '../../interfaces/favourite/favourite.model';
 
@@ -9,6 +9,8 @@ import { FavouriteModel, FavouriteResponse } from '../../interfaces/favourite/fa
   providedIn: 'root',
 })
 export class FavouriteService {
+  private favItemCountSubject = new BehaviorSubject<number>(0);
+  favItemCount$ = this.favItemCountSubject.asObservable();
   apiUrl = 'http://localhost:5000/api'; // URL ของ API
 
   userId: Number = 1
@@ -88,5 +90,15 @@ export class FavouriteService {
 
   getproductList() {
     return this.productList
+  }
+
+  updateFavItemCount(): void {
+    this.getLikedProducts().subscribe((res) => {
+      if(res.length === 0) {
+        this.favItemCountSubject.next(0);
+      } else {
+        this.favItemCountSubject.next(res.length);
+      }
+     });
   }
 }

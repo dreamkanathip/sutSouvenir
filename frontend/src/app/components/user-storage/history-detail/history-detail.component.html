@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5">รายละเอียดคำสั่งซื้อ</h1>
+            <h2 style="font-weight: bold">รายละเอียดคำสั่งซื้อ</h2>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -15,6 +15,7 @@
                                     order?.orderStatus === 'CANCELLED'? '#DD0000' :
                                     order?.orderStatus === 'DELIVERED'? '#47E036' : 
                                     order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
+                                    order?.orderStatus === 'NOT_PROCESSED'? '#FB0077':
                                     order?.orderStatus === 'PROCESSED'? '#4BB5DE' : ''
                       }">
                     {{ showStatus(order?.orderStatus) }}

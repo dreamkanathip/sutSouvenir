@@ -1,4 +1,4 @@
-const { OrderStatus } = require("@prisma/client");
+const { OrderStatus, PaymentStatus } = require("@prisma/client");
 const prisma = require("../configs/prisma");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
@@ -123,21 +123,31 @@ exports.uploadReceipt = async (req, res) => {
       return res.status(500).json({ message: "Failed to upload receipt" });
     }
 
-    let payment;
     try {
-      payment = await prisma.payment.create({
-        data: {
-          total: Number(total),
-          orderId: Number(orderId),
-          originBankId: Number(originBankId),
-          destBankId: Number(destBankId),
-          lastFourDigits,
-          transferAt: new Date(transferAt),
-          receipt: uniqueKey,
-        },
-      });
-    } catch (prismaError) {
-      console.error("Prisma Payment Error:", prismaError);
+      const [payment, updateOrderStatus] = await prisma.$transaction([
+        prisma.payment.create({
+          data: {
+            total: Number(total),
+            orderId: Number(orderId),
+            originBankId: Number(originBankId),
+            destBankId: Number(destBankId),
+            lastFourDigits,
+            transferAt: new Date(transferAt),
+            receipt: uniqueKey,
+          },
+        }),
+        prisma.order.update({
+          where: {
+            id: Number(orderId)
+          },
+          data: {
+            orderStatus: OrderStatus.NOT_PROCESSED
+          }
+        })
+      ])
+      res.status(201).json({payment, updateOrderStatus})
+    } catch (err) {
+      console.error("error:", err);
       return res.status(500).json({ message: "Failed to create payment" });
     }
 
@@ -173,13 +183,11 @@ exports.uploadReceipt = async (req, res) => {
       console.error("Order Update Error:", orderError);
       return res.status(500).json({ message: "Failed to update order" });
     }
-    res.status(201).send(payment);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
-
 // Get all payments
 exports.getPayment = async (req, res) => {
   try {
@@ -302,6 +310,37 @@ exports.getOrderById = async (req, res) => {
     return res.status(200).send( orders );
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:", error);
+    res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
+  }
+}
+
+exports.getOrders = async(req, res) => {
+  try {
+    const orders = await prisma.order.findMany({
+      include: {
+        products: {
+          include: {
+            product: {
+              include: {
+                category: true,
+                images: true,
+              },
+            },
+          },
+        },
+        address: true,
+        shipping: true,
+        payments: {
+          include: {
+            originBank: true,
+            destBank: true
+          }
+        }
+      },
+    });
+    res.status(200).send(orders);
+  } catch (err) {
+    console.error("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:", err);
     res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
   }
 }
