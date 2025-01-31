@@ -34,7 +34,7 @@
   justify-content: flex-start;
   padding: 20px;
   height: auto;
-  background-color: #FFDDBE;
+  /* background-color: #FFDDBE; */
   padding-top: calc(var(--navbar-height, 4%));
   padding-bottom: 2% ;
   overflow-y: auto;

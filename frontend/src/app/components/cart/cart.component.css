@@ -5,12 +5,16 @@
     padding-top: calc(var(--navbar-height, 8%));
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
-}
+} */
 .title-swal {
     font-family: 'SUT', sans-serif !important;
   }
 .bg {
     background-color: #FFDDBE;
+}
+.card {
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 .card-img {
     width: 90px;
