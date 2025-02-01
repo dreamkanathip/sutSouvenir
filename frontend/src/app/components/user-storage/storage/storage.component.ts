@@ -139,7 +139,7 @@ export class StorageComponent implements OnInit {
     
         const product = item;
         if (product && product.quantity > 0) {
-          this.cartService.getCartById(this.user?.id).pipe(
+          this.cartService.getCartById().pipe(
             switchMap((checkCart) => {
               if (!checkCart) {
                 // Initialize cart if not available
@@ -163,7 +163,7 @@ export class StorageComponent implements OnInit {
           ).subscribe((response) => {
             if (response) {
               product.quantity -= 1;
-              this.cartService.updateCartItemCount(this.user?.id);
+              this.cartService.updateCartItemCount();
               console.log('Item added to cart:', response);
               Swal.fire({
                 title: "เพิ่มสินค้าเรียบร้อย",

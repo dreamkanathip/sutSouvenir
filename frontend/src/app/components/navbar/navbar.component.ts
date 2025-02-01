@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Product } from '../../interfaces/products/products.model';
 import { UserModel } from '../../interfaces/user/user.model';
 import { HomepageService } from '../../services/homepage/homepage.service';
+import { FavouriteService } from '../../services/favourite/favourite.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,7 @@ import { HomepageService } from '../../services/homepage/homepage.service';
 export class NavbarComponent {
 
   cartItemCount: number = 0;
+  favCount: number = 0;
   userId: number = 1
 
   user?: UserModel
@@ -32,13 +34,18 @@ export class NavbarComponent {
     private cartService: CartService,
     private homepageService: HomepageService,
     private userService: UserService,
+    private favouriteService: FavouriteService,
     private router: Router
   ) {
     if (typeof window !== 'undefined') {
-      this.cartService.updateCartItemCount(this.userId)
+      this.cartService.updateCartItemCount()
       this.cartService.cartItemCount$.subscribe((count) => {
-      this.cartItemCount = count
-    })
+        this.cartItemCount = count
+      })
+      this.favouriteService.updateFavItemCount()
+      this.favouriteService.favItemCount$.subscribe((count) => {
+        this.favCount = count
+      })
     }
     
   }

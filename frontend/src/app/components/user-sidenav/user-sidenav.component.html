@@ -5,7 +5,7 @@
 <div class="user-sidenav">
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a class="nav-link d-flex align-items-center"><i class="bx bx-user bx-flip-horizontal icon me-2"></i><span>บัญชีผู้ใช้งาน</span></a>
+      <a class="nav-link d-flex align-items-center" style="font-weight: bold;"><i class="bx bx-user bx-flip-horizontal icon me-2" style="font-weight: bold;"></i><span>บัญชีผู้ใช้งาน</span></a>
       <ul class="nav flex-column sub-nav">
         <li class="nav-item user-nav">
           <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 3}" (click)="openPages(3)">
@@ -22,17 +22,17 @@
   </ul>
   <ul class="nav flex-column">
     <li class="nav-item storage-nav">
-      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 0}" (click)="openPages(0)">
+      <a class="nav-link d-flex align-items-center" style="font-weight: bold;" [ngClass]="{'active': userStoragePage === 0}" (click)="openPages(0)">
         <i class="bx bx-box me-2"></i><span>รายการสินค้าของคุณ</span>
       </a>
     </li>
     <li class="nav-item storage-nav">
-      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 1}" (click)="openPages(1)">
+      <a class="nav-link d-flex align-items-center" style="font-weight: bold;" [ngClass]="{'active': userStoragePage === 1}" (click)="openPages(1)">
         <i class="bx bx-history me-2"></i><span>ประวัติการสั่งซื้อ</span>
       </a>
     </li>
     <li class="nav-item storage-nav">
-      <a class="nav-link d-flex align-items-center" [ngClass]="{'active': userStoragePage === 2}" (click)="openPages(2)">
+      <a class="nav-link d-flex align-items-center" style="font-weight: bold;" [ngClass]="{'active': userStoragePage === 2}" (click)="openPages(2)">
         <i class="bx bx-heart me-2"></i><span>รายการโปรด</span>
       </a>
     </li>

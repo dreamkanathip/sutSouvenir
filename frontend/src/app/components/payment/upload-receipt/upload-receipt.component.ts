@@ -12,6 +12,8 @@ import { AddressService } from '../../../services/address/address.service';
 import { OrderService } from '../../../services/order/order.service';
 import { AddressModel } from '../../../interfaces/address/address.model';
 import { Shipping } from '../../../interfaces/shipping/shipping.model';
+import { Router } from '@angular/router';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -50,8 +52,9 @@ export class UploadReceiptComponent implements AfterViewInit {
     private platformId: Object, 
     private bankService: BankService,
     private paymentService: PaymentService,
-    private orderService: OrderService
-
+    private orderService: OrderService,
+    private userService: UserService,
+    private router: Router,   
   ) {
     this.getBank()
   }
@@ -120,6 +123,13 @@ export class UploadReceiptComponent implements AfterViewInit {
           icon: 'warning',
         }).then((result) => {
           if (result.isConfirmed) {
+            Swal.fire({
+              title: "กำลังดำเนินการ...",
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            });
             this.paymentService.uploadPayment(formData).subscribe(
               () => {
                 Swal.fire({
@@ -127,7 +137,8 @@ export class UploadReceiptComponent implements AfterViewInit {
                   title: 'สำเร็จ',
                   text: 'อัพโหลดสลิปแล้ว!',
                 }).then(() => {
-                  
+                  this.userService.setStoragePage(1);
+                  this.router.navigate(["/user"])
                 });
               },
               (error) => {

@@ -1,12 +1,15 @@
-/* .container {
+* {
+    box-sizing: border-box;
+    }
+.container {
     padding-top: calc(var(--navbar-height, 8%));
     margin-bottom: 2%;
     font-family: 'SUT', sans-serif;
-} */
+}
 .title-swal {
     font-family: 'SUT', sans-serif !important;
   }
-.bg {
+  .bg {
     display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,9 +153,6 @@ input::-webkit-inner-spin-button {
 .select-shipping {
     color: #F36523;
 }
-th {
-    font-size: 20px;
-}
 .change-address {
     font-size: 20px;
 }
@@ -164,4 +164,27 @@ th {
 .change-address-btn:active {
     background-color: #676767 ;
     border: none;
+}
+.img-container{
+    position: relative;
+    height: 100px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.header {
+    font-size: 20px;
+    font-weight: bold;
 }

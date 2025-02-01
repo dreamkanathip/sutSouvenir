@@ -92,10 +92,19 @@ input[type="radio"]:checked + label {
 td .badge {
     margin: 0 auto; /* จัดให้ badge อยู่ตรงกลาง */
 }
-.card-img-top {
-    padding: 5%;
-    width: 70%;
+.img-fluid {
+    height: 150px;
+    object-fit: contain;
 }
+/* .img-container {
+    position: relative;
+    width: 200px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    overflow: hidden;
+} */
 .item-title {
     flex-direction: column;
     display: flex;

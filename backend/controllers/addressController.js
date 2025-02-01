@@ -1,5 +1,20 @@
 const prisma = require("../configs/prisma");
 
+exports.getData = async(req, res) => {
+  const url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    console.log(json);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
 exports.create = async (req, res) => {
   try {
     const uid = req.user.id;

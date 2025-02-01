@@ -52,3 +52,7 @@
 .status {
     font-weight: bold;
 }
+.img-fluid {
+    width: 150px;
+    object-fit: contain;
+}

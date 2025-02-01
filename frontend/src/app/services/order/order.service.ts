@@ -64,7 +64,12 @@ export class OrderService {
       withCredentials: true, // ส่งคุกกี้
     });
   }
-
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/orders`, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true, // ส่งคุกกี้
+    });
+  }
   changeOrderStatus(data: any): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/updateOrderStatus`, data);
   }

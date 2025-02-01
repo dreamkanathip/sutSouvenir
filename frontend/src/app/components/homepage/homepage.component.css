@@ -100,7 +100,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .card-img-top {
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     padding: 5%;
 }

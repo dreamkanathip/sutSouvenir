@@ -98,8 +98,6 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .badge {
     font-size: 1rem;
-    top: -1px;
-    right: 9px;
     background: #F36523;
     display: flex;
     justify-content: center;
@@ -107,6 +105,14 @@ input[type="search"]::-webkit-search-cancel-button {
     border-radius: 12px;
     color: #fff;
     font-weight: 700;
+}
+.heart-badge {
+    top: -1px;
+    right: -1px;
+}
+.cart-badge {
+    top: -1px;
+    right: 9px;
 }
 
 /* NavBar */

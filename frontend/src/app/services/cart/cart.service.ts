@@ -8,7 +8,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class CartService {
 
-  private cartItemCountSubject = new BehaviorSubject<number>(0); // Observable for cart item count
+  private cartItemCountSubject = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCountSubject.asObservable();
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
@@ -36,15 +36,15 @@ export class CartService {
       withCredentials: true, // ส่งคุกกี้
     })
   }
-  getProductOnCart(userId: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/itemsOnCart/${userId}`, 
+  getProductOnCart(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/itemsOnCart`, 
       {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     })
   }
-  getCartById(userId: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/cart/${userId}`, 
+  getCartById(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/cart`, 
       {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
@@ -92,8 +92,8 @@ export class CartService {
       withCredentials: true, // ส่งคุกกี้
     })
   }
-  updateCartItemCount(userId: any): void {
-    this.getProductOnCart(userId).subscribe((res) => {
+  updateCartItemCount(): void {
+    this.getProductOnCart().subscribe((res) => {
       if(res.message == "Cart not found") {
         this.cartItemCountSubject.next(0);
       } else {
@@ -101,4 +101,5 @@ export class CartService {
       }
      });
   }
+  
 }

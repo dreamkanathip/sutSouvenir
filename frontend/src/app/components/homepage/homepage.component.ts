@@ -177,7 +177,7 @@ export class HomepageComponent {
 
     const product = this.productItems.find((i) => i.id === item.id);
     if (product && product.quantity > 0) {
-      this.cartService.getCartById(this.userId).pipe(
+      this.cartService.getCartById().pipe(
         switchMap((checkCart) => {
           if (!checkCart) {
             // Initialize cart if not available
@@ -201,8 +201,7 @@ export class HomepageComponent {
       ).subscribe((response) => {
         if (response) {
           product.quantity -= 1;
-          this.cartService.updateCartItemCount(this.userId);
-          console.log('Item added to cart:', response);
+          this.cartService.updateCartItemCount();
           const customSwal = Swal.mixin({
                     customClass: {
                       popup: "title-swal",
@@ -236,12 +235,14 @@ export class HomepageComponent {
   likeProduct(item: any) {
     this.favouriteService.likeProduct(item).subscribe((result) => {
       this.loadFavourite()
+      this.favouriteService.updateFavItemCount()
     })
   }
 
   unlikeProduct(item: any) {
     this.favouriteService.removeFromFavourites(item.id).subscribe((result) => {
       this.loadFavourite()
+      this.favouriteService.updateFavItemCount()
     })
   }
 
