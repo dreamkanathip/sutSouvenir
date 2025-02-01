@@ -29,7 +29,9 @@
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.8);
 }
-
+.modal-content {
+    font-size: 22px;
+}
 /* Modal Content */
 .modal-content-img {
     margin: auto;
@@ -48,4 +50,23 @@
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
+}
+.img-container{
+    position: relative;
+    height: 100px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }

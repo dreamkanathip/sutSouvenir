@@ -1,60 +1,110 @@
 <app-navbar></app-navbar>
 <div class="payment-page">
   <div class="container">
-    <div class="row">
-      <div class="col-7">
-        <div class="card">
+    <div class="row pb-5">
+      <div class="col-lg-7 col-md-12 mt-1">
+        <!-- <div class="card">
           <div class="table-responsive">
-          <table class="table table-sm align-middle table-order">
-            <thead class="thead-light">
-              <tr>
-                <th class="text-center"></th>
-                <!-- <th class="text-center"></th> -->
-                <th class="text-center">ชื่อสินค้า</th>
-                <th class="text-center">ราคา</th>
-                <th class="text-center">จำนวน</th>
-                <th class="text-center">ราคารวม</th>
-                <!-- <th class="text-center"></th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of productOnOrder; index as i">
-                <td class="text-center">
-                  <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" style="max-height: 50px;" />
-                </td>
-                <td class="text-center">
-                  <span class="product-title">{{item.product.title}}</span>
-                </td>
-                <td class="text-center price">
-                  {{item.product.price.toLocaleString('en', {useGrouping:true})}}
-                </td>
-                <td class="text-center quantity">
-                  {{item.count}}
-                </td>
-                <td class="text-center sum-price">
-                  {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping" >
-            <div></div>
+            <table class="table table-sm align-middle table-order">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-center"></th>
+                  <th class="text-center">ชื่อสินค้า</th>
+                  <th class="text-center">ราคา</th>
+                  <th class="text-center">จำนวน</th>
+                  <th class="text-center">ราคารวม</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of productOnOrder; index as i">
+                  <td class="text-center">
+                    <img
+                      src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png"
+                      style="max-height: 50px;" />
+                  </td>
+                  <td class="text-center">
+                    <span class="product-title">{{item.product.title}}</span>
+                  </td>
+                  <td class="text-center price">
+                    {{item.product.price.toLocaleString('en', {useGrouping:true})}}
+                  </td>
+                  <td class="text-center quantity">
+                    {{item.count}}
+                  </td>
+                  <td class="text-center sum-price">
+                    {{ (item.product.price * item.count).toLocaleString('en', {useGrouping:true}) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center ms-5 me-5 mb-3 d-flex align-items-center justify-content-between shipping">
+              <div></div>
+              ประเภทการจัดส่งที่คุณเลือก
+              <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
+              <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
+                <u>เลือกวิธีการการจัดส่ง</u>
+              </a>
+              <div></div>
+            </div>
+          </div>
+        </div> -->
+        
+        <div class="row p-2 border" style="background-color: white;">
+          <div class="d-flex justify-content-between align-items-center header ms-1">
+            <div class="col-2"></div>
+            <div class="col-3 align-items-center">ชื่อสินค้า</div>
+            <div class="col-2 d-flex align-items-center justify-content-center">ราคา</div>
+            <div class="col-2 d-flex align-items-center justify-content-center">จำนวน</div>
+            <div class="col-3 d-flex align-items-center justify-content-center ms-1">ราคารวม</div>
+          </div>
+        </div>
+        <div *ngFor="let item of productOnOrder; index as i"
+          class="row border d-flex flex-row justify-content-between align-items-center p-2"
+          style="background-color: white;">
+          
+          <div class="col-2">
+            <div class="text-center img-container d-flex align-items-center justify-content-center">
+              <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)"
+                class="img-fluid rounded" alt="Product Image">
+            </div>
+          </div>
+          <div class="col-3 d-flex align-items-center">
+            <div class="item-title">
+              <span class="product-title d-block">{{ item.product.title }}</span>
+              <span class="product-quantity text-muted">จำนวนที่มี: {{ item.product.quantity }} </span>
+            </div>
+          </div>
+          <div class="col-2 d-flex align-items-center justify-content-center">
+            <div class="text-center price">
+              {{ item.product.price.toLocaleString('en', {useGrouping:true}) }}
+            </div>
+          </div>
+          <td class="col-2 d-flex align-items-center justify-content-center">
+            {{item.count}}
+          </td>
+
+          <div class="col-3 sum-price d-flex align-items-center justify-content-center">
+            {{(item.product.price * item.count).toLocaleString('en', {useGrouping:true})}}
+          </div>
+        </div>
+
+        <div class="row border d-flex flex-row justify-content-between align-items-center p-2 shipping"
+          style="background-color: white;">
+          <div class="col-1"></div>
+          <div class="col-10 text-center d-flex flex-row justify-content-between align-items-center">
             ประเภทการจัดส่งที่คุณเลือก
             <div *ngIf="selectedShipping">{{selectedShipping.company}} : ค่าธรรมเนียม ฿{{selectedShipping.fees}}</div>
             <a class="select-shipping" data-bs-toggle="modal" data-bs-target="#select-shipping">
               <u>เลือกวิธีการการจัดส่ง</u>
             </a>
-            <div></div>
           </div>
+          <div class="col-1"></div>
         </div>
       </div>
-    </div>
-  
-  
-  
-      <div class="col-5">
-        <div class="card shadow-sm">
-          <div class="card-body">
+
+      <div class="col-lg-5 col-md-12">
+        <div class="row shadow-sm border rounded ms-lg-3 mt-1" style="background-color: white;">
+          <div class="card-body m-3">
             <h2 style="font-weight: bold;">
               ที่อยู่ในการจัดส่ง
             </h2>
@@ -99,12 +149,8 @@
 <!-- <app-footer></app-footer> -->
 <app-change-address-modal class="modal fade" id="change-address"
   (changeDefaultAddress)="defaultAddressChanged()"></app-change-address-modal>
-<app-upload-receipt class="modal fade" id="upload-receipt" 
-[sumItemPrice]="sumItemPrice" 
-[orderSum]="sumItemPrice + selectedShipping.fees"
-[address]="defaultAddress"
-[shipping]="selectedShipping"
-></app-upload-receipt>
-<app-select-shipping class="modal fade" id="select-shipping" (selectedShippingChange)="onShippingSelected($event)"> </app-select-shipping>
-
-
+<app-upload-receipt class="modal fade" id="upload-receipt" [sumItemPrice]="sumItemPrice"
+  [orderSum]="sumItemPrice + selectedShipping.fees" [address]="defaultAddress"
+  [shipping]="selectedShipping"></app-upload-receipt>
+<app-select-shipping class="modal fade" id="select-shipping" (selectedShippingChange)="onShippingSelected($event)">
+</app-select-shipping>

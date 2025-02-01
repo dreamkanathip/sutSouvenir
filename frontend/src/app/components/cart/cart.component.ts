@@ -10,6 +10,7 @@ import { Shipping } from '../../interfaces/shipping/shipping.model';
 import { AddressService } from '../../services/address/address.service';
 import { AddressModel } from '../../interfaces/address/address.model';
 import { Product } from '../../interfaces/products/products.model';
+import { PaymentService } from '../../services/order/payment.service';
 
 @Component({
   selector: 'app-cart',
@@ -34,6 +35,7 @@ export class CartComponent implements OnInit{
     private orderService: OrderService, 
     private router: Router,
     private addressService: AddressService,
+    private paymentService: PaymentService
   ) {
   }
 
@@ -232,7 +234,7 @@ export class CartComponent implements OnInit{
       const selectedItem = this.productOnCart?.filter((i) => i.selected === true);
 
       const initialOrderResponse = await firstValueFrom(this.orderService.initialOrder(data));
-      this.orderId = initialOrderResponse.id;
+      this.orderId = initialOrderResponse.order.id;
 
       const orderDetailsPromises = selectedItem.map((item) => {
         const detail = {
@@ -245,6 +247,7 @@ export class CartComponent implements OnInit{
       });
       await Promise.all(orderDetailsPromises);
 
+      
       this.sumItemPrice = this.productOnCart
       .filter((i) => i.selected)
       .reduce((sum, item) => sum + (item.newTotalPrice ?? 0), 0) || 0

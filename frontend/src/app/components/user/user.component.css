@@ -1,5 +1,6 @@
 .container {
     width: 100%; /* กำหนดความกว้างให้เต็มหน้า */
+    font-size: 22px;
 }
 
 .user-page {
@@ -92,6 +93,10 @@
 
 .table td.topic {
     width: 250px;
+    
+}
+.modal-content {
+    font-size: 22px;
 }
 
 .table td.change {
@@ -172,7 +177,10 @@
     font-family: 'SUT', sans-serif;
     font-size: large;
 }
-
+input[type="text"]
+{
+    font-size:22px;
+}
 .form-submit-container {
     display: flex;
     justify-content: flex-end;

@@ -3,7 +3,9 @@
     cursor: pointer;
     align-items: center;
 }
-
+.user-sidenav {
+  font-size: 22px;
+}
 .storage-nav .nav-link, .user-nav {
     cursor: pointer;
 }

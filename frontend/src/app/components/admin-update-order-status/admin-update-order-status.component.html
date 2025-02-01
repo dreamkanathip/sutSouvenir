@@ -35,24 +35,25 @@
                   }"
                 >
                 {{ showOrderStatus(order.orderStatus) }}
-                </td>
+                </td> 
                 <td
                   class="text-center"
                   style="font-weight: bold"
                   [ngStyle]="{
-                    color: order.payments[0].status === 'PENDING'? '#F7AB05' : 
-                          order.payments[0].status === 'COMPLETE'? '#4BB5DE' :
-                          order.payments[0].status === 'FAILED'? '#DD0000' :  ''
+                    color: order.payments[0].status === 'NOT_PROCESSED'? '#FB0077' : 
+                          order.payments[0].status === 'COMPLETED'? '#47E036' :
+                          order.payments[0].status === 'FAILED'? '#DD0000' :  '#DD0000'
                   }"
                 >
-                  {{showPaymentStatus(order.payments[0].status)}}
+                  {{ showPaymentStatus(order.payments[0].status) }}
                 </td>
                 <td class="text-center">{{order.cartTotal.toLocaleString('en', {useGrouping: true})}}</td>
-                <td class="text-center">{{order.payments[0].transferAt | formatDateToThai}}</td>
+                <td class="text-center">{{getPaymentDate(order)? (getPaymentDate(order) | formatDateToThai) : 'ยังไม่ชำระ'}}</td>
                 <td>
                   <u class="check-payment" data-bs-toggle="modal" data-bs-target="#order-detail"
                   (click)="seeOrder(order)">
-                  ตรวจสอบคำสั่งซื้อ</u>
+                    ตรวจสอบคำสั่งซื้อ
+                  </u>
                 </td>
               </tr>
             </tbody>

@@ -56,7 +56,7 @@ export class ChangeAddressModalComponent {
   // }
   NavigateToStorage(page: number){
     this.userService.setStoragePage(page)
-    this.router.navigate(['/user/storage']);
+    this.router.navigate(['/user']);
   }
 }
 

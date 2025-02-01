@@ -3,8 +3,8 @@
   <div class="row" *ngIf="productList.length > 0 else noList">
     <div class="col-12 mb-3" *ngFor="let item of productList; index as i">
       <div class="card">
-        <div class="row g-0">
-          <div class="col-md-3">
+        <div class="row g-0 m-2">
+          <div class="col-md-3 img-container ">
             <img *ngIf="item.images && item.images.length > 0" [src]="getImageUrl(item)" class="img-fluid rounded-start" alt="{{ item.title }}">
           </div>
           <div class="col-md-5">
@@ -18,7 +18,7 @@
           </div>
           <div class="col-md-4">
             <div class="card-body">
-              <p class="card-text">฿{{ item.price }}</p>
+              <p class="card-price">฿{{ item.price }}</p>
               <p class="card-quantity">เหลือ: {{ item.quantity }} ชิ้น</p>
               <div class="button-group mt-1">
                 <button class="btn btn-primary" (click)="addItemToCart(item)">

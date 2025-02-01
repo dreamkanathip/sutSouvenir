@@ -85,4 +85,7 @@ export class OrderService {
   getOrderId(): number {
     return this.orderId;
   }
+  confirmOrder(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/confirmOrder`, data);
+  }  
 }

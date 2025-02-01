@@ -1,6 +1,3 @@
-* {
-    box-sizing: border-box;
-    }
 .container {
     padding-top: calc(var(--navbar-height, 8%));
     margin-bottom: 2%;
@@ -10,26 +7,21 @@
     font-family: 'SUT', sans-serif !important;
   }
   .bg {
-    display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  background-color: #f8f9fa;
-  padding-top: calc(var(--navbar-height, 70px));
-  overflow: auto;
-  scrollbar-width: none;
-  font-family: 'SUT', sans-serif;
-  font-size: larger;
-
-  background: linear-gradient(
-    205deg,
-    rgba(255, 127, 80, 0.5),
-    /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
-    /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
-      /* สีขาวที่มี opacity น้อย */
-  );
+    width: 100%;
+    height: 100vh;
+    background-color: #f8f9fa;
+    /* padding-top: calc(var(--navbar-height, 70px)); */
+    overflow: auto;
+    scrollbar-width: none;
+    font-family: 'SUT', sans-serif;
+    font-size: larger;
+    background: linear-gradient(
+        205deg,
+        rgba(255, 127, 80, 0.5),
+        /* สีส้มที่มีความโปร่งใส */ rgba(255, 179, 71, 0.2),
+        /* สีส้มอ่อนๆ ที่มี opacity น้อย */ rgba(255, 255, 255, 0.9)
+        /* สีขาวที่มี opacity น้อย */
+    );
 }
 .card {
     margin-top: 2%;
@@ -77,8 +69,7 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 .checkbox, .price, .sum-price, .quantity, .delete, .delete-all {
-
-    font-size: 20px;
+    font-size: 22px;
 }
 .item-title {
     flex-direction: column;

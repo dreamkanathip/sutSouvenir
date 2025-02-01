@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="order-header d-flex flex-row ms-3 me-3" style="font-size: 20px;">
-                    {{order?.createdAt | formatDateToThai}}
+                    สั่งซื่อวันที่: {{order?.createdAt | formatDateToThai}}
                 </div>
                 <div class="shipping ms-3 me-3 d-flex flex-column" style="font-size: 20px;">
                     <span>จัดส่งโดย: {{order?.shipping?.company}}</span>
@@ -42,15 +42,18 @@
                     <div style="font-weight: bold; font-size: 20px"
                         class="text-center"
                         [ngStyle]="{
-                            color: order?.payments?.[0]?.status === 'PENDING'? '#F7AB05' : 
-                                    order?.payments?.[0]?.status === 'COMPLETE'? '#4BB5DE' :
-                                    order?.payments?.[0]?.status === 'FAILED'? '#DD0000' :  ''
+                            color: order?.payments?.[0]?.status === 'NOT_PROCESSED'? '#FB0077' : 
+                                    order?.payments?.[0]?.status === 'COMPLETED'? '#47E036' :
+                                    order?.payments?.[0]?.status === 'FAILED'? '#DD0000' :  '#DD0000'
                         }">
                         {{showPaymentStatus()}}
                     </div>
                 </div>
-                <div>
-                    <u class="check-receipt-btn me-1" style="font-size: 20px;" (click)="openImageModal(order?.payments?.[0]?.receipt)">ตรวจสอบสลิป</u>
+                <div *ngIf="order?.payments?.[0]?.status === 'NOT_PROCESSED' || order?.payments?.[0]?.status === 'COMPLETED'">
+                    <u class="check-receipt-btn me-1" style="font-size: 20px;" (click)="openImageModal(order?.payments?.[0]?.receipt)">
+                        ตรวจสอบสลิป 
+                    </u>
+                    <span style="font-size: 22px;">{{ (order?.payments?.[0]?.transferAt | formatDateToThai)}}</span>
                 </div>
                 <div *ngIf="isModalOpen" class="image-modal">
                     <span class="close-btn" (click)="closeImageModal()">
@@ -61,69 +64,54 @@
             </div>
         </div>
         
-        <div class="border rounded m-3">
+        <div *ngFor="let item of order?.products" class="border rounded m-3">
             <div class="row ps-3 pb-3 pt-2">
-                <div class="col-2 d-flex justify-content-center align-items-center">
-                    <img src="https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/images/1737818107211-OP05-030_p1.png" class="img-fluid rounded" alt="Product Image">
+                <div class="col-2 d-flex justify-content-center align-items-center img-container">
+                    <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
                 </div>
                 <div class="col-6 item-title">
-                    <span class="product-title">Untrustable Souvenir</span>
-                    <span class="product-quantity text-muted">ราคา: 170</span>
-                    <span class="product-quantity text-muted">จำนวน: 1</span>
+                    <span class="product-title">{{item.product.title}}</span>
+                    <span class="product-quantity text-muted">ราคา: {{item.product.price}}</span>
+                    <span class="product-quantity text-muted">จำนวน: {{item.count}}</span>
                 </div>
-                <!-- <div class="col-3 ms-auto d-flex align-items-end">
-                    <div *ngIf="order?.orderStatus === 'DELIVERED'" class="d-flex flex-column">
-                        <div class="ms-1">รีวิวของคุณ</div>
-                        <div class="stars">
-                        <i class="fa" *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
-                        [ngClass]="i < productRating ? 'fa-star' : 'fa-star-o'"></i>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
         <div class="row d-flex justify-content-between m-3 ">
             <div class="address col-5 border rounded ">
                 <div class="ms-3 mt-3">
-                    <h3>
+                    <h3 style="font-weight: bold;">
                         ที่อยู่ในการจัดส่ง
                     </h3>
                     <div class="d-flex justify-content-between" style="font-size: 20px;">
                         <div class="name">
-                            <!-- {{order?.address.firstName}} {{order?.address.lastName}} -->
-                             สมบัติ ทับทอง
+                            {{order?.address?.firstName}} {{order?.address?.lastName}}
                         </div>
                         
                     </div>
                     <div class="address" style="font-size: 20px;">
-                        <!-- {{order?.address.street}} {{order?.address.subDistrict}}
-                        {{order?.address.district}} {{order?.address.province}}
-                        {{order?.address.postalCode}} {{order?.address.phoneNumber}} -->
-                        25/1 ออนใต้ สันกำแพง เชียงใหม่ 81120 
-                        <p>0930645312</p>
+                        {{order?.address?.street}} {{order?.address?.subDistrict}}
+                        {{order?.address?.district}} {{order?.address?.province}}
+                        {{order?.address?.postalCode}} {{order?.address?.phoneNumber}}
                     </div>
                 </div>
             </div>
             <div class="summary col-6 border rounded">
                 <div class="m-3">
-                    <h3>สรุปข้อมูลคำสั่งซื้อ</h3>
+                    <h3 style="font-weight: bold;">สรุปข้อมูลคำสั่งซื้อ</h3>
                     <div class="d-flex justify-content-between" style="font-size: 20px;">
                         <p>ราคาสินค้า</p>
-                        170
-                        <!-- {{(productOnOrderTotal).toLocaleString('en', {useGrouping:true})}} -->
+                        {{(productOnOrderTotal).toLocaleString('en', {useGrouping:true})}}
                     </div>
                     <div class="d-flex justify-content-between" style="font-size: 20px;">
                         <p>ค่าส่ง</p>
-                        50
-                        <!-- <p>{{order?.shipping.fees}}</p> -->
+                        <p>{{order?.shipping?.fees}}</p>
                     </div>
                     <hr class="mt-1 mb-1" />
                     <div class="d-flex justify-content-between summary-sum-price" style="font-size: 20px;">
                         <p>รวมทั้งสิ้น</p>
-                        220
-                        <!-- {{
-                        (order?.cartTotal).toLocaleString('en', {useGrouping:true})
-                        }} -->
+                        {{
+                        order?.cartTotal?.toLocaleString('en', {useGrouping:true})
+                        }}
                     </div>
                 </div>
             </div>
@@ -131,7 +119,12 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" style="font-size: 20px;" data-bs-dismiss="modal">ปิด</button>
-        <button type="button" class="btn btn-primary" style="font-size: 20px; background-color: #F36523; border: none;">ยืนยันการชำระเงิน</button>
+        <button type="button" class="btn btn-primary" 
+            style="font-size: 20px; background-color: #F36523; border: none;"
+            (click)="confirmOrder()"
+        >
+            ยืนยันการชำระเงิน
+        </button>
       </div>
     </div>
   </div>

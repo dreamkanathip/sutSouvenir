@@ -12,6 +12,10 @@
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="PENDING">รอชำระเงิน</label>
 
+      <input type="radio" class="btn-check" name="btnradio" id="NOT_PROCESSED" value="NOT_PROCESSED" autocomplete="off"
+        [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+      <label class="btn btn-outline-primary filter-button" for="NOT_PROCESSED">รอยืนยัน</label>
+      
       <input type="radio" class="btn-check" name="btnradio" id="PROCESSED" value="PROCESSED" autocomplete="off"
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="PROCESSED">ยืนยันการสั่งซื้อ</label>
@@ -27,6 +31,8 @@
       <input type="radio" class="btn-check" name="btnradio" id="CANCELLED" value="CANCELLED" autocomplete="off"
         [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
       <label class="btn btn-outline-primary filter-button" for="CANCELLED">ยกเลิก</label>
+      
+      
     </div>
   </div>
   <div *ngFor="let order of filteredOrders" class="card mb-3">
@@ -53,7 +59,7 @@
     </div>
     <hr class="hr" />
 
-    <div class="order-footer mb-3 card-body d-flex justify-content-between">
+    <div class="mb-3 card-body d-flex justify-content-between">
       <div class="order-footer">
         สั่งซื่อวันที่ {{order?.createdAt | formatDateToThai}}
         <div class="order-status ms-5">

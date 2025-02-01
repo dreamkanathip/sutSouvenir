@@ -126,7 +126,7 @@ model Order {
 model Payment {
   id             Int           @id @default(autoincrement())
   total          Float
-  status         PaymentStatus @default(PENDING)
+  status         PaymentStatus @default(NOT_PROCESSED)
 
   order          Order           @relation(fields: [orderId], references: [id]) // One-to-one relationship with Order
   orderId        Int             @unique
@@ -268,7 +268,7 @@ enum ProductStatus {
 }
 
 enum PaymentStatus {
-  PENDING
+  NOT_PROCESSED
   COMPLETED
   FAILED
 }

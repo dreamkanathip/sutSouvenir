@@ -92,19 +92,25 @@ input[type="radio"]:checked + label {
 td .badge {
     margin: 0 auto; /* จัดให้ badge อยู่ตรงกลาง */
 }
-.img-fluid {
-    height: 150px;
-    object-fit: contain;
-}
-/* .img-container {
+.img-container{
     position: relative;
-    width: 200px;
+    height: 120px;
     aspect-ratio: 1/1;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
     overflow: hidden;
-} */
+}
+.img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
 .item-title {
     flex-direction: column;
     display: flex;
@@ -121,6 +127,7 @@ td .badge {
 .order-footer {
     flex-direction:row;
     display: flex;   
+    font-size: 22px;
 }
 .stars {
     display: flex;

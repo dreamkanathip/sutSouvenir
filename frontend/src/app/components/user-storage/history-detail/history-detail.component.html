@@ -6,7 +6,7 @@
         </div>
         <div class="modal-body">
             <div class="order-header d-flex flex-row ms-3 me-3">
-                สั่งซื่อวันที่ {{order?.createdAt | formatDateToThai}}
+                สั่งซื่อวันที่: {{order?.createdAt | formatDateToThai}}
                 <div class="order-status ms-4">
                     สถานะคำสั่งซื้อ:
                 </div>
@@ -40,7 +40,7 @@
             </div>
             <div *ngFor="let item of order?.products" class="border rounded m-3">
                 <div class="row ps-3 pb-3 pt-2">
-                    <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div class="col-2 d-flex justify-content-center align-items-center img-container">
                         <img *ngIf="item.product.images && item.product.images.length > 0" [src]="getImageUrl(item.product)" class="img-fluid rounded" alt="Product Image">
                     </div>
                     <div class="col-6 item-title">
@@ -62,7 +62,7 @@
             <div class="row d-flex justify-content-between m-3 ">
                 <div class="address col-5 border rounded ">
                     <div class="ms-3 mt-3">
-                        <h3>
+                        <h3 style="font-weight: bold;">
                             ที่อยู่ในการจัดส่ง
                         </h3>
                         <div class="d-flex justify-content-between">
@@ -80,7 +80,7 @@
                 </div>
                 <div class="summary col-6 border rounded">
                     <div class="m-3">
-                        <h3>สรุปข้อมูลคำสั่งซื้อ</h3>
+                        <h3 style="font-weight: bold;">สรุปข้อมูลคำสั่งซื้อ</h3>
                         <div class="d-flex justify-content-between">
                             <p>ราคาสินค้า</p>
                             {{(productOnOrderTotal).toLocaleString('en', {useGrouping:true})}}
@@ -103,7 +103,7 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            <button type="button" style="font-size: 24px;" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
         </div>
     </div>
 </div>

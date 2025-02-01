@@ -137,8 +137,9 @@ export class UploadReceiptComponent implements AfterViewInit {
                   title: 'สำเร็จ',
                   text: 'อัพโหลดสลิปแล้ว!',
                 }).then(() => {
+                  window.location.reload();
                   this.userService.setStoragePage(1);
-                  this.router.navigate(["/user"])
+                  this.router.navigate(["/user"])  
                 });
               },
               (error) => {

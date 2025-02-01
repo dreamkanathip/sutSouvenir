@@ -27,7 +27,6 @@ async function createInitialCategories() {
     }
   }
 }
-
 // เรียกใช้ฟังก์ชันสร้างหมวดหมู่เมื่อรันเซิร์ฟเวอร์
 createInitialCategories()
   .catch((e) => {

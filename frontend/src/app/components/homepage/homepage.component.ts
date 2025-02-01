@@ -204,9 +204,9 @@ export class HomepageComponent {
           this.cartService.updateCartItemCount();
           const customSwal = Swal.mixin({
                     customClass: {
-                      popup: "title-swal",
-                    },
-                  });
+                    popup: "title-swal",
+            },
+          });
           customSwal.fire({
             title: "เพิ่มสินค้าเรียบร้อย",
             icon: "success",

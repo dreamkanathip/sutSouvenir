@@ -19,21 +19,58 @@ exports.initOrder = async (req, res) => {
     if (!userId || !cartTotal || !addressId || !shippingId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    
+    
+      const order = await prisma.order.create({
+        data: {
+          userId: Number(userId),
+          cartTotal: Number(cartTotal),
+          addressId: Number(addressId),
+          shippingId: Number(shippingId),
+        },
+      });
 
-    const order = await prisma.order.create({
-      data: {
-        userId: Number(userId),
-        cartTotal: Number(cartTotal),
-        addressId: Number(addressId),
-        shippingId: Number(shippingId)
-      },
-    });
-    res.status(201).send(order);
+    res.status(201).json({order});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.confirmOrder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const [changeOrderStatus, changePaymentStatus] = await prisma.$transaction([
+      prisma.order.update({
+        where: {
+          id: Number(orderId)
+        },
+        data: {
+          orderStatus: OrderStatus.PROCESSED
+        }
+      }),
+      prisma.payment.update({
+        where: {
+          orderId: Number(orderId)
+        },
+        data: {
+          status: PaymentStatus.COMPLETED
+        }
+      })
+    ])
+
+    res.status(200).json({changeOrderStatus, changePaymentStatus})
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 
 // Add product to order
 exports.addOrderDetail = async (req, res) => {
@@ -71,7 +108,13 @@ exports.getProductOnOrder = async (req, res) => {
 
     const products = await prisma.productOnOrder.findMany({
       where: { orderId: Number(id) },
-      include: { product: true },
+      include: { 
+        product: {
+          include: {
+            images: true
+          }
+        } 
+      },
     });
 
     res.status(200).send(products);
@@ -269,15 +312,27 @@ exports.changeOrderStatus = async(req, res) => {
   try {
     const { orderId, orderStatus } = req.body;
 
-    const changeStatus = await prisma.order.update({
-      where: {
-        id: Number(orderId)
-      },
-      data: {
-        orderStatus: orderStatus
-      }
-    })
-    res.send(changeStatus)
+
+    const [changeOrderStatus, changePaymentStatus] = await prisma.$transaction([
+      prisma.order.update({
+        where: {
+          id: Number(orderId)
+        },
+        data: {
+          orderStatus: orderStatus
+        }
+      }),
+      prisma.payment.update({
+        where: {
+          orderId: Number(orderId)
+        },
+        data: {
+          status: PaymentStatus.COMPLETED
+        }
+      })
+    ])
+
+    res.status(200).json({changeOrderStatus, changePaymentStatus})
   } catch (err) {
     console.error(err);
         res.status(500).json({ message: "Server error", error: err });

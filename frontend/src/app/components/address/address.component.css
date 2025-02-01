@@ -34,7 +34,9 @@
     color: #333;
     padding: 10px;
 }
-
+.container {
+    font-size: 22px;
+}
 .my-address-container {
     align-items: center;
     justify-content: flex-start;

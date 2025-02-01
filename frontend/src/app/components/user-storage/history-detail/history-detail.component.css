@@ -52,7 +52,25 @@
 .status {
     font-weight: bold;
 }
+.img-container{
+    position: relative;
+    height: 100px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 .img-fluid {
-    width: 150px;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
     object-fit: contain;
+}
+.modal-content {
+    font-size: 22px;
 }

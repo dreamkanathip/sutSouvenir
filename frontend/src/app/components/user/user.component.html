@@ -11,7 +11,7 @@
 <div>
   <div class="row mx-auto">
     <div class="container">
-      <h3 class="container-header">ข้อมูลส่วนตัว</h3>
+      <h2 style="font-weight: bold;" class="container-header">ข้อมูลส่วนตัว</h2>
       <br/>
       <div>
         <table class="table table-sm">
@@ -31,7 +31,7 @@
         <button class="edit-modal-btn" (click)="dataModal()">แก้ไขข้อมูล</button>
       </div>
       <hr/>
-      <h3 class="container-header">ข้อมูลบัญชี</h3>
+      <h2 style="font-weight: bold;" class="container-header">ข้อมูลบัญชี</h2>
       <br />
       <div>
         <table class="table table-sm">
@@ -41,7 +41,7 @@
               <td>{{user?.email}}</td>
             </tr>
             <tr>
-              <td>ที่อยู่สำหรับจัดส่ง</td>
+              <td >ที่อยู่สำหรับจัดส่ง</td>
               <td [ngClass]="defaultAddress ? 'default-address' : 'no-address'">
                 {{ defaultAddress ? defaultAddress : 'ไม่พบที่อยู่จัดส่งที่บันทึกไว้' }}
               </td>
@@ -65,7 +65,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">แก้ไขข้อมูลผู้ใช้งาน</h5>
+          <h2 style="font-weight: bold;" class="modal-title">แก้ไขข้อมูลผู้ใช้งาน</h2>
           <button type="button" class="btn-close" aria-label="Close" (click)="dataModal()"></button>
         </div>
         <div class="modal-body">
@@ -140,7 +140,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">แก้ไขอีเมลของบัญชีผู้ใช้</h5>
+          <h2 style="font-weight: bold;" class="modal-title">แก้ไขอีเมลของบัญชีผู้ใช้</h2>
           <button type="button" class="btn-close" aria-label="Close" (click)="emailModal()"></button>
         </div>
         <div class="modal-body">
@@ -185,7 +185,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">แก้ไขรหัสผ่านของบัญชีผู้ใช้</h5>
+          <h2 style="font-weight: bold;" class="modal-title">แก้ไขรหัสผ่านของบัญชีผู้ใช้</h2>
           <button type="button" class="btn-close" aria-label="Close" (click)="passwordModal()"></button>
         </div>
         <div class="modal-body">

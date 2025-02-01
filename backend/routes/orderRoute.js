@@ -1,5 +1,5 @@
 const express = require('express');
-const { initOrder, addOrderDetail, getProductOnOrder, getAllOrder, getAllProductOnOrder, cancelOrder, getAllProductOnOrderByUserId, getOrderStatusEnum, changeOrderStatus, getOrderById, getOrders } = require('../controllers/orderController');
+const { initOrder, addOrderDetail, getProductOnOrder, getAllOrder, getAllProductOnOrder, cancelOrder, getAllProductOnOrderByUserId, getOrderStatusEnum, changeOrderStatus, getOrderById, getOrders, confirmOrder } = require('../controllers/orderController');
 const { authenticateToken, authenticateAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.get("/order-status-enum",authenticateToken, getOrderStatusEnum)
 router.get("/order/:orderId", getOrderById)
 router.patch("/updateOrderStatus", changeOrderStatus)
 router.get('/orders', authenticateToken, authenticateAdmin, getOrders)
-
+router.patch("/confirmOrder", confirmOrder)
 
 module.exports = router
