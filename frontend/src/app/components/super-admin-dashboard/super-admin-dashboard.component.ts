@@ -47,6 +47,11 @@ export class SuperAdminDashboardComponent implements OnInit {
   // ดึงข้อมูลผู้ใช้ทั้งหมดจาก UserService
   getUsers(): void {
     this.isLoading = true; // แสดงสถานะการโหลด
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     this.userService.getAllUsers().subscribe({
       next: (response) => {
         this.users = response; // เก็บข้อมูลที่ได้จาก API ลงในตัวแปร users
@@ -56,7 +61,7 @@ export class SuperAdminDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching users:', err); // แสดงข้อผิดพลาดใน console
-        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถดึงข้อมูลผู้ใช้ได้', 'error');
+        customSwal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถดึงข้อมูลผู้ใช้ได้', 'error');
         this.isLoading = false; // หยุดแสดงสถานะการโหลด
       },
     });
@@ -111,7 +116,12 @@ export class SuperAdminDashboardComponent implements OnInit {
 
   // ฟังก์ชันลบผู้ใช้
   deleteUser(userId: number): void {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: 'คุณแน่ใจหรือไม่?',
       text: 'คุณต้องการลบผู้ใช้นี้หรือไม่',
       icon: 'warning',
@@ -126,7 +136,7 @@ export class SuperAdminDashboardComponent implements OnInit {
         this.userService.deleteUser(userId).subscribe({
           next: () => {
             // แสดงข้อความสำเร็จ
-            Swal.fire({
+            customSwal.fire({
               title: 'สำเร็จ',
               text: 'ลบผู้ใช้สำเร็จ',
               icon: 'success',
@@ -139,7 +149,7 @@ export class SuperAdminDashboardComponent implements OnInit {
           error: (err) => {
             // แสดงข้อผิดพลาดหากการลบไม่สำเร็จ
             console.error('Error deleting user:', err);
-            Swal.fire({
+            customSwal.fire({
               title: 'เกิดข้อผิดพลาด',
               text: 'ไม่สามารถลบผู้ใช้ได้',
               icon: 'error',

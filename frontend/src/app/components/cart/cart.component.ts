@@ -46,8 +46,13 @@ export class CartComponent implements OnInit{
 
   onQuantityInputChange(item: any): void {
     const previousQuantity = item.quantity;
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (item.quantity >= item.product.quantity && item.product.quantity !=0 ) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
         icon: "warning",
@@ -56,7 +61,7 @@ export class CartComponent implements OnInit{
         item.quantity = item.product.quantity;
       })
     } else if (item.product.quantity <= 0) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าหมดแล้ว",
         text: "โปรดรอสินค้า",
         confirmButtonText: "ตกลง",
@@ -143,9 +148,14 @@ export class CartComponent implements OnInit{
       userId: this.userId,
       productId: item.productId
     }
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
 
     if (item.quantity >= item.product.quantity) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
         icon: "warning",
@@ -222,6 +232,11 @@ export class CartComponent implements OnInit{
     })
   }
   async goToPayment() {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     try {
       const data = {
         userId: this.userId,
@@ -261,18 +276,13 @@ export class CartComponent implements OnInit{
     } catch (error) {
       console.error('Error during payment process:', error);
       if(!this.defaultAddress) {
-        Swal.fire({
+        customSwal.fire({
           title: "กรุณาเลือกที่อยู่สำหรับจัดส่ง",
           confirmButtonText: "ยืนยัน",
           icon: "warning",
           confirmButtonColor: "#d33",
         })
       } else if (!this.selectedShipping){
-        const customSwal = Swal.mixin({
-          customClass: {
-            title: "title-swal",
-          },
-        });
         customSwal.fire({
           title: "กรุณาเลือกวิธีการจัดส่ง",
           confirmButtonText: "ยืนยัน",
@@ -288,7 +298,12 @@ export class CartComponent implements OnInit{
   }
 
   removeItem(productId: number) {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: "ลบรายการสินค้าจากตะกร้าหรือไม่",
       showCancelButton: true,
       confirmButtonText: "ยืนยัน",
@@ -300,16 +315,21 @@ export class CartComponent implements OnInit{
       if (result.isConfirmed) {
         try {
           this.removeProductOnCart(productId)
-          Swal.fire("สำเร็จ", "ลบรายการสินค้าเรียบร้อย", "success");
+          customSwal.fire("สำเร็จ", "ลบรายการสินค้าเรียบร้อย", "success");
         } catch (error) {
-          Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");
+          customSwal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");
         }
       }
     }) 
   }
   // also mean deleting cart but the product quantity will be return
   async removeAllProductOnCart() {
-    const result = await Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    const result = await customSwal.fire({
       title: "ลบรายการสินค้าทั้งหมดหรือไม่",
       showCancelButton: true,
       confirmButtonText: "ยืนยัน",
@@ -320,11 +340,11 @@ export class CartComponent implements OnInit{
     });
   
     if (result.isConfirmed) {
-      Swal.fire({
+      customSwal.fire({
         title: "กำลังลบ...",
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading();
+          customSwal.showLoading();
         },
       });
   
@@ -334,9 +354,9 @@ export class CartComponent implements OnInit{
         );
         await Promise.all(removePromises);
         await firstValueFrom(this.cartService.deleteCart(this.userId));
-        Swal.fire("สำเร็จ", "ลบรายการสินค้าทั้งหมดเรียบร้อย", "success");
+        customSwal.fire("สำเร็จ", "ลบรายการสินค้าทั้งหมดเรียบร้อย", "success");
       } catch (error) {
-        Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");
+        customSwal.fire("เกิดข้อผิดพลาด", "ไม่สามารถลบสินค้าได้", "error");
       }
     }
   }

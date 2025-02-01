@@ -74,7 +74,12 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
   }
 
   submitCancel(item: any) {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: "ต้องการยกเลิกคำสั่งซื้อรายการนี้หรือไม่?",
       showCancelButton: true,
       confirmButtonText: "ยืนยัน",
@@ -82,18 +87,18 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
+        customSwal.fire({
           title: "กำลังลบข้อมูล...",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading();
+            customSwal.showLoading();
           },
         });
 
         this.orderService.cancelOrder(item.id, item).subscribe({
           next: (res) => {
-            Swal.close();
-              Swal.fire({
+            customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "ยกเลิกคำสั่งซื้อ",
                 text: "ยกเลิกคำสั่งซื้อเรียบร้อยแล้ว",
@@ -104,8 +109,8 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
               })
           },
           error: (error) => {
-            Swal.close();
-            Swal.fire({
+            customSwal.close();
+            customSwal.fire({
               icon: "warning",
               title: "เกิดข้อผิดพลาด",
               text: "เกิดข้อผิดพลาด กรุณาลองอีกครั้งในภายหลัง",
@@ -132,8 +137,13 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
       orderId: order.id,
       orderStatus: "DELIVERED"
     }
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
 
-    Swal.fire({
+    customSwal.fire({
       title: "ต้องการยืนยันรับสินค้าหรือไม่?",
       showCancelButton: true,
       confirmButtonText: "ยืนยัน",
@@ -141,18 +151,18 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
+        customSwal.fire({
           title: "กำลังดำเนินการ...",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading();
+            customSwal.showLoading();
           },
         });
 
         this.orderService.changeOrderStatus(data).subscribe({
           next: () => {
-            Swal.close();
-              Swal.fire({
+            customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "ยืนยันรับสินค้าสำเร็จ",
                 showConfirmButton: true,
@@ -162,8 +172,8 @@ export class HistoryDetailComponent implements OnInit, OnChanges {
               })
           },
           error: (error) => {
-            Swal.close();
-            Swal.fire({
+            customSwal.close();
+            customSwal.fire({
               icon: "warning",
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถดึงข้อมูลออเดอร์ใหม่ได้ กรุณาลองอีกครั้ง",

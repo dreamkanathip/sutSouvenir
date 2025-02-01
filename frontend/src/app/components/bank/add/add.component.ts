@@ -27,9 +27,13 @@ export class AddComponent {
   constructor(private bankService: BankService){}
 
   addBank() {
-
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if(this.destBank) {
-      Swal.fire({
+      customSwal.fire({
         title: 'คุณต้องการบันทึหรือไม่?',
         showCancelButton: true,
         confirmButtonText: 'บันทึก',
@@ -38,7 +42,7 @@ export class AddComponent {
         if (result.isConfirmed) {
           this.bankService.addDestBank(this.destBankData.value).subscribe(
             () => {
-              Swal.fire({
+              customSwal.fire({
                 icon: 'success',
                 title: 'สำเร็จ',
                 text: 'ข้อมูลถูกบันทึกแล้ว!',
@@ -48,7 +52,7 @@ export class AddComponent {
             },
             (error) => {
               console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-              Swal.fire({
+              customSwal.fire({
                 icon: 'error',
                 title: 'ข้อผิดพลาด',
                 text: 'ไม่สามารถบันทึกข้อมูลได้!',
@@ -58,7 +62,8 @@ export class AddComponent {
         }
       });
     } else {
-      Swal.fire({
+      
+      customSwal.fire({
         title: 'คุณต้องการบันทึหรือไม่?',
         showCancelButton: true,
         confirmButtonText: 'บันทึก',
@@ -67,7 +72,7 @@ export class AddComponent {
         if (result.isConfirmed) {
           this.bankService.addOriginBank(this.originBankData.value).subscribe(
             () => {
-              Swal.fire({
+              customSwal.fire({
                 icon: 'success',
                 title: 'สำเร็จ',
                 text: 'ข้อมูลถูกบันทึกแล้ว!',
@@ -77,7 +82,7 @@ export class AddComponent {
             },
             (error) => {
               console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-              Swal.fire({
+              customSwal.fire({
                 icon: 'error',
                 title: 'ข้อผิดพลาด',
                 text: 'ไม่สามารถบันทึกข้อมูลได้!',

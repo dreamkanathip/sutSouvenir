@@ -164,7 +164,12 @@ export class EditAddressComponent implements OnInit {
         phoneNumber: this.editAddressForm.get('phoneNumber')?.value,
         postalCode: this.editAddressForm.get('postalCode')?.value,
       };
-      Swal.fire({
+      const customSwal = Swal.mixin({
+        customClass:{
+          popup: "title-swal",
+        },
+      });
+      customSwal.fire({
         title: "ต้องการแก้ไขข้อมูลหรือไม่",
         showCancelButton: true,
         confirmButtonText: "บันทึก",
@@ -172,18 +177,18 @@ export class EditAddressComponent implements OnInit {
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
+          customSwal.fire({
             title: "กำลังบันทึกข้อมูล...",
             allowOutsideClick: false,
             didOpen: () => {
-              Swal.showLoading();
+              customSwal.showLoading();
             },
           });
     
           this.addressService.updateAddress(updatedAddress, this.addressId).subscribe({
             next: () => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "บันทึกแล้ว",
                 text: "แก้ไขข้อมูลที่อยู่เรียบร้อยแล้ว",
@@ -194,8 +199,8 @@ export class EditAddressComponent implements OnInit {
               
             },
             error: (error) => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",

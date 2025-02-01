@@ -42,7 +42,12 @@ export class ChangeAddressModalComponent {
         },
         error: (error) => {
           console.error('Error updating default address:', error);
-          Swal.fire({
+          const customSwal = Swal.mixin({
+            customClass:{
+              popup: "title-swal",
+            },
+          });
+          customSwal.fire({
             icon: 'error',
             title: 'เกิดข้อผิดพลาด',
             text: 'เกิดข้อผิดพลาดในการอัปเดตที่อยู่เริ่มต้น โปรดลองใหม่อีกครั้ง',

@@ -111,9 +111,14 @@ export class ProductDetailsComponent implements OnInit {
   }
   
   onQuantityInputChange(item: any): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (item.quantity < this.quantityToOrder) {
       console.log("aaaaa")
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
         icon: "warning",
@@ -146,6 +151,12 @@ export class ProductDetailsComponent implements OnInit {
       productId: this.product.id,
       quantity: this.quantityToOrder,
     };
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     if ((this.product && this.product.quantity > 0) && (this.product.quantity - this.quantityToOrder >= 0)) {
       this.cartService.getCartById().pipe(
         switchMap((checkCart) => {
@@ -158,7 +169,7 @@ export class ProductDetailsComponent implements OnInit {
           }),
           catchError((err) => {
             console.error('Error during add to cart:', err);
-            Swal.fire({
+            customSwal.fire({
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถเพิ่มสินค้าลงในรถเข็นได้ กรุณาลองอีกครั้ง",
               icon: "error",
@@ -173,14 +184,14 @@ export class ProductDetailsComponent implements OnInit {
             this.product.quantity -= this.quantityToOrder;
             this.cartService.updateCartItemCount()
             console.log('Item added to cart:', response);
-            Swal.fire({
+            customSwal.fire({
               title: "เพิ่มสินค้าเรียบร้อย",
               icon: "success",
               confirmButtonText: "ตกลง",
               confirmButtonColor: "#28a745",
             });
           } else {
-              Swal.fire({
+            customSwal.fire({
                 title: "สินค้าหมดแล้ว",
                 text: "โปรดรอสินค้า",
                 confirmButtonText: "ตกลง",
@@ -194,7 +205,7 @@ export class ProductDetailsComponent implements OnInit {
           }
       });
     } else if(this.product.quantity === 0) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         confirmButtonText: "ตกลง",
         icon: "warning",
@@ -208,7 +219,7 @@ export class ProductDetailsComponent implements OnInit {
         this.getProductById(productIdFromRoute);
       })
     } else if(this.product.quantity < this.quantityToOrder) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${this.product.quantity} ชิ้น`,
         icon: "warning",

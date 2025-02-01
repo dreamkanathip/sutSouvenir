@@ -35,8 +35,13 @@ export class AddCategoryComponent implements OnInit {
     const formData = {
       name: this.form.value.name, // เก็บข้อมูลชื่อหมวดหมู่
     };
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
 
-    Swal.fire({
+    customSwal.fire({
       title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,
       confirmButtonText: 'บันทึก',
@@ -45,7 +50,7 @@ export class AddCategoryComponent implements OnInit {
       if (result.isConfirmed) {
         this.categoryService.addCategory(formData).subscribe(
           () => {
-            Swal.fire({
+            customSwal.fire({
               icon: 'success',
               title: 'สำเร็จ',
               text: 'หมวดหมู่ถูกบันทึกแล้ว!',
@@ -59,7 +64,7 @@ export class AddCategoryComponent implements OnInit {
           },
           (error) => {
             console.error('เกิดข้อผิดพลาดในการบันทึกหมวดหมู่:', error);
-            Swal.fire({
+            customSwal.fire({
               icon: 'error',
               title: 'ข้อผิดพลาด',
               text: 'ไม่สามารถบันทึกหมวดหมู่ได้!',

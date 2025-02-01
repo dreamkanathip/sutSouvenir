@@ -41,7 +41,12 @@ export class AddProductComponent implements OnInit {
       },
       (error) => {
         console.error('ไม่สามารถดึงข้อมูลหมวดหมู่ได้:', error);
-        Swal.fire({
+        const customSwal = Swal.mixin({
+          customClass:{
+            popup: "title-swal",
+          },
+        });
+        customSwal.fire({
           icon: 'error',
           title: 'ข้อผิดพลาด',
           text: 'ไม่สามารถดึงข้อมูลหมวดหมู่ได้!',
@@ -73,13 +78,19 @@ export class AddProductComponent implements OnInit {
   // ฟังก์ชันสำหรับการ submit
   
   async submit() {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     if (this.form.invalid) {
       console.log('ฟอร์มไม่ถูกต้อง');
       return;
     }
 
     if (this.selectedFile.length === 0) {
-      Swal.fire({
+      customSwal.fire({
         icon: 'warning',
         title: 'ไม่มีไฟล์',
         text: 'กรุณาเลือกไฟล์ภาพสินค้าอย่างน้อย 1 ไฟล์',
@@ -95,7 +106,7 @@ export class AddProductComponent implements OnInit {
       categoryId: this.form.value.category, // ใช้ categoryId แทน category name
     };
     
-    Swal.fire({
+    customSwal.fire({
       title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
       showCancelButton: true,
       confirmButtonText: 'บันทึก',
@@ -117,7 +128,7 @@ export class AddProductComponent implements OnInit {
         await Promise.all(uploadImage);
 
         if (uploadImage) {
-          Swal.fire({
+          customSwal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'สินค้าถูกบันทึกแล้ว!',
@@ -134,7 +145,7 @@ export class AddProductComponent implements OnInit {
           });
         } else {
           console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า');
-            Swal.fire({
+          customSwal.fire({
               icon: 'error',
               title: 'ข้อผิดพลาด',
               text: 'ไม่สามารถบันทึกสินค้าได้!',

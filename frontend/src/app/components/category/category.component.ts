@@ -33,6 +33,11 @@ export class CategoryComponent implements OnInit {
   }
 
   loadCategories(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     this.isLoading = true;
     this.categoryService.getCategories().subscribe({
       next: (data) => {
@@ -43,7 +48,7 @@ export class CategoryComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching categories:', err);
-        Swal.fire('Error', 'Could not fetch categories', 'error');
+        customSwal.fire('Error', 'Could not fetch categories', 'error');
         this.isLoading = false;
       },
     });
@@ -97,6 +102,11 @@ export class CategoryComponent implements OnInit {
   }
 
   addCategory(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.newCategory.name.trim()) {
       this.categoryService.addCategory(this.newCategory).subscribe({
         next: (response) => {
@@ -105,15 +115,15 @@ export class CategoryComponent implements OnInit {
           this.updatePagedCategories();
           this.newCategory.name = ''; // รีเซ็ตฟอร์ม
           this.showCategoryForm = false; // ปิดฟอร์ม
-          Swal.fire('Success', 'Category added successfully', 'success');
+          customSwal.fire('Success', 'Category added successfully', 'success');
         },
         error: (err) => {
           console.error('Error adding category:', err);
-          Swal.fire('Error', 'Could not add category', 'error');
+          customSwal.fire('Error', 'Could not add category', 'error');
         },
       });
     } else {
-      Swal.fire('Please enter a category name');
+      customSwal.fire('Please enter a category name');
     }
   }
 
@@ -124,6 +134,11 @@ export class CategoryComponent implements OnInit {
   }
 
   saveEditCategory(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.selectedCategory && this.selectedCategory.name.trim()) {
       // เรียกใช้งาน service เพื่ออัปเดตหมวดหมู่
       this.categoryService
@@ -147,22 +162,27 @@ export class CategoryComponent implements OnInit {
             this.editMode = false;
 
             // แจ้งเตือนสำเร็จ
-            Swal.fire('สำเร็จ', 'หมวดหมู่ถูกอัปเดตเรียบร้อยแล้ว', 'success');
+            customSwal.fire('สำเร็จ', 'หมวดหมู่ถูกอัปเดตเรียบร้อยแล้ว', 'success');
           },
           error: (err) => {
             console.error('เกิดข้อผิดพลาดในการอัปเดตหมวดหมู่:', err);
-            Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถอัปเดตหมวดหมู่ได้', 'error');
+            customSwal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถอัปเดตหมวดหมู่ได้', 'error');
           },
         });
     } else {
       // แจ้งเตือนหากชื่อหมวดหมู่ว่างเปล่า
-      Swal.fire('กรุณากรอกชื่อหมวดหมู่');
+      customSwal.fire('กรุณากรอกชื่อหมวดหมู่');
     }
   }
 
   // ฟังก์ชันลบหมวดหมู่
   deleteCategoryById(event: MouseEvent, categoryId: number): void {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: 'ยืนยันการลบ?',
       text: 'คุณต้องการลบหมวดหมู่นี้หรือไม่?',
       icon: 'warning',
@@ -184,7 +204,7 @@ export class CategoryComponent implements OnInit {
             this.filterCategories();
             this.updatePagedCategories();
 
-            Swal.fire({
+            customSwal.fire({
               title: 'สำเร็จ!',
               text: 'ลบหมวดหมู่เรียบร้อยแล้ว',
               icon: 'success',
@@ -192,7 +212,7 @@ export class CategoryComponent implements OnInit {
           },
           error: (error) => {
             console.error('เกิดข้อผิดพลาดในการลบหมวดหมู่:', error);
-            Swal.fire({
+            customSwal.fire({
               title: 'เกิดข้อผิดพลาด!',
               text: 'ไม่สามารถลบหมวดหมู่ได้ กรุณาลองอีกครั้ง',
               icon: 'error',

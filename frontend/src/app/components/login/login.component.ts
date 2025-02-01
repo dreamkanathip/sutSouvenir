@@ -38,17 +38,23 @@ export class LoginComponent implements OnInit {
   submit(): void {
     let user = this.form.getRawValue();
 
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     if (user.email == '' || user.password == '') {
-      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรอกข้อมูลให้ครบถ้วน', 'error');
+      customSwal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรอกข้อมูลให้ครบถ้วน', 'error');
     } else if (!this.ValidateEmail(user.email)) {
-      Swal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error');
+      customSwal.fire('ไม่สามารถเข้าสู่ระบบได้', 'กรุณากรอกอีเมลให้ถูกต้อง', 'error');
     } else {
       this.authService.login(user)
         .subscribe(
           (res: any) => {
             const token = res.token;
             localStorage.setItem('jwt', token);
-            Swal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success');
+            customSwal.fire('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ', 'success');
 
             // ตรวจสอบ role และนำทางไปยังหน้าเหมาะสม
             if (res.role === 'SUPERADMIN') {
@@ -59,11 +65,11 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/home']);
             } else {
               // ถ้าไม่มี role ที่ตรงกันให้แสดงข้อความหรือดำเนินการอื่น
-              Swal.fire('ข้อผิดพลาด', 'บทบาทผู้ใช้ไม่ถูกต้อง', 'error');
+              customSwal.fire('ข้อผิดพลาด', 'บทบาทผู้ใช้ไม่ถูกต้อง', 'error');
             }
           },
           (err) => {
-            Swal.fire(
+            customSwal.fire(
               'ไม่สามารถเข้าสู่ระบบได้',
               'อีเมล หรือ รหัสผ่านไม่ถูกต้อง',
               'error'

@@ -68,7 +68,12 @@ export class AddressComponent implements OnInit{
   }
 
   deleteAddress(id: number){
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: "ต้องการลบข้อมูลที่อยู่หรือไม่?",
       showCancelButton: true,
       confirmButtonText: "ลบข้อมูล",
@@ -76,18 +81,18 @@ export class AddressComponent implements OnInit{
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
+        customSwal.fire({
           title: "กำลังลบข้อมูล...",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading();
+            customSwal.showLoading();
           },
         });
   
         this.addressService.deleteAddress(id).subscribe({
           next: () => {
-            Swal.close();
-            Swal.fire({
+            customSwal.close();
+            customSwal.fire({
               icon: "success",
               title: "ลบข้อมูลแล้ว",
               text: "ลบข้อมูลที่อยู่เรียบร้อยแล้ว",
@@ -96,8 +101,8 @@ export class AddressComponent implements OnInit{
             this.getAllAddress();
           },
           error: (error) => {
-            Swal.close();
-            Swal.fire({
+            customSwal.close();
+            customSwal.fire({
               icon: "warning",
               title: "เกิดข้อผิดพลาด",
               text: "ลบข้อมูลไม่สำเร็จ กรุณาลองอีกครั้งในภายหลัง",
@@ -119,7 +124,12 @@ export class AddressComponent implements OnInit{
         },
         error: (error) => {
           console.error("Error Occured:", error)
-          Swal.fire({
+          const customSwal = Swal.mixin({
+            customClass:{
+              popup: "title-swal",
+            },
+          });
+          customSwal.fire({
             icon: "warning",
             title: "เกิดข้อผิดพลาด",
             text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
