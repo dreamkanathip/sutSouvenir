@@ -19,8 +19,8 @@ export interface Product {
   //   status:       ProductStatus,
   //   stockRecords: StockRecord[],
   //   bookmarks:    Bookmark[],
-    reviews:      ReviewModel[],
-    images: Images[],
+  reviews:      ReviewModel[],
+  images: Images[],
 }
 
 export interface Images {

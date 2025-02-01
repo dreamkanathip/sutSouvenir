@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../interfaces/products/products.model';
+import { Images, Product } from '../../interfaces/products/products.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
 import { catchError, of, switchMap } from 'rxjs';
@@ -20,6 +20,8 @@ export class ProductDetailsComponent implements OnInit {
   quantityToOrder: number = 1;
   userId: number = 1;
 
+  productImages: {id: number, url: string}[] = [];
+
   reviews: ReviewModel[] = []
   uniqueReview: any[] = []
   averageRating: number = 0;
@@ -29,6 +31,8 @@ export class ProductDetailsComponent implements OnInit {
   reviewHistory: any[] = []
 
   likeProductStatus: boolean = false
+
+  starCounts: number[] = [0, 0, 0, 0, 0];
 
   constructor(
     private reviewService: ReviewService,
@@ -50,15 +54,23 @@ export class ProductDetailsComponent implements OnInit {
   getProductById(id: number) {
     this.productDetails.getProductById(id).subscribe((result) => {
       this.product = result;
+      console.log(result)
+      this.productImages = result.images.map((image: Images) => ({
+        id: image.id,
+        url: `${image.url}${image.asset_id}`
+      })) || [];
     });
   }
 
-  getImageUrl(item: Product): string {
-    if (item.images && item.images.length > 0) {
-      return String(item.images[0].url) + String(item.images[0].asset_id);
-    }
-    return 'assets/SUT-Logo.png';
+  getImageUrl(id: number): string {
+    const link = this.productImages.find((image) => image.id === id)?.url;
+    return link ? link : 'assets/logo.jpg';
   }
+
+  trackById(index: number, item: { id: number }) {
+    return item.id;
+  }
+  
 
   checkLiked(id: number) {
     this.favouriteService.checkLikeProduct(id).subscribe((result) => {
@@ -99,9 +111,14 @@ export class ProductDetailsComponent implements OnInit {
   }
   
   onQuantityInputChange(item: any): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (item.quantity < this.quantityToOrder) {
       console.log("aaaaa")
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
         icon: "warning",
@@ -134,6 +151,12 @@ export class ProductDetailsComponent implements OnInit {
       productId: this.product.id,
       quantity: this.quantityToOrder,
     };
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     if ((this.product && this.product.quantity > 0) && (this.product.quantity - this.quantityToOrder >= 0)) {
       this.cartService.getCartById().pipe(
         switchMap((checkCart) => {
@@ -146,7 +169,7 @@ export class ProductDetailsComponent implements OnInit {
           }),
           catchError((err) => {
             console.error('Error during add to cart:', err);
-            Swal.fire({
+            customSwal.fire({
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถเพิ่มสินค้าลงในรถเข็นได้ กรุณาลองอีกครั้ง",
               icon: "error",
@@ -161,14 +184,14 @@ export class ProductDetailsComponent implements OnInit {
             this.product.quantity -= this.quantityToOrder;
             this.cartService.updateCartItemCount()
             console.log('Item added to cart:', response);
-            Swal.fire({
+            customSwal.fire({
               title: "เพิ่มสินค้าเรียบร้อย",
               icon: "success",
               confirmButtonText: "ตกลง",
               confirmButtonColor: "#28a745",
             });
           } else {
-              Swal.fire({
+            customSwal.fire({
                 title: "สินค้าหมดแล้ว",
                 text: "โปรดรอสินค้า",
                 confirmButtonText: "ตกลง",
@@ -182,7 +205,7 @@ export class ProductDetailsComponent implements OnInit {
           }
       });
     } else if(this.product.quantity === 0) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         confirmButtonText: "ตกลง",
         icon: "warning",
@@ -196,7 +219,7 @@ export class ProductDetailsComponent implements OnInit {
         this.getProductById(productIdFromRoute);
       })
     } else if(this.product.quantity < this.quantityToOrder) {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${this.product.quantity} ชิ้น`,
         icon: "warning",
@@ -228,6 +251,11 @@ export class ProductDetailsComponent implements OnInit {
         });
         // แปลง Map เป็น Array
         this.uniqueReview = Array.from(uniqueReviewsMap.values());
+
+        // Calculate star counts
+        this.uniqueReview.forEach((review) => {
+          this.starCounts[review.star - 1]++;
+        });
       }
 
       const totalStars = this.uniqueReview.reduce((sum, review) => sum + review.star, 0);

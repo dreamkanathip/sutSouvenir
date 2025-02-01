@@ -1,10 +1,33 @@
 <app-navbar></app-navbar>
 <div class="product-detail-page">
   <div class="container">
-
-    <div class="row d-flex justify-content-center" sytle="width: 80%; margin: auto">
-      <div class="card col-12 col-md-5 img-container d-flex align-item-center">
-        <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image w-100" />
+    <div class="row d-flex justify-content-center" style="width: 80%; margin: auto">
+      <div class="card col-12 col-md-5 img-container d-flex align-items-center">
+        <div id="pictureCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let image of productImages; let i = index" [ngClass]="{ 'active': i === 0 }">
+              <img [src]="getImageUrl(image.id)" class="d-block w-100" alt="Product Image">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#pictureCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#pictureCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div class="carouselIndicators">
+          <button *ngFor="let image of productImages; let i = index"
+                  type="button"
+                  data-bs-target="#pictureCarousel"
+                  [attr.data-bs-slide-to]="i"
+                  [ngClass]="{ 'active': i === 0 }"
+                  [style.backgroundImage]="'url(' + getImageUrl(image.id) + ')'"
+                  class="carousel-thumbnail">
+          </button>
+        </div>
       </div>
       <div class="col-12 col-md-1"></div>
       <div class="col-12 col-md-6" *ngIf="product">
@@ -70,7 +93,7 @@
           คะแนนจากผู้ใช้
         </div>
         <div>
-          <span style="font-size: 36px; font-weight: bold;">0 </span>
+          <span style="font-size: 36px; font-weight: bold;">{{ averageRating }} </span>
           <span style="font-size: 24px; font-weight: bold;">เต็ม 5 ดาว</span>
         </div>
         <div class="stars">
@@ -85,23 +108,23 @@
           ></i>
         </div>
         <div style="font-size: 20px; font-weight: bold;">
-          0 คน
+          {{ uniqueReview.length }} คน
         </div>
       </div>
       <div class="col-12 col-md-8 mt-2 mb-2">
         <div class="d-flex flex-column">
-          <div class="d-flex flex-row align-items-center" *ngFor="let stars of [5, 4, 3, 2, 1]" >
+          <div class="d-flex flex-row align-items-center" *ngFor="let stars of [5, 4, 3, 2, 1]; let i = index">
             <div class="stars">
               <i
                 class="fa"
                 *ngFor="let star of [1, 2, 3, 4, 5]"
-                [ngClass]="star <= stars? 'fa-star': 'fa-star-o'"
+                [ngClass]="star <= stars ? 'fa-star' : 'fa-star-o'"
               ></i>
             </div>
             <div class="progress w-50 ms-2" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar w-0" style="background-color: #F36523;"></div>
+              <div class="progress-bar" [style.width.%]="(starCounts[5 - stars] / uniqueReview.length) * 100" style="background-color: #F36523;"></div>
             </div>
-            <span class="ms-2" style="font-size: 20px; font-weight: bold;">0 </span>
+            <span class="ms-2" style="font-size: 20px; font-weight: bold;">{{ starCounts[5 - stars] }}</span>
           </div>
         </div>
       </div>

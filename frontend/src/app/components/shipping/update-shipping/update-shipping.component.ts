@@ -21,7 +21,12 @@ export class UpdateShippingComponent {
   constructor(private shippingService: ShippingService) { }
 
   updateShipping() {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: 'คุณต้องการบันทึหรือไม่?',
       showCancelButton: true,
       confirmButtonText: 'บันทึก',
@@ -30,7 +35,7 @@ export class UpdateShippingComponent {
       if (result.isConfirmed) {
         this.shippingService.updateShipping(this.shipping.id, this.shippingData.value).subscribe(
           () => {
-            Swal.fire({
+            customSwal.fire({
               icon: 'success',
               title: 'สำเร็จ',
               text: 'ข้อมูลถูกบันทึกแล้ว!',
@@ -40,7 +45,7 @@ export class UpdateShippingComponent {
           },
           (error) => {
             console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-            Swal.fire({
+            customSwal.fire({
               icon: 'error',
               title: 'ข้อผิดพลาด',
               text: 'ไม่สามารถบันทึกข้อมูลได้!',

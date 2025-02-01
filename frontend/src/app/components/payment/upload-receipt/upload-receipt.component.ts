@@ -103,6 +103,12 @@ export class UploadReceiptComponent implements AfterViewInit {
 
     const formData = new FormData();
 
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     formData.append('total', this.orderSum.toString());  
     formData.append('orderId', this.orderService.getOrderId().toString());
     formData.append('originBankId', this.paymentForm.get('originBankId')?.value?? '');
@@ -116,23 +122,23 @@ export class UploadReceiptComponent implements AfterViewInit {
       formData.append('receipt', this.selectedFile, this.selectedFile.name);
     }
 
-    Swal.fire({
+    customSwal.fire({
           title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
           showCancelButton: true,
           confirmButtonText: 'บันทึก',
           icon: 'warning',
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire({
+            customSwal.fire({
               title: "กำลังดำเนินการ...",
               allowOutsideClick: false,
               didOpen: () => {
-                Swal.showLoading();
+                customSwal.showLoading();
               },
             });
             this.paymentService.uploadPayment(formData).subscribe(
               () => {
-                Swal.fire({
+                customSwal.fire({
                   icon: 'success',
                   title: 'สำเร็จ',
                   text: 'อัพโหลดสลิปแล้ว!',
@@ -144,7 +150,7 @@ export class UploadReceiptComponent implements AfterViewInit {
               },
               (error) => {
                 console.error('เกิดข้อผิดพลาดในการอัพโหลดสลิป:', error);
-                Swal.fire({
+                customSwal.fire({
                   icon: 'error',
                   title: 'ข้อผิดพลาด',
                   text: 'ไม่สามารถอัพโหลดสลิปได้!',

@@ -175,6 +175,12 @@ export class HomepageComponent {
       quantity: '1',
     };
 
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+
     const product = this.productItems.find((i) => i.id === item.id);
     if (product && product.quantity > 0) {
       this.cartService.getCartById().pipe(
@@ -189,7 +195,7 @@ export class HomepageComponent {
         }),
         catchError((err) => {
           console.error('Error during add to cart:', err);
-          Swal.fire({
+          customSwal.fire({
             title: "เกิดข้อผิดพลาด",
             text: "ไม่สามารถเพิ่มสินค้าลงในรถเข็นได้ กรุณาลองอีกครั้ง",
             icon: "error",
@@ -216,7 +222,7 @@ export class HomepageComponent {
         }
       });
     } else {
-      Swal.fire({
+      customSwal.fire({
         title: "สินค้าหมดแล้ว",
         confirmButtonText: "ตกลง",
         icon: "warning",

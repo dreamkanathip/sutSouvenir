@@ -100,15 +100,20 @@ export class UserComponent implements OnInit{
   }
 
   onDataSubmit(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.editedUser.invalid) {
-      Swal.fire({
+      customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
       return;
     }
     const updatedData = this.editedUser.value;
-      Swal.fire({
+      customSwal.fire({
         title: "ต้องการบันทึกการเปลี่ยนแปลง?",
         showCancelButton: true,
         confirmButtonText: "บันทึก",
@@ -116,17 +121,17 @@ export class UserComponent implements OnInit{
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
+          customSwal.fire({
             title: "กำลังบันทึกข้อมูล...",
             allowOutsideClick: false,
             didOpen: () => {
-              Swal.showLoading();
+              customSwal.showLoading();
             },
           });
           this.userService.updateUser(updatedData).subscribe({
             next: () => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "Success",
                 text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
@@ -138,8 +143,8 @@ export class UserComponent implements OnInit{
               
             },
             error: (error) => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "error",
                 title: "Error",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
@@ -153,8 +158,13 @@ export class UserComponent implements OnInit{
   }
 
   onEmailSubmit(){
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.editedUser.invalid) {
-      Swal.fire({
+      customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
@@ -162,7 +172,7 @@ export class UserComponent implements OnInit{
     }
 
     if (this.editedUser.get('email')?.value === this.user?.email) {
-      Swal.fire({
+      customSwal.fire({
         title: "อีเมลนี้ซ้ำกับอีเมลที่คุณกำลังใช้งานอยู่",
         icon: "error",
       });
@@ -170,7 +180,7 @@ export class UserComponent implements OnInit{
     }
     
     const updatedData = this.editedUser.value;
-    Swal.fire({
+    customSwal.fire({
       title: "ต้องการบันทึกการเปลี่ยนแปลง?",
       text: "หากต้องการเข้าใช้งานอีกครั้ง กรุณาใช้งานอีเมลใหม่นี้",
       showCancelButton: true,
@@ -179,17 +189,17 @@ export class UserComponent implements OnInit{
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
+        customSwal.fire({
           title: "กำลังบันทึกข้อมูล...",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading();
+            customSwal.showLoading();
           },
         });
         this.userService.updateUser(updatedData).subscribe({
           next: () => {
-            Swal.close();
-            Swal.fire({
+            customSwal.close();
+            customSwal.fire({
               icon: "success",
               title: "Success",
               text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
@@ -201,15 +211,15 @@ export class UserComponent implements OnInit{
             this.authService.logout();
           },
           error: (error) => {
-            Swal.close();
+            customSwal.close();
             if (error.status === 409) {
-              Swal.fire({
+              customSwal.fire({
                 icon: "error",
                 title: "อีเมลนี้มีผู้ใช้งานแล้ว",
                 showConfirmButton: true,
               });
             } else {
-              Swal.fire({
+              customSwal.fire({
                 icon: "error",
                 title: "Error",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
@@ -223,8 +233,13 @@ export class UserComponent implements OnInit{
   }
 
   onPasswordSubmit(){
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.passwordForm.invalid) {
-      Swal.fire({
+      customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
       })
@@ -234,7 +249,7 @@ export class UserComponent implements OnInit{
     const { oldPassword, newPassword, repeatNewPassword } = this.passwordForm.value;
 
     if (newPassword !== repeatNewPassword) {
-      Swal.fire({
+      customSwal.fire({
         title: "กรุณากรอกรหัสผ่านใหม่ทั้งสองช่องให้ตรงกัน",
         icon: "error",
       })
@@ -247,7 +262,7 @@ export class UserComponent implements OnInit{
     };
 
     try {
-      Swal.fire({
+      customSwal.fire({
         title: "ต้องการบันทึกการเปลี่ยนแปลง?",
         showCancelButton: true,
         confirmButtonText: "บันทึก",
@@ -255,18 +270,18 @@ export class UserComponent implements OnInit{
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
+          customSwal.fire({
             title: "กำลังบันทึกข้อมูล...",
             allowOutsideClick: false,
             didOpen: () => {
-              Swal.showLoading();
+              customSwal.showLoading();
             },
           });
 
           this.userService.updateUserPassword(passwordData).subscribe({
             next: () => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "Success",
                 text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
@@ -277,16 +292,16 @@ export class UserComponent implements OnInit{
               this.authService.logout();
             },
             error: (error) => {
-              Swal.close();
+              customSwal.close();
               if (error.status === 403) {
-                Swal.fire({
+                customSwal.fire({
                   icon: "error",
                   title: "รหัสผ่านไม่ถูกต้อง",
                   text: "กรุณาตรวจสอบรหัสผ่านเก่าของคุณ",
                   showConfirmButton: true,
                 });
               } else {
-                Swal.fire({
+                customSwal.fire({
                   icon: "error",
                   title: "Error",
                   text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
@@ -300,7 +315,7 @@ export class UserComponent implements OnInit{
         }
       })
     } catch (error) {
-      Swal.fire({
+      customSwal.fire({
         icon: "error",
         title: "Error",
         text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",

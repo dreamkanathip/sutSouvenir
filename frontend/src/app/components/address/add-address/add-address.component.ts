@@ -150,7 +150,12 @@ export class AddAddressComponent implements OnInit {
         phoneNumber: this.addressForm.get('phoneNumber')?.value,
         postalCode: this.addressForm.get('postalCode')?.value,
       };
-      Swal.fire({
+      const customSwal = Swal.mixin({
+        customClass:{
+          popup: "title-swal",
+        },
+      });
+      customSwal.fire({
         title: "ต้องการเพิ่มข้อมูลหรือไม่",
         showCancelButton: true,
         confirmButtonText: "บันทึก",
@@ -158,18 +163,18 @@ export class AddAddressComponent implements OnInit {
         icon: "warning",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
+          customSwal.fire({
             title: "กำลังบันทึกข้อมูล...",
             allowOutsideClick: false,
             didOpen: () => {
-              Swal.showLoading();
+              customSwal.showLoading();
             },
           });
     
           this.addressService.createAddress(newAddress).subscribe({
             next: () => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "success",
                 title: "บันทึกแล้ว",
                 text: "เพิ่มข้อมูลที่อยู่เรียบร้อยแล้ว",
@@ -180,8 +185,8 @@ export class AddAddressComponent implements OnInit {
               
             },
             error: (error) => {
-              Swal.close();
-              Swal.fire({
+              customSwal.close();
+              customSwal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",

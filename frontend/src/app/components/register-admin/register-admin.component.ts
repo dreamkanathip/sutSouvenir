@@ -40,9 +40,14 @@ export class RegisterAdminComponent implements OnInit {
   }
 
   submit(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.form.invalid) {
       // แสดงข้อความแจ้งเตือนเมื่อฟอร์มไม่สมบูรณ์
-      Swal.fire('ไม่สามารถลงทะเบียนได้', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+      customSwal.fire('ไม่สามารถลงทะเบียนได้', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
       return;
     }
 
@@ -55,7 +60,7 @@ export class RegisterAdminComponent implements OnInit {
       })
       .subscribe(
         () => {
-          Swal.fire(
+          customSwal.fire(
             'ลงทะเบียนสำเร็จ',
             'บัญชีผู้ดูแลระบบของคุณพร้อมใช้งานแล้ว',
             'success'
@@ -65,10 +70,10 @@ export class RegisterAdminComponent implements OnInit {
         (err) => {
           // จัดการข้อผิดพลาดเฉพาะ (ถ้ามีการแจ้งจาก API)
           if (err.error && err.error.message) {
-            Swal.fire('ลงทะเบียนไม่สำเร็จ', err.error.message, 'error');
+            customSwal.fire('ลงทะเบียนไม่สำเร็จ', err.error.message, 'error');
           } else {
             // ข้อความแสดงข้อผิดพลาดทั่วไป
-            Swal.fire(
+            customSwal.fire(
               'เกิดข้อผิดพลาด',
               'ไม่สามารถลงทะเบียนได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
               'error'

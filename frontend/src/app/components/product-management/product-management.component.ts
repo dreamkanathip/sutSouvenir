@@ -45,12 +45,17 @@ export class ProductManagementComponent implements OnInit {
 
   // เพิ่มสินค้าใหม่
   addProduct(newProduct: Product): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     this.productManagementService
       .addProduct(newProduct)
       .pipe(
         catchError((error) => {
           console.error('เกิดข้อผิดพลาดในการเพิ่มสินค้า:', error);
-          Swal.fire({
+          customSwal.fire({
             title: 'เกิดข้อผิดพลาด!',
             text: 'ไม่สามารถเพิ่มสินค้าได้ กรุณาลองอีกครั้ง',
             icon: 'error',
@@ -60,7 +65,7 @@ export class ProductManagementComponent implements OnInit {
       )
       .subscribe((response: Product | null) => {
         if (response) {
-          Swal.fire({
+          customSwal.fire({
             title: 'สำเร็จ!',
             text: 'เพิ่มสินค้าเรียบร้อยแล้ว',
             icon: 'success',
@@ -94,12 +99,17 @@ export class ProductManagementComponent implements OnInit {
 
   // บันทึกสินค้าเมื่อแก้ไขเสร็จ
   saveEditProduct(): void {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.selectedProduct && this.selectedProduct.id) {
       const { id, title, quantity, price, description, category } =
         this.selectedProduct;
 
       if (!title || !quantity || !price || !description || !category) {
-        Swal.fire({
+        customSwal.fire({
           title: 'ข้อมูลไม่ครบถ้วน',
           text: 'กรุณากรอกข้อมูลให้ครบก่อนบันทึก',
           icon: 'warning',
@@ -112,7 +122,7 @@ export class ProductManagementComponent implements OnInit {
         .pipe(
           catchError((error) => {
             console.error('เกิดข้อผิดพลาดในการแก้ไขสินค้า:', error);
-            Swal.fire({
+            customSwal.fire({
               title: 'เกิดข้อผิดพลาด!',
               text: 'ไม่สามารถแก้ไขสินค้าได้ กรุณาลองอีกครั้ง',
               icon: 'error',
@@ -122,7 +132,7 @@ export class ProductManagementComponent implements OnInit {
         )
         .subscribe((response) => {
           if (response) {
-            Swal.fire({
+            customSwal.fire({
               title: 'สำเร็จ!',
               text: 'แก้ไขสินค้าเรียบร้อยแล้ว',
               icon: 'success',
@@ -132,7 +142,7 @@ export class ProductManagementComponent implements OnInit {
           }
         });
     } else {
-      Swal.fire({
+      customSwal.fire({
         title: 'ข้อมูลไม่ถูกต้อง',
         text: 'ไม่พบสินค้าที่ต้องการแก้ไข กรุณาลองอีกครั้ง',
         icon: 'error',
@@ -142,7 +152,12 @@ export class ProductManagementComponent implements OnInit {
 
   // ลบสินค้าตาม ID
   deleteProductById(event: MouseEvent, productId: number): void {
-    Swal.fire({
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
+    customSwal.fire({
       title: 'ยืนยันการลบ?',
       text: 'คุณต้องการลบสินค้านี้หรือไม่?',
       icon: 'warning',
@@ -158,7 +173,7 @@ export class ProductManagementComponent implements OnInit {
           .pipe(
             catchError((error) => {
               console.error('เกิดข้อผิดพลาดในการลบสินค้า:', error);
-              Swal.fire({
+              customSwal.fire({
                 title: 'เกิดข้อผิดพลาด!',
                 text: 'ไม่สามารถลบสินค้าได้ กรุณาลองอีกครั้ง',
                 icon: 'error',
@@ -171,7 +186,7 @@ export class ProductManagementComponent implements OnInit {
               this.products = this.products.filter(
                 (product) => product.id !== productId
               );
-              Swal.fire({
+              customSwal.fire({
                 title: 'สำเร็จ!',
                 text: 'ลบสินค้าเรียบร้อยแล้ว',
                 icon: 'success',

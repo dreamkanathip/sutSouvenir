@@ -103,6 +103,11 @@ export class ReviewComponent implements OnInit {
   }
 
   onSubmit() {
+    const customSwal = Swal.mixin({
+      customClass:{
+        popup: "title-swal",
+      },
+    });
     if (this.user?.id && this.productId) { // ตรวจสอบว่า userId และ productId มีค่า
       this.review = {
         id: this.editReview,
@@ -113,7 +118,7 @@ export class ReviewComponent implements OnInit {
         createdAt: new Date(),
         updatedAt: new Date()
       };
-        Swal.fire({
+      customSwal.fire({
           title: "ต้องการบันทึกรีวิวหรือไม่?",
           text: "รีวิวเก่าของคุณจะยังคงอยู่และสามารถมองเห็นได้โดยผู้อื่น",
           showCancelButton: true,
@@ -122,18 +127,18 @@ export class ReviewComponent implements OnInit {
           icon: "warning",
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire({
+            customSwal.fire({
               title: "กำลังบันทึกข้อมูล...",
               allowOutsideClick: false,
               didOpen: () => {
-                Swal.showLoading();
+                customSwal.showLoading();
               },
             });
             this.reviewService
               .createReview(this.productId, this.review)
               .subscribe({
                 next: () => {
-                  Swal.fire({
+                  customSwal.fire({
                     title: "บันทึกรีวิวเรียบร้อยแล้ว",
                     showCancelButton: true,
                     confirmButtonText: "ตกลง",
@@ -143,18 +148,18 @@ export class ReviewComponent implements OnInit {
                   this.cancel()
                 },
                 error: (err) => {
-                  Swal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกรีวิวได้ในขณะนี้");
+                  customSwal.fire("ขออภัยครับ/ค่ะ ไม่สามารถบันทึกรีวิวได้ในขณะนี้");
                   console.error("Error creating review:", err);
                 },
               });
           }
         });
     } else {
-      Swal.fire({
+      customSwal.fire({
         title: "ขออภัย เกิดข้อผิดพลาด",
         allowOutsideClick: true,
         didOpen: () => {
-          Swal.showLoading();
+          customSwal.showLoading();
         },
       });
       console.warn("User ID หรือ Product ID ไม่พร้อมใช้งาน");

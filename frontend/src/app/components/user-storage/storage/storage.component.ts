@@ -136,6 +136,11 @@ export class StorageComponent implements OnInit {
           productId: item.id,
           quantity: '1',
         };
+        const customSwal = Swal.mixin({
+          customClass:{
+            popup: "title-swal",
+          },
+        });
     
         const product = item;
         if (product && product.quantity > 0) {
@@ -151,7 +156,7 @@ export class StorageComponent implements OnInit {
             }),
             catchError((err) => {
               console.error('Error during add to cart:', err);
-              Swal.fire({
+              customSwal.fire({
                 title: "เกิดข้อผิดพลาด",
                 text: "ไม่สามารถเพิ่มสินค้าลงในรถเข็นได้ กรุณาลองอีกครั้ง",
                 icon: "error",
@@ -165,7 +170,7 @@ export class StorageComponent implements OnInit {
               product.quantity -= 1;
               this.cartService.updateCartItemCount();
               console.log('Item added to cart:', response);
-              Swal.fire({
+              customSwal.fire({
                 title: "เพิ่มสินค้าเรียบร้อย",
                 icon: "success",
                 confirmButtonText: "ตกลง",
@@ -174,7 +179,7 @@ export class StorageComponent implements OnInit {
             }
           });
         } else {
-          Swal.fire({
+          customSwal.fire({
             title: "สินค้าหมดแล้ว",
             confirmButtonText: "ตกลง",
             icon: "warning",
