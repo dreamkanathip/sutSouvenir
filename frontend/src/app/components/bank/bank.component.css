@@ -1,0 +1,294 @@
+/* ส่วนของการตั้งค่าทั่วไป */
+body {
+  font-family: "Prompt", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+/* สำหรับส่วนของ Body */
+.body {
+  background: linear-gradient(
+    205deg,
+    rgba(255, 127, 80, 0.5),
+    rgba(255, 179, 71, 0.2),
+    rgba(255, 255, 255, 0.9)
+  );
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transform: translateX(10%);
+  width: 100%;
+  max-width: 1000px; /* ปรับขนาดสูงสุด */
+}
+
+/* ส่วนของ Navbar */
+.navbar {
+  background-color: #004080;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #ffcc00;
+}
+
+/* ส่วนของ Product Card */
+.product-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+  margin: 20px;
+  width: 250px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.product-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  color: #e74c3c;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  background-color: #004080;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background-color: #003366;
+}
+
+/* ส่วนของ Footer */
+.footer {
+  background-color: #00264d;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Button Style Update */
+.btn-primary {
+  background-color: #f26522;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  transition: 0.4s;
+}
+
+.btn-primary:hover {
+  background-color: #ce561e;
+  cursor: pointer;
+}
+
+.btn-warning {
+  background-color: #f1ad42;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  transition: 0.4s;
+}
+
+.btn-warning:hover {
+  background-color: #f26522;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background-color: #e84d3f;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  transition: 0.4s;
+}
+
+.btn-danger:hover {
+  background-color: #d94333;
+  cursor: pointer;
+}
+
+/* ปรับขนาดปุ่ม */
+.btn-sm {
+  padding: 3px 8px;
+  font-size: 10px;
+}
+
+/* ปรับให้ตารางอยู่ตรงกลาง */
+.table {
+  width: 100%;
+  margin: 0 auto;
+  table-layout: fixed;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* เพิ่มการจัดตำแหน่งในแถวของตาราง */
+.table tbody tr {
+  display: table-row;
+  width: 100%;
+}
+
+.table td {
+  display: table-cell;
+  text-align: center;
+  padding: 10px;
+}
+
+.table .btn-danger {
+  background: #ffffff;
+  color: #f66a6a;
+  border: 2px solid #f66a6a;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.table .btn-danger:hover {
+  background: #f66a6a;
+  color: #fff;
+  border: 2px solid #f66a6a;
+}
+
+.table .btn-warning {
+  background: #ffffff;
+  color: #f0ad4e;
+  border: 2px solid #f0ad4e;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.table .btn-warning:hover {
+  background: #f0ad4e;
+  color: #fff;
+  border: 2px solid #f0ad4e;
+}
+
+/* เพิ่ม Media Queries สำหรับการทำให้ responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container {
+    width: 100%;
+    transform: translateX(0);
+    padding: 15px;
+  }
+
+  .product-card {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+  }
+
+  .btn-sm {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+
+  /* สำหรับการจัดให้ navbar เป็น dropdown เมื่อลดขนาด */
+  .navbar a {
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar a {
+    font-size: 14px;
+  }
+
+  .footer p {
+    font-size: 12px;
+  }
+
+  .product-card {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
