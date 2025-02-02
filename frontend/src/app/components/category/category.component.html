@@ -29,16 +29,10 @@
               <td>{{ category.name }}</td>
               <td>
                 <button
-                  class="btn btn-warning"
-                  (click)="openEditCategory(category.id)"
-                >
-                  <i class='bx bx-pencil' style="color: white;"></i>
-                </button>
-                <button
                   class="btn btn-danger"
                   (click)="deleteCategoryById($event, category.id)"
                 >
-                  <i class='bx bx-trash' style="color: white;"></i>
+                  <i class="bx bx-trash"></i>
                 </button>
               </td>
             </tr>
