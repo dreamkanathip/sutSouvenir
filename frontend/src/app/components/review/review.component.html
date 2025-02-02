@@ -11,7 +11,7 @@
               <img *ngIf="product.images && product.images.length > 0" [src]="getImageUrl(product)" class="product-image" />
             </div>
             <div class="col-1"></div>
-            <div class="col-5 review-form">
+            <div class="col-5 review-form" *ngIf="reviewStatus; else noProduct">
               <div class="title">
                 <h1 class="title">{{ product.title }}</h1>
               </div>
@@ -48,6 +48,11 @@
                 </div>
               </form>
             </div>
+            <ng-template #noProduct>
+              <div class="col-5 no-product">
+                <h2>ไม่พบการสั่งซื้อสินค้านี้ของคุณ</h2>
+              </div>
+            </ng-template>
           </div>
     </div>
   </div>

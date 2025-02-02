@@ -38,19 +38,6 @@ export class StorageComponent implements OnInit {
     this.getReview();
   }
 
-  getUserData() {
-      this.userService.getUserData().subscribe({
-        next: (result: UserModel) => {
-          if (result) {
-            this.user = result;
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching user data', err);
-        }
-      });
-    }
-
   getUserStorageItem() {
     this.userService.getUserStorage().subscribe({
       next: (items: userOrder) => {
