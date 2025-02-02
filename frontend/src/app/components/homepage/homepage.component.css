@@ -21,6 +21,12 @@
   );
 }
 
+@media screen and (max-width: 768px) {
+    .homepage {
+        padding-top: calc(var(--navbar-height, 470px));
+    }
+}
+
 .container {
     /* margin-top: 8%; */
     margin-bottom: 2%;
