@@ -8,6 +8,7 @@ import { ReviewModel } from '../../interfaces/review/review.model';
 import { ProductDetailsService } from '../../services/product-details/product-details.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
+import { userOrder } from '../../interfaces/order/order';
 
 @Component({
   selector: 'app-review',
@@ -33,6 +34,8 @@ export class ReviewComponent implements OnInit {
   comment?: string = ""
   commentWarning: boolean = false;
 
+  reviewStatus: boolean = false;
+
   constructor (
     private router: Router,
     private route: ActivatedRoute,
@@ -47,7 +50,7 @@ export class ReviewComponent implements OnInit {
     this.productId = Number(routeParams.get('id'));
     this.getUserData()
     this.getProductData(this.productId)
-    // this.getReviewData()
+    this.getUserStorageItem()
   }
 
   getUserData() {
@@ -62,6 +65,25 @@ export class ReviewComponent implements OnInit {
         }
       });
   }
+  
+  getUserStorageItem() {
+    this.userService.getUserStorage().subscribe({
+      next: (items: userOrder) => {
+        items.orders.forEach((order: any) => {
+          if (order.products) {
+            order.products.forEach((productOnOrder: any) => {
+              const product = productOnOrder.product;
+              if (product.id === this.productId) {
+                this.reviewStatus = true
+              }
+            })
+          }
+        })
+      }
+    })
+    console.log(this.reviewStatus)
+  }
+  
 
   getProductData(id: number){
     this.productService.getProductById(id).subscribe({

@@ -52,6 +52,7 @@ h2 {
 
 .review-form {
     background-color: white;
+    min-width: 325px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -112,4 +113,12 @@ h2 {
 .main-btn:hover, .edit-modal-btn:hover {
     background-color: #d9531e; /* สี hover */
     cursor: pointer;
+}
+
+.no-product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    font-size: 20px;
 }
