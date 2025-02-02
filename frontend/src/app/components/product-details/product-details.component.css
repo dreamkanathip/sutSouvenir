@@ -35,7 +35,7 @@
   position: relative;
   height: auto;
   width: 400px;
-  /* aspect-ratio: 1/1; */
+  aspect-ratio: 1/1;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
@@ -284,4 +284,30 @@ h1 {
 
 .carouselIndicators .active {
   border: 2px solid #f36523;
+}
+
+.product-col {
+  margin-left: 20px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Darker on hover */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+  color: white; /* White arrow color */
 }

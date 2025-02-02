@@ -2,21 +2,23 @@
 <div class="product-detail-page">
   <div class="container">
     <div class="row d-flex justify-content-center" style="width: 80%; margin: auto">
-      <div class="card col-12 col-md-5 img-container d-flex align-items-center">
-        <div id="pictureCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item" *ngFor="let image of productImages; let i = index" [ngClass]="{ 'active': i === 0 }">
-              <img [src]="getImageUrl(image.id)" class="d-block w-100" alt="Product Image">
+      <div class="col-12 col-md-5">
+        <div class="card img-container d-flex align-items-center">
+          <div id="pictureCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item" *ngFor="let image of productImages; let i = index" [ngClass]="{ 'active': i === 0 }">
+                <img [src]="getImageUrl(image.id)" class="d-block w-100" alt="Product Image">
+              </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#pictureCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#pictureCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#pictureCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#pictureCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
         <div class="carouselIndicators">
           <button *ngFor="let image of productImages; let i = index"
@@ -29,8 +31,7 @@
           </button>
         </div>
       </div>
-      <div class="col-12 col-md-1"></div>
-      <div class="col-12 col-md-6" *ngIf="product">
+      <div class="col-12 col-md-6 product-col" *ngIf="product">
         <div class="title">
           <h2 class="title" style="font-weight: bold;">{{ product.title }}</h2>
         </div>
