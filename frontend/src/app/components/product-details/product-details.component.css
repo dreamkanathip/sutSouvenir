@@ -43,7 +43,7 @@
 }
 
 .product-image {
-  padding: 5%;
+  /* padding: 5%; */
   max-width: 100%;
   max-height: 100%;
   position: absolute;
@@ -68,6 +68,11 @@ h1 {
 .title {
   height: 3.5rem;
   margin-bottom: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .review {

@@ -23,7 +23,7 @@
                   type="button"
                   data-bs-target="#pictureCarousel"
                   [attr.data-bs-slide-to]="i"
-                  [ngClass]="{ 'active': i === 0 }"
+                  [ngClass]="{ 'active': image.id === i}"
                   [style.backgroundImage]="'url(' + getImageUrl(image.id) + ')'"
                   class="carousel-thumbnail">
           </button>
