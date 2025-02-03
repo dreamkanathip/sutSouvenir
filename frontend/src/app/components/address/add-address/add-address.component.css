@@ -51,7 +51,7 @@
 }
 
 .form-group label {
-    font-size: medium;
+    font-size: 20px;
     margin-bottom: 5px;
     display: inline-block;
 }
@@ -61,7 +61,7 @@
     width: 75%;
     height: 40px;
     padding: 8px;
-    font-size: medium;
+    font-size: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box;
