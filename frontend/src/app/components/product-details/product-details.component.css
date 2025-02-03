@@ -21,7 +21,7 @@
 }
 
 .container {
-  padding-top: calc(var(--navbar-height, 30%));
+  padding-top: calc(var(--navbar-height, 10%));
   margin-bottom: 3%;
   font-family: 'SUT', sans-serif;
 }
