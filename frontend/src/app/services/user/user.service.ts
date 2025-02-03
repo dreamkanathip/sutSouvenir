@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 import { UserModel } from '../../interfaces/user/user.model';
 import { userOrder } from '../../interfaces/order/order';
@@ -15,7 +15,7 @@ export class UserService {
   private storagePageSubject = new BehaviorSubject<Number>(3);
   storagePage$ = this.storagePageSubject.asObservable();
 
-  // 0 = Storage 
+  // 0 = Storage
   // 1 = History
   // 2 = Favourite
   // 3 = User Profile
@@ -23,7 +23,10 @@ export class UserService {
   // 5 = Add address
   // 6 = Edit address
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
 
   getItem(key: string): string | null {
     if (isPlatformBrowser(this.platformId)) {
@@ -33,19 +36,18 @@ export class UserService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = this.getItem('jwt')
+    const token = this.getItem('jwt');
     return new HttpHeaders({
       Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
     });
   }
 
   getAllUsers(): Observable<UserModel[]> {
-
     return this.http.get<UserModel[]>(`${this.apiUrl}/superadmin/users`, {
       headers: this.getAuthHeaders(),
       withCredentials: true, // ส่งคุกกี้
     });
-  } 
+  }
   // ฟังก์ชันดึงข้อมูลโปรไฟล์ของผู้ใช้
   getUserData(): Observable<UserModel> {
     return this.http.get<UserModel>(`${this.apiUrl}/user/profile`, {
@@ -84,8 +86,8 @@ export class UserService {
       withCredentials: true, // ส่งคุกกี้
     });
   }
-  
-  setStoragePage(page: Number){
+
+  setStoragePage(page: Number) {
     this.storagePageSubject.next(page);
   }
 

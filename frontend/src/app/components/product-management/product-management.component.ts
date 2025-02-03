@@ -33,13 +33,13 @@ export class ProductManagementComponent implements OnInit {
   form!: FormGroup;
   selectedCategory: number = 0;
 
-  productQuantityWarning: number = 10
-  productStatus: string = ""
+  productQuantityWarning: number = 10;
+  productStatus: string = '';
   selectedProductImages: Images[] = [];
   imgToUpload: File[] = [];
   imgToDelete: Images[] = [];
   imagePreview: string[] | ArrayBuffer[] = [];
-  filteredProduct: Product[] = []
+  filteredProduct: Product[] = [];
   constructor(
     private productManagementService: ProductManagementService,
     private router: Router,
@@ -108,16 +108,16 @@ export class ProductManagementComponent implements OnInit {
 
   applyFilters(): void {
     this.filteredProduct = this.products.filter((product) => {
-        const match = this.productStatus === 'out'
+      const match =
+        this.productStatus === 'out'
           ? product.quantity === 0
           : this.productStatus === 'almost-out'
           ? product.quantity < 10
           : product.quantity >= 10;
-        return match
+      return match;
     });
     this.updatePagedProducts();
-}
-
+  }
 
   onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
@@ -145,7 +145,7 @@ export class ProductManagementComponent implements OnInit {
           });
         });
         this.loadPage(this.currentPage);
-        this.filteredProduct = this.products
+        this.filteredProduct = this.products;
       },
       (error) => {
         console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
@@ -207,7 +207,9 @@ export class ProductManagementComponent implements OnInit {
           this.loadPage(this.currentPage);
 
           if (this.pagedProducts.length === this.itemsPerPage) {
-            this.loadPage(Math.ceil(this.filteredProduct.length / this.itemsPerPage));
+            this.loadPage(
+              Math.ceil(this.filteredProduct.length / this.itemsPerPage)
+            );
           }
         }
       });
@@ -382,6 +384,9 @@ export class ProductManagementComponent implements OnInit {
                 });
                 this.loadPage(this.currentPage);
               }
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000); // Delay for 1 second
             });
         }
       });

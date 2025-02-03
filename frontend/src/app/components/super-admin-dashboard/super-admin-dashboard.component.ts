@@ -67,15 +67,6 @@ export class SuperAdminDashboardComponent implements OnInit {
         this.updatePagedUsers(); // แบ่งข้อมูลสำหรับการแสดงผล
         this.isLoading = false; // หยุดแสดงสถานะการโหลด
       },
-      error: (err) => {
-        console.error('Error fetching users:', err); // แสดงข้อผิดพลาดใน console
-        customSwal.fire(
-          'เกิดข้อผิดพลาด',
-          'ไม่สามารถดึงข้อมูลผู้ใช้ได้',
-          'error'
-        );
-        this.isLoading = false; // หยุดแสดงสถานะการโหลด
-      },
     });
   }
 
