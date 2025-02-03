@@ -44,6 +44,7 @@
   overflow-x: auto;
   padding-top: 20px;
   width: calc(100% - 373px);
+  
 }
 
 /* Table Styles */
@@ -67,6 +68,7 @@
   font-size: 14px;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
+  font-size: 20px;
 }
 
 /* Table Body */
@@ -79,6 +81,7 @@
   color: #6c757d;
   font-weight: normal;
   min-height: 34px; /* กำหนดความสูงขั้นต่ำให้กับแต่ละแถว */
+  font-size: 20px;
 }
 
 /* เมื่อไม่มีข้อมูลในตาราง */
@@ -140,7 +143,7 @@
 }
 
 .card-body {
-  max-height: 400px; /* กำหนดความสูงสูงสุด */
+  max-height: 550px; /* กำหนดความสูงสูงสุด */
   overflow-y: auto; /* เพิ่มแถบเลื่อนแนวตั้ง (vertical scroll) */
   overflow-x: hidden; /* ป้องกันไม่ให้เกิดแถบเลื่อนแนวนอน */
   padding: 15px; /* เพิ่มช่องว่างภายใน */

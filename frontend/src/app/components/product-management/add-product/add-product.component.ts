@@ -14,7 +14,9 @@ import { firstValueFrom } from 'rxjs';
 export class AddProductComponent implements OnInit {
   form!: FormGroup;
   categories: any[] = []; // ตัวแปรเก็บข้อมูลหมวดหมู่
+
   selectedFile: File[] = [];
+  selectedFiles: File[] = [];
   imagePreview: string[] | ArrayBuffer[] = [];
 
   constructor(
@@ -64,7 +66,7 @@ export class AddProductComponent implements OnInit {
   onImageAdd(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.selectedFile.push(file);
+      this.selectedFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreview?.push(e.target.result);
@@ -73,7 +75,7 @@ export class AddProductComponent implements OnInit {
     }
   }
   removeFile(index: number) {
-    this.selectedFile.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
   }
   // ฟังก์ชันสำหรับการ submit
 
@@ -91,7 +93,7 @@ export class AddProductComponent implements OnInit {
       return;
     }
 
-    if (this.selectedFile.length === 0) {
+    if (this.selectedFiles.length === 0) {
       customSwal.fire({
         icon: 'warning',
         title: 'ไม่มีไฟล์',
@@ -121,7 +123,7 @@ export class AddProductComponent implements OnInit {
           );
           const productId = newProduct.id;
 
-          const uploadImage = this.selectedFile.map((file) => {
+          const uploadImage = this.selectedFiles.map((file) => {
             const data = new FormData();
 
             data.append('image', file, file.name);
@@ -141,7 +143,7 @@ export class AddProductComponent implements OnInit {
                 text: 'สินค้าถูกบันทึกแล้ว!',
               })
               .then(() => {
-                this.selectedFile = [];
+                this.selectedFiles = [];
                 this.imagePreview = [];
                 this.form.reset({
                   title: '',

@@ -100,6 +100,15 @@
           </div>
           <div class="col-1"></div>
         </div>
+        <div class="row border d-flex flex-row justify-content-between align-items-center p-2 mt-5"
+          style="background-color: white;">
+          ช่องทางการชำระเงิน
+          <div *ngFor="let bank of destBank" class="border rounded">
+            {{bank.bank}} สาขา {{bank.branch}}
+            ชื่อบัญชี: {{bank.bankNumber}}
+            หมายเลข: {{bank.bankNumber}}
+          </div>
+       </div>
       </div>
 
       <div class="col-lg-5 col-md-12">
