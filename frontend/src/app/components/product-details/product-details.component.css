@@ -9,7 +9,7 @@
   /* padding-top: calc(var(--navbar-height, 200px)); */
   overflow: auto;
   scrollbar-width: none;
-  font-family: 'SUT', sans-serif;
+  font-family: "SUT", sans-serif;
   font-size: larger;
 
   background: linear-gradient(
@@ -23,10 +23,11 @@
 .container {
   padding-top: calc(var(--navbar-height, 10%));
   margin-bottom: 3%;
-  font-family: 'SUT', sans-serif;
+  font-family: "SUT", sans-serif;
 }
 
-.carousel-item, .img-container {
+.carousel-item,
+.img-container {
   position: relative;
   width: 400px;
   aspect-ratio: 1/1;
@@ -236,7 +237,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'SUT', sans-serif;
+  font-family: "SUT", sans-serif;
   font-size: larger;
   text-align: center;
   height: 20vh; /* Full viewport height */
@@ -301,4 +302,10 @@ h1 {
 .carousel-control-prev-icon::before,
 .carousel-control-next-icon::before {
   color: white; /* White arrow color */
+}
+.body {
+  width: 90%;
+  height: 80%;
+  background-color: rgba(255, 255, 255, 0.6); /* สีขาวที่โปร่งใส */
+  backdrop-filter: blur(10px); /* ทำให้พื้นหลังเบลอ */
 }
