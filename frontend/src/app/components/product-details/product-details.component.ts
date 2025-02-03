@@ -114,10 +114,11 @@ export class ProductDetailsComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     if (item.quantity < this.quantityToOrder) {
-      console.log("aaaaa")
+      // console.log("aaaaa")
       customSwal.fire({
         title: "สินค้าเกินจำนวนที่มีในคลัง",
         text: `จำนวนสินค้าในคลังมีเพียง ${item.product.quantity} ชิ้น`,
@@ -154,6 +155,7 @@ export class ProductDetailsComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
 

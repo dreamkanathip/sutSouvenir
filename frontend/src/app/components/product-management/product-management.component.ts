@@ -57,6 +57,7 @@ export class ProductManagementComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
+        confirmButton: "text-swal",
       },
     });
     this.productManagementService
@@ -111,6 +112,7 @@ export class ProductManagementComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
+        confirmButton: "text-swal",
       },
     });
     if (this.selectedProduct && this.selectedProduct.id) {
@@ -164,6 +166,8 @@ export class ProductManagementComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     customSwal

@@ -38,6 +38,8 @@ export class AddCategoryComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
 

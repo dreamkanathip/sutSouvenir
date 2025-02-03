@@ -178,6 +178,7 @@ export class HomepageComponent {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
 
@@ -208,11 +209,6 @@ export class HomepageComponent {
         if (response) {
           product.quantity -= 1;
           this.cartService.updateCartItemCount();
-          const customSwal = Swal.mixin({
-                    customClass: {
-                    popup: "title-swal",
-            },
-          });
           customSwal.fire({
             title: "เพิ่มสินค้าเรียบร้อย",
             icon: "success",

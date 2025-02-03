@@ -134,6 +134,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       const customSwal = Swal.mixin({
         customClass: {
           title: 'title-swal',
+          confirmButton: "text-swal",
         },
       });
       customSwal

@@ -45,6 +45,7 @@ export class ChangeAddressModalComponent {
           const customSwal = Swal.mixin({
             customClass:{
               popup: "title-swal",
+              confirmButton: "text-swal",
             },
           });
           customSwal.fire({

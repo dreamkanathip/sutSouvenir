@@ -80,6 +80,8 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
     const customSwal = Swal.mixin({
       customClass: {
         title: 'title-swal',
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     customSwal.fire({

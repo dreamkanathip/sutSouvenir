@@ -4,7 +4,7 @@
     <div class="row d-flex justify-content-center" style="width: 80%; margin: auto">
       <div class="col-12 col-md-5">
         <div class="card img-container d-flex align-items-center">
-          <div id="pictureCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div id="pictureCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item" *ngFor="let image of productImages; let i = index" [ngClass]="{ 'active': i === 0 }">
                 <img [src]="getImageUrl(image.id)" class="d-block w-100" alt="Product Image">
@@ -123,9 +123,9 @@
               ></i>
             </div>
             <div class="progress w-50 ms-2" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" [style.width.%]="(starCounts[5 - stars] / uniqueReview.length) * 100" style="background-color: #F36523;"></div>
+              <div class="progress-bar" [style.width.%]="(starCounts[stars - 1] / uniqueReview.length) * 100" style="background-color: #F36523;"></div>
             </div>
-            <span class="ms-2" style="font-size: 20px; font-weight: bold;">{{ starCounts[5 - stars] }}</span>
+            <span class="ms-2" style="font-size: 20px; font-weight: bold;">{{ starCounts[stars - 1] }}</span>
           </div>
         </div>
       </div>
