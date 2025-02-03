@@ -80,6 +80,7 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
     }
     const customSwal = Swal.mixin({
       customClass: {
+        popup: 'title-swal',
         title: 'title-swal',
         confirmButton: "text-swal",
         cancelButton: "text-swal",
@@ -131,6 +132,55 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
       orderId: this.order?.id,
       trackingNumber: this.trackingNumber
     }
-    this.orderService.addTracking(data).subscribe()
+    const customSwal = Swal.mixin({
+    customClass: {
+      popup: 'title-swal',
+      title: 'title-swal',
+      confirmButton: "text-swal",
+      cancelButton: "text-swal",
+
+    },
+  });
+  customSwal.fire({
+    title: "ต้องการเพิ่มเลข Tracking ของรายการนี้หรือไม่?",
+    showCancelButton: true,
+    confirmButtonText: "ยืนยัน",
+    cancelButtonText: "กลับ",
+    icon: "warning",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      customSwal.fire({
+        title: "กำลังดำเนินการ...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          customSwal.showLoading();
+        },
+      });
+    }
+    this.orderService.addTracking(data).subscribe({
+      next: (res) => {
+        customSwal.close();
+        customSwal.fire({
+          icon: "success",
+          title: "สำเร็จ",
+          text: "พิ่มเลข Tracking เรียบร้อย",
+          showConfirmButton: true,
+        }).then(() => {
+          window.location.reload();
+        })
+      },
+      error: (error) => {
+        customSwal.close();
+        customSwal.fire({
+          icon: "warning",
+          title: "เกิดข้อผิดพลาด",
+          text: "เกิดข้อผิดพลาด กรุณาลองอีกครั้งในภายหลัง",
+          showConfirmButton: true,
+        });
+        console.error("API error:", error);
+      }
+    });
+  })
+    
   }
 }

@@ -12,9 +12,10 @@ export class AuthService {
   private authStatusSubject = new BehaviorSubject<boolean>(false);
   authStatus$ = this.authStatusSubject.asObservable();
 
+
   private isBrowser: boolean;
   private apiUrl = 'http://localhost:5000/api'; // ตรวจสอบให้แน่ใจว่า URL ถูกต้อง
-
+  private currentUser!: any;
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -28,11 +29,7 @@ export class AuthService {
 
   checkAuthentication(): void {
     if (this.isBrowser) {
-      // ตรวจสอบว่าเป็นเบราว์เซอร์ก่อน
       const token = localStorage.getItem('jwt');
-      // console.log('Token in localStorage:', token); 
-      // แสดงค่า token ใน console
-
       if (token) {
         this.authStatusSubject.next(true); // ถ้ามี token กำหนดสถานะเป็น true
       } else {
@@ -48,12 +45,11 @@ export class AuthService {
       .pipe(
         tap((response) => {
           if (this.isBrowser) {
-            // ตรวจสอบว่าเป็นเบราว์เซอร์ก่อน
             const token = response.token;
             localStorage.setItem('jwt', token);
-
+            localStorage.setItem('currentUser', response.role)
             const storedToken = localStorage.getItem('jwt');
-            // console.log('Token in localStorage:', storedToken);
+            console.log('Token in localStorage:', localStorage.getItem('currentUser'));
 
             this.authStatusSubject.next(true); // อัปเดตสถานะการล็อกอิน
           }
@@ -108,13 +104,19 @@ export class AuthService {
     });
   }
 
-  // ฟังก์ชันตรวจสอบสถานะการล็อกอินจาก API
   checkUserStatus(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/user/status`, {
       headers: this.getAuthHeaders(), // ส่ง headers ที่มี token
       withCredentials: true,
     });
   }
-
+  isAuthenticated(): boolean {
+    this.checkAuthentication()
+    return this.authStatusSubject.getValue();
+  }
+  
+  getRole(): string {
+    return this.currentUser ; // Return role if user exists
+  }
 
 }

@@ -24,6 +24,7 @@ import { ReviewComponent } from './components/review/review.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { CategoryComponent } from './components/category/category.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
+import { RoleGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -34,28 +35,28 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   // { path: 'favourite', component: FavouriteComponent },
   // { path: 'address', component: AddressComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'address/add', component: AddAddressComponent },
-  { path: 'address/edit', component: EditAddressComponent },
-  { path: 'admin/management', component: ProductManagementComponent },
-  { path: 'user', component: UserStorageComponent },
-  { path: 'superadmin/bank', component: BankComponent },
-  { path: 'admin/historyPay', component: AdminHistoryComponent },
-  { path: 'admin/dashboard', component: AdminDashboardComponent },
-  { path: 'superadmin/register/admin', component: RegisterAdminComponent },
+  { path: 'cart', component: CartComponent, canActivate: [ RoleGuard], data: { role: 'USER' } },
+  { path: 'payment', component: PaymentComponent, canActivate: [ RoleGuard], data: { role: 'USER' }},
+  { path: 'address/add', component: AddAddressComponent, canActivate: [ RoleGuard], data: { role: 'USER' } },
+  { path: 'address/edit', component: EditAddressComponent, canActivate: [ RoleGuard], data: { role: 'USER' } },
+  { path: 'admin/management', component: ProductManagementComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
+  { path: 'user', component: UserStorageComponent, canActivate: [ RoleGuard], data: { role: 'USER' } },
+  { path: 'superadmin/bank', component: BankComponent, canActivate: [ RoleGuard], data: { role: 'SUPERADMIN' } },
+  { path: 'admin/historyPay', component: AdminHistoryComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
+  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
+  { path: 'superadmin/register/admin', component: RegisterAdminComponent, canActivate: [ RoleGuard], data: { role: 'SUPERADMIN' } },
   {
     path: 'superadmin/dashboard',
-    component: SuperAdminDashboardComponent,
+    component: SuperAdminDashboardComponent, canActivate: [ RoleGuard], data: { role: 'SUPERADMIN' }
   },
-  { path: 'admin/add/product', component: AddProductComponent },
-  { path: 'admin-order', component: AdminUpdateOrderStatusComponent },
+  { path: 'admin/add/product', component: AddProductComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
+  { path: 'admin-order', component: AdminUpdateOrderStatusComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
   // { path: "**", redirectTo: '/home'},
   // { path: 'user/storage', component: UserStorageComponent },
-  { path: 'review/:id', component: ReviewComponent },
-  { path: 'admin/add/category', component: AddCategoryComponent },
-  { path: 'admin/show/category', component: CategoryComponent },
-  { path: 'superadmin/shipping', component: ShippingComponent },
+  { path: 'review/:id', component: ReviewComponent, canActivate: [ RoleGuard], data: { role: 'USER' } },
+  { path: 'admin/add/category', component: AddCategoryComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' }  },
+  { path: 'admin/show/category', component: CategoryComponent, canActivate: [ RoleGuard], data: { role: 'ADMIN' } },
+  { path: 'superadmin/shipping', component: ShippingComponent, canActivate: [ RoleGuard], data: { role: 'SUPERADMIN' } },
 ];
 
 @NgModule({

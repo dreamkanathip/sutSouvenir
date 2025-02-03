@@ -103,8 +103,8 @@
         
         <div class="row border d-flex flex-row justify-content-between align-items-center p-2 mt-3"
           style="background-color: white;">
-          <span style="font-size: 24px;" class="mb-3" style="font-weight: bold;">ช่องทางการชำระเงิน</span>
-          <div *ngFor="let bank of destBank" class="border rounded" style="font-size: 22px;">
+          <span style="font-weight: bold; font-size: 28px;">ช่องทางการชำระเงิน</span>
+          <div *ngFor="let bank of destBank" class="border rounded mb-2" style="font-size: 24px;">
             <div class="ms-5">
               ธนาคาร<span>{{bank.bank}}</span>
               สาขา: <span>{{bank.branch}}</span>

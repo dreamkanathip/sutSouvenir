@@ -147,6 +147,13 @@
         >
             เพิ่ม Tracking Number
         </button>
+        <button type="button" class="btn btn-primary" 
+            style="font-size: 20px; background-color: #F36523; border: none;"
+            (click)="addTrackingNumber()"
+            *ngIf="order?.orderStatus === 'SHIPPED'"
+        >
+            แก้ไข Tracking Number
+        </button>
       </div>
     </div>
   </div>
