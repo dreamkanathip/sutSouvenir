@@ -95,7 +95,7 @@ export class AddProductComponent implements OnInit {
   onImageAdd(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.selectedFiles.push(file);
+      this.selectedFile.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreview?.push(e.target.result);
@@ -125,7 +125,7 @@ export class AddProductComponent implements OnInit {
       return;
     }
 
-    if (this.selectedFiles.length === 0) {
+    if (this.selectedFile.length === 0) {
       customSwal.fire({
         icon: 'warning',
         title: 'ไม่มีไฟล์',
@@ -156,7 +156,7 @@ export class AddProductComponent implements OnInit {
           );
           const productId = newProduct.id;
 
-          const uploadImage = this.selectedFiles.map((file) => {
+          const uploadImage = this.selectedFile.map((file) => {
             const data = new FormData();
             data.append('image', file, file.name);
             data.append('productId', productId);
@@ -175,7 +175,7 @@ export class AddProductComponent implements OnInit {
                 text: 'สินค้าถูกบันทึกแล้ว!',
               })
               .then(() => {
-                this.selectedFiles = [];
+                this.selectedFile = [];
                 this.imagePreview = [];
                 this.form.reset({
                   title: '',
