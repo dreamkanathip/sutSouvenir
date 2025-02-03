@@ -18,6 +18,7 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
   @Input() payment?: Payment | null;
 
   productOnOrderTotal: number = 0
+  @Input() trackingNumber!: string
 
   constructor(private orderService: OrderService) {
     this.calculateProductOnOrderTotal();
@@ -43,7 +44,7 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
     this.productOnOrderTotal = this.order?.products?.reduce(
       (sum: number, p: ProductOnOrder) => sum + (p.price), 0) || 0
   }
-
+  
   showOrderStatus() {
     switch (this.order?.orderStatus) {
       case 'PENDING': return 'รอชำระเงิน';
@@ -122,5 +123,12 @@ export class AdminUpdateOrderStatusDetailComponent implements OnInit, OnChanges 
         }
       });
     })
+  }
+  addTrackingNumber() {
+    const data = {
+      orderId: this.order?.id,
+      trackingNumber: this.trackingNumber
+    }
+    this.orderService.addTracking(data).subscribe()
   }
 }

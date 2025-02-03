@@ -14,7 +14,7 @@
             <div class="d-flex flex-row image row ms-3 mt-3 mb-3 border rounded">
               <div *ngIf="selectedFile.length > 0" class="col-12 d-flex flex-wrap gap-2 mt-2">
                 <div *ngFor="let file of selectedFile; index as i" class="position-relative">
-                  <img [src]="imagePreview[i]" class="product-img-preview" (click)="removeFile(i)">
+                  <img [src]="imagePreview[i]" class="product-img-preview" (click)="removeFile(i)" appImgValidate>
                 </div>
               </div>
 

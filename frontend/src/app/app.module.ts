@@ -59,6 +59,7 @@ import { HistoryDetailComponent } from './components/user-storage/history-detail
 import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.component';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdminUpdateOrderStatusDetailComponent } from './components/admin-update-order-status/admin-update-order-status-detail/admin-update-order-status-detail.component';
+import { ImgValidateDirective } from './directives/img-validate.directive';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { AdminUpdateOrderStatusDetailComponent } from './components/admin-update
     HistoryDetailComponent,
     UserSidenavComponent,
     AdminUpdateOrderStatusDetailComponent,
+    ImgValidateDirective,
   ],
   imports: [
     BrowserModule,

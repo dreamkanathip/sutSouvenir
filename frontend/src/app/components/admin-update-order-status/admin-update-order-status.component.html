@@ -6,7 +6,27 @@
     <div class="order-container p-5">
       <h1 style="font-weight: bold">รายการคำสั่งซื้อ</h1>
       <hr />
+
+      <div class="filter row mb-3" style="width: 80%; margin: auto;">
+        <div class="col">
+          <span style="font-size: 22px;">สถานะคำสั่งซื้อ</span>
+          <select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" class="form-select form-select-lg shadow-none" aria-label="Default select example">
+            <option [value]="''">ทั้งหมด</option>
+            <option *ngFor="let status of orderStatus" [value]="status.value" >{{ showOrderStatus(status.value) }}</option>
+          </select>
+        </div>
+        <div class="col">
+          <span style="font-size: 22px;">บริษัทขนส่ง</span>
+          <select [(ngModel)]="filterShipping" (ngModelChange)="applyFilters()" class="form-select form-select-lg shadow-none" aria-label="Default select example">
+            <option [value]="''">ทั้งหมด</option>
+            <option *ngFor="let shipping of shippings" [value]="shipping.company" >{{ shipping.company }}</option>
+          </select>
+        </div>
+      </div>
+      
+
       <div class="card d-flex justify-content-center align-items-center">
+        
         <div class="card-body">
           <div class="table align-middle">
             <thead class="thead-light">
@@ -20,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let order of orders">
+              <tr *ngFor="let order of filteredOrders">
                 <td class="text-center">{{order.createdAt | formatDateToThai}}</td>
                 <td
                   class="text-center"
@@ -42,17 +62,23 @@
                   [ngStyle]="{
                     color: order.payments[0].status === 'NOT_PROCESSED'? '#FB0077' : 
                           order.payments[0].status === 'COMPLETED'? '#47E036' :
-                          order.payments[0].status === 'FAILED'? '#DD0000' :  '#DD0000'
+                          order.payments[0].status === 'FAILED'? '#DD0000' :
+                          order.payments[0].status === 'PENDING'? '#F7AB05' :  '#DD0000'
                   }"
                 >
                   {{ showPaymentStatus(order.payments[0].status) }}
                 </td>
                 <td class="text-center">{{order.cartTotal.toLocaleString('en', {useGrouping: true})}}</td>
                 <td class="text-center">{{getPaymentDate(order)? (getPaymentDate(order) | formatDateToThai) : 'ยังไม่ชำระ'}}</td>
-                <td>
+                <td class="text-center">
                   <u class="check-payment" data-bs-toggle="modal" data-bs-target="#order-detail"
                   (click)="seeOrder(order)">
-                    ตรวจสอบคำสั่งซื้อ
+                    <span [ngSwitch]="order?.orderStatus">
+                      <span *ngSwitchCase="'PROCESSED'">เพิ่ม Tracking</span>
+                      <span *ngSwitchCase="'SHIPPED'">แก้ไข Tracking</span>
+                      <span *ngSwitchCase="'NOT_PROCESSED'">ยืนยันการชำระเงิน</span>
+                      <span *ngSwitchDefault>ตรวจสอบคำสั่งซื้อ</span>
+                    </span>
                   </u>
                 </td>
               </tr>
@@ -68,6 +94,7 @@
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       [order]="selectedOrder"
+      [trackingNumber]="trackingNumber"
     ></app-admin-update-order-status-detail>
   </div>
 </div>

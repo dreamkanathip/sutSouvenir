@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import { OrderService } from '../../services/order/order.service';
 import { Order } from '../../interfaces/order/order';
 import { ProductOnOrder } from '../../interfaces/order/product-on-order';
 import { Payment } from '../../interfaces/order/payment';
 import { PaymentService } from '../../services/payment/payment.service';
+import { OrderStatus } from '../../interfaces/order/status';
+import { ShippingService } from '../../services/shipping/shipping.service';
+import { Shipping } from '../../interfaces/shipping/shipping.model';
 
 @Component({
   selector: 'app-admin-update-order-status',
@@ -14,11 +17,23 @@ export class AdminUpdateOrderStatusComponent {
 
   orders!: Order[];
   // payments!: Payment[]
-
+  trackingNumber!: string;
   selectedOrder!: Order;
-  constructor(private orderService: OrderService, private paymentService: PaymentService) {
+  filteredOrders:Order[] = [];
+  filterStatus: string = "";
+  statusEnum!: OrderStatus;
+  orderStatus: any[] = [];
+  shippings!: Shipping[];
+  filterShipping: string = "";
+
+  constructor(
+    private orderService: OrderService, 
+    private paymentService: PaymentService, 
+    private shippingService: ShippingService
+  ) {
     this.getAllOrder();
-    // this.getAllPayment();
+    this.getOrderStatusEnum();
+    this.getShipping();
   }
   getAllOrder() {
     this.orderService.getOrders().subscribe((res) => {
@@ -40,6 +55,7 @@ export class AdminUpdateOrderStatusComponent {
         }
         return order;
       });
+      this.filteredOrders = this.orders;
     });
   }
 
@@ -66,6 +82,7 @@ export class AdminUpdateOrderStatusComponent {
   }
   seeOrder(order: Order) {
     this.selectedOrder = order
+    this.trackingNumber = order.trackingNumber
   }
   getPaymentDate(order: Order) {
     if(order.payments[0].transferAt.getDate !== new Date(0).getDate) {
@@ -73,5 +90,22 @@ export class AdminUpdateOrderStatusComponent {
     } else {
       return
     }
+  }
+  applyFilters(): void {
+    this.filteredOrders = this.orders.filter((order) => {
+      const matchStatus = this.filterStatus? order.orderStatus === this.filterStatus : order.orderStatus
+      const matchShipping = this.filterShipping? order.shipping.company === this.filterShipping : order.shipping.company
+      return matchStatus && matchShipping;
+    });
+  }
+  getOrderStatusEnum() {
+    this.orderService.getOrderStatusEnum().subscribe((res) => {
+      this.orderStatus = Object.entries(res).map(([value]) => ({ value }));
+    })
+  }
+  getShipping() {
+    this.shippingService.getAllShippings().subscribe((res) => {
+      this.shippings = res;
+    })
   }
 }

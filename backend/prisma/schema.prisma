@@ -113,7 +113,7 @@ model Order {
   shippingId  Int
   address     Address          @relation(fields: [addressId], references: [id])
   addressId   Int
-
+  trackingNumber String
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 

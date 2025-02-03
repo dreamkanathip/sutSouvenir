@@ -35,7 +35,7 @@
             </div>
             <div class="shipping ms-3 me-3 d-flex flex-column">
                 <span>จัดส่งโดย {{order?.shipping.company}}</span>
-                <span>tracking number: THXXXXXXXXXX </span>
+                <span>tracking number: {{order?.trackingNumber}} </span>
 
             </div>
             <div *ngFor="let item of order?.products" class="border rounded m-3">
@@ -90,7 +90,7 @@
                             <p>{{order?.shipping.fees}}</p>
                         </div>
                         <hr class="mt-1 mb-1" />
-                        <div class="d-flex justify-content-between summary-sum-price">
+                        <div class="d-flex justify-content-between summary-sum-price" style="font-size: 1.5rem;">
                             <p>รวมทั้งสิ้น</p>
                             {{
                             (order?.cartTotal).toLocaleString('en', {useGrouping:true})

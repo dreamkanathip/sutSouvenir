@@ -40,7 +40,7 @@ export class OrderService {
       `${this.apiUrl}/productOnOrder/${id}`,
       {
         headers: this.getAuthHeaders(),
-        withCredentials: true, // ส่งคุกกี้
+        withCredentials: true,
       }
     );
   }
@@ -48,26 +48,26 @@ export class OrderService {
   cancelOrder(id: number, order: any): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/cancelOrder/${id}`, order, {
       headers: this.getAuthHeaders(),
-      withCredentials: true, // ส่งคุกกี้
+      withCredentials: true,
     });
   }
 
   getProductOnOrder(): Observable<ProductOnOrder[]> {
     return this.http.get<ProductOnOrder[]>(`${this.apiUrl}/productsOnOrders`, {
       headers: this.getAuthHeaders(),
-      withCredentials: true, // ส่งคุกกี้
+      withCredentials: true,
     });
   }
   getOrderStatusEnum(): Observable<OrderStatus> {
     return this.http.get<OrderStatus>(`${this.apiUrl}/order-status-enum`, {
       headers: this.getAuthHeaders(),
-      withCredentials: true, // ส่งคุกกี้
+      withCredentials: true,
     });
   }
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/orders`, {
       headers: this.getAuthHeaders(),
-      withCredentials: true, // ส่งคุกกี้
+      withCredentials: true,
     });
   }
   changeOrderStatus(data: any): Observable<any> {
@@ -86,6 +86,15 @@ export class OrderService {
     return this.orderId;
   }
   confirmOrder(data: any): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/confirmOrder`, data);
+    return this.http.patch<any>(`${this.apiUrl}/confirmOrder`, data, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true,
+    });
   }  
+  addTracking(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/addTracking`, data, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true,
+    });
+  }
 }

@@ -17,7 +17,8 @@ export interface Order {
     updatedAt:  Date,
     user: UserModel,
     userId: number,
-    payments: Payment[],      
+    payments: Payment[],   
+    trackingNumber: string   
 }
 
 export interface userOrder {

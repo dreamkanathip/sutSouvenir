@@ -108,3 +108,14 @@
 select {
   cursor: pointer;
 }
+.error {
+  color: red;
+  font-size: 18px;
+  top: 55px; /* Adjust position so it doesn't overlap the icon */
+}
+.modal-dialog {
+  font-size: 22px;
+}
+option, select, .form-control {
+  font-size: 22px;
+}

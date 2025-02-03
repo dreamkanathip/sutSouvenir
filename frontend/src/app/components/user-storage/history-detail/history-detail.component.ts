@@ -16,8 +16,8 @@ import { ReviewService } from '../../../services/review/review.service';
 })
 export class HistoryDetailComponent implements OnInit, OnChanges {
 
-  @Input() order!: any 
-  @Input() productRating!: any
+  @Input() order?: any 
+  @Input() productRating?: any
   @Output() getUserStorageItem = new EventEmitter<void>();
   productOnOrderTotal: number = 0
   productReviewList: ReviewModel[] = [];

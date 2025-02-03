@@ -32,6 +32,10 @@
 .modal-content {
     font-size: 22px;
 }
+.form-control {
+    border-color: #F36523;
+    border-width: 2px;
+}
 /* Modal Content */
 .modal-content-img {
     margin: auto;

@@ -12,7 +12,20 @@
                 </div>
                 <div class="shipping ms-3 me-3 d-flex flex-column" style="font-size: 20px;">
                     <span>จัดส่งโดย: {{order?.shipping?.company}}</span>
-                    <span>tracking number:</span>
+                    <span [ngSwitch]="order?.orderStatus">
+                        <span *ngSwitchCase="'PROCESSED'">
+                            tracking number: 
+                            <input [(ngModel)]="trackingNumber" type="text" class="form-control shadow-none form-control-lg" id="trackingNumber">
+                        </span>
+                        <span *ngSwitchCase="'SHIPPED'">
+                            tracking number: 
+                            <input [(ngModel)]="trackingNumber" type="text" class="form-control shadow-none form-control-lg" id="trackingNumber">
+                        </span>
+                        <span *ngSwitchDefault>
+                            tracking number: {{trackingNumber}}
+                        </span>
+                      </span>
+                    
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-column">
@@ -107,7 +120,7 @@
                         <p>{{order?.shipping?.fees}}</p>
                     </div>
                     <hr class="mt-1 mb-1" />
-                    <div class="d-flex justify-content-between summary-sum-price" style="font-size: 20px;">
+                    <div class="d-flex justify-content-between summary-sum-price" style="font-size: 1.5rem;">
                         <p>รวมทั้งสิ้น</p>
                         {{
                         order?.cartTotal?.toLocaleString('en', {useGrouping:true})
@@ -122,8 +135,17 @@
         <button type="button" class="btn btn-primary" 
             style="font-size: 20px; background-color: #F36523; border: none;"
             (click)="confirmOrder()"
+            *ngIf="order?.orderStatus !== 'PROCESSED'"
         >
             ยืนยันการชำระเงิน
+        </button>
+        
+        <button type="button" class="btn btn-primary" 
+            style="font-size: 20px; background-color: #F36523; border: none;"
+            (click)="addTrackingNumber()"
+            *ngIf="order?.orderStatus === 'PROCESSED'"
+        >
+            เพิ่ม Tracking Number
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title fs-5" id="exampleModalLabel">แจ้งผลการชำระเงิน</h1>
+      <h2 class="modal-title" style="font-weight: bold;" id="exampleModalLabel">แจ้งผลการชำระเงิน</h2>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
@@ -13,63 +13,91 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          วันที่โอน: <input id="date" type="text" class="date" placeholder="วว-ดด-ปปปป">
+          วันที่โอน: <input id="date" type="text" class="date form-control form-control-lg" placeholder="วว-ดด-ปปปป">
+          <div *ngIf="!date" class="error">
+            *กรุณาระบุวันที่
+          </div>
         </div>
         <div class="col-md-6 d-flex flex-column">
           <label for="hr">เวลาที่โอน:</label>
-          <div>
-            <select id="hr" name="hr" class="hr" [(ngModel)]="hr">
+          <div class="d-flex flex-row">
+            <select id="hr" name="hr" class="hr form-control form-control-lg" [(ngModel)]="hr">
               <option *ngFor="let i of hrArray" [value]="i">{{ i }}</option>
             </select>
             <span class="m-2">:</span>
-            <select id="min" name="min" class="min" [(ngModel)]="min">
+            <select id="min" name="min" class="min form-control form-control-lg" [(ngModel)]="min">
               <option *ngFor="let i of minArray" [value]="i">{{ i }}</option>
             </select>
           </div>
+          <div *ngIf="!hr || !min" class="error">
+            *กรุณาระบุเวลา
+          </div>
         </div>
-        <!-- <input type="date"  [(ngModel)]="date"> -->
+
       </div>
       <form [formGroup]="paymentForm">
-        <div class="receipt d-flex align-items-center m-2">
-          อัพโหลดหลักฐาน:
-          <label class="btn btn-primary upload-btn m-1" for="menu-image">
-            เลือกไฟล์
-          </label>
-          <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImage /> 
-          <div *ngIf="selectedFile"> {{selectedFile.name}}</div>
-          
+      <div class="receipt d-flex align-items-center m-2">
+        อัพโหลดหลักฐาน:
+        <label class="btn btn-primary upload-btn m-1" for="menu-image">
+          เลือกไฟล์
+        </label>
+        <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImgValidate />
+        <div *ngIf="selectedFile"> {{selectedFile.name}}</div>
+        <div *ngIf="!selectedFile" class="error">
+          *กรุณาอัพโหลดสลิป
         </div>
-        <div class="row ">
-          <div class="col-md-6">
-            ธนาคารต้นทาง:
-            <!-- <input type="text" class="origin-bank"> -->
-            <select id="origin-bank" name="origin-bank" class="origin-bank" formControlName="originBankId">
-              <option *ngFor="let bank of originBank" [value]="bank.id">{{ bank.bank }}</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            ธนาคารปลายทาง:
-            <!-- <input type="text" class="destination-bank"> -->
-            <select id="destination-bank" name="destination-bank" class="destination-bank" formControlName="destBankId">
-              <option *ngFor="let bank of destBank" [value]="bank.id">{{ bank.bank }}</option>
-            </select>
+      </div>
+      <div class="row ">
+        <div class="col-md-6">
+          ธนาคารต้นทาง:
+          <!-- <input type="text" class="origin-bank"> -->
+          <select id="origin-bank" name="origin-bank" class="origin-bank form-control form-control-lg"
+            formControlName="originBankId">
+            <option *ngFor="let bank of originBank" [value]="bank.id">{{ bank.bank }}</option>
+          </select>
+          <div *ngIf="originBankId?.invalid" class="error">
+            *กรุณาเลือกธนาคารต้นทาง
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            จำนวนเงิน:
-            <input type="text" [value]="orderSum" class="total-text" formControlName="total">
-          </div>
-          <div class="col-md-6">
-            4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:
-            <input type="text" class="four-digits" formControlName="lastFourDigits">
+        <div class="col-md-6">
+          ธนาคารปลายทาง:
+          <!-- <input type="text" class="destination-bank"> -->
+          <select id="destination-bank" name="destination-bank" class="destination-bank form-control form-control-lg"
+            formControlName="destBankId">
+            <option *ngFor="let bank of destBank" [value]="bank.id">{{ bank.bank }}</option>
+          </select>
+          <div *ngIf="destBankId?.invalid" class="error">
+            *กรุณาเลือกธนาคารปลายทาง
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          จำนวนเงิน:
+          <input type="text" [value]="orderSum" class="total-text form-control form-control-lg" formControlName="total">
+          <!-- <div *ngIf="total?.dirty || total?.touched" class="error"> -->
+          <div *ngIf="total?.invalid" class="error">
+            *กรุณาระบุจำนวนเงิน
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="col-md-6">
+          4 หลักสุดท้ายของเลขที่บัญชีต้นทาง:
+          <input type="text" class="four-digits form-control" formControlName="lastFourDigits">
+
+          <div *ngIf="lastFourDigits?.errors?.['required']" class="error">
+            *กรุณาระบุเลขท้าย 4 ตัวของบัญชีต้นทาง
+          </div>
+          <div *ngIf="lastFourDigits?.errors?.['pattern']" class="error">
+            *ระบุตัวเลข 4 ตัว
+          </div>
+        </div>
+      </div>
       </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="secondary-btn" data-bs-dismiss="modal">ยกเลิก</button>
-      <button type="button" class="main-btn" (click)="upload()">ยืนยัน</button>
+      <button type="submit" class="main-btn" (click)="upload()">ยืนยัน</button>
     </div>
   </div>
 </div>

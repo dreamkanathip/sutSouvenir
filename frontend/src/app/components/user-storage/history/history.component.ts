@@ -51,10 +51,9 @@ export class HistoryComponent implements OnInit {
             this.orders.sort((a: any, b: any) => {
               const dateA = new Date(a.createdAt).getTime();
               const dateB = new Date(b.createdAt).getTime();
-              return dateB - dateA; // ใหม่สุดก่อน
+              return dateB - dateA;
             })
 
-            // product ภายใน order
             order.products.forEach((productOnOrder: any) => {
               const product = productOnOrder.product;
               // ตรวจสอบว่า product ซ้ำหรือไม่

@@ -27,6 +27,7 @@ exports.initOrder = async (req, res) => {
           cartTotal: Number(cartTotal),
           addressId: Number(addressId),
           shippingId: Number(shippingId),
+          trackingNumber:''
         },
       });
 
@@ -397,5 +398,29 @@ exports.getOrders = async(req, res) => {
   } catch (err) {
     console.error("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ:", err);
     res.status(500).send({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" });
+  }
+}
+
+exports.addTrackingNumber = async (req, res) => {
+  try {
+    const { orderId, trackingNumber } = req.body;
+    if (!orderId | !trackingNumber) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const changeOrderStatus = await prisma.order.update({
+        where: {
+          id: Number(orderId)
+        },
+        data: {
+          trackingNumber: trackingNumber,
+          orderStatus: OrderStatus.SHIPPED
+        }
+      })
+    res.status(200).json(changeOrderStatus)
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 }
