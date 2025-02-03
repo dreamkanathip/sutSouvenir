@@ -99,6 +99,7 @@ export class AddressComponent implements OnInit{
               title: "ลบข้อมูลแล้ว",
               text: "ลบข้อมูลที่อยู่เรียบร้อยแล้ว",
               showConfirmButton: true,
+              confirmButtonText: "ยืนยัน",
             });
             this.getAllAddress();
           },
@@ -109,6 +110,7 @@ export class AddressComponent implements OnInit{
               title: "เกิดข้อผิดพลาด",
               text: "ลบข้อมูลไม่สำเร็จ กรุณาลองอีกครั้งในภายหลัง",
               showConfirmButton: true,
+              confirmButtonText: "ยืนยัน",
             });
             console.error("API error:", error);
           }
