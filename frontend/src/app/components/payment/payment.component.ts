@@ -30,6 +30,7 @@ export class PaymentComponent implements OnInit{
     private router: Router,
     private bankService: BankService
   ) {  
+    this.getBank()
   }
 
   ngOnInit(): void {

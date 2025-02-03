@@ -34,11 +34,12 @@ export class ProductManagementComponent implements OnInit {
   selectedCategory: number = 0;
 
   productQuantityWarning: number = 10
-
+  productStatus: string = ""
   selectedProductImages: Images[] = [];
   imgToUpload: File[] = [];
   imgToDelete: Images[] = [];
   imagePreview: string[] | ArrayBuffer[] = [];
+  filteredProduct: Product[] = []
   constructor(
     private productManagementService: ProductManagementService,
     private router: Router,
@@ -104,6 +105,20 @@ export class ProductManagementComponent implements OnInit {
   get category() {
     return this.form.get('category');
   }
+
+  applyFilters(): void {
+    this.filteredProduct = this.products.filter((product) => {
+        const match = this.productStatus === 'out'
+          ? product.quantity === 0
+          : this.productStatus === 'almost-out'
+          ? product.quantity < 10
+          : product.quantity >= 10;
+        return match
+    });
+    this.updatePagedProducts();
+}
+
+
   onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
     this.itemsPerPage = event.pageSize;
@@ -112,7 +127,7 @@ export class ProductManagementComponent implements OnInit {
   updatePagedProducts(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage; // Correct start index calculation
     const end = this.currentPage * this.itemsPerPage; // Correct end index calculation
-    this.pagedProducts = this.products.slice(start, end); // Update pagedCategories with the correct slice
+    this.pagedProducts = this.filteredProduct.slice(start, end); // Update pagedCategories with the correct slice
 
     console.log('updatePagedCategories()');
   }
@@ -130,6 +145,7 @@ export class ProductManagementComponent implements OnInit {
           });
         });
         this.loadPage(this.currentPage);
+        this.filteredProduct = this.products
       },
       (error) => {
         console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
@@ -187,10 +203,11 @@ export class ProductManagementComponent implements OnInit {
           });
 
           this.products.push(response);
+          this.filteredProduct.push(response);
           this.loadPage(this.currentPage);
 
           if (this.pagedProducts.length === this.itemsPerPage) {
-            this.loadPage(Math.ceil(this.products.length / this.itemsPerPage));
+            this.loadPage(Math.ceil(this.filteredProduct.length / this.itemsPerPage));
           }
         }
       });
@@ -355,7 +372,7 @@ export class ProductManagementComponent implements OnInit {
             )
             .subscribe((res) => {
               if (res) {
-                this.products = this.products.filter(
+                this.filteredProduct = this.filteredProduct.filter(
                   (product) => product.id !== productId
                 );
                 customSwal.fire({
