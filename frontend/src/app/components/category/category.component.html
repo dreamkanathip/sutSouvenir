@@ -29,13 +29,24 @@
 
               <td>{{ category.name }}</td>
               <td>
-                <button
+                <div class="manage">
+                  <button
                   class="btn btn-danger"
                   (click)="deleteCategoryById($event, category.id)"
                   *ngIf="category.name"
                 >
                   <i class="bx bx-trash"></i>
                 </button>
+                <button
+                  class="btn btn-primary edit-btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editCategoryModal"
+                  (click)="editCategory(category)"
+                  *ngIf="category.name"
+                >
+                  <i class="bx bx-edit"></i>
+                </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -101,7 +112,15 @@
     </button>
   </form>
 </div>
+
+
 <app-category-management
   class="modal fade"
   id="addCategoryModal"
 ></app-category-management>
+
+<app-edit-category
+  class="modal fade"
+  id="editCategoryModal"
+  [category]="edit"
+  ></app-edit-category>

@@ -22,7 +22,7 @@ body {
 }
 .header {
   margin-bottom: 20px;
-  font-size: 19px;
+  font-size: 24px;
   margin-left: 6px;
 }
 .ext-box {
@@ -109,6 +109,7 @@ i {
   position: relative;
   padding: 0 10px; /* เพิ่ม padding เพื่อให้มีพื้นที่รอบ ๆ input */
   margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง input-field */
+  font-size: 20px;
 }
 
 .input {
@@ -159,7 +160,7 @@ i {
 
 .signin {
   text-align: center;
-  font-size: small;
+  font-size: 18px;
   margin-top: 25px;
 }
 
