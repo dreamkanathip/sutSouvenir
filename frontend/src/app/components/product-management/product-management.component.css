@@ -234,3 +234,11 @@ body.modal-open::before {
   border-radius: 8px; /* เพิ่มความโค้งมุม */
   border: 1px solid #ccc; /* เพิ่มกรอบบาง ๆ */
 }
+.modal.fade .modal-dialog {
+  transform: translate(0, -50%);
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: translate(0, 0);
+}

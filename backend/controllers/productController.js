@@ -26,7 +26,7 @@ exports.uploadImage = async (req, res) => {
 
     try {
       const image = await s3Client.send(new PutObjectCommand(params));
-      console.log(image)
+      console.log(image);
     } catch (s3Error) {
       console.error("S3 Upload Error:", s3Error);
       return res.status(500).json({ message: "Failed to upload image" });
@@ -46,7 +46,7 @@ exports.uploadImage = async (req, res) => {
           public_id: "", // You can store a public_id here if needed
           secure_url: `https://s3.${process.env.AWS_REGION}.amazonaws.com/${process.env.BUCKET_NAME}/${uniqueKey}`,
           asset_id: uniqueKey,
-          url: `https://s3.${process.env.AWS_REGION}.amazonaws.com/${process.env.BUCKET_NAME}/${uniqueKey}`,
+          url: process.env.BUCKET_URL,
           productId: Number(productId),
         },
       });
