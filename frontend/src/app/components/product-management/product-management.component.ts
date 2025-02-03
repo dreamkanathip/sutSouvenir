@@ -112,8 +112,8 @@ export class ProductManagementComponent implements OnInit {
         this.productStatus === 'out'
           ? product.quantity === 0
           : this.productStatus === 'almost-out'
-          ? product.quantity < 10
-          : product.quantity >= 10;
+          ? product.quantity < 10 && product.quantity > 0
+          : product.quantity >= 0;
       return match;
     });
     this.updatePagedProducts();
@@ -146,6 +146,7 @@ export class ProductManagementComponent implements OnInit {
         });
         this.loadPage(this.currentPage);
         this.filteredProduct = this.products;
+        this.applyFilters()
       },
       (error) => {
         console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
