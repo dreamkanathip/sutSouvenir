@@ -16,8 +16,9 @@ export class AddProductComponent implements OnInit {
   categories: any[] = []; // ตัวแปรเก็บข้อมูลหมวดหมู่
 
   selectedFile: File[] = [];
-  selectedFiles: File[] = [];
-  imagePreview: string[] | ArrayBuffer[] = [];
+
+  isDragOver: boolean = false; // ใช้สำหรับแสดงผลเมื่อมีการลากไฟล์
+  imagePreview: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +64,34 @@ export class AddProductComponent implements OnInit {
     this.router.navigate(['/admin/management']); // นำทางไปยังหน้าที่ต้องการ
   }
 
+  // ฟังก์ชันจัดการการลากไฟล์
+  onDragOver(event: any) {
+    event.preventDefault();
+    this.isDragOver = true; // แสดงผลเมื่อมีการลากไฟล์
+  }
+
+  // ฟังก์ชันจัดการการลากไฟล์ออกจากพื้นที่
+  onDragLeave(event: any) {
+    this.isDragOver = false; // หยุดแสดงผลเมื่อไฟล์ถูกลากออก
+  }
+
+  // ฟังก์ชันจัดการการวางไฟล์
+  onDrop(event: any) {
+    event.preventDefault(); // ป้องกันไม่ให้ไฟล์เปิดในเบราว์เซอร์
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        this.selectedFile.push(files[i]);
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagePreview?.push(e.target.result);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    }
+  }
+
+  // ฟังก์ชันสำหรับการเพิ่มไฟล์
   onImageAdd(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -74,11 +103,14 @@ export class AddProductComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  removeFile(index: number) {
-    this.selectedFiles.splice(index, 1);
-  }
-  // ฟังก์ชันสำหรับการ submit
 
+  removeFile(index: number): void {
+    // ลบภาพที่เลือกออกจาก imagePreview และ selectedFile
+    this.imagePreview.splice(index, 1);
+    this.selectedFile.splice(index, 1);
+  }
+
+  // ฟังก์ชันสำหรับการ submit ข้อมูล
   async submit() {
     const customSwal = Swal.mixin({
       customClass: {
@@ -110,7 +142,8 @@ export class AddProductComponent implements OnInit {
       categoryId: this.form.value.category, // ใช้ categoryId แทน category name
     };
 
-    customSwal.fire({
+    customSwal
+      .fire({
         title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
         showCancelButton: true,
         confirmButtonText: 'บันทึก',
@@ -125,7 +158,6 @@ export class AddProductComponent implements OnInit {
 
           const uploadImage = this.selectedFiles.map((file) => {
             const data = new FormData();
-
             data.append('image', file, file.name);
             data.append('productId', productId);
             return firstValueFrom(

@@ -36,21 +36,36 @@ exports.updateDestBank = async (req, res) => {
   try {
     const { id } = req.params;
     const { bank, bankNumber, name, branch } = req.body;
-    const updatedDestBank = await prisma.destinationBank.update({
-      where: {
-        id: Number(id),
-      },
-      data: {
-        bank: bank,
-        bankNumber: bankNumber,
-        name: name,
-        branch: branch,
-      },
+    console.log(req.body);
+    // ตรวจสอบว่า id ถูกส่งมาหรือไม่ และเป็นตัวเลข
+    if (!id || isNaN(Number(id))) {
+      return res.status(400).json({ message: "Invalid bank ID" });
+    }
+
+    // ตรวจสอบข้อมูลที่จำเป็น
+    if (!bank || !bankNumber || !name || !branch) {
+      return res.status(400).json({ message: "ข้อมูลไม่ครบถ้วน" });
+    }
+
+    // ตรวจสอบว่า bank มีอยู่ในฐานข้อมูลหรือไม่
+    const existingBank = await prisma.destinationBank.findUnique({
+      where: { id: Number(id) },
     });
-    res.send(updatedDestBank);
+
+    if (!existingBank) {
+      return res.status(404).json({ message: "Bank not found" });
+    }
+
+    // อัปเดตข้อมูล destBank
+    const updatedDestBank = await prisma.destinationBank.update({
+      where: { id: Number(id) },
+      data: { bank, bankNumber, name, branch },
+    });
+
+    res.status(200).json(updatedDestBank);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error updating destination bank:", err);
+    res.status(500).json({ message: "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์" });
   }
 };
 

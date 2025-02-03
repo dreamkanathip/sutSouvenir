@@ -73,6 +73,7 @@
             type="date"
             class="date select-range shadow-none me-2"
             [(ngModel)]="startDate"
+            (change)="calculateSales()"
             placeholder="วว-ดด-ปปปป"
           />
           <span class="me-2 select-range">ถึง</span>
@@ -81,6 +82,7 @@
             type="date"
             class="date select-range shadow-none"
             [(ngModel)]="endDate"
+            (change)="calculateSales()"
             placeholder="วว-ดด-ปปปป"
           />
         </div>
@@ -95,7 +97,7 @@
               <div
                 class="d-flex justify-content-between align-items-center me-4 ms-1"
               >
-                <span class="dashboard-card-information">฿9,000</span>
+                <span class="dashboard-card-information">฿{{ orderTotal }}</span>
                 <span class="dashboard-card-unit">บาท</span>
               </div>
             </div>
@@ -107,7 +109,7 @@
               <div
                 class="d-flex justify-content-between align-items-center me-4 ms-1"
               >
-                <span class="dashboard-card-information">214</span>
+                <span class="dashboard-card-information">{{ allOrders.length }}</span>
                 <span class="dashboard-card-unit">รายการ</span>
               </div>
             </div>
@@ -124,7 +126,7 @@
                 <div
                   class="d-flex justify-content-between align-items-center justify-items-center me-4 ms-1"
                 >
-                  <span class="dashboard-card-information ms-5">2</span>
+                  <span class="dashboard-card-information ms-5">{{ orderStatusCounts.PENDING }}</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -138,7 +140,7 @@
                 <div
                   class="d-flex justify-content-between align-items-center me-4 ms-1"
                 >
-                  <span class="dashboard-card-information ms-5">4</span>
+                  <span class="dashboard-card-information ms-5">{{ orderStatusCounts.NOT_PROCESSED }}</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -152,7 +154,7 @@
                 <div
                   class="d-flex justify-content-between align-items-center me-4 ms-1"
                 >
-                  <span class="dashboard-card-information ms-5">3</span>
+                  <span class="dashboard-card-information ms-5">{{ orderStatusCounts.PROCESSED }}</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -163,13 +165,13 @@
             <div class="col-md-6 card">
               <div class="order-label">
                 <div class="dashboard-card-label ms-1 mt-2">
-                  <i style="color: #ffbb00" class="bx bx-box me-2"></i
-                  >สินค้าใกล้จะหมด
+                  <i style="color: #ffbb00" class="bx bx-box me-2"></i>
+                  <a class="link-modal" data-bs-toggle="modal" data-bs-target="#lowStockModal">สินค้าใกล้จะหมด</a>
                 </div>
                 <div
                   class="d-flex justify-content-between align-items-center me-4 ms-1"
                 >
-                  <span class="dashboard-card-information ms-5">0</span>
+                  <span class="dashboard-card-information ms-5">{{ lowProduct.length }}</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -177,13 +179,13 @@
             <div class="col-md-6 card">
               <div class="order-label">
                 <div class="dashboard-card-label ms-1 mt-2">
-                  <i style="color: #ff0000" class="bx bx-box me-2"></i
-                  >สินค้าหมดแล้ว
+                  <i style="color: #ff0000" class="bx bx-box me-2"></i>
+                  <a class="link-modal" data-bs-toggle="modal" data-bs-target="#emptyStockModal">สินค้าหมดแล้ว</a>
                 </div>
                 <div
                   class="d-flex justify-content-between align-items-center me-4 ms-1"
                 >
-                  <span class="dashboard-card-information ms-5">3</span>
+                  <span class="dashboard-card-information ms-5">{{ emptyProduct.length }}</span>
                   <span class="dashboard-card-unit">รายการ</span>
                 </div>
               </div>
@@ -195,17 +197,17 @@
           <div class="row">
             <div class="top-five-sales">
               <div class="dashboard-header ms-1 mt-2">สินค้าขายดี 3 อันดับ</div>
-              <div class="first d-flex align-items-center">
+              <div class="first d-flex align-items-center" *ngIf="orderCount[0]">
                 <i class="bx bx-medal medal-gold"></i>
-                <span class="first-title">เสื้อเลือดหมู ยอดขาย 428 ชิ้น</span>
+                <span class="first-title">{{ orderCount[0].title }} ยอดขาย {{ orderCount[0].count }} ชิ้น</span>
               </div>
-              <div class="second d-flex align-items-center">
+              <div class="second d-flex align-items-center" *ngIf="orderCount[1]">
                 <i class="bx bx-medal medal-silver"></i>
-                <span class="second-title">สมุดโน้ต ยอดขาย 326 ชิ้น</span>
+                <span class="second-title">{{ orderCount[1].title }} ยอดขาย {{ orderCount[1].count }} ชิ้น</span>
               </div>
-              <div class="third d-flex align-items-center">
+              <div class="third d-flex align-items-center" *ngIf="orderCount[2]">
                 <i class="bx bx-medal medal-copper"></i>
-                <span class="third-title">ปากกา ยอดขาย 224 ชิ้น</span>
+                <span class="third-title">{{ orderCount[2].title }} ยอดขาย {{ orderCount[2].count }} ชิ้น</span>
               </div>
             </div>
             <div style="width: 80%; margin: auto">
@@ -219,6 +221,67 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="lowStockModal" tabindex="-1" aria-labelledby="lowStockModalLabel" aria-hidden="true" *ngIf="lowProduct.length > 0">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="lowStockModalLabel">รายการสินค้าใกล้หมด</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 18px;">สินค้าที่มีจำนวนน้อยกว่า {{productQuantityWarning}} ชิ้น</p>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>ชื่อสินค้า</th>
+              <th>จำนวนคงเหลือ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of lowProduct">
+              <td>{{ product.title }}</td>
+              <td>{{ product.quantity }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="emptyStockModal" tabindex="-1" aria-labelledby="emptyStockModalLabel" aria-hidden="true" *ngIf="emptyProduct.length > 0">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emptyStockModalLabel">รายการสินค้าที่หมดแล้ว</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>ชื่อสินค้า</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of emptyProduct">
+              <td>{{ product.title }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
       </div>
     </div>
   </div>

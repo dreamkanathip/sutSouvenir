@@ -1,1 +1,96 @@
-<p>update works!</p>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" style="font-weight: bold">
+        แก้ไขข้อมูลธนาคารปลายทาง
+      </h2>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="container">
+        <div class="row main-row">
+          <div class="col-md-12 right">
+            <div>
+              <div class="input-box p-4">
+                <header class="header">จัดการข้อมูลธนาคารปลายทาง</header>
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="bank"
+                      formControlName="bank"
+                      required
+                    />
+                    <label for="name">ชื่อธนาคาร</label>
+                  </div>
+                  <!-- ชื่อธนาคาร -->
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="name"
+                      formControlName="name"
+                      required
+                    />
+                    <label for="name">ชื่อธนาคาร</label>
+                  </div>
+
+                  <!-- สาขาธนาคาร -->
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="branch"
+                      formControlName="branch"
+                      required
+                    />
+                    <label for="branch">สาขาธนาคาร</label>
+                  </div>
+
+                  <!-- หมายเลขธนาคาร -->
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="bankNumber"
+                      formControlName="bankNumber"
+                      required
+                    />
+                    <label for="bankNumber">หมายเลขธนาคาร</label>
+                  </div>
+
+                  <!-- ปุ่มบันทึกข้อมูลและย้อนกลับ -->
+                  <div class="button-group">
+                    <button
+                      type="submit"
+                      class="submit"
+                      [disabled]="form.invalid"
+                    >
+                      แก้ไขข้อมูลธนาคาร
+                    </button>
+                    <button
+                      type="button"
+                      class="cancel"
+                      (click)="goToBanks()"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      ย้อนกลับ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
