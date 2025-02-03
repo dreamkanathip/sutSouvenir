@@ -89,10 +89,12 @@ export class AdminUpdateOrderStatusComponent {
       default : return 'สถานะการสั่งซื้อผิดพลาด'
     }
   }
+  
   seeOrder(order: Order) {
     this.selectedOrder = order
     this.trackingNumber = order.trackingNumber
   }
+
   getPaymentDate(order: Order) {
     if(order.payments[0].transferAt.getDate !== new Date(0).getDate) {
       return order.payments[0].transferAt

@@ -64,7 +64,6 @@ export class AddProductComponent implements OnInit {
   onImageAdd(event: any) {
     const file = event.target.files[0];
     if (file) {
-      console.log('file');
       this.selectedFile.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -109,8 +108,7 @@ export class AddProductComponent implements OnInit {
       categoryId: this.form.value.category, // ใช้ categoryId แทน category name
     };
 
-    customSwal
-      .fire({
+    customSwal.fire({
         title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
         showCancelButton: true,
         confirmButtonText: 'บันทึก',

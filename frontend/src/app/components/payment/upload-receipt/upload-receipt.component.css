@@ -111,7 +111,7 @@ select {
 .error {
   color: red;
   font-size: 18px;
-  top: 55px; /* Adjust position so it doesn't overlap the icon */
+  top: 55px;
 }
 .modal-dialog {
   font-size: 22px;

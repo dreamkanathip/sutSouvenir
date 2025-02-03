@@ -139,32 +139,61 @@ exports.read = async (req, res) => {
   }
 };
 
+
 exports.update = async (req, res) => {
   try {
-    const { title, description, price, quantity } = req.body;
-
-    // Validate required fields
-    if (!title || !description || !price || !quantity) {
+    const { title, description, price, quantity, categoryId, imgToDelete } = req.body;
+    if (!title || !description || !price || !quantity || !categoryId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    
+    
 
-    // Update product
     const product = await prisma.product.update({
-      where: { id: Number(req.params.id) },
+      where: { 
+        id: Number(req.params.id) 
+      },
       data: {
-        title,
-        description,
+        title: title,
+        description: description,
         price: parseFloat(price),
         quantity: parseInt(quantity),
+        categoryId: Number(categoryId)
       },
     });
 
+    if (imgToDelete && Array.isArray(imgToDelete) && imgToDelete.length > 0) {
+      for (const img of imgToDelete) {
+        await deleteProductImage(Number(img.id));
+      }
+    }
     res.status(200).json(product);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
+async function deleteProductImage(imgId) {
+  await prisma.image.delete({
+    where: {
+      id: imgId
+    }
+  });
+}
+
+exports.deleteImage = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const deleteImg = await prisma.image.delete({
+      where: {
+        productId: Number(productId)
+      }
+    })
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 
 exports.remove = async (req, res) => {
   try {
@@ -308,3 +337,6 @@ exports.getProductImage = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+
