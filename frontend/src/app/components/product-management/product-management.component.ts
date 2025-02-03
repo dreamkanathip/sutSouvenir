@@ -16,7 +16,7 @@ export class ProductManagementComponent implements OnInit {
   products: Product[] = []; // รายการสินค้าทั้งหมด
   categories: Category[] = []; // รายการหมวดหมู่สินค้า
   currentPage: number = 1; // หน้าปัจจุบัน
-  itemsPerPage: number = 3; // จำนวนแถวต่อหน้า
+  itemsPerPage: number = 5; // จำนวนแถวต่อหน้า
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
   selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
@@ -27,12 +27,25 @@ export class ProductManagementComponent implements OnInit {
   constructor(
     private productManagementService: ProductManagementService,
     private router: Router
-  ) {}
+  ) {
+    this.updatePagedProducts();
+  }
 
   ngOnInit(): void {
     this.loadProducts(); // เรียกข้อมูลสินค้าเมื่อโหลดหน้าจอ
   }
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
+    this.itemsPerPage = event.pageSize;
+    this.updatePagedProducts(); // Update paged categories after page change
+  }
+  updatePagedProducts(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage; // Correct start index calculation
+    const end = this.currentPage * this.itemsPerPage; // Correct end index calculation
+    this.pagedProducts = this.products.slice(start, end); // Update pagedCategories with the correct slice
 
+    console.log('updatePagedCategories()');
+  }
   loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
