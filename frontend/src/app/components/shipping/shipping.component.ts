@@ -18,7 +18,7 @@ export class ShippingComponent {
 
   getCompany() {
     this.shippingService.getAllShippings().subscribe((res) => {
-      console.log(res)
+      // console.log(res)
       this.shippings = res;
     });
   }
