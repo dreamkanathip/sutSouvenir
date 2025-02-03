@@ -104,11 +104,30 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  removeFile(index: number): void {
-    // ลบภาพที่เลือกออกจาก imagePreview และ selectedFile
-    this.imagePreview.splice(index, 1);
-    this.selectedFile.splice(index, 1);
-  }
+  removeFile(index: number) {
+      const customSwal = Swal.mixin({
+        customClass: {
+          popup: 'title-swal',
+          confirmButton: 'text-swal',
+          cancelButton: 'text-swal',
+        },
+      });
+      customSwal.fire({
+        title: 'คุณต้องการลบภาพนี้หรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        icon: 'warning',
+      }).then((res) => {
+        this.imagePreview.splice(index, 1);
+        this.selectedFile.splice(index, 1)
+        if (res.isConfirmed) {
+          customSwal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+          })
+        }
+      })
+    }
 
   // ฟังก์ชันสำหรับการ submit ข้อมูล
   async submit() {

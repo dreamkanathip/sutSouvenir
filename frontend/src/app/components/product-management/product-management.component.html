@@ -13,6 +13,19 @@
         </button>
       </div>
       <div class="card-body">
+        <div class="col">
+          <span style="font-size: 22px">สถานะสินค้า</span>
+          <select
+            [(ngModel)]="productStatus"
+            (ngModelChange)="applyFilters()"
+            class="form-select form-select-lg shadow-none"
+            aria-label="Default select example"
+          >
+            <option [value]="''">ทั้งหมด</option>
+            <option [value]="'out'">หมดแล้ว</option>
+            <option [value]="'almost-out'">กำลังจะหมด</option>
+          </select>
+        </div>
         <table class="table table-hover">
           <thead>
             <tr>
