@@ -33,6 +33,8 @@ export class ProductManagementComponent implements OnInit {
   form!: FormGroup;
   selectedCategory: number = 0;
 
+  productQuantityWarning: number = 10
+
   selectedProductImages: Images[] = [];
   imgToUpload: File[] = [];
   imgToDelete: Images[] = [];
