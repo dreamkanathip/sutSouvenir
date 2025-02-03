@@ -1,0 +1,61 @@
+<div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" style="font-weight: bold;">แก้ไขหมวดหมู่</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+  
+      <div class="modal-body">
+        <div class="container">
+          <div class="row main-row">
+            <div class="col-md-12 right">
+              <div>
+                <div class="input-box p-4">
+                  <header class="header">จัดการหมวดหมู่ : {{ category.name }}</header>
+                  <form [formGroup]="form" (ngSubmit)="submit()">
+                    <!-- ชื่อหมวดหมู่ -->
+                    <div class="input-field form-group">
+                      <input
+                        type="text"
+                        class="input"
+                        id="name"
+                        formControlName="name"
+                        required
+                      />
+                      <label for="name">ชื่อหมวดหมู่</label>
+                    </div>
+  
+                    <!-- ปุ่มบันทึกหมวดหมู่และย้อนกลับ -->
+                    <div class="button-group">
+                      <button
+                        type="submit"
+                        class="submit"
+                        [disabled]="form.invalid"
+                      >
+                        แก้ไขหมวดหมู่
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        (click)="goToCategories()"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        ย้อนกลับ
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
