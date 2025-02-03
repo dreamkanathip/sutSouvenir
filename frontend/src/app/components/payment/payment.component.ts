@@ -7,6 +7,8 @@ import { AddressService } from '../../services/address/address.service';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
 import { Order } from '../../interfaces/order/order';
 import { Product } from '../../interfaces/products/products.model';
+import { BankService } from '../../services/bank/bank.service';
+import { DestBank } from '../../interfaces/bank/dest-bank';
 
 @Component({
   selector: 'app-payment',
@@ -21,11 +23,12 @@ export class PaymentComponent implements OnInit{
   orderId: number = 0;
   selectedShipping!: Shipping
   orderSum: number = 0
-
+  destBank!: DestBank[];
   constructor(
     private orderService: OrderService, 
     private addressService: AddressService,
     private router: Router,
+    private bankService: BankService
   ) {  
   }
 
@@ -37,6 +40,11 @@ export class PaymentComponent implements OnInit{
     } else {
       this.router.navigate(['/home'])
     }
+  }
+  getBank() {
+    this.bankService.getDestBank().subscribe((res) => {
+      this.destBank = res;
+    });
   }
   getDefaultAddress() {
     this.addressService.getDefaultAddress().subscribe(res => {

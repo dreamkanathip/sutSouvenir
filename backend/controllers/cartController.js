@@ -133,7 +133,6 @@ exports.addItemToCart = async(req, res) => {
 
         const expirationTime = new Date();
         expirationTime.setDate(expirationTime.getDate() + 3);
-        // now.setDate(now.getDate() + 3)
 
         const [addItem, updateCartTotal, updateProductAmount] = await prisma.$transaction([
             prisma.productOnCart.create({
@@ -459,4 +458,5 @@ const deleteExpiredCartItems = async() => {
         console.error('Failed to delete expired items:', err);
     }
 }
+
 setInterval(deleteExpiredCartItems, 6000);

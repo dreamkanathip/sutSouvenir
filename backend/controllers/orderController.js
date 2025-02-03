@@ -20,14 +20,16 @@ exports.initOrder = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
     
-    
+    const expirationTime = new Date();
+    expirationTime.setDate(expirationTime.getMinutes() + 7);
       const order = await prisma.order.create({
         data: {
           userId: Number(userId),
           cartTotal: Number(cartTotal),
           addressId: Number(addressId),
           shippingId: Number(shippingId),
-          trackingNumber:''
+          trackingNumber:'',
+          expire: expirationTime
         },
       });
 
@@ -407,16 +409,18 @@ exports.addTrackingNumber = async (req, res) => {
     if (!orderId | !trackingNumber) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-
+    const expirationTime = new Date();
+    expirationTime.setDate(expirationTime.getMinutes() + 7);
     const changeOrderStatus = await prisma.order.update({
         where: {
           id: Number(orderId)
         },
         data: {
           trackingNumber: trackingNumber,
-          orderStatus: OrderStatus.SHIPPED
+          orderStatus: OrderStatus.SHIPPED,
+          expire: expirationTime
         }
-      })
+    })
     res.status(200).json(changeOrderStatus)
 
   } catch (err) {
@@ -424,3 +428,81 @@ exports.addTrackingNumber = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 }
+
+const deleteOrder = async() => {
+  const now = new Date();
+  try {
+      const expiredOrder = await prisma.order.findMany({
+          where: {
+            expire: {
+              lt: now,
+            },
+            orderStatus: OrderStatus.PENDING
+          },
+          include: {
+            products: {
+              include: {
+                product: true
+              }
+            }
+          },
+      });
+      for (const item of expiredOrder) {
+        for(const p of item.products) {
+          await prisma.product.update({
+              where: { 
+                  id: Number(p.id) 
+              },
+              data: {
+                  quantity: { 
+                      increment: item.quantity, 
+                  }
+              }
+            
+          })
+        }
+      }
+
+      await prisma.order.deleteMany({
+          where: {
+              expire: {
+                  lt: now
+              },
+              orderStatus: OrderStatus.PENDING
+          }
+      })
+  } catch (err) {
+      console.error('Failed to delete expired order:', err);
+  }
+}
+
+
+const changeToDeliveredOrder = async() => {
+  const now = new Date();
+  try {
+      const expiredOrder = await prisma.order.findMany({
+          where: {
+            expire: {
+              lt: now,
+            },
+            orderStatus: OrderStatus.SHIPPED
+          },
+      });
+      for (const item of expiredOrder) {
+        await prisma.order.update({
+          where: {
+              id: Number(item.id)
+          },
+          data: {
+            orderStatus: OrderStatus.DELIVERED
+          }
+      })
+      }
+      
+  } catch (err) {
+      console.error('Failed to change order status :', err);
+  }
+}
+
+setInterval(deleteOrder, 6000);
+setInterval(changeToDeliveredOrder, 6000);

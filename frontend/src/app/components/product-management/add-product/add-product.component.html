@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 class="modal-title" style="font-weight: bold;">เพิ่มสินค้า</h2>
+      <h5 class="modal-title">เพิ่มสินค้า</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 
@@ -14,15 +14,13 @@
             <div class="d-flex flex-row image row ms-3 mt-3 mb-3 border rounded">
               <div *ngIf="selectedFile.length > 0" class="col-12 d-flex flex-wrap gap-2 mt-2">
                 <div *ngFor="let file of selectedFile; index as i" class="position-relative">
-                  <img [src]="imagePreview[i]" class="product-img-preview" (click)="removeFile(i)" >
+                  <img [src]="imagePreview[i]" class="product-img-preview" (click)="removeFile(i)">
                 </div>
               </div>
 
               <div class="upload d-flex justify-content-center">
-                <label class="btn btn-primary upload-btn m-2 d-flex" for="menu-image">
-                  <i class='bx bx-plus'></i> เพิ่มรูปภาพสินค้า
-                </label>
-                <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImgValidate />
+
+                <input type="file" id="menu-image" (change)="onImageAdd($event)" appImgValidate />
               </div>
             </div>
           </div>

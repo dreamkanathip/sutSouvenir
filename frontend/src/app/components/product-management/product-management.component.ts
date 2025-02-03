@@ -6,7 +6,12 @@ import Swal from 'sweetalert2';
 import { catchError, tap } from 'rxjs/operators';
 import { firstValueFrom, from, of } from 'rxjs';
 import { Category } from './../../interfaces/category/category.model'; // ใช้สำหรับหมวดหมู่สินค้า
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CategoryService } from '../../services/category/category.service';
 import { format } from 'path';
 
@@ -16,7 +21,6 @@ import { format } from 'path';
   styleUrls: ['./product-management.component.css'],
 })
 export class ProductManagementComponent implements OnInit {
-
   products: Product[] = []; // รายการสินค้าทั้งหมด
   categories: Category[] = []; // รายการหมวดหมู่สินค้า
   currentPage: number = 1; // หน้าปัจจุบัน
@@ -27,12 +31,12 @@ export class ProductManagementComponent implements OnInit {
   productImages: { imageId: number; productId: number; url: string }[] = [];
   selectedImage: File | null = null; // สำหรับเก็บไฟล์รูปภาพที่เลือก
   form!: FormGroup;
-  selectedCategory: number = 0
+  selectedCategory: number = 0;
 
   productQuantityWarning: number = 10
 
   selectedProductImages: Images[] = [];
-  imgToUpload: File[] = []
+  imgToUpload: File[] = [];
   imgToDelete: Images[] = [];
   imagePreview: string[] | ArrayBuffer[] = [];
   constructor(
@@ -40,14 +44,25 @@ export class ProductManagementComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private fb: FormBuilder
-  ) { 
-  }
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required]],
-      quantity: [[Validators.required, Validators.min(1) ,Validators.pattern(/^[0-9]*$/)]],
-      price: [[Validators.required, Validators.min(1), Validators.pattern(/^[0-9]*$/)]],
+      quantity: [
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern(/^[0-9]*$/),
+        ],
+      ],
+      price: [
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern(/^[0-9]*$/),
+        ],
+      ],
       description: ['', [Validators.required]],
       category: ['', [Validators.required]],
     });
@@ -75,19 +90,19 @@ export class ProductManagementComponent implements OnInit {
   }
 
   get title() {
-    return this.form.get('title')
+    return this.form.get('title');
   }
   get quantity() {
-    return this.form.get('quantity')
+    return this.form.get('quantity');
   }
   get price() {
-    return this.form.get('price')
+    return this.form.get('price');
   }
   get description() {
-    return this.form.get('description')
+    return this.form.get('description');
   }
   get category() {
-    return this.form.get('category')
+    return this.form.get('category');
   }
   onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
@@ -130,7 +145,7 @@ export class ProductManagementComponent implements OnInit {
     if (image) {
       return String(image.url) + String(image.asset_id);
     }
-    return ''
+    return '';
   }
   onImageSelected(event: any): void {
     const file = event.target.files[0];
@@ -218,15 +233,15 @@ export class ProductManagementComponent implements OnInit {
   }
 
   editProduct(product: Product): void {
-    this.selectedProduct = product
-    this.selectedProductImages = []
+    this.selectedProduct = product;
+    this.selectedProductImages = [];
     if (this.selectedProduct) {
       this.form.patchValue({
         title: this.selectedProduct.title,
         description: this.selectedProduct.description,
         price: this.selectedProduct.price?.toString() || '',
         quantity: this.selectedProduct.quantity?.toString() || '',
-        category: this.selectedProduct.category || ''
+        category: this.selectedProduct.category || '',
       });
 
       product.images.forEach((image) => {
@@ -253,20 +268,22 @@ export class ProductManagementComponent implements OnInit {
         cancelButton: 'text-swal',
       },
     });
-    customSwal.fire({
-      title: 'คุณต้องการลบภาพนี้หรือไม่?',
-      showCancelButton: true,
-      confirmButtonText: 'บันทึก',
-      icon: 'warning',
-    }).then((res) => {
-      this.selectedProductImages.splice(index, 1);
-      if (res.isConfirmed) {
-        customSwal.fire({
-          icon: 'success',
-          title: 'สำเร็จ',
-        })
-      }
-    })
+    customSwal
+      .fire({
+        title: 'คุณต้องการลบภาพนี้หรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        icon: 'warning',
+      })
+      .then((res) => {
+        this.selectedProductImages.splice(index, 1);
+        if (res.isConfirmed) {
+          customSwal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+          });
+        }
+      });
   }
   removeNewFile(index: number) {
     const customSwal = Swal.mixin({
@@ -276,32 +293,31 @@ export class ProductManagementComponent implements OnInit {
         cancelButton: 'text-swal',
       },
     });
-    customSwal.fire({
-      title: 'คุณต้องการลบภาพนี้หรือไม่?',
-      showCancelButton: true,
-      confirmButtonText: 'บันทึก',
-      icon: 'warning',
-    }).then((res) => {
-      this.imgToUpload.splice(index, 1);
-      if (res.isConfirmed) {
-        customSwal.fire({
-          icon: 'success',
-          title: 'สำเร็จ',
-        })
-      }
-    })
-
+    customSwal
+      .fire({
+        title: 'คุณต้องการลบภาพนี้หรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        icon: 'warning',
+      })
+      .then((res) => {
+        this.imgToUpload.splice(index, 1);
+        if (res.isConfirmed) {
+          customSwal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+          });
+        }
+      });
   }
   removeFileToBackend(image: Images) {
-    this.imgToDelete.push(image)
+    this.imgToDelete.push(image);
   }
 
   closeEditCard(): void {
     this.editMode = false;
     document.body.classList.remove('modal-open');
   }
-
-
 
   deleteProductById(event: MouseEvent, productId: number): void {
     const customSwal = Swal.mixin({
@@ -390,7 +406,7 @@ export class ProductManagementComponent implements OnInit {
     this.router.navigate(['/admin/add/product']);
   }
 
-  async saveEditProduct(){
+  async saveEditProduct() {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
@@ -398,55 +414,66 @@ export class ProductManagementComponent implements OnInit {
       },
     });
 
-    if (this.selectedProduct && this.selectedProduct.id && this.selectedCategory > 0) {
+    if (
+      this.selectedProduct &&
+      this.selectedProduct.id &&
+      this.selectedCategory > 0
+    ) {
       const formData = {
         title: this.form.value.title,
         description: this.form.value.description,
         price: this.form.value.price,
         quantity: this.form.value.quantity,
         categoryId: this.selectedCategory,
-        imgToDelete: this.imgToDelete
+        imgToDelete: this.imgToDelete,
       };
       customSwal.fire({
-        title: "กำลังดำเนินการ...",
+        title: 'กำลังดำเนินการ...',
         allowOutsideClick: false,
         didOpen: () => {
           customSwal.showLoading();
         },
       });
-      this.productManagementService.updateProduct(this.selectedProduct.id, formData).subscribe({
-        next: () => {
-          customSwal.close();
-          customSwal.fire({
-            icon: "success",
-            title: "สำเร็จ",
-            text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-          });
-          window.location.reload();
-        },
-        error: (error) => {
-          customSwal.close();
-          customSwal.fire({
-            icon: "error",
-            title: "ผิดพลาด",
-            text: "บันทึกข้อมูลไม่สำเร็จ",
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-          });
-          console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
-        }
-      });
+      this.productManagementService
+        .updateProduct(this.selectedProduct.id, formData)
+        .subscribe({
+          next: () => {
+            customSwal.close();
+            customSwal.fire({
+              icon: 'success',
+              title: 'สำเร็จ',
+              text: 'ทำการบันทึกข้อมูลเรียบร้อยแล้ว',
+              showConfirmButton: true,
+              confirmButtonText: 'ยืนยัน',
+            });
+
+            // Use setTimeout to delay page reload
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000); // Delay for 1 second
+          },
+          error: (error) => {
+            customSwal.close();
+            customSwal.fire({
+              icon: 'error',
+              title: 'ผิดพลาด',
+              text: 'บันทึกข้อมูลไม่สำเร็จ',
+              showConfirmButton: true,
+              confirmButtonText: 'ยืนยัน',
+            });
+            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+          },
+        });
 
       const uploadImage = this.imgToUpload.map((file) => {
         const data = new FormData();
         data.append('image', file, file.name);
         data.append('productId', this.selectedProduct.id.toString());
-        return firstValueFrom(this.productManagementService.uploadProductImage(data))
-      })
+        return firstValueFrom(
+          this.productManagementService.uploadProductImage(data)
+        );
+      });
       await Promise.all(uploadImage);
-
     } else {
       customSwal.fire({
         title: 'ข้อมูลไม่ถูกต้อง',

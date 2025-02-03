@@ -8,7 +8,6 @@
         class="card-header d-flex justify-content-between align-items-center"
       >
         <h3>รายชื่อผู้ใช้งานในระบบ</h3>
-        <!-- Dropdown Filter -->
         <select
           class="form-select w-auto"
           [(ngModel)]="selectedRole"
@@ -27,7 +26,7 @@
         </div>
 
         <!-- User Table -->
-        <table *ngIf="!isLoading" class="table table-hover">
+        <table *ngIf="!isLoading" class="table table-hover" >
           <thead>
             <tr>
               <th scope="col">ลำดับ</th>
@@ -40,11 +39,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of pagedUsers; let i = index">
+            <tr *ngFor="let user of pagedUsers; let i = index" >
               <th scope="row">
                 {{ (currentPage - 1) * itemsPerPage + i + 1 }}
               </th>
-              <td>{{ user.firstName }}</td>
+              <td >{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.gender }}</td>
