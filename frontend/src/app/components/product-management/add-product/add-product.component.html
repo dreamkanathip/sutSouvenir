@@ -1,149 +1,81 @@
 <div class="modal-dialog modal-lg modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 class="modal-title" style="font-weight: bold">เพิ่มสินค้า</h2>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      ></button>
+      <h5 class="modal-title">เพิ่มสินค้า</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 
     <div class="modal-body">
       <div class="container">
         <div class="row main-row">
-          <!-- รูปภาพสินค้า -->
+
           <div class="col-md-6">
             <h4 class="ms-3 mt-3">รูปภาพสินค้า</h4>
+            <div class="d-flex flex-row image row ms-3 mt-3 mb-3 border rounded">
+              <div *ngIf="selectedFile.length > 0" class="col-12 d-flex flex-wrap gap-2 mt-2">
+                <div *ngFor="let file of selectedFile; index as i" class="position-relative">
+                  <img [src]="imagePreview[i]" class="product-img-preview" (click)="removeFile(i)">
+                </div>
+              </div>
 
-            <!-- พื้นที่ Drag & Drop -->
-            <div
-              class="upload-area border rounded d-flex justify-content-center align-items-center flex-column"
-              (drop)="onDrop($event)"
-              (dragover)="onDragOver($event)"
-              (dragleave)="onDragLeave($event)"
-              [class.drag-over]="isDragOver"
-            >
-              <i
-                class="bx bx-cloud-upload"
-                style="font-size: 3rem; color: #6c757d"
-              ></i>
-              <p>ลากรูปมาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์</p>
-              <input
-                type="file"
-                (change)="onImageAdd($event)"
-                multiple
-                accept="image/*"
-                class="file-input"
-              />
-            </div>
+              <div class="upload d-flex justify-content-center">
 
-            <!-- แสดงตัวอย่างรูปภาพ -->
-            <div *ngIf="imagePreview.length > 0" class="preview-container mt-3">
-              <div
-                *ngFor="let preview of imagePreview; index as i"
-                class="preview-item"
-              >
-                <img [src]="preview" class="preview-img" />
-                <button
-                  class="btn btn-danger btn-sm remove-btn"
-                  (click)="removeFile(i)"
-                >
-                  > ลบ
-                </button>
+                <input type="file" id="menu-image" (change)="onImageAdd($event)" appImgValidate />
               </div>
             </div>
           </div>
 
-          <!-- รายละเอียดสินค้า -->
           <div class="col-md-6 right">
             <div>
-              <h4 class="mt-3">รายละเอียดสินค้า</h4>
-              <form [formGroup]="form" class="input-box mt-1 mb-3">
-                <div class="input-field form-group">
-                  <input
-                    type="text"
-                    class="input"
-                    id="title"
-                    formControlName="title"
-                    required
-                  />
-                  <label for="title">ชื่อสินค้า</label>
-                </div>
+              <h4 class=" mt-3">รายละเอียด</h4>
+              <div class="input-box mt-1 mb-3">
+                <form [formGroup]="form">
+                  <div class="input-field form-group">
+                    <input type="text" class="input" id="title" formControlName="title" required />
+                    <label for="title">ชื่อสินค้า</label>
+                  </div>
 
-                <div class="input-field form-group">
-                  <input
-                    type="number"
-                    class="input"
-                    id="quantity"
-                    formControlName="quantity"
-                    required
-                  />
-                  <label for="quantity">จำนวนสินค้า</label>
-                </div>
 
-                <div class="input-field form-group">
-                  <input
-                    type="number"
-                    class="input"
-                    id="price"
-                    formControlName="price"
-                    required
-                  />
-                  <label for="price">ราคา</label>
-                </div>
+                  <div class="input-field form-group">
+                    <input type="number" class="input" id="quantity" formControlName="quantity" required />
+                    <label for="quantity">จำนวนสินค้า</label>
+                  </div>
 
-                <div class="input-field form-group">
-                  <textarea
-                    class="input"
-                    id="description"
-                    formControlName="description"
-                    required
-                    rows="4"
-                  ></textarea>
-                  <label for="description">คำอธิบายสินค้า</label>
-                </div>
 
-                <div class="input-field form-group">
-                  <select
-                    id="category"
-                    formControlName="category"
-                    required
-                    class="input category"
-                  >
-                    <option
-                      *ngFor="let category of categories"
-                      [value]="category.id"
-                    >
-                      {{ category.name }}
-                    </option>
-                  </select>
-                  <label for="category">หมวดหมู่สินค้า</label>
-                </div>
-              </form>
+                  <div class="input-field form-group">
+                    <input type="number" class="input" id="price" formControlName="price" required />
+                    <label for="price">ราคา</label>
+                  </div>
+
+
+                  <div class="input-field form-group">
+                    <textarea class="input" id="description" formControlName="description" required rows="4"></textarea>
+                    <label for="description">คำอธิบาย</label>
+                  </div>
+
+                  <div class="input-field form-group">
+                    <select id="category" formControlName="category" required class="input category">
+                      <!-- <option value="" disabled selected></option> -->
+                      <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.name }}
+                      </option>
+                    </select>
+                    <label for="category">หมวดหมู่สินค้า</label>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- ปุ่มบันทึกและย้อนกลับ -->
-        <div class="button-group mt-3 mb-3 d-flex justify-content-between">
-          <button
-            type="submit"
-            class="btn btn-success"
-            (click)="submit()"
-            [disabled]="form.invalid"
-          >
+        <div class="button-group mt-3 mb-3">
+          <button type="submit" class="submit" (click)="submit()" [disabled]="form.invalid">
             บันทึกสินค้า
           </button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="cancel" data-bs-dismiss="modal">
             ย้อนกลับ
           </button>
         </div>
+
       </div>
     </div>
   </div>
