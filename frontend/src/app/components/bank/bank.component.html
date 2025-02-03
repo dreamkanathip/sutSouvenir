@@ -113,7 +113,12 @@
   (reloadBankData)="getBank()"
   [destBank]="isDestBank"
 ></app-add>
-
+<app-add
+  class="modal fade"
+  id="addOriginBankModal"
+  (reloadBankData)="getBank()"
+  [destBank]="isDestBank"
+></app-add>
 <!-- Modal สำหรับการอัปเดตธนาคารปลายทาง -->
 <app-update
   class="modal fade"
