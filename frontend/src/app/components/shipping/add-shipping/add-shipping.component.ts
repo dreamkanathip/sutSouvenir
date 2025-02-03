@@ -23,6 +23,8 @@ export class AddShippingComponent {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     customSwal.fire({

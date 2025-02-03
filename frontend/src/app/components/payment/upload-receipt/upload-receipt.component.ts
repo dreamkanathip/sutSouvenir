@@ -106,6 +106,8 @@ export class UploadReceiptComponent implements AfterViewInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
 

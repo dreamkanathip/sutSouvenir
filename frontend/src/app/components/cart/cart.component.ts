@@ -51,6 +51,7 @@ export class CartComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     if (item.quantity >= item.product.quantity && item.product.quantity !=0 ) {
@@ -153,6 +154,7 @@ export class CartComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
 
@@ -237,6 +239,7 @@ export class CartComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     try {
@@ -304,6 +307,8 @@ export class CartComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     customSwal.fire({
@@ -330,6 +335,8 @@ export class CartComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     const result = await customSwal.fire({
