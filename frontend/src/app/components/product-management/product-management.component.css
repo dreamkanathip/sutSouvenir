@@ -248,3 +248,51 @@ body.modal-open::before {
   background-color: #fff; /* พื้นหลังสีขาว */
   border-radius: 8px; /* ทำให้มุมโค้งมน */
 }
+.img-container{
+  position: relative;
+  height: 100px;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.img-fluid {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+.modal-dialog {
+  font-size: 1.3rem;
+}
+.upload-btn {
+  background: #F36523;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+  /* height: 70px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-btn :active{
+  background: #ea7945;
+}
+.upload-btn :hover{
+  background: #db9474;
+}
+
+.form-control-file {
+  display: none;
+}
+.error {
+  color: red;
+  font-size: 18px;
+  top: 55px;
+}

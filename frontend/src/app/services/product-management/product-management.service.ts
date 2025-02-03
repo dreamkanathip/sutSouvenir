@@ -1,6 +1,6 @@
 import { Product } from './../../interfaces/products/products.model';
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,12 @@ export class ProductManagementService implements OnInit {
   apiUrl = 'http://localhost:5000/api'; // API Base URL
 
   constructor(private http: HttpClient) {}
-
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('jwt'); // ดึง token จาก localStorage
+    return new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : '', // ใส่ token ใน header ถ้ามี
+    });
+  }
   ngOnInit(): void {}
 
   // ดึงสินค้าทั้งหมด
@@ -27,19 +32,11 @@ export class ProductManagementService implements OnInit {
     });
   }
 
-  // ฟังก์ชันในการอัปเดตข้อมูลสินค้า
-  updateProduct(productId: number, product: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/product/${productId}`, product).pipe(
-      catchError((error) => {
-        console.error(
-          `เกิดข้อผิดพลาดในการอัปเดตสินค้า ID: ${productId}`,
-          error
-        );
-        return throwError(
-          () => new Error('ไม่สามารถอัปเดตสินค้าได้ กรุณาลองใหม่อีกครั้ง.')
-        );
-      })
-    );
+  updateProduct(id:any, product: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/product/${id}`, product, {
+      headers: this.getAuthHeaders(),
+      withCredentials: true,
+    })
   }
 
   uploadProductImage(data: any):  Observable<any> {

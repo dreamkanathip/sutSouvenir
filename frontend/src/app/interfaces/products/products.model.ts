@@ -8,17 +8,9 @@ export interface Product {
   price: number;
   //   sold:         number,
   quantity: number;
-  category: Category; // เพิ่ม category ที่เชื่อมโยงกับ Category interface
-  //   orderItems:   ProductOnOrder[],
-  //   cartItems:    ProductOnCart[],
-  //   images:       Image[],
+  category: Category;
   createdAt: Date;
   updatedAt: Date;
-  //   category:     Category?,
-  //   categoryId:   Int?,
-  //   status:       ProductStatus,
-  //   stockRecords: StockRecord[],
-  //   bookmarks:    Bookmark[],
   reviews: ReviewModel[];
   images: Images[];
 }

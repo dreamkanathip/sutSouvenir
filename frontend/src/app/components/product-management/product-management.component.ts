@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
 import { Product, Images } from './../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { firstValueFrom, from, of } from 'rxjs';
 import { Category } from './../../interfaces/category/category.model'; // ใช้สำหรับหมวดหมู่สินค้า
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CategoryService } from '../../services/category/category.service';
+import { format } from 'path';
 
 @Component({
   selector: 'app-product-management',
@@ -13,26 +16,76 @@ import { Category } from './../../interfaces/category/category.model'; // ใช
   styleUrls: ['./product-management.component.css'],
 })
 export class ProductManagementComponent implements OnInit {
+
   products: Product[] = []; // รายการสินค้าทั้งหมด
   categories: Category[] = []; // รายการหมวดหมู่สินค้า
   currentPage: number = 1; // หน้าปัจจุบัน
   itemsPerPage: number = 5; // จำนวนแถวต่อหน้า
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
-  selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
+  selectedProduct!: Product;
   productImages: { imageId: number; productId: number; url: string }[] = [];
   selectedImage: File | null = null; // สำหรับเก็บไฟล์รูปภาพที่เลือก
-  previewImage: string | ArrayBuffer | null = null; // สำหรับเก็บรูปภาพที่เลือก
+  form!: FormGroup;
+  selectedCategory: number = 0
 
+  selectedProductImages: Images[] = [];
+  imgToUpload: File[] = []
+  imgToDelete: Images[] = [];
+  imagePreview: string[] | ArrayBuffer[] = [];
   constructor(
     private productManagementService: ProductManagementService,
-    private router: Router
-  ) {
-    this.updatePagedProducts();
+    private router: Router,
+    private categoryService: CategoryService,
+    private fb: FormBuilder
+  ) { 
   }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      title: ['', [Validators.required]],
+      quantity: [[Validators.required, Validators.min(1) ,Validators.pattern(/^[0-9]*$/)]],
+      price: [[Validators.required, Validators.min(1), Validators.pattern(/^[0-9]*$/)]],
+      description: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+    });
+
     this.loadProducts(); // เรียกข้อมูลสินค้าเมื่อโหลดหน้าจอ
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.categories = data; // เก็บข้อมูลหมวดหมู่ที่ดึงมา
+      },
+      (error) => {
+        console.error('ไม่สามารถดึงข้อมูลหมวดหมู่ได้:', error);
+        const customSwal = Swal.mixin({
+          customClass: {
+            popup: 'title-swal',
+            confirmButton: 'text-swal',
+          },
+        });
+        customSwal.fire({
+          icon: 'error',
+          title: 'ข้อผิดพลาด',
+          text: 'ไม่สามารถดึงข้อมูลหมวดหมู่ได้!',
+        });
+      }
+    );
+  }
+
+  get title() {
+    return this.form.get('title')
+  }
+  get quantity() {
+    return this.form.get('quantity')
+  }
+  get price() {
+    return this.form.get('price')
+  }
+  get description() {
+    return this.form.get('description')
+  }
+  get category() {
+    return this.form.get('category')
   }
   onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
@@ -59,7 +112,7 @@ export class ProductManagementComponent implements OnInit {
             });
           });
         });
-        this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
+        this.loadPage(this.currentPage);
       },
       (error) => {
         console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
@@ -71,7 +124,12 @@ export class ProductManagementComponent implements OnInit {
     const image = this.productImages.find((image) => image.productId === id);
     return image ? image.url : 'none'; // หากไม่พบรูปภาพให้แสดงรูปภาพ default
   }
-
+  showImage(image: Images): string {
+    if (image) {
+      return String(image.url) + String(image.asset_id);
+    }
+    return ''
+  }
   onImageSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -79,7 +137,7 @@ export class ProductManagementComponent implements OnInit {
     }
   }
 
-  addProduct(newProduct: Product): void {
+  upProduct(newProduct: Product): void {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
@@ -157,12 +215,83 @@ export class ProductManagementComponent implements OnInit {
     }
   }
 
-  editProduct(productId: number): void {
-    this.selectedProduct = this.products.find(
-      (product) => product.id === productId
-    ) as Product;
-    this.editMode = true;
-    document.body.classList.add('modal-open');
+  editProduct(product: Product): void {
+    this.selectedProduct = product
+    this.selectedProductImages = []
+    if (this.selectedProduct) {
+      this.form.patchValue({
+        title: this.selectedProduct.title,
+        description: this.selectedProduct.description,
+        price: this.selectedProduct.price?.toString() || '',
+        quantity: this.selectedProduct.quantity?.toString() || '',
+        category: this.selectedProduct.category || ''
+      });
+
+      product.images.forEach((image) => {
+        this.selectedProductImages.push(image);
+      });
+    }
+  }
+  onImageAdd(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.imgToUpload.push(file);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview?.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  removeFile(index: number) {
+    const customSwal = Swal.mixin({
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
+      },
+    });
+    customSwal.fire({
+      title: 'คุณต้องการลบภาพนี้หรือไม่?',
+      showCancelButton: true,
+      confirmButtonText: 'บันทึก',
+      icon: 'warning',
+    }).then((res) => {
+      this.selectedProductImages.splice(index, 1);
+      if (res.isConfirmed) {
+        customSwal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+        })
+      }
+    })
+  }
+  removeNewFile(index: number) {
+    const customSwal = Swal.mixin({
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
+      },
+    });
+    customSwal.fire({
+      title: 'คุณต้องการลบภาพนี้หรือไม่?',
+      showCancelButton: true,
+      confirmButtonText: 'บันทึก',
+      icon: 'warning',
+    }).then((res) => {
+      this.imgToUpload.splice(index, 1);
+      if (res.isConfirmed) {
+        customSwal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+        })
+      }
+    })
+
+  }
+  removeFileToBackend(image: Images) {
+    this.imgToDelete.push(image)
   }
 
   closeEditCard(): void {
@@ -170,61 +299,7 @@ export class ProductManagementComponent implements OnInit {
     document.body.classList.remove('modal-open');
   }
 
-  saveEditProduct(): void {
-    const customSwal = Swal.mixin({
-      customClass: {
-        popup: 'title-swal',
-        confirmButton: 'text-swal',
-      },
-    });
-    if (this.selectedProduct && this.selectedProduct.id) {
-      const { id, title, quantity, price, description, category } =
-        this.selectedProduct;
 
-      if (!title || !quantity || !price || !description || !category) {
-        customSwal.fire({
-          title: 'ข้อมูลไม่ครบถ้วน',
-          text: 'กรุณากรอกข้อมูลให้ครบก่อนบันทึก',
-          icon: 'warning',
-        });
-        return;
-      }
-
-      this.productManagementService
-        .updateProduct(id, { title, quantity, price, description, category })
-        .pipe(
-          catchError((error) => {
-            console.error('เกิดข้อผิดพลาดในการแก้ไขสินค้า:', error);
-            customSwal.fire({
-              title: 'เกิดข้อผิดพลาด!',
-              text: 'ไม่สามารถแก้ไขสินค้าได้ กรุณาลองอีกครั้ง',
-              icon: 'error',
-            });
-            return of(null);
-          })
-        )
-        .subscribe((response) => {
-          if (response) {
-            if (this.selectedImage) {
-              this.uploadProductImage(id);
-            }
-            customSwal.fire({
-              title: 'สำเร็จ!',
-              text: 'แก้ไขสินค้าเรียบร้อยแล้ว',
-              icon: 'success',
-            });
-            this.loadProducts();
-            this.closeEditCard();
-          }
-        });
-    } else {
-      customSwal.fire({
-        title: 'ข้อมูลไม่ถูกต้อง',
-        text: 'ไม่พบสินค้าที่ต้องการแก้ไข กรุณาลองอีกครั้ง',
-        icon: 'error',
-      });
-    }
-  }
 
   deleteProductById(event: MouseEvent, productId: number): void {
     const customSwal = Swal.mixin({
@@ -313,29 +388,68 @@ export class ProductManagementComponent implements OnInit {
     this.router.navigate(['/admin/add/product']);
   }
 
-  // ฟังก์ชันสำหรับจัดการเมื่อผู้ใช้เลือกไฟล์
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewImage = reader.result;
-      };
-      reader.readAsDataURL(file);
-      this.selectedImage = file;
-    }
-  }
+  async saveEditProduct(){
+    const customSwal = Swal.mixin({
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+      },
+    });
 
-  removeImage(): void {
-    if (this.selectedImage) {
-      this.selectedImage = null;
-      this.previewImage = null; // เคลียร์การแสดงภาพตัวอย่าง
-      console.log('ลบรูปภาพเรียบร้อยแล้ว');
+    if (this.selectedProduct && this.selectedProduct.id && this.selectedCategory > 0) {
+      const formData = {
+        title: this.form.value.title,
+        description: this.form.value.description,
+        price: this.form.value.price,
+        quantity: this.form.value.quantity,
+        categoryId: this.selectedCategory,
+        imgToDelete: this.imgToDelete
+      };
+      customSwal.fire({
+        title: "กำลังดำเนินการ...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          customSwal.showLoading();
+        },
+      });
+      this.productManagementService.updateProduct(this.selectedProduct.id, formData).subscribe({
+        next: () => {
+          customSwal.close();
+          customSwal.fire({
+            icon: "success",
+            title: "สำเร็จ",
+            text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
+            showConfirmButton: true,
+            confirmButtonText: "ยืนยัน",
+          });
+          window.location.reload();
+        },
+        error: (error) => {
+          customSwal.close();
+          customSwal.fire({
+            icon: "error",
+            title: "ผิดพลาด",
+            text: "บันทึกข้อมูลไม่สำเร็จ",
+            showConfirmButton: true,
+            confirmButtonText: "ยืนยัน",
+          });
+          console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+        }
+      });
+
+      const uploadImage = this.imgToUpload.map((file) => {
+        const data = new FormData();
+        data.append('image', file, file.name);
+        data.append('productId', this.selectedProduct.id.toString());
+        return firstValueFrom(this.productManagementService.uploadProductImage(data))
+      })
+      await Promise.all(uploadImage);
+
     } else {
-      Swal.fire({
-        title: 'ไม่มีรูปภาพ',
-        text: 'กรุณาเลือกภาพก่อนที่จะลบ',
-        icon: 'warning',
+      customSwal.fire({
+        title: 'ข้อมูลไม่ถูกต้อง',
+        text: 'กรุณาลองอีกครั้ง',
+        icon: 'error',
       });
     }
   }
