@@ -1,7 +1,9 @@
 <div class="modal-dialog modal-lg modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 class="modal-title" style="font-weight: bold;">แก้ไขข้อมูลบริษัทขนส่ง</h2>
+      <h2 class="modal-title" style="font-weight: bold">
+        แก้ไขข้อมูลบริษัทขนส่ง
+      </h2>
       <button
         type="button"
         class="btn-close"
@@ -16,7 +18,7 @@
           <div class="col-md-12 right">
             <div>
               <div class="input-box p-4">
-                <header class="header">แก้ไขข้อมูล : {{ shipping.company }}</header>
+                <header class="header">จัดการข้อมูลบริษัทขนส่ง</header>
                 <form [formGroup]="form" (ngSubmit)="updateShipping()">
                   <div class="input-field form-group">
                     <input
