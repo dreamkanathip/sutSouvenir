@@ -128,6 +128,8 @@ export class ReviewComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     if (this.user?.id && this.productId) { // ตรวจสอบว่า userId และ productId มีค่า

@@ -44,6 +44,7 @@ export class AddProductComponent implements OnInit {
         const customSwal = Swal.mixin({
           customClass:{
             popup: "title-swal",
+            confirmButton: "text-swal",
           },
         });
         customSwal.fire({
@@ -81,6 +82,8 @@ export class AddProductComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
 
