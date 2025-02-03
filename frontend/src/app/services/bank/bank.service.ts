@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DestBank } from '../../interfaces/bank/dest-bank';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,9 +31,28 @@ export class BankService {
     return this.http.post<any>(`${this.apiUrl}/originBank`, data);
   }
 
-  // ฟังก์ชันสำหรับดึงข้อมูลสำหรับการอัปเดตธนาคารปลายทาง
-  updateDestBank(id: number) {
-    return this.http.get<any>(`${this.apiUrl}/destBank/${id}`);
+  updateDestBank(
+    bankId: number,
+    updatedBank: {
+      bank: string;
+      bankNumber: string;
+      name: string;
+      branch: string;
+    }
+  ): Observable<any> {
+    console.log(bankId);
+    return this.http.put(`${this.apiUrl}/destBank/${bankId}`, updatedBank).pipe(
+      catchError((error) => {
+        console.error(
+          `เกิดข้อผิดพลาดในการอัปเดตธนาคารปลายทาง ID: ${bankId}`,
+          error
+        );
+        return throwError(
+          () =>
+            new Error('ไม่สามารถอัปเดตธนาคารปลายทางได้ กรุณาลองใหม่อีกครั้ง.')
+        );
+      })
+    );
   }
 
   // ฟังก์ชันสำหรับดึงข้อมูลสำหรับการอัปเดตธนาคารต้นทาง

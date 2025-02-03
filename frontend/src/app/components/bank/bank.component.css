@@ -316,3 +316,32 @@ h6 {
 .card-scroll::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+.table .edit-btn {
+  background: #ffffff;
+  color: #f0ad4e;
+  border: 2px solid #f0ad4e;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 8px 16px; /* เพิ่ม padding เพื่อให้ปุ่มดูใหญ่ขึ้นเล็กน้อย */
+  font-size: 14px; /* ขนาดฟอนต์ในปุ่ม */
+  margin: 0 auto; /* จัดให้ปุ่มอยู่กลาง */
+  width: auto; /* ปรับความกว้างให้เหมาะสมกับขนาดปุ่ม */
+  height: 40px; /* ความสูงของปุ่ม */
+}
+
+.table .edit-btn:hover {
+  background: #f0ad4e;
+  color: #fff;
+  border: 2px solid #f0ad4e;
+}
+.table .btn-warning {
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f0ad4e; /* ข้อความเป็นสีส้ม */
+  border: 2px solid #f0ad4e; /* ขอบเป็นสีส้ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
+}
+
+.table .btn-warning:hover {
+  background: #f0ad4e; /* พื้นหลังเป็นสีส้มเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f0ad4e; /* ขอบยังคงเป็นสีส้ม */
+}

@@ -39,6 +39,7 @@ export class AddComponent {
         title: 'คุณต้องการบันทึกหรือไม่?',
         showCancelButton: true,
         confirmButtonText: 'บันทึก',
+        cancelButtonText: 'ยกเลิก', // เปลี่ยนจาก 'Cancel' เป็น 'ยกเลิก'
         icon: 'warning',
       })
       .then((result) => {

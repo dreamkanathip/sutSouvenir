@@ -11,7 +11,7 @@
             <button
               class="btn btn-primary"
               data-bs-toggle="modal"
-              data-bs-target="#add-bank"
+              data-bs-target="#addDestBankModal"
               (click)="openDestBank()"
             >
               เพิ่มธนาคารปลายทาง
@@ -36,6 +36,15 @@
                   <td>{{ bank.branch }}</td>
                   <td>
                     <button
+                      class="btn btn-primary edit-btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editDestBankModal"
+                      (click)="openDestBank()"
+                      *ngIf="bank.name"
+                    >
+                      <i class="bx bx-edit"></i>
+                    </button>
+                    <button
                       class="btn btn-danger"
                       (click)="deleteDestBank(bank.id)"
                     >
@@ -59,7 +68,7 @@
             <button
               class="btn btn-primary"
               data-bs-toggle="modal"
-              data-bs-target="#add-bank"
+              data-bs-target="#addOriginBankModal"
               (click)="openOriginBank()"
             >
               เพิ่มธนาคารต้นทาง
@@ -97,10 +106,18 @@
   <app-navbar-super-admin></app-navbar-super-admin>
 </div>
 
+<!-- Modal สำหรับการเพิ่มธนาคารปลายทาง -->
 <app-add
   class="modal fade"
-  id="add-bank"
+  id="addDestBankModal"
   (reloadBankData)="getBank()"
   [destBank]="isDestBank"
 ></app-add>
-<app-update class="modal fade" id="update-bank"></app-update>
+
+<!-- Modal สำหรับการอัปเดตธนาคารปลายทาง -->
+<app-update
+  class="modal fade"
+  id="editDestBankModal"
+  (reloadBankData)="getBank()"
+  [destBank]="isDestBank"
+></app-update>
