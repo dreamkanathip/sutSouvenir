@@ -207,8 +207,10 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
   countProductOrders() {
     const productOrderCounts: { [key: number]: number } = {};
+
+    const PaidOrder = this.allOrders.filter((order) => order.orderStatus !== "NOT_PROCESSED" && order.orderStatus !== "PENDING");
   
-    this.allOrders.forEach((order) => {
+    PaidOrder.forEach((order) => {
       order.products.forEach((product) => {
         if (productOrderCounts[product.productId]) {
           productOrderCounts[product.productId] += product.count;
