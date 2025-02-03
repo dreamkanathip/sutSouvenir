@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">เพิ่มหมวดหมู่</h5>
+      <h2 class="modal-title" style="font-weight: bold;">เพิ่มหมวดหมู่</h2>
       <button
         type="button"
         class="btn-close"
@@ -15,7 +15,7 @@
         <div class="row main-row">
           <div class="col-md-12 right">
             <div>
-              <div class="input-box">
+              <div class="input-box p-4">
                 <header class="header">จัดการหมวดหมู่</header>
                 <form [formGroup]="form" (ngSubmit)="submit()">
                   <!-- ชื่อหมวดหมู่ -->
@@ -43,6 +43,8 @@
                       type="button"
                       class="cancel"
                       (click)="goToCategories()"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
                     >
                       ย้อนกลับ
                     </button>

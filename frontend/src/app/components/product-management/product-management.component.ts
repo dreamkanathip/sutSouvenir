@@ -44,7 +44,6 @@ export class ProductManagementComponent implements OnInit {
             });
           });
         });
-        console.log(this.productImages)
         this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {

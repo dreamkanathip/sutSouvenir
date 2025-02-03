@@ -25,7 +25,10 @@ export class AdminUpdateOrderStatusComponent {
   orderStatus: any[] = [];
   shippings!: Shipping[];
   filterShipping: string = "";
-
+  page: number = 1;
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+  
   constructor(
     private orderService: OrderService, 
     private paymentService: PaymentService, 
@@ -57,6 +60,12 @@ export class AdminUpdateOrderStatusComponent {
       });
       this.filteredOrders = this.orders;
     });
+  }
+
+  get paginatedOrders() {
+    const start = (this.page - 1) * this.itemsPerPage;
+    const end = this.page * this.itemsPerPage;
+    return this.filteredOrders.slice(start, end);
   }
 
   showOrderStatus(status: string){
@@ -107,5 +116,9 @@ export class AdminUpdateOrderStatusComponent {
     this.shippingService.getAllShippings().subscribe((res) => {
       this.shippings = res;
     })
+  }
+  onPageChange(event: any) {
+    this.page = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize
   }
 }

@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,6 +60,12 @@ import { UserSidenavComponent } from './components/user-sidenav/user-sidenav.com
 import { BaseChartDirective } from 'ng2-charts';
 import { AdminUpdateOrderStatusDetailComponent } from './components/admin-update-order-status/admin-update-order-status-detail/admin-update-order-status-detail.component';
 import { ImgValidateDirective } from './directives/img-validate.directive';
+import { NgxPaginationModule } from 'ngx-pagination';
+import localeTh from '@angular/common/locales/th'; // นำเข้า locale ไทย
+import { registerLocaleData } from '@angular/common';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+registerLocaleData(localeTh); // ลงทะเบียน locale ไทย
 
 @NgModule({
   declarations: [
@@ -119,11 +125,14 @@ import { ImgValidateDirective } from './directives/img-validate.directive';
     MatNativeDateModule,
     NoopAnimationsModule,
     BaseChartDirective,
+    NgxPaginationModule,
+    MatPaginatorModule
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withFetch()),
     NativeDateAdapter,
+    { provide: LOCALE_ID, useValue: 'th'}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],

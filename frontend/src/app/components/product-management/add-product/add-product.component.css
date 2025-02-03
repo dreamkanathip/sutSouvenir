@@ -1,5 +1,6 @@
 * {
   font-family: 'SUT', sans-serif;
+  font-size: 1.2rem;
 }
 
 .main {
@@ -8,12 +9,14 @@
   align-items: center;
   min-height: 100vh;
 }
-
 .header {
   /* margin-bottom: 20px; */
   font-size: 19px;
   /* margin-left: 6px; */
   color: #f26522;
+}
+.modal-body {
+  font-size: 1.2rem;
 }
 .container {
   display: flex;

@@ -7,6 +7,7 @@
           class="submit"
           data-bs-toggle="modal"
           data-bs-target="#addCategoryModal"
+          style="font-size: 1.2rem;"
         >
           + หมวดหมู่
         </button>
@@ -23,7 +24,7 @@
           <tbody>
             <tr *ngFor="let category of pagedCategories; let i = index">
               <td scope="row">
-                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+                <span *ngIf="category.name">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
               </td>
 
               <td>{{ category.name }}</td>
@@ -31,6 +32,7 @@
                 <button
                   class="btn btn-danger"
                   (click)="deleteCategoryById($event, category.id)"
+                  *ngIf="category.name"
                 >
                   <i class="bx bx-trash"></i>
                 </button>

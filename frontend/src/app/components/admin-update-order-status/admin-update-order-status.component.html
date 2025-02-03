@@ -1,5 +1,4 @@
 <app-navbar-admin></app-navbar-admin>
-<link rel="stylesheet" href="admin-update-order-status.component.css" />
 
 <div class="body">
   <div class="container">
@@ -40,7 +39,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let order of filteredOrders">
+              <tr *ngFor="let order of paginatedOrders">
                 <td class="text-center">{{order.createdAt | formatDateToThai}}</td>
                 <td
                   class="text-center"
@@ -83,6 +82,15 @@
                 </td>
               </tr>
             </tbody>
+          </div>
+          <div class="pagination-controls">
+            <mat-paginator [length]="filteredOrders.length"
+              [pageSize]="itemsPerPage"
+              [pageSizeOptions]="[5, 10, 50, 100]"
+              aria-label="Select page"
+              (page)="onPageChange($event)"
+              >
+            </mat-paginator>
           </div>
         </div>
       </div>

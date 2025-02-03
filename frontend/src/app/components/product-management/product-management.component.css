@@ -1,6 +1,7 @@
 /* Global Font */
 * {
   font-family: "SUT", sans-serif;
+  
 }
 
 /* Submit Button Styles */
@@ -28,6 +29,7 @@
   overflow-x: auto;
   padding-top: 20px; /* ลดระยะห่างด้านบน */
   width: calc(100% - 373px); /* ลดความกว้างของคอนเทนเนอร์ */
+  
 }
 
 /* Table Styles */
@@ -35,20 +37,28 @@
   width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
   max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
   margin: 0 auto; /* จัดกึ่งกลาง */
+  
 }
 
-.table th,
-.table td {
+.table th{
   text-align: center;
   vertical-align: middle;
   height: 50px;
   padding: 10px; /* ลด padding เพื่อให้ตารางดูเล็กลง */
   font-size: 14px; /* ลดขนาดฟอนต์ในเซลล์ */
-  font-weight: normal; /* ปรับให้หัวตารางไม่เป็นตัวหนา */
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .table td {
   padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+  padding: 10px; /* ลด padding เพื่อให้ตารางดูเล็กลง */
+  font-size: 14px; /* ลดขนาดฟอนต์ในเซลล์ */
+  font-weight:normal;
+  font-size: 1.2rem;
 }
 
 /* Button Styles in Table */
@@ -68,6 +78,8 @@
   color: #f66a6a; /* ข้อความเป็นสีแดง */
   border: 2px solid #f66a6a; /* ขอบเป็นสีแดง */
   transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
+  justify-content: center;
+  align-items: center;
 }
 
 .table .btn-danger:hover {

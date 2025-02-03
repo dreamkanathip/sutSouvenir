@@ -8,7 +8,9 @@
   align-items: center;
   min-height: 100vh;
 }
-
+.modal-body {
+  font-size: 1.2rem;
+}
 .header {
   /* margin-bottom: 20px; */
   font-size: 19px;
