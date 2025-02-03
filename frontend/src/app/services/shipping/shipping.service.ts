@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShippingService {
+  [x: string]: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   apiUrl = 'http://localhost:5000/api';
 

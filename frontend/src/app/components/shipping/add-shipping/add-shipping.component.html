@@ -1,24 +1,81 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">ข้อมูลการขนส่ง</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
 
-      <div class="modal-body" >
-            <form [formGroup]="shippingData">
-                <div class="bank form-group">
-                    ชื่อบริษัทขนส่ง: <input formControlName="company">
-                </div>
-                <div class="name form-group">
-                    ค่าธรรมเนียม: <input formControlName="fees">
-                </div>
-            </form>
-      </div>
+    <div class="modal-body">
+      <form [formGroup]="shippingData">
+        <!-- Company Field -->
+        <div class="form-group">
+          <label for="company">ชื่อบริษัทขนส่ง</label>
+          <input
+            type="text"
+            id="company"
+            class="form-control"
+            formControlName="company"
+            required
+          />
+          <div
+            *ngIf="
+              shippingData.get('company')?.invalid &&
+              shippingData.get('company')?.touched
+            "
+            class="text-danger"
+          >
+            <small *ngIf="shippingData.get('company')?.errors?.['required']"
+              >กรุณากรอกชื่อบริษัทขนส่ง</small
+            >
+          </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" (click)="addShipping()">Save changes</button>
-      </div>
+        <!-- Fees Field -->
+        <div class="form-group mt-3">
+          <label for="fees">ค่าธรรมเนียม</label>
+          <input
+            type="number"
+            id="fees"
+            class="form-control"
+            formControlName="fees"
+            required
+          />
+          <div
+            *ngIf="
+              shippingData.get('fees')?.invalid &&
+              shippingData.get('fees')?.touched
+            "
+            class="text-danger"
+          >
+            <small *ngIf="shippingData.get('fees')?.errors?.['required']"
+              >กรุณากรอกค่าธรรมเนียม</small
+            >
+            <small *ngIf="shippingData.get('fees')?.errors?.['min']"
+              >ค่าธรรมเนียมต้องมากกว่าหรือเท่ากับ 0</small
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer mt-3">
+      <!-- ปุ่มบันทึกจะไม่ทำงานถ้าไม่กรอกข้อมูลครบ -->
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="addShipping()"
+        [disabled]="shippingData.invalid"
+      >
+        บันทึกข้อมูล
+      </button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        ปิด
+      </button>
     </div>
   </div>
+</div>

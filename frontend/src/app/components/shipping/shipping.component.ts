@@ -1,36 +1,53 @@
 import { Component } from '@angular/core';
-import { BankService } from '../../services/bank/bank.service';
-import { DestBank } from '../../interfaces/bank/dest-bank';
-import { OriginBank } from '../../interfaces/bank/origin-bank';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ShippingService } from '../../services/shipping/shipping.service';
 import { Shipping } from '../../interfaces/shipping/shipping.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-shipping',
   templateUrl: './shipping.component.html',
-  styleUrl: './shipping.component.css'
+  styleUrl: './shipping.component.css',
 })
 export class ShippingComponent {
-    shippings!: Shipping[];
-    toUpdate!: Shipping;
-  
-    shippingForm = new FormGroup({
-      shippingCompany: new FormControl(''),
-      fees: new FormControl('')
-    }) 
+  shippings!: Shipping[];
+  toUpdate!: Shipping;
 
+  constructor(private shippingService: ShippingService) {
+    this.getCompany();
+  }
 
-    constructor(private shippingService: ShippingService) {
-      this.getCompany()
-    }
-  
-    getCompany() {
-      this.shippingService.getAllShippings().subscribe(res => {
-        this.shippings= res
-      })
-    }
-    updateShipping(item: any) {
-      this.toUpdate = item
-    }
+  getCompany() {
+    this.shippingService.getAllShippings().subscribe((res) => {
+      this.shippings = res;
+    });
+  }
+
+  deleteShipping(id: number) {
+    Swal.fire({
+      title: 'คุณแน่ใจหรือไม่?',
+      text: 'คุณต้องการลบข้อมูลการจัดส่งนี้ใช่หรือไม่?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ใช่, ลบเลย!',
+      cancelButtonText: 'ยกเลิก',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.shippingService.deleteShipping(id).subscribe(() => {
+          Swal.fire(
+            'ลบสำเร็จ!',
+            'ข้อมูลการจัดส่งถูกลบเรียบร้อยแล้ว',
+            'success'
+          );
+          this.getCompany();
+        });
+      }
+    });
+  }
+
+  closeEditForm() {
+    this.toUpdate = undefined!;
+    window.location.reload();
+  }
 }

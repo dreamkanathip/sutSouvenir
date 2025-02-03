@@ -1,30 +1,45 @@
-<table class="table ">
-    <thead>
-        <tr>
-            <th scope="col">บริษัทขนส่ง</th>
-            <th scope="col">ค่าบริการ</th>
-        </tr>
-    </thead>
-    <tbody class="table-group-divider">
-        <tr *ngFor="let s of shippings; index as i">
-            <!-- <th scope="row">1</th> -->
-            <td>{{s.company}}</td>
-            <td>{{s.fees}}</td>
-            <td>
-                <button (click)="updateShipping(s)" data-bs-toggle="modal" data-bs-target="#update-shipping" class="me-2">
-                    แก้ไข
-                </button>
-                <button >
-                    ลบ
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<div class="div" class="d-flex justify-content-end">
-    <button data-bs-toggle="modal" data-bs-target="#add-shipping">
-        เพิ่มบริษัทขนส่ง
-    </button>
-<app-add-shipping class="modal fade " id="add-shipping" (reloadData)="getCompany()"></app-add-shipping>
-<app-update-shipping class="modal fade" id="update-shipping" (reloadData)="getCompany()" [shippings]="toUpdate"></app-update-shipping>
+<div class="body">
+  <div class="table-container">
+    <app-navbar-super-admin></app-navbar-super-admin>
+    <div class="card shadow-lg">
+      <div class="card-header">
+        <button
+          class="submit"
+          data-bs-toggle="modal"
+          data-bs-target="#addShippingModal"
+          style="font-size: 1.2rem"
+        >
+          เพิ่มขนส่ง
+        </button>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ชื่อบริษัทขนส่ง</th>
+              <th scope="col">ค่าธรรมเนียม</th>
+              <th scope="col">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shipping of shippings">
+              <td>{{ shipping.company }}</td>
+              <td>{{ shipping.fees | currency : "THB" }}</td>
+              <td>
+                <div class="manage">
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteShipping(shipping.id)"
+                  >
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-add-shipping class="modal fade" id="addShippingModal"></app-add-shipping>
