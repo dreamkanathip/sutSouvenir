@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
-import { Product } from './../../interfaces/products/products.model';
+import { Product, Images } from './../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class ProductManagementComponent implements OnInit {
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
   selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
+  productImages: { imageId: number; productId: number; url: string }[] = [];
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -30,11 +31,20 @@ export class ProductManagementComponent implements OnInit {
     this.loadProducts(); // เรียกข้อมูลสินค้าเมื่อโหลดหน้าจอ
   }
 
-  // โหลดข้อมูลสินค้าทั้งหมด
   loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
-        this.products = data;
+        this.products = data
+        data.forEach((product) => {
+          product.images.forEach(image => {
+            this.productImages.push({
+              imageId: image.id,
+              productId: product.id,
+              url: `${image.url}${image.asset_id}`
+            });
+          });
+        });
+        console.log(this.productImages)
         this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {
@@ -43,11 +53,17 @@ export class ProductManagementComponent implements OnInit {
     );
   }
 
+  getImageUrl(id: number): string {
+    const Image = this.productImages.find((image) => image.productId === id);
+    return Image ? Image.url : 'none'; // หากไม่พบรูปภาพให้แสดงรูปภาพ default
+  }
+
   // เพิ่มสินค้าใหม่
   addProduct(newProduct: Product): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: "text-swal",
       },
     });
     this.productManagementService
@@ -100,8 +116,9 @@ export class ProductManagementComponent implements OnInit {
   // บันทึกสินค้าเมื่อแก้ไขเสร็จ
   saveEditProduct(): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: "text-swal",
       },
     });
     if (this.selectedProduct && this.selectedProduct.id) {
@@ -153,49 +170,53 @@ export class ProductManagementComponent implements OnInit {
   // ลบสินค้าตาม ID
   deleteProductById(event: MouseEvent, productId: number): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
-    customSwal.fire({
-      title: 'ยืนยันการลบ?',
-      text: 'คุณต้องการลบสินค้านี้หรือไม่?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ใช่, ลบเลย!',
-      cancelButtonText: 'ยกเลิก',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.productManagementService
-          .deleteProductById(productId)
-          .pipe(
-            catchError((error) => {
-              console.error('เกิดข้อผิดพลาดในการลบสินค้า:', error);
-              customSwal.fire({
-                title: 'เกิดข้อผิดพลาด!',
-                text: 'ไม่สามารถลบสินค้าได้ กรุณาลองอีกครั้ง',
-                icon: 'error',
-              });
-              return of(null);
-            })
-          )
-          .subscribe((res) => {
-            if (res) {
-              this.products = this.products.filter(
-                (product) => product.id !== productId
-              );
-              customSwal.fire({
-                title: 'สำเร็จ!',
-                text: 'ลบสินค้าเรียบร้อยแล้ว',
-                icon: 'success',
-              });
-              this.loadPage(this.currentPage);
-            }
-          });
-      }
-    });
+    customSwal
+      .fire({
+        title: 'ยืนยันการลบ?',
+        text: 'คุณต้องการลบสินค้านี้หรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.productManagementService
+            .deleteProductById(productId)
+            .pipe(
+              catchError((error) => {
+                console.error('เกิดข้อผิดพลาดในการลบสินค้า:', error);
+                customSwal.fire({
+                  title: 'เกิดข้อผิดพลาด!',
+                  text: 'ไม่สามารถลบสินค้าได้ กรุณาลองอีกครั้ง',
+                  icon: 'error',
+                });
+                return of(null);
+              })
+            )
+            .subscribe((res) => {
+              if (res) {
+                this.products = this.products.filter(
+                  (product) => product.id !== productId
+                );
+                customSwal.fire({
+                  title: 'สำเร็จ!',
+                  text: 'ลบสินค้าเรียบร้อยแล้ว',
+                  icon: 'success',
+                });
+                this.loadPage(this.currentPage);
+              }
+            });
+        }
+      });
 
     event.stopPropagation();
   }
@@ -241,4 +262,10 @@ export class ProductManagementComponent implements OnInit {
   navigateToAddProduct(): void {
     this.router.navigate(['/admin/add/product']);
   }
+  // getImageUrl(id: number): string {
+  //   if (id) {
+  //     return `http://localhost:5000/api/productImage/${id}`;
+  //   }
+  //   return 'path_to_default_image'; // In case no image id is available, provide a default image URL.
+  // }
 }

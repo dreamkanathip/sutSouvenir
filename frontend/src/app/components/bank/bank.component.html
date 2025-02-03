@@ -1,71 +1,106 @@
-<div class="container">
-    <div class="row g-8">
-        <div class="col-8">
-            <table class="table ">
-                <thead>
-                    <tr>
-                        <th scope="col">ธนาคาร</th>
-                        <th scope="col">ชื่อบัญชี</th>
-                        <th scope="col">หมายเลขบัญชี</th>
-                        <th scope="col">สาขา</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr *ngFor="let bank of destBank; index as i">
-                        <!-- <th scope="row">1</th> -->
-                        <td>{{bank.bank}}</td>
-                        <td>{{bank.name}}</td>
-                        <td>{{bank.bankNumber}}</td>
-                        <td>{{bank.branch}}</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#update-bank" class="me-2">
-                                แก้ไข
-                            </button>
-                            <button>
-                                ลบ
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
+<div class="body">
+  <div class="container mt-4">
+    <div class="row g-4">
+      <!-- การ์ดสำหรับธนาคารปลายทาง -->
+      <div class="col-md-8">
+        <div class="card shadow-lg">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h3>ธนาคารปลายทาง</h3>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#add-bank"
+              (click)="openDestBank()"
+            >
+              เพิ่มธนาคารปลายทาง
+            </button>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">ธนาคาร</th>
+                  <th scope="col">ชื่อบัญชี</th>
+                  <th scope="col">หมายเลขบัญชี</th>
+                  <th scope="col">สาขา</th>
+                  <th scope="col">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bank of destBank; index as i">
+                  <td>{{ bank.bank }}</td>
+                  <td>{{ bank.name }}</td>
+                  <td>{{ bank.bankNumber }}</td>
+                  <td>{{ bank.branch }}</td>
+                  <td>
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteDestBank(bank.id)"
+                    >
+                      <i class="bx bx-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
-            <div class="div" class="d-flex justify-content-end">
-                <button data-bs-toggle="modal" data-bs-target="#add-bank" (click)="openDestBank()">
-                    เพิ่มธนาคารปลายทาง
-                </button>
-            </div>
+          </div>
         </div>
-        <div class="col-4">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ธนาคาร</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr *ngFor="let bank of originBank; index as i">
-                        <td>{{bank.bank}}</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#update-bank" class="me-2">
-                                แก้ไข
-                            </button>
-                            <button>
-                                ลบ
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
+      </div>
+
+      <!-- การ์ดสำหรับธนาคารต้นทาง -->
+      <div class="col-md-4">
+        <div class="card shadow-lg">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h3>ธนาคารต้นทาง</h3>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#add-bank"
+              (click)="openOriginBank()"
+            >
+              เพิ่มธนาคารต้นทาง
+            </button>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">ธนาคาร</th>
+                  <th scope="col">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bank of originBank; index as i">
+                  <td>{{ bank.bank }}</td>
+                  <td>
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteOriginBank(bank.id)"
+                    >
+                      <i class="bx bx-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
-            <div class="div" class="d-flex justify-content-end">
-                <button data-bs-toggle="modal" data-bs-target="#add-bank" (click)="openOriginBank()">
-                    เพิ่มธนาคารต้นทาง
-                </button>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- ย้าย navbar ไปที่นี่ -->
+  <app-navbar-super-admin></app-navbar-super-admin>
 </div>
-<app-add class="modal fade" id="add-bank" (reloadBankData)="getBank()" [destBank]="isDestBank"></app-add>
+
+<app-add
+  class="modal fade"
+  id="add-bank"
+  (reloadBankData)="getBank()"
+  [destBank]="isDestBank"
+></app-add>
 <app-update class="modal fade" id="update-bank"></app-update>
-<app-shipping></app-shipping>

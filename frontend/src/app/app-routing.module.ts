@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'address/edit', component: EditAddressComponent },
   { path: 'admin/management', component: ProductManagementComponent },
   { path: 'user', component: UserStorageComponent },
-  { path: 'bank', component: BankComponent },
+  { path: 'superadmin/bank', component: BankComponent },
   { path: 'admin/historyPay', component: AdminHistoryComponent },
   { path: 'admin/dashboard', component: AdminDashboardComponent },
   { path: 'superadmin/register/admin', component: RegisterAdminComponent },

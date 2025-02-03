@@ -15,6 +15,7 @@
                   สมัครบัญชีผู้ใช้งาน
                 </header>
                 <form [formGroup]="form" (ngSubmit)="submit()">
+                  <!-- First Name -->
                   <div class="input-field">
                     <input
                       type="text"
@@ -24,7 +25,28 @@
                       required
                     />
                     <label for="registerPage-firstname">ชื่อ</label>
+                    <div
+                      *ngIf="
+                        form.get('firstName')?.touched &&
+                        form.get('firstName')?.invalid
+                      "
+                    >
+                      <span
+                        class="error"
+                        *ngIf="form.get('firstName')?.hasError('required')"
+                      >
+                        ชื่อจำเป็นต้องกรอก
+                      </span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('firstName')?.hasError('minlength')"
+                      >
+                        ชื่ออย่างน้อย 2 ตัวอักษร
+                      </span>
+                    </div>
                   </div>
+
+                  <!-- Last Name -->
                   <div class="input-field">
                     <input
                       type="text"
@@ -34,8 +56,28 @@
                       required
                     />
                     <label for="registerPage-lastname">นามสกุล</label>
+                    <div
+                      *ngIf="
+                        form.get('lastName')?.touched &&
+                        form.get('lastName')?.invalid
+                      "
+                    >
+                      <span
+                        class="error"
+                        *ngIf="form.get('lastName')?.hasError('required')"
+                      >
+                        นามสกุลจำเป็นต้องกรอก
+                      </span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('lastName')?.hasError('minlength')"
+                      >
+                        นามสกุลอย่างน้อย 2 ตัวอักษร
+                      </span>
+                    </div>
                   </div>
 
+                  <!-- Email -->
                   <div class="input-field">
                     <input
                       formControlName="email"
@@ -46,13 +88,33 @@
                       autocomplete="off"
                     />
                     <label for="registerPage-email">อีเมล</label>
-                    <div *ngIf="form.get('email')?.hasError('invalidDomain')">
-                      <span class="error">
-                        สามารถลงท้ายได้แค่ gmail.com, hotmail.com, hotmail.co.th
-                        และ outlook.com
+                    <div
+                      *ngIf="
+                        form.get('email')?.touched && form.get('email')?.invalid
+                      "
+                    >
+                      <span
+                        class="error"
+                        *ngIf="form.get('email')?.hasError('required')"
+                      >
+                        อีเมลจำเป็นต้องกรอก
+                      </span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('email')?.hasError('email')"
+                      >
+                        โปรดกรอกอีเมลที่ถูกต้อง
+                      </span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('email')?.hasError('invalidDomain')"
+                      >
+                        อีเมลต้องลงท้ายด้วย gmail.com
                       </span>
                     </div>
                   </div>
+
+                  <!-- Password -->
                   <div class="input-field">
                     <input
                       formControlName="password"
@@ -69,13 +131,26 @@
                     ></i>
                     <div
                       *ngIf="
-                        form.get('password')?.hasError('minlength') &&
-                        form.get('password')?.touched
+                        form.get('password')?.touched &&
+                        form.get('password')?.invalid
                       "
                     >
-                      <span class="error">รหัสผ่านต้องมากกว่า 6 ตัวอักษร</span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('password')?.hasError('required')"
+                      >
+                        รหัสผ่านจำเป็นต้องกรอก
+                      </span>
+                      <span
+                        class="error"
+                        *ngIf="form.get('password')?.hasError('minlength')"
+                      >
+                        รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร
+                      </span>
                     </div>
                   </div>
+
+                  <!-- Gender -->
                   <div class="gender-container">
                     <div class="gender-options">
                       <div class="gender-option">
@@ -107,10 +182,24 @@
                         >
                       </div>
                     </div>
+                    <div
+                      *ngIf="
+                        form.get('gender')?.touched &&
+                        form.get('gender')?.invalid
+                      "
+                    >
+                      <span class="error">กรุณาเลือกเพศ</span>
+                    </div>
                   </div>
 
                   <div class="input-field">
-                    <button type="submit" class="submit">ลงทะเบียน</button>
+                    <button
+                      type="submit"
+                      class="submit"
+                      [disabled]="form.invalid"
+                    >
+                      ลงทะเบียน
+                    </button>
                   </div>
                   <div class="signin">
                     <span>

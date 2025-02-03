@@ -38,19 +38,6 @@ export class StorageComponent implements OnInit {
     this.getReview();
   }
 
-  getUserData() {
-      this.userService.getUserData().subscribe({
-        next: (result: UserModel) => {
-          if (result) {
-            this.user = result;
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching user data', err);
-        }
-      });
-    }
-
   getUserStorageItem() {
     this.userService.getUserStorage().subscribe({
       next: (items: userOrder) => {
@@ -139,6 +126,7 @@ export class StorageComponent implements OnInit {
         const customSwal = Swal.mixin({
           customClass:{
             popup: "title-swal",
+            confirmButton: "text-swal",
           },
         });
     

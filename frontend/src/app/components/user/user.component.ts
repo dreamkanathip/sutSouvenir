@@ -103,6 +103,8 @@ export class UserComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     if (this.editedUser.invalid) {
@@ -161,6 +163,8 @@ export class UserComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     if (this.editedUser.invalid) {
@@ -236,6 +240,8 @@ export class UserComponent implements OnInit{
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     if (this.passwordForm.invalid) {

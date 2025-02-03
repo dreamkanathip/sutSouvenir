@@ -36,6 +36,7 @@ export class CategoryComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     this.isLoading = true;
@@ -105,6 +106,7 @@ export class CategoryComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     if (this.newCategory.name.trim()) {
@@ -137,6 +139,7 @@ export class CategoryComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
       },
     });
     if (this.selectedCategory && this.selectedCategory.name.trim()) {
@@ -180,6 +183,8 @@ export class CategoryComponent implements OnInit {
     const customSwal = Swal.mixin({
       customClass:{
         popup: "title-swal",
+        confirmButton: "text-swal",
+        cancelButton: "text-swal",
       },
     });
     customSwal.fire({

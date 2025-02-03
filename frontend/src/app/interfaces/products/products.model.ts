@@ -12,21 +12,23 @@ export interface Product {
   //   orderItems:   ProductOnOrder[],
   //   cartItems:    ProductOnCart[],
   //   images:       Image[],
-    createdAt:    Date,
-    updatedAt:    Date,
+  createdAt: Date;
+  updatedAt: Date;
   //   category:     Category?,
   //   categoryId:   Int?,
   //   status:       ProductStatus,
   //   stockRecords: StockRecord[],
   //   bookmarks:    Bookmark[],
-  reviews:      ReviewModel[],
-  images: Images[],
+  reviews: ReviewModel[];
+  images: Images[];
+  imageKey?: string; // imageKey ที่ได้จาก API
+  imageUrl?: string; // เพิ่ม imageUrl เพื่อใช้ในการแสดงภาพ
 }
 
 export interface Images {
-  id:         number;
-  asset_id:   String;
-  public_id:  String
-  url:        String
-  secure_url: String
+  id: number;
+  asset_id: String;
+  public_id: String;
+  url: String;
+  secure_url: String;
 }

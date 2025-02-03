@@ -51,14 +51,16 @@
               <td class="role-tag" [ngClass]="user.role">
                 <span>{{ roles[user.role] }}</span>
               </td>
-              <td>
+              <td class="action-cell">
+                <!-- ปุ่มลบจะแสดงเฉพาะเมื่อ user ไม่ใช่ SUPERADMIN และมี id -->
                 <button
-                  *ngIf="user.role !== 'SUPERADMIN'"
+                  *ngIf="user.role !== 'SUPERADMIN' && user.id"
                   class="btn btn-danger"
                   (click)="deleteUser(user.id)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
+                <!-- ซ่อนปุ่มลบในกรณีที่เป็น SUPERADMIN -->
                 <span
                   *ngIf="user.role === 'SUPERADMIN'"
                   class="text-muted"
