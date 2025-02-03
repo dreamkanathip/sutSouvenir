@@ -111,6 +111,7 @@ export class UserComponent implements OnInit{
       customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
+        confirmButtonText: "ยืนยัน",
       })
       return;
     }
@@ -135,9 +136,10 @@ export class UserComponent implements OnInit{
               customSwal.close();
               customSwal.fire({
                 icon: "success",
-                title: "Success",
+                title: "สำเร็จ",
                 text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               this.user = { ...this.user, ...updatedData }; // อัปเดตข้อมูลใน UI
               this.editUserUpdate()
@@ -148,9 +150,10 @@ export class UserComponent implements OnInit{
               customSwal.close();
               customSwal.fire({
                 icon: "error",
-                title: "Error",
+                title: "ผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
             }
@@ -171,6 +174,7 @@ export class UserComponent implements OnInit{
       customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
+        confirmButtonText: "ยืนยัน",
       })
       return;
     }
@@ -179,6 +183,7 @@ export class UserComponent implements OnInit{
       customSwal.fire({
         title: "อีเมลนี้ซ้ำกับอีเมลที่คุณกำลังใช้งานอยู่",
         icon: "error",
+        confirmButtonText: "ยืนยัน",
       });
       return;
     }
@@ -205,9 +210,10 @@ export class UserComponent implements OnInit{
             customSwal.close();
             customSwal.fire({
               icon: "success",
-              title: "Success",
+              title: "สำเร็จ",
               text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
               showConfirmButton: true,
+              confirmButtonText: "ยืนยัน",
             });
             this.user = { ...this.user, ...updatedData }; // อัปเดตข้อมูลใน UI
             this.editUserUpdate()
@@ -221,13 +227,15 @@ export class UserComponent implements OnInit{
                 icon: "error",
                 title: "อีเมลนี้มีผู้ใช้งานแล้ว",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
             } else {
               customSwal.fire({
                 icon: "error",
-                title: "Error",
+                title: "ผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
             }
           }
@@ -248,6 +256,7 @@ export class UserComponent implements OnInit{
       customSwal.fire({
         title: "กรุณากรอกข้อมูลให้ถูกต้อง",
         icon: "error",
+        confirmButtonText: "ยืนยัน",
       })
       return;
     }
@@ -258,6 +267,7 @@ export class UserComponent implements OnInit{
       customSwal.fire({
         title: "กรุณากรอกรหัสผ่านใหม่ทั้งสองช่องให้ตรงกัน",
         icon: "error",
+        confirmButtonText: "ยืนยัน",
       })
       return;
     }
@@ -289,9 +299,10 @@ export class UserComponent implements OnInit{
               customSwal.close();
               customSwal.fire({
                 icon: "success",
-                title: "Success",
+                title: "สำเร็จ",
                 text: "ทำการบันทึกข้อมูลเรียบร้อยแล้ว",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               this.passwordForm.reset()
               this.passwordModal();
@@ -305,6 +316,7 @@ export class UserComponent implements OnInit{
                   title: "รหัสผ่านไม่ถูกต้อง",
                   text: "กรุณาตรวจสอบรหัสผ่านเก่าของคุณ",
                   showConfirmButton: true,
+                  confirmButtonText: "ยืนยัน",
                 });
               } else {
                 customSwal.fire({
@@ -312,6 +324,7 @@ export class UserComponent implements OnInit{
                   title: "Error",
                   text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                   showConfirmButton: true,
+                  confirmButtonText: "ยืนยัน",
                 });
               }
               console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);

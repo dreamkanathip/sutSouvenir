@@ -181,6 +181,7 @@ export class AddAddressComponent implements OnInit {
                 title: "บันทึกแล้ว",
                 text: "เพิ่มข้อมูลที่อยู่เรียบร้อยแล้ว",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               this.addressForm.reset();
               this.addressNavigate();
@@ -193,6 +194,7 @@ export class AddAddressComponent implements OnInit {
                 title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               console.error("API error:", error);
             }

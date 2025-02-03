@@ -195,6 +195,7 @@ export class EditAddressComponent implements OnInit {
                 title: "บันทึกแล้ว",
                 text: "แก้ไขข้อมูลที่อยู่เรียบร้อยแล้ว",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               this.editAddressForm.reset();
               this.addressNavigate();
@@ -207,6 +208,7 @@ export class EditAddressComponent implements OnInit {
                 title: "เกิดข้อผิดพลาด",
                 text: "บันทึกข้อมูลไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง",
                 showConfirmButton: true,
+                confirmButtonText: "ยืนยัน",
               });
               console.error("API error:", error);
             }
