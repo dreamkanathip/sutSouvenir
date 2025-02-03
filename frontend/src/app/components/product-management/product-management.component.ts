@@ -16,11 +16,13 @@ export class ProductManagementComponent implements OnInit {
   products: Product[] = []; // รายการสินค้าทั้งหมด
   categories: Category[] = []; // รายการหมวดหมู่สินค้า
   currentPage: number = 1; // หน้าปัจจุบัน
-  itemsPerPage: number = 5; // จำนวนแถวต่อหน้า
+  itemsPerPage: number = 3; // จำนวนแถวต่อหน้า
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
   selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
   productImages: { imageId: number; productId: number; url: string }[] = [];
+  selectedImage: File | null = null; // สำหรับเก็บไฟล์รูปภาพที่เลือก
+  previewImage: string | ArrayBuffer | null = null; // สำหรับเก็บรูปภาพที่เลือก
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -34,17 +36,17 @@ export class ProductManagementComponent implements OnInit {
   loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
-        this.products = data
+        this.products = data;
         data.forEach((product) => {
-          product.images.forEach(image => {
+          product.images.forEach((image) => {
             this.productImages.push({
               imageId: image.id,
               productId: product.id,
-              url: `${image.url}${image.asset_id}`
+              url: `${image.url}${image.asset_id}`,
             });
           });
         });
-        console.log(this.productImages)
+        console.log(this.productImages);
         this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {
@@ -54,16 +56,22 @@ export class ProductManagementComponent implements OnInit {
   }
 
   getImageUrl(id: number): string {
-    const Image = this.productImages.find((image) => image.productId === id);
-    return Image ? Image.url : 'none'; // หากไม่พบรูปภาพให้แสดงรูปภาพ default
+    const image = this.productImages.find((image) => image.productId === id);
+    return image ? image.url : 'none'; // หากไม่พบรูปภาพให้แสดงรูปภาพ default
   }
 
-  // เพิ่มสินค้าใหม่
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
+  }
+
   addProduct(newProduct: Product): void {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
-        confirmButton: "text-swal",
+        confirmButton: 'text-swal',
       },
     });
     this.productManagementService
@@ -81,6 +89,10 @@ export class ProductManagementComponent implements OnInit {
       )
       .subscribe((response: Product | null) => {
         if (response) {
+          if (this.selectedImage) {
+            this.uploadProductImage(response.id);
+          }
+
           customSwal.fire({
             title: 'สำเร็จ!',
             text: 'เพิ่มสินค้าเรียบร้อยแล้ว',
@@ -90,7 +102,6 @@ export class ProductManagementComponent implements OnInit {
           this.products.push(response);
           this.loadPage(this.currentPage);
 
-          // หากหน้าปัจจุบันเต็ม ให้เปลี่ยนไปหน้าถัดไป
           if (this.pagedProducts.length === this.itemsPerPage) {
             this.loadPage(Math.ceil(this.products.length / this.itemsPerPage));
           }
@@ -98,7 +109,42 @@ export class ProductManagementComponent implements OnInit {
       });
   }
 
-  // แก้ไขสินค้า
+  uploadProductImage(productId: number): void {
+    if (this.selectedImage) {
+      const formData = new FormData();
+      formData.append('image', this.selectedImage);
+      formData.append('productId', productId.toString());
+
+      this.productManagementService.uploadProductImage(formData).subscribe(
+        (response) => {
+          console.log('อัปโหลดรูปภาพสำเร็จ:', response);
+          // อัปเดตรูปภาพใหม่ใน productImages
+          const imageUrl = `${response.url}${response.asset_id}`; // หรือ URL ของรูปภาพที่ได้จากการอัปโหลด
+          const existingImageIndex = this.productImages.findIndex(
+            (image) => image.productId === productId
+          );
+
+          if (existingImageIndex !== -1) {
+            // แทนที่รูปภาพที่มีอยู่
+            this.productImages[existingImageIndex].url = imageUrl;
+          } else {
+            // เพิ่มรูปภาพใหม่
+            this.productImages.push({
+              imageId: response.id,
+              productId,
+              url: imageUrl,
+            });
+          }
+
+          this.loadProducts(); // รีโหลดข้อมูลสินค้า
+        },
+        (error) => {
+          console.error('เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ:', error);
+        }
+      );
+    }
+  }
+
   editProduct(productId: number): void {
     this.selectedProduct = this.products.find(
       (product) => product.id === productId
@@ -107,18 +153,16 @@ export class ProductManagementComponent implements OnInit {
     document.body.classList.add('modal-open');
   }
 
-  // ปิดหน้าต่างแก้ไข
   closeEditCard(): void {
     this.editMode = false;
     document.body.classList.remove('modal-open');
   }
 
-  // บันทึกสินค้าเมื่อแก้ไขเสร็จ
   saveEditProduct(): void {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
-        confirmButton: "text-swal",
+        confirmButton: 'text-swal',
       },
     });
     if (this.selectedProduct && this.selectedProduct.id) {
@@ -149,12 +193,15 @@ export class ProductManagementComponent implements OnInit {
         )
         .subscribe((response) => {
           if (response) {
+            if (this.selectedImage) {
+              this.uploadProductImage(id);
+            }
             customSwal.fire({
               title: 'สำเร็จ!',
               text: 'แก้ไขสินค้าเรียบร้อยแล้ว',
               icon: 'success',
             });
-            this.loadProducts(); // โหลดข้อมูลสินค้าใหม่
+            this.loadProducts();
             this.closeEditCard();
           }
         });
@@ -167,13 +214,12 @@ export class ProductManagementComponent implements OnInit {
     }
   }
 
-  // ลบสินค้าตาม ID
   deleteProductById(event: MouseEvent, productId: number): void {
     const customSwal = Swal.mixin({
       customClass: {
         popup: 'title-swal',
-        confirmButton: "text-swal",
-        cancelButton: "text-swal",
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
     customSwal
@@ -221,16 +267,11 @@ export class ProductManagementComponent implements OnInit {
     event.stopPropagation();
   }
 
-  // โหลดหน้าสินค้าในหน้าที่กำหนด
   loadPage(page: number): void {
     this.currentPage = page;
     const start = (page - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-
-    // ตัดข้อมูลตามหน้าปัจจุบัน
     const slicedProducts = this.products.slice(start, end);
-
-    // หากข้อมูลไม่ครบ 5 แถว ให้เพิ่ม placeholder
     this.pagedProducts = [
       ...slicedProducts,
       ...Array(this.itemsPerPage - slicedProducts.length).fill({
@@ -244,28 +285,46 @@ export class ProductManagementComponent implements OnInit {
     ];
   }
 
-  // ไปหน้าถัดไป
   nextPage(): void {
     if (this.currentPage * this.itemsPerPage < this.products.length) {
       this.loadPage(this.currentPage + 1);
     }
   }
 
-  // ไปหน้าก่อนหน้า
   prevPage(): void {
     if (this.currentPage > 1) {
       this.loadPage(this.currentPage - 1);
     }
   }
 
-  // ไปหน้าเพิ่มสินค้า
   navigateToAddProduct(): void {
     this.router.navigate(['/admin/add/product']);
   }
-  // getImageUrl(id: number): string {
-  //   if (id) {
-  //     return `http://localhost:5000/api/productImage/${id}`;
-  //   }
-  //   return 'path_to_default_image'; // In case no image id is available, provide a default image URL.
-  // }
+
+  // ฟังก์ชันสำหรับจัดการเมื่อผู้ใช้เลือกไฟล์
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.selectedImage = file;
+    }
+  }
+
+  removeImage(): void {
+    if (this.selectedImage) {
+      this.selectedImage = null;
+      this.previewImage = null; // เคลียร์การแสดงภาพตัวอย่าง
+      console.log('ลบรูปภาพเรียบร้อยแล้ว');
+    } else {
+      Swal.fire({
+        title: 'ไม่มีรูปภาพ',
+        text: 'กรุณาเลือกภาพก่อนที่จะลบ',
+        icon: 'warning',
+      });
+    }
+  }
 }

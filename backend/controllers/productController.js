@@ -26,7 +26,7 @@ exports.uploadImage = async (req, res) => {
 
     try {
       const image = await s3Client.send(new PutObjectCommand(params));
-      console.log(image)
+      console.log(image);
     } catch (s3Error) {
       console.error("S3 Upload Error:", s3Error);
       return res.status(500).json({ message: "Failed to upload image" });
