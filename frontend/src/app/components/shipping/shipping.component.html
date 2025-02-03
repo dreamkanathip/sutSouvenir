@@ -27,6 +27,13 @@
               <td>{{ shipping.fees | currency : "THB" }}</td>
               <td>
                 <div class="manage">
+                  <button class="btn btn-primary edit-btn" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#editShippingModal"
+                    (click)="editShipping(shipping)"
+                  >
+                    <i class="bx bx-pencil"></i>
+                  </button>
                   <button
                     class="btn btn-danger"
                     (click)="deleteShipping(shipping.id)"
@@ -42,4 +49,6 @@
     </div>
   </div>
 </div>
+
 <app-add-shipping class="modal fade" id="addShippingModal"></app-add-shipping>
+<app-update-shipping class="modal fade" id="editShippingModal" [shipping]="edit"></app-update-shipping>

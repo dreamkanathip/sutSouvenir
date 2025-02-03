@@ -160,7 +160,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     this.homepageService.getAllProducts().subscribe((products) => {
       this.products = products.map(product => ({ ...product, orderCount: 0 }));
       this.emptyProduct = products.filter(product => product.quantity == 0);
-      this.lowProduct = products.filter(product => product.quantity <= this.productQuantityWarning)
+      this.lowProduct = products.filter(product => product.quantity <= this.productQuantityWarning && product.quantity != 0)
       this.countProductOrders();
     });
   }
