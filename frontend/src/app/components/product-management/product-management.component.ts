@@ -20,7 +20,7 @@ export class ProductManagementComponent implements OnInit {
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
   selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
-  productImages: { id: number; url: string }[] = [];
+  productImages: { imageId: number; productId: number; url: string }[] = [];
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -34,22 +34,28 @@ export class ProductManagementComponent implements OnInit {
   loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
-        this.products = data.map((product) => {
-          const imageUrl = product.imageKey
-            ? `https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/${product.imageKey}`
-            : 'path_to_default_image'; // ใช้ default image หากไม่มี imageKey
-          return {
-            ...product,
-            imageUrl: imageUrl,
-          };
+        this.products = data
+        data.forEach((product) => {
+          product.images.forEach(image => {
+            this.productImages.push({
+              imageId: image.id,
+              productId: product.id,
+              url: `${image.url}${image.asset_id}`
+            });
+          });
         });
-
+        console.log(this.productImages)
         this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {
         console.error('เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า:', error);
       }
     );
+  }
+
+  getImageUrl(id: number): string {
+    const Image = this.productImages.find((image) => image.productId === id);
+    return Image ? Image.url : 'none'; // หากไม่พบรูปภาพให้แสดงรูปภาพ default
   }
 
   // เพิ่มสินค้าใหม่
@@ -256,10 +262,10 @@ export class ProductManagementComponent implements OnInit {
   navigateToAddProduct(): void {
     this.router.navigate(['/admin/add/product']);
   }
-  getImageUrl(id: number): string {
-    if (id) {
-      return `http://localhost:5000/api/productImage/${id}`;
-    }
-    return 'path_to_default_image'; // In case no image id is available, provide a default image URL.
-  }
+  // getImageUrl(id: number): string {
+  //   if (id) {
+  //     return `http://localhost:5000/api/productImage/${id}`;
+  //   }
+  //   return 'path_to_default_image'; // In case no image id is available, provide a default image URL.
+  // }
 }

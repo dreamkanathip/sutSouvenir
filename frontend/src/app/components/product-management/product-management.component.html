@@ -33,19 +33,18 @@
               <td>
                 <ng-container
                   *ngIf="
-                    product.imageUrl &&
-                      product.imageUrl !== 'path_to_default_image';
+                    product.images && getImageUrl(product.id) !== 'none';
                     else noImage
                   "
                 >
                   <img
-                    [src]="product.imageUrl"
+                    [src]="getImageUrl(product.id)"
                     alt="Product Image"
-                    class="img-thumbnail"
+                    class="product-image"
                   />
                 </ng-container>
                 <ng-template #noImage>
-                  <span>ไม่มีรูปภาพ</span>
+                  <span>ไม่พบรูปภาพ</span>
                 </ng-template>
               </td>
               <td>{{ product.title }}</td>
