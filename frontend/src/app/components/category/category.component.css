@@ -48,11 +48,12 @@
 }
 
 /* Table Styles */
+
 .table {
   width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
   max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
   margin: 0 auto; /* จัดกึ่งกลาง */
-  
+  table-layout: fixed; /* จัดการเลย์เอาต์ให้คงที่ */
 }
 
 .table th,
@@ -240,5 +241,14 @@ body.modal-open::before {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  overflow: auto;
+}
+.card-body {
+  max-height: 400px; /* กำหนดความสูงสูงสุด */
+  overflow-y: auto; /* เพิ่มแถบเลื่อนแนวตั้ง (vertical scroll) */
+  overflow-x: hidden; /* ป้องกันไม่ให้เกิดแถบเลื่อนแนวนอน */
+  padding: 15px; /* เพิ่มช่องว่างภายใน */
+  border: 1px solid #ddd; /* เพิ่มเส้นขอบเล็กน้อยเพื่อความสวยงาม */
+  background-color: #fff; /* พื้นหลังสีขาว */
+  border-radius: 8px; /* ทำให้มุมโค้งมน */
 }

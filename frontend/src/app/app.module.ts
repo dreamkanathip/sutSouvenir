@@ -63,7 +63,7 @@ import { ImgValidateDirective } from './directives/img-validate.directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 import localeTh from '@angular/common/locales/th'; // นำเข้า locale ไทย
 import { registerLocaleData } from '@angular/common';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 registerLocaleData(localeTh); // ลงทะเบียน locale ไทย
 
@@ -126,13 +126,13 @@ registerLocaleData(localeTh); // ลงทะเบียน locale ไทย
     NoopAnimationsModule,
     BaseChartDirective,
     NgxPaginationModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withFetch()),
     NativeDateAdapter,
-    { provide: LOCALE_ID, useValue: 'th'}
+    { provide: LOCALE_ID, useValue: 'th' },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // เพิ่ม CUSTOM_ELEMENTS_SCHEMA
   bootstrap: [AppComponent],
