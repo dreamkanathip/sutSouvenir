@@ -258,7 +258,7 @@ body.modal-open::before {
 }
 
 .manage .btn {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .manage .btn:last-child {
@@ -267,8 +267,8 @@ body.modal-open::before {
 
 .table .edit-btn {
   background: #ffffff;
-  color: black;
-  border: 2px solid grey;
+  color: #f0ad4e;
+  border: 2px solid #f0ad4e;
   transition: background-color 0.3s, color 0.3s;
   padding: 8px 16px; /* เพิ่ม padding เพื่อให้ปุ่มดูใหญ่ขึ้นเล็กน้อย */
   font-size: 14px; /* ขนาดฟอนต์ในปุ่ม */
@@ -278,7 +278,19 @@ body.modal-open::before {
 }
 
 .table .edit-btn:hover {
-  background: #F36523;
+  background: #f0ad4e;
   color: #fff;
-  border: 2px solid #F36523;
+  border: 2px solid #f0ad4e;
+}
+.table .btn-warning {
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f0ad4e; /* ข้อความเป็นสีส้ม */
+  border: 2px solid #f0ad4e; /* ขอบเป็นสีส้ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
+}
+
+.table .btn-warning:hover {
+  background: #f0ad4e; /* พื้นหลังเป็นสีส้มเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f0ad4e; /* ขอบยังคงเป็นสีส้ม */
 }

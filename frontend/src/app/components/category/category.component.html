@@ -27,13 +27,6 @@
               <td>
                 <div class="manage">
                   <button
-                    class="btn btn-danger"
-                    (click)="deleteCategoryById($event, category.id)"
-                    *ngIf="category.name"
-                  >
-                    <i class="bx bx-trash"></i>
-                  </button>
-                  <button
                     class="btn btn-primary edit-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#editCategoryModal"
@@ -41,6 +34,13 @@
                     *ngIf="category.name"
                   >
                     <i class="bx bx-edit"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteCategoryById($event, category.id)"
+                    *ngIf="category.name"
+                  >
+                    <i class="bx bx-trash"></i>
                   </button>
                 </div>
               </td>
