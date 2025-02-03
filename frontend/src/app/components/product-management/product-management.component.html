@@ -39,7 +39,13 @@
                 </ng-container>
               </td>
               <td>{{ product.title }}</td>
-              <td>{{ product.quantity }}</td>
+              <td [ngStyle]="{
+                color:
+                  product.quantity > productQuantityWarning ? 'black'
+                  : product.quantity > 0 ? 'orange'
+                  : 'red'
+                }"
+              >{{ product.quantity }}</td>
               <td>{{ product.price }}</td>
               <td>{{ product.description }}</td>
               <td>{{ product.category.name }}</td>
