@@ -143,6 +143,7 @@ export class HomepageComponent {
   filterProducts() {
     let filteredProducts = [...this.productItems];
   
+    filteredProducts = filteredProducts.filter((item) => item.quantity > 0);
     // กรองสินค้าตามคำค้นหา
     if (this.searchTerm.trim() !== '') {
       filteredProducts = filteredProducts.filter((item) =>
