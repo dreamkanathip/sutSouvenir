@@ -21,70 +21,87 @@ export class RegisterAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      firstName: [
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      email: [
         '',
-        [Validators.required, Validators.minLength(2)], // ตรวจสอบให้มีความยาวขั้นต่ำ 2 ตัวอักษร
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@gmail\.com$/),
+        ],
       ],
-      lastName: [
-        '',
-        [Validators.required, Validators.minLength(2)], // ตรวจสอบให้มีความยาวขั้นต่ำ 2 ตัวอักษร
-      ],
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [Validators.required, Validators.minLength(6)], // ตรวจสอบให้มีความยาวขั้นต่ำ 6 ตัวอักษร
-      ],
-      gender: ['', [Validators.required]], // ฟิลด์เพศที่บังคับกรอก
-      role: ['ADMIN', [Validators.required]], // ฟิลด์ role ที่ถูกบังคับค่าเป็น ADMIN
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      gender: ['', [Validators.required]],
+      role: ['ADMIN', [Validators.required]],
     });
   }
 
   submit(): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
+
     if (this.form.invalid) {
-      // แสดงข้อความแจ้งเตือนเมื่อฟอร์มไม่สมบูรณ์
-      customSwal.fire('ไม่สามารถลงทะเบียนได้', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+      customSwal.fire(
+        'ไม่สามารถลงทะเบียนได้',
+        'กรุณากรอกข้อมูลให้ครบถ้วน',
+        'error'
+      );
       return;
     }
 
-    const user = this.form.getRawValue(); // ดึงค่าจากฟอร์ม
-    console.log(user);
+    const user = this.form.getRawValue();
 
-    this.http
-      .post('http://localhost:5000/api/register', user, {
-        withCredentials: true,
+    customSwal
+      .fire({
+        title: 'คุณต้องการบันทึกการลงทะเบียนหรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        cancelButtonText: 'ยกเลิก',
+        icon: 'warning',
       })
-      .subscribe(
-        () => {
-          customSwal.fire(
-            'ลงทะเบียนสำเร็จ',
-            'บัญชีผู้ดูแลระบบของคุณพร้อมใช้งานแล้ว',
-            'success'
-          );
-          this.router.navigate(['/superadmin/dashboard']); // เปลี่ยนเส้นทางไปยังหน้าเข้าสู่ระบบเมื่อสำเร็จ
-        },
-        (err) => {
-          // จัดการข้อผิดพลาดเฉพาะ (ถ้ามีการแจ้งจาก API)
-          if (err.error && err.error.message) {
-            customSwal.fire('ลงทะเบียนไม่สำเร็จ', err.error.message, 'error');
-          } else {
-            // ข้อความแสดงข้อผิดพลาดทั่วไป
-            customSwal.fire(
-              'เกิดข้อผิดพลาด',
-              'ไม่สามารถลงทะเบียนได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
-              'error'
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.http
+            .post('http://localhost:5000/api/register', user, {
+              withCredentials: true,
+            })
+            .subscribe(
+              () => {
+                customSwal
+                  .fire({
+                    icon: 'success',
+                    title: 'ลงทะเบียนสำเร็จ!',
+                    text: 'บัญชีผู้ดูแลระบบของคุณพร้อมใช้งานแล้ว',
+                    confirmButtonText: 'ตกลง',
+                  })
+                  .then(() => {
+                    this.form.reset();
+                    this.router.navigate(['/superadmin/dashboard']);
+                    window.location.reload(); // รีเฟรชหน้า
+                  });
+              },
+              (error) => {
+                console.error('เกิดข้อผิดพลาดในการลงทะเบียน:', error);
+                customSwal.fire({
+                  icon: 'error',
+                  title: 'ข้อผิดพลาด',
+                  text:
+                    error.error?.message ||
+                    'ไม่สามารถลงทะเบียนได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
+                });
+              }
             );
-          }
         }
-      );
+      });
   }
 
   togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword; // แสดง/ซ่อนรหัสผ่าน
+    this.showPassword = !this.showPassword;
   }
 }

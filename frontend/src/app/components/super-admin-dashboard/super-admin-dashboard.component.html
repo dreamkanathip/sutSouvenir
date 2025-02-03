@@ -70,25 +70,16 @@
           </tbody>
         </table>
 
-        <!-- Pagination -->
+        <!-- Pagination Controls using mat-paginator -->
         <div class="pagination-controls">
-          <button
-            class="btn btn-secondary"
-            (click)="prevPage()"
-            [disabled]="currentPage === 1"
+          <mat-paginator
+            [length]="users.length"
+            [pageSize]="itemsPerPage"
+            [pageSizeOptions]="[5, 10, 50, 100]"
+            aria-label="Select page"
+            (page)="onPageChange($event)"
           >
-            ก่อนหน้า
-          </button>
-          <button
-            class="btn btn-secondary"
-            (click)="nextPage()"
-            [disabled]="
-              filteredUsers.length <= 5 ||
-              currentPage * itemsPerPage >= filteredUsers.length
-            "
-          >
-            ถัดไป
-          </button>
+          </mat-paginator>
         </div>
       </div>
     </div>

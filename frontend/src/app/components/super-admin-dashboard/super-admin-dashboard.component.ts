@@ -28,7 +28,9 @@ export class SuperAdminDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService
-  ) {}
+  ) {
+    this.updatePagedUsers();
+  }
 
   ngOnInit(): void {
     this.authService.checkAuthentication();
@@ -44,12 +46,18 @@ export class SuperAdminDashboardComponent implements OnInit {
     });
   }
 
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
+    this.itemsPerPage = event.pageSize;
+    this.updatePagedUsers(); // Update paged categories after page change
+  }
+
   // ดึงข้อมูลผู้ใช้ทั้งหมดจาก UserService
   getUsers(): void {
     this.isLoading = true; // แสดงสถานะการโหลด
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
+      customClass: {
+        popup: 'title-swal',
       },
     });
     this.userService.getAllUsers().subscribe({
@@ -61,7 +69,11 @@ export class SuperAdminDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching users:', err); // แสดงข้อผิดพลาดใน console
-        customSwal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถดึงข้อมูลผู้ใช้ได้', 'error');
+        customSwal.fire(
+          'เกิดข้อผิดพลาด',
+          'ไม่สามารถดึงข้อมูลผู้ใช้ได้',
+          'error'
+        );
         this.isLoading = false; // หยุดแสดงสถานะการโหลด
       },
     });
@@ -117,54 +129,56 @@ export class SuperAdminDashboardComponent implements OnInit {
   // ฟังก์ชันลบผู้ใช้
   deleteUser(userId: number): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
-        cancelButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
-    customSwal.fire({
-      title: 'คุณแน่ใจหรือไม่?',
-      text: 'คุณต้องการลบผู้ใช้นี้หรือไม่',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'ใช่, ลบเลย!',
-      cancelButtonText: 'ยกเลิก',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.isLoading = true; // แสดงสถานะการโหลดขณะลบ
-        this.userService.deleteUser(userId).subscribe({
-          next: () => {
-            // แสดงข้อความสำเร็จ
-            customSwal.fire({
-              title: 'สำเร็จ',
-              text: 'ลบผู้ใช้สำเร็จ',
-              icon: 'success',
-              confirmButtonColor: '#3085d6',
-            });
+    customSwal
+      .fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: 'คุณต้องการลบผู้ใช้นี้หรือไม่',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true; // แสดงสถานะการโหลดขณะลบ
+          this.userService.deleteUser(userId).subscribe({
+            next: () => {
+              // แสดงข้อความสำเร็จ
+              customSwal.fire({
+                title: 'สำเร็จ',
+                text: 'ลบผู้ใช้สำเร็จ',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+              });
 
-            // โหลดข้อมูลใหม่เพื่ออัปเดตรายการผู้ใช้
-            this.getUsers();
-          },
-          error: (err) => {
-            // แสดงข้อผิดพลาดหากการลบไม่สำเร็จ
-            console.error('Error deleting user:', err);
-            customSwal.fire({
-              title: 'เกิดข้อผิดพลาด',
-              text: 'ไม่สามารถลบผู้ใช้ได้',
-              icon: 'error',
-              confirmButtonColor: '#3085d6',
-            });
-          },
-          complete: () => {
-            // ซ่อนสถานะการโหลด
-            this.isLoading = false;
-          },
-        });
-      }
-    });
+              // โหลดข้อมูลใหม่เพื่ออัปเดตรายการผู้ใช้
+              this.getUsers();
+            },
+            error: (err) => {
+              // แสดงข้อผิดพลาดหากการลบไม่สำเร็จ
+              console.error('Error deleting user:', err);
+              customSwal.fire({
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถลบผู้ใช้ได้',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+              });
+            },
+            complete: () => {
+              // ซ่อนสถานะการโหลด
+              this.isLoading = false;
+            },
+          });
+        }
+      });
   }
 
   // ฟังก์ชันแปลงบทบาทเป็นภาษาไทย

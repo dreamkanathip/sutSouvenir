@@ -48,11 +48,12 @@
 }
 
 /* Table Styles */
+
 .table {
   width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
   max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
   margin: 0 auto; /* จัดกึ่งกลาง */
-  
+  table-layout: fixed; /* จัดการเลย์เอาต์ให้คงที่ */
 }
 
 .table th,
@@ -240,5 +241,56 @@ body.modal-open::before {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  overflow: auto;
+}
+.card-body {
+  max-height: 400px; /* กำหนดความสูงสูงสุด */
+  overflow-y: auto; /* เพิ่มแถบเลื่อนแนวตั้ง (vertical scroll) */
+  overflow-x: hidden; /* ป้องกันไม่ให้เกิดแถบเลื่อนแนวนอน */
+  padding: 15px; /* เพิ่มช่องว่างภายใน */
+  border: 1px solid #ddd; /* เพิ่มเส้นขอบเล็กน้อยเพื่อความสวยงาม */
+  background-color: #fff; /* พื้นหลังสีขาว */
+  border-radius: 8px; /* ทำให้มุมโค้งมน */
+}
+
+.manage {
+  gap: 10px;
+}
+
+.manage .btn {
+  margin-left: 10px;
+}
+
+.manage .btn:last-child {
+  margin-right: 0;
+}
+
+.table .edit-btn {
+  background: #ffffff;
+  color: #f0ad4e;
+  border: 2px solid #f0ad4e;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 8px 16px; /* เพิ่ม padding เพื่อให้ปุ่มดูใหญ่ขึ้นเล็กน้อย */
+  font-size: 14px; /* ขนาดฟอนต์ในปุ่ม */
+  margin: 0 auto; /* จัดให้ปุ่มอยู่กลาง */
+  width: auto; /* ปรับความกว้างให้เหมาะสมกับขนาดปุ่ม */
+  height: 40px; /* ความสูงของปุ่ม */
+}
+
+.table .edit-btn:hover {
+  background: #f0ad4e;
+  color: #fff;
+  border: 2px solid #f0ad4e;
+}
+.table .btn-warning {
+  background: #ffffff; /* พื้นหลังขาว */
+  color: #f0ad4e; /* ข้อความเป็นสีส้ม */
+  border: 2px solid #f0ad4e; /* ขอบเป็นสีส้ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่ม transition สำหรับการเปลี่ยนแปลงสี */
+}
+
+.table .btn-warning:hover {
+  background: #f0ad4e; /* พื้นหลังเป็นสีส้มเมื่อ hover */
+  color: #fff; /* ข้อความเป็นสีขาว */
+  border: 2px solid #f0ad4e; /* ขอบยังคงเป็นสีส้ม */
 }

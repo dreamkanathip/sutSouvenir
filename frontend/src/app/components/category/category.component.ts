@@ -12,7 +12,7 @@ import { Category } from '../../interfaces/category/category.model';
 })
 export class CategoryComponent implements OnInit {
   categories: any[] = [];
-  filteredCategories: any[] = [];
+  filteredCategories: Category[] = [];
   pagedCategories: any[] = [];
   isLoading = false;
   selectedCategoryFilter: string = 'ALL';
@@ -23,20 +23,42 @@ export class CategoryComponent implements OnInit {
   selectedCategory: Category = {} as Category;
   editMode: boolean = false; // เพิ่มตัวแปร editMode
 
+  edit: Category = {} as Category;
+
   constructor(
     private categoryService: CategoryService,
     private router: Router
-  ) {}
+  ) {
+    this.updatePagedCategories();
+  }
 
   ngOnInit(): void {
     this.loadCategories(); // Load categories on component initialization
   }
+  get paginatedCategories() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = this.currentPage * this.itemsPerPage;
+    return this.categories.slice(start, end);
+  }
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1; // Page index is 0-based, so we add 1 for 1-based indexing
+    this.itemsPerPage = event.pageSize;
+    this.updatePagedCategories(); // Update paged categories after page change
+  }
+
+  updatePagedCategories(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage; // Correct start index calculation
+    const end = this.currentPage * this.itemsPerPage; // Correct end index calculation
+    this.pagedCategories = this.filteredCategories.slice(start, end); // Update pagedCategories with the correct slice
+
+    console.log('updatePagedCategories()');
+  }
 
   loadCategories(): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
       },
     });
     this.isLoading = true;
@@ -67,36 +89,6 @@ export class CategoryComponent implements OnInit {
     this.updatePagedCategories();
   }
 
-  updatePagedCategories(): void {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.pagedCategories = this.filteredCategories.slice(start, end);
-
-    const emptyRows = this.itemsPerPage - this.pagedCategories.length;
-    for (let i = 0; i < emptyRows; i++) {
-      this.pagedCategories.push({
-        name: '',
-      });
-    }
-  }
-
-  loadPage(page: number): void {
-    this.currentPage = page;
-    this.updatePagedCategories();
-  }
-
-  nextPage(): void {
-    if (this.currentPage * this.itemsPerPage < this.filteredCategories.length) {
-      this.loadPage(this.currentPage + 1);
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.loadPage(this.currentPage - 1);
-    }
-  }
-
   openAddCategory(): void {
     // Navigate to the category addition page
     this.router.navigate(['/admin/add/category']);
@@ -104,9 +96,9 @@ export class CategoryComponent implements OnInit {
 
   addCategory(): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
       },
     });
     if (this.newCategory.name.trim()) {
@@ -129,6 +121,10 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  editCategory(category: Category): void {
+    this.edit = category;
+  }
+
   // ฟังก์ชันแก้ไขหมวดหมู่
   openEditCategory(category: any): void {
     this.selectedCategory = { ...category }; // คัดลอกข้อมูลหมวดหมู่ที่ต้องการแก้ไข
@@ -137,9 +133,9 @@ export class CategoryComponent implements OnInit {
 
   saveEditCategory(): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
       },
     });
     if (this.selectedCategory && this.selectedCategory.name.trim()) {
@@ -165,11 +161,19 @@ export class CategoryComponent implements OnInit {
             this.editMode = false;
 
             // แจ้งเตือนสำเร็จ
-            customSwal.fire('สำเร็จ', 'หมวดหมู่ถูกอัปเดตเรียบร้อยแล้ว', 'success');
+            customSwal.fire(
+              'สำเร็จ',
+              'หมวดหมู่ถูกอัปเดตเรียบร้อยแล้ว',
+              'success'
+            );
           },
           error: (err) => {
             console.error('เกิดข้อผิดพลาดในการอัปเดตหมวดหมู่:', err);
-            customSwal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถอัปเดตหมวดหมู่ได้', 'error');
+            customSwal.fire(
+              'เกิดข้อผิดพลาด',
+              'ไม่สามารถอัปเดตหมวดหมู่ได้',
+              'error'
+            );
           },
         });
     } else {
@@ -181,51 +185,53 @@ export class CategoryComponent implements OnInit {
   // ฟังก์ชันลบหมวดหมู่
   deleteCategoryById(event: MouseEvent, categoryId: number): void {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
-        cancelButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
-    customSwal.fire({
-      title: 'ยืนยันการลบ?',
-      text: 'คุณต้องการลบหมวดหมู่นี้หรือไม่?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ใช่, ลบเลย!',
-      cancelButtonText: 'ยกเลิก',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.categoryService.deleteCategoryById(categoryId).subscribe({
-          next: () => {
-            // ลบหมวดหมู่ออกจาก categories
-            this.categories = this.categories.filter(
-              (category) => category.id !== categoryId
-            );
+    customSwal
+      .fire({
+        title: 'ยืนยันการลบ?',
+        text: 'คุณต้องการลบหมวดหมู่นี้หรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.categoryService.deleteCategoryById(categoryId).subscribe({
+            next: () => {
+              // ลบหมวดหมู่ออกจาก categories
+              this.categories = this.categories.filter(
+                (category) => category.id !== categoryId
+              );
 
-            // เรียกฟังก์ชันเพื่ออัปเดตข้อมูลที่แสดงบนหน้า
-            this.filterCategories();
-            this.updatePagedCategories();
+              // เรียกฟังก์ชันเพื่ออัปเดตข้อมูลที่แสดงบนหน้า
+              this.filterCategories();
+              this.updatePagedCategories();
 
-            customSwal.fire({
-              title: 'สำเร็จ!',
-              text: 'ลบหมวดหมู่เรียบร้อยแล้ว',
-              icon: 'success',
-            });
-          },
-          error: (error) => {
-            console.error('เกิดข้อผิดพลาดในการลบหมวดหมู่:', error);
-            customSwal.fire({
-              title: 'เกิดข้อผิดพลาด!',
-              text: 'ไม่สามารถลบหมวดหมู่ได้ กรุณาลองอีกครั้ง',
-              icon: 'error',
-            });
-          },
-        });
-      }
-    });
+              customSwal.fire({
+                title: 'สำเร็จ!',
+                text: 'ลบหมวดหมู่เรียบร้อยแล้ว',
+                icon: 'success',
+              });
+            },
+            error: (error) => {
+              console.error('เกิดข้อผิดพลาดในการลบหมวดหมู่:', error);
+              customSwal.fire({
+                title: 'เกิดข้อผิดพลาด!',
+                text: 'ไม่สามารถลบหมวดหมู่ได้ กรุณาลองอีกครั้ง',
+                icon: 'error',
+              });
+            },
+          });
+        }
+      });
 
     event.stopPropagation();
   }

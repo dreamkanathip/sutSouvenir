@@ -7,7 +7,7 @@
           class="submit"
           data-bs-toggle="modal"
           data-bs-target="#addProductModal"
-          style="font-size: 1.2rem;"
+          style="font-size: 1.2rem"
         >
           + เพิ่มสินค้า
         </button>
@@ -16,7 +16,6 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">ลำดับ</th>
               <th scope="col">รูปภาพ</th>
               <th scope="col">ชื่อสินค้า</th>
               <th scope="col">จำนวนสินค้า</th>
@@ -28,14 +27,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let product of pagedProducts; let i = index">
-              <td scope="row" >
-                <span *ngIf="product.title">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
-              </td>
               <td>
                 <ng-container
-                  *ngIf="
-                    product.images && getImageUrl(product.id) !== 'none';
-                  "
+                  *ngIf="product.images && getImageUrl(product.id) !== 'none'"
                 >
                   <img
                     [src]="getImageUrl(product.id)"
@@ -58,7 +52,10 @@
                   >
                     <i class="bx bx-pencil"></i>
                   </button>
-                  <button class="btn btn-danger d-flex align-items-center justify-content-center" (click)="deleteProductById($event, product.id)">
+                  <button
+                    class="btn btn-danger d-flex align-items-center justify-content-center"
+                    (click)="deleteProductById($event, product.id)"
+                  >
                     <i class="bx bx-trash"></i>
                   </button>
                 </div>
@@ -67,21 +64,17 @@
           </tbody>
         </table>
 
+        <!-- Pagination Controls using mat-paginator -->
         <div class="pagination-controls">
-          <button
-            class="btn btn-secondary"
-            (click)="prevPage()"
-            [disabled]="currentPage === 1"
-          >
-            ก่อนหน้า
-          </button>
-          <button
-            class="btn btn-secondary"
-            (click)="nextPage()"
-            [disabled]="currentPage * itemsPerPage >= products.length"
+          <mat-paginator
+            [length]="products.length"
+            [pageSize]="itemsPerPage"
+            [pageSizeOptions]="[5, 10, 50, 100]"
+            aria-label="Select page"
+            (page)="onPageChange($event)"
           >
             ถัดไป
-          </button>
+          </mat-paginator>
         </div>
       </div>
     </div>

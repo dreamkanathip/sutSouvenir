@@ -7,7 +7,7 @@
           class="submit"
           data-bs-toggle="modal"
           data-bs-target="#addCategoryModal"
-          style="font-size: 1.2rem;"
+          style="font-size: 1.2rem"
         >
           + หมวดหมู่
         </button>
@@ -16,46 +16,48 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">ลำดับ</th>
               <th scope="col">ชื่อหมวดหมู่สินค้า</th>
               <th scope="col">จัดการ</th>
             </tr>
           </thead>
           <tbody>
+            <!-- แสดงข้อมูลตามที่มีในฐานข้อมูล -->
             <tr *ngFor="let category of pagedCategories; let i = index">
-              <td scope="row">
-                <span *ngIf="category.name">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
-              </td>
-
-              <td>{{ category.name }}</td>
+              <td>{{ category.name || "" }}</td>
               <td>
-                <button
-                  class="btn btn-danger"
-                  (click)="deleteCategoryById($event, category.id)"
-                  *ngIf="category.name"
-                >
-                  <i class="bx bx-trash"></i>
-                </button>
+                <div class="manage">
+                  <button
+                    class="btn btn-primary edit-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editCategoryModal"
+                    (click)="editCategory(category)"
+                    *ngIf="category.name"
+                  >
+                    <i class="bx bx-edit"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteCategoryById($event, category.id)"
+                    *ngIf="category.name"
+                  >
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
 
+        <!-- Pagination Controls using mat-paginator -->
         <div class="pagination-controls">
-          <button
-            class="btn btn-secondary"
-            (click)="prevPage()"
-            [disabled]="currentPage === 1"
+          <mat-paginator
+            [length]="categories.length"
+            [pageSize]="itemsPerPage"
+            [pageSizeOptions]="[5, 10, 50, 100]"
+            aria-label="Select page"
+            (page)="onPageChange($event)"
           >
-            ก่อนหน้า
-          </button>
-          <button
-            class="btn btn-secondary"
-            (click)="nextPage()"
-            [disabled]="currentPage * itemsPerPage >= categories.length"
-          >
-            ถัดไป
-          </button>
+          </mat-paginator>
         </div>
       </div>
     </div>
@@ -72,6 +74,7 @@
         [(ngModel)]="newCategory.name"
         name="category-name"
         class="form-control"
+        [value]="newCategory.name || ''"
         required
       />
     </div>
@@ -80,6 +83,7 @@
     </button>
   </div>
 </div>
+
 <!-- แสดงผล Card แก้ไขหมวดหมู่ -->
 <div *ngIf="editMode" class="edit-card show">
   <h3>แก้ไขข้อมูลหมวดหมู่</h3>
@@ -92,6 +96,7 @@
         [(ngModel)]="selectedCategory.name"
         name="name"
         class="form-control"
+        [value]="selectedCategory.name || ''"
         required
       />
     </div>
@@ -101,7 +106,14 @@
     </button>
   </form>
 </div>
+
 <app-category-management
   class="modal fade"
   id="addCategoryModal"
 ></app-category-management>
+
+<app-edit-category
+  class="modal fade"
+  id="editCategoryModal"
+  [category]="edit"
+></app-edit-category>

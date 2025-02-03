@@ -8,35 +8,15 @@
   align-items: center;
   min-height: 100vh;
 }
-
-.modal-title {
-  font-size: 24px;
+.modal-body {
+  font-size: 1.2rem;
 }
-
 .header {
   /* margin-bottom: 20px; */
   font-size: 19px;
   /* margin-left: 6px; */
   color: #f26522;
 }
-
-.product-img-preview {
-  width: 250px; /* กำหนดความกว้างของรูป */
-  height: 250px; /* กำหนดความสูงของรูป */
-  object-fit: contain; /* ใช้เพื่อให้รูปภาพครอบพื้นที่ได้เต็มขนาด */
-  cursor: pointer;
-  display: block;
-  margin: 0 auto; /* ให้อยู่ตรงกลาง */
-}
-
-.d-flex {
-  display: flex;
-  justify-content: center; /* จัดแนวกลางในแนวนอน */
-  align-items: center; /* จัดแนวกลางในแนวตั้ง */
-  height: 100%; /* เพื่อให้มีความสูง 100% สำหรับการจัดแนวในแนวตั้ง */
-}
-
-/* ถ้าหากต้องการให้รูปภาพใน container อยู่กลาง */
 .container {
   display: flex;
   flex-direction: column;
@@ -45,7 +25,6 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  text-align: center; /* เพิ่มการจัดแนวข้อความให้อยู่กลาง */
 }
 
 .main-row {
@@ -95,7 +74,6 @@
   position: relative;
   padding: 0 10px;
   margin-bottom: 20px;
-  font-size: 20px;
 }
 
 .input {
@@ -170,7 +148,8 @@
   display: flex; /* ใช้ flexbox เพื่อจัดเรียงปุ่มในแถว */
   justify-content: space-between; /* เว้นระยะห่างระหว่างปุ่ม */
   gap: 10px; /* ระยะห่างระหว่างปุ่ม */
-  width: 100%;
+  width: 70%;
+  margin-bottom: 5px;
 }
 
 .signin {
@@ -222,41 +201,4 @@ span a:hover {
 }
 .upload-btn :hover {
   background: #db9474;
-}
-/* ปรับการแสดงผลของกลุ่มเพศ */
-.gender-container {
-  margin-top: 20px;
-  margin-left: 20px; /* ขยับกลุ่มตัวเลือกเพศ */
-}
-
-.gender-options {
-  display: flex;
-  gap: 20px; /* เพิ่มระยะห่างระหว่างตัวเลือก */
-  align-items: center;
-}
-
-.gender-option {
-  display: flex;
-  align-items: center;
-}
-
-.gender-option-label {
-  margin-left: 5px; /* เพิ่มระยะห่างจาก input */
-}
-
-/* ปรับสีของ radio button */
-input[type="radio"] {
-  margin: 0; /* ลบ margin ที่เกิดจาก input */
-  accent-color: #f26522; /* ใช้สำหรับเปลี่ยนสีของ radio button เมื่อเลือก */
-}
-
-/* ปรับสีของ label เมื่อเลือก */
-input[type="radio"]:checked + .gender-option-label {
-  color: #f26522; /* เปลี่ยนสีของ label เมื่อเลือก */
-}
-.error {
-  color: red;
-  font-size: 12px;
-  position: absolute;
-  top: 55px; /* Adjust position so it doesn't overlap the icon */
 }

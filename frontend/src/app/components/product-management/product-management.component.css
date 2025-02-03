@@ -1,7 +1,6 @@
 /* Global Font */
 * {
   font-family: "SUT", sans-serif;
-  
 }
 
 /* Submit Button Styles */
@@ -29,7 +28,6 @@
   overflow-x: auto;
   padding-top: 20px; /* ลดระยะห่างด้านบน */
   width: calc(100% - 373px); /* ลดความกว้างของคอนเทนเนอร์ */
-  
 }
 
 /* Table Styles */
@@ -37,10 +35,9 @@
   width: 100%; /* ให้ตารางมีขนาดเต็มตามคอนเทนเนอร์ */
   max-width: 90%; /* กำหนดขนาดสูงสุดของตาราง */
   margin: 0 auto; /* จัดกึ่งกลาง */
-  
 }
 
-.table th{
+.table th {
   text-align: center;
   vertical-align: middle;
   height: 50px;
@@ -57,7 +54,7 @@
   height: 50px;
   padding: 10px; /* ลด padding เพื่อให้ตารางดูเล็กลง */
   font-size: 14px; /* ลดขนาดฟอนต์ในเซลล์ */
-  font-weight:normal;
+  font-weight: normal;
   font-size: 1.2rem;
 }
 
@@ -241,6 +238,15 @@ body.modal-open::before {
 
 .modal.show .modal-dialog {
   transform: translate(0, 0);
+}
+.card-body {
+  max-height: 400px; /* กำหนดความสูงสูงสุด */
+  overflow-y: auto; /* เพิ่มแถบเลื่อนแนวตั้ง (vertical scroll) */
+  overflow-x: hidden; /* ป้องกันไม่ให้เกิดแถบเลื่อนแนวนอน */
+  padding: 15px; /* เพิ่มช่องว่างภายใน */
+  border: 1px solid #ddd; /* เพิ่มเส้นขอบเล็กน้อยเพื่อความสวยงาม */
+  background-color: #fff; /* พื้นหลังสีขาว */
+  border-radius: 8px; /* ทำให้มุมโค้งมน */
 }
 .img-container{
   position: relative;

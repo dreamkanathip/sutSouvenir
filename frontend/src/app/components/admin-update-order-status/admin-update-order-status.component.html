@@ -6,26 +6,41 @@
       <h1 style="font-weight: bold">รายการคำสั่งซื้อ</h1>
       <hr />
 
-      <div class="filter row mb-3" style="width: 80%; margin: auto;">
+      <div class="filter row mb-3" style="width: 80%; margin: auto">
         <div class="col">
-          <span style="font-size: 22px;">สถานะคำสั่งซื้อ</span>
-          <select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" class="form-select form-select-lg shadow-none" aria-label="Default select example">
+          <span style="font-size: 22px">สถานะคำสั่งซื้อ</span>
+          <select
+            [(ngModel)]="filterStatus"
+            (ngModelChange)="applyFilters()"
+            class="form-select form-select-lg shadow-none"
+            aria-label="Default select example"
+          >
             <option [value]="''">ทั้งหมด</option>
-            <option *ngFor="let status of orderStatus" [value]="status.value" >{{ showOrderStatus(status.value) }}</option>
+            <option *ngFor="let status of orderStatus" [value]="status.value">
+              {{ showOrderStatus(status.value) }}
+            </option>
           </select>
         </div>
         <div class="col">
-          <span style="font-size: 22px;">บริษัทขนส่ง</span>
-          <select [(ngModel)]="filterShipping" (ngModelChange)="applyFilters()" class="form-select form-select-lg shadow-none" aria-label="Default select example">
+          <span style="font-size: 22px">บริษัทขนส่ง</span>
+          <select
+            [(ngModel)]="filterShipping"
+            (ngModelChange)="applyFilters()"
+            class="form-select form-select-lg shadow-none"
+            aria-label="Default select example"
+          >
             <option [value]="''">ทั้งหมด</option>
-            <option *ngFor="let shipping of shippings" [value]="shipping.company" >{{ shipping.company }}</option>
+            <option
+              *ngFor="let shipping of shippings"
+              [value]="shipping.company"
+            >
+              {{ shipping.company }}
+            </option>
           </select>
         </div>
       </div>
-      
 
       <div class="card d-flex justify-content-center align-items-center">
-        
         <div class="card-body">
           <div class="table align-middle">
             <thead class="thead-light">
@@ -40,42 +55,74 @@
             </thead>
             <tbody>
               <tr *ngFor="let order of paginatedOrders">
-                <td class="text-center">{{order.createdAt | formatDateToThai}}</td>
-                <td
-                  class="text-center"
-                  style="font-weight: bold;"
-                  [ngStyle]="{
-                    color: order?.orderStatus === 'PENDING'? '#F7AB05' : 
-                          order?.orderStatus === 'CANCELLED'? '#DD0000' :
-                          order?.orderStatus === 'DELIVERED'? '#47E036' : 
-                          order?.orderStatus === 'SHIPPED'? '#4BB5DE' : 
-                          order?.orderStatus === 'PROCESSED'? '#4BB5DE' :
-                          order?.orderStatus === 'NOT_PROCESSED'? '#FB0077': ''
-                  }"
-                >
-                {{ showOrderStatus(order.orderStatus) }}
-                </td> 
+                <td class="text-center">
+                  {{ order.createdAt | formatDateToThai }}
+                </td>
                 <td
                   class="text-center"
                   style="font-weight: bold"
                   [ngStyle]="{
-                    color: order.payments[0].status === 'NOT_PROCESSED'? '#FB0077' : 
-                          order.payments[0].status === 'COMPLETED'? '#47E036' :
-                          order.payments[0].status === 'FAILED'? '#DD0000' :
-                          order.payments[0].status === 'PENDING'? '#F7AB05' :  '#DD0000'
+                    color:
+                      order?.orderStatus === 'PENDING'
+                        ? '#F7AB05'
+                        : order?.orderStatus === 'CANCELLED'
+                        ? '#DD0000'
+                        : order?.orderStatus === 'DELIVERED'
+                        ? '#47E036'
+                        : order?.orderStatus === 'SHIPPED'
+                        ? '#4BB5DE'
+                        : order?.orderStatus === 'PROCESSED'
+                        ? '#4BB5DE'
+                        : order?.orderStatus === 'NOT_PROCESSED'
+                        ? '#FB0077'
+                        : ''
+                  }"
+                >
+                  {{ showOrderStatus(order.orderStatus) }}
+                </td>
+                <td
+                  class="text-center"
+                  style="font-weight: bold"
+                  [ngStyle]="{
+                    color:
+                      order.payments[0].status === 'NOT_PROCESSED'
+                        ? '#FB0077'
+                        : order.payments[0].status === 'COMPLETED'
+                        ? '#47E036'
+                        : order.payments[0].status === 'FAILED'
+                        ? '#DD0000'
+                        : order.payments[0].status === 'PENDING'
+                        ? '#F7AB05'
+                        : '#DD0000'
                   }"
                 >
                   {{ showPaymentStatus(order.payments[0].status) }}
                 </td>
-                <td class="text-center">{{order.cartTotal.toLocaleString('en', {useGrouping: true})}}</td>
-                <td class="text-center">{{getPaymentDate(order)? (getPaymentDate(order) | formatDateToThai) : 'ยังไม่ชำระ'}}</td>
                 <td class="text-center">
-                  <u class="check-payment" data-bs-toggle="modal" data-bs-target="#order-detail"
-                  (click)="seeOrder(order)">
+                  {{
+                    order.cartTotal.toLocaleString("en", { useGrouping: true })
+                  }}
+                </td>
+                <td class="text-center">
+                  {{
+                    getPaymentDate(order)
+                      ? (getPaymentDate(order) | formatDateToThai)
+                      : "ยังไม่ชำระ"
+                  }}
+                </td>
+                <td class="text-center">
+                  <u
+                    class="check-payment"
+                    data-bs-toggle="modal"
+                    data-bs-target="#order-detail"
+                    (click)="seeOrder(order)"
+                  >
                     <span [ngSwitch]="order?.orderStatus">
                       <span *ngSwitchCase="'PROCESSED'">เพิ่ม Tracking</span>
                       <span *ngSwitchCase="'SHIPPED'">แก้ไข Tracking</span>
-                      <span *ngSwitchCase="'NOT_PROCESSED'">ยืนยันการชำระเงิน</span>
+                      <span *ngSwitchCase="'NOT_PROCESSED'"
+                        >ยืนยันการชำระเงิน</span
+                      >
                       <span *ngSwitchDefault>ตรวจสอบคำสั่งซื้อ</span>
                     </span>
                   </u>
@@ -84,12 +131,13 @@
             </tbody>
           </div>
           <div class="pagination-controls">
-            <mat-paginator [length]="filteredOrders.length"
+            <mat-paginator
+              [length]="filteredOrders.length"
               [pageSize]="itemsPerPage"
               [pageSizeOptions]="[5, 10, 50, 100]"
               aria-label="Select page"
               (page)="onPageChange($event)"
-              >
+            >
             </mat-paginator>
           </div>
         </div>
