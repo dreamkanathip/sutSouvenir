@@ -9,7 +9,7 @@
           data-bs-target="#addProductModal"
           style="font-size: 1.2rem"
         >
-          + เพิ่มสินค้า
+          เพิ่มสินค้า
         </button>
       </div>
       <div class="card-body">
@@ -52,13 +52,23 @@
                 </ng-container>
               </td>
               <td>{{ product.title }}</td>
-              <td>{{ product.quantity }}</td>
+              <td [ngStyle]="{
+                color:
+                  product.quantity > productQuantityWarning ? 'black'
+                  : product.quantity > 0 ? 'orange'
+                  : 'red'
+                }"
+              >{{ product.quantity }}</td>
               <td>{{ product.price }}</td>
               <td>{{ product.description }}</td>
               <td>{{ product.category.name }}</td>
               <td>
-                <div class="d-flex flex-row align-items-center justify-content-center" *ngIf="product.title">
-                  <button class="btn btn-warning d-flex align-items-center justify-content-center" 
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center"
+                  *ngIf="product.title"
+                >
+                  <button
+                    class="btn btn-warning d-flex align-items-center justify-content-center"
                     data-bs-toggle="modal"
                     data-bs-target="#updateProductModal"
                     (click)="editProduct(product)"
@@ -92,128 +102,177 @@
       </div>
     </div>
   </div>
-  
+
   <div class="modal fade" id="updateProductModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <form [formGroup]="form" (ngSubmit)="saveEditProduct()">
-        <div class="modal-header">
-          <h3 style="font-weight: bold;">แก้ไขข้อมูลสินค้า</h3>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+          <div class="modal-header">
+            <h3 style="font-weight: bold">แก้ไขข้อมูลสินค้า</h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="image">ภาพสินค้า</label>
+            <div id="image" class="image mb-2 border rounded d-flex felx-row">
+              <div
+                *ngFor="let image of selectedProductImages; index as i"
+                class="img-container m-2"
+              >
+                <img
+                  [src]="showImage(image)"
+                  class="img-fluid"
+                  (click)="removeFile(i)"
+                  (click)="removeFileToBackend(image)"
+                />
+              </div>
+              <div
+                *ngFor="let file of imgToUpload; index as i"
+                class="position-relative img-container m-2"
+              >
+                <img
+                  [src]="imagePreview[i]"
+                  class="img-fluid"
+                  (click)="removeNewFile(i)"
+                />
+              </div>
+            </div>
+            <div class="upload d-flex justify-content-center">
+              <label
+                class="btn btn-primary upload-btn m-2 d-flex"
+                for="menu-image"
+              >
+                <i class="bx bx-plus"></i> เพิ่มรูปภาพสินค้า
+              </label>
+              <input
+                type="file"
+                class="form-control-file"
+                id="menu-image"
+                (change)="onImageAdd($event)"
+                appImgValidate
+              />
+            </div>
 
-              <label for="image">ภาพสินค้า</label>
-              <div id="image" class="image mb-2 border rounded d-flex felx-row">
-                <div *ngFor="let image of selectedProductImages; index as i" class="img-container m-2">
-                  <img [src]="showImage(image)" class="img-fluid" (click)="removeFile(i)" (click)="removeFileToBackend(image)">
-                </div>
-                <div *ngFor="let file of imgToUpload; index as i" class="position-relative img-container m-2">
-                  <img [src]="imagePreview[i]" class="img-fluid" (click)="removeNewFile(i)" >
-                </div>
-              </div>
-              <div class="upload d-flex justify-content-center">
-                <label class="btn btn-primary upload-btn m-2 d-flex" for="menu-image">
-                  <i class='bx bx-plus'></i> เพิ่มรูปภาพสินค้า
-                </label>
-                <input type="file" class="form-control-file" id="menu-image" (change)="onImageAdd($event)" appImgValidate />
-              </div>
-              
-              <div class="row">
-                <div class="col">
-                  <div class="form-group mb-3">
-                    <label for="title">ชื่อสินค้า</label>
-                    <input
-                      type="text"
-                      id="title"
-                      formControlName="title"
-                      class="form-control form-control-lg"
-                      required
-                    />
-                    <div *ngIf="title?.invalid" class="error">
-                      *กรุณากรอกข้อมูล
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group mb-3">
-                    <label for="quantity">จำนวน</label>
-                    <input
-                      type="number"
-                      id="quantity"
-                      formControlName="quantity"
-                      class="form-control form-control-lg"
-                      required
-                    />
-                      <div *ngIf="quantity?.errors?.['required']" class="error">
-                          *กรุณากรอกข้อมูล
-                      </div>
-                      <div *ngIf="quantity?.errors?.['pattern']" class="error">
-                        *ตัวเลขเท่านั้น
-                      </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <label for="title">ชื่อสินค้า</label>
+                  <input
+                    type="text"
+                    id="title"
+                    formControlName="title"
+                    class="form-control form-control-lg"
+                    required
+                  />
+                  <div *ngIf="title?.invalid" class="error">
+                    *กรุณากรอกข้อมูล
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="form-group mb-3">
-                    <label for="price">ราคา</label>
-                    <input
-                      type="number"
-                      id="price"
-                      formControlName="price"
-                      class="form-control form-control-lg"
-                      required
-                    />
-                    <div *ngIf="price?.errors?.['required']" class="error">
-                      *กรุณากรอกข้อมูล
-                    </div>
-                    <div *ngIf="price?.errors?.['pattern']" class="error">
-                      *ตัวเลขเท่านั้น
-                    </div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <label for="quantity">จำนวน</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    formControlName="quantity"
+                    class="form-control form-control-lg"
+                    required
+                  />
+                  <div *ngIf="quantity?.errors?.['required']" class="error">
+                    *กรุณากรอกข้อมูล
+                  </div>
+                  <div *ngIf="quantity?.errors?.['pattern']" class="error">
+                    *ตัวเลขเท่านั้น
                   </div>
                 </div>
-                <div class="col">
-                  <div class="form-group mb-3">
-                    <label for="description">คำอธิบาย</label>
-                    <input
-                      id="description"
-                      formControlName="description"
-                      class="form-control form-control-lg"
-                      required
-                    />
-                    <div *ngIf="description?.errors?.['required']" class="error">
-                      *กรุณากรอกข้อมูล
-                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <label for="price">ราคา</label>
+                  <input
+                    type="number"
+                    id="price"
+                    formControlName="price"
+                    class="form-control form-control-lg"
+                    required
+                  />
+                  <div *ngIf="price?.errors?.['required']" class="error">
+                    *กรุณากรอกข้อมูล
                   </div>
-                  <div class="form-group mb-3">
+                  <div *ngIf="price?.errors?.['pattern']" class="error">
+                    *ตัวเลขเท่านั้น
+                  </div>
                 </div>
+              </div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <label for="description">คำอธิบาย</label>
+                  <input
+                    id="description"
+                    formControlName="description"
+                    class="form-control form-control-lg"
+                    required
+                  />
+                  <div *ngIf="description?.errors?.['required']" class="error">
+                    *กรุณากรอกข้อมูล
+                  </div>
+                </div>
+                <div class="form-group mb-3"></div>
               </div>
               <div class="row">
                 <div class="col">
                   <label for="category">หมวดหมู่สินค้า</label>
-                    <div class="input-field form-group" >
-                      <select style="cursor: pointer;" id="category" formControlName="category" [(ngModel)]="selectedCategory" required class="form-control form-control-lg">
-                        <option *ngFor="let category of categories" [value]="category.id">
-                          {{ category.name }}
-                        </option>
-                      </select>
-                    </div>
-                    <div *ngIf="selectedCategory < 1" class="error">
-                      *กรุณากรอกข้อมูล
-                    </div>
+                  <div class="input-field form-group">
+                    <select
+                      style="cursor: pointer"
+                      id="category"
+                      formControlName="category"
+                      [(ngModel)]="selectedCategory"
+                      required
+                      class="form-control form-control-lg"
+                    >
+                      <option
+                        *ngFor="let category of categories"
+                        [value]="category.id"
+                      >
+                        {{ category.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div *ngIf="selectedCategory < 1" class="error">
+                    *กรุณากรอกข้อมูล
+                  </div>
                 </div>
               </div>
-          </div>
-                  
             </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 20px; border: none;">ปิด</button>
-          <button type="submit" class="btn btn-primary" style="font-size: 20px; background-color: #F36523; border: none;">บันทึก</button>
-        </div>
-      </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              style="font-size: 20px; border: none"
+            >
+              ปิด
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="font-size: 20px; background-color: #f36523; border: none"
+            >
+              บันทึก
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  
   </div>
-<app-add-product class="modal fade" id="addProductModal"></app-add-product>
+  <app-add-product class="modal fade" id="addProductModal"></app-add-product>
+</div>

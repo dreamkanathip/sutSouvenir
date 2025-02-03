@@ -9,8 +9,8 @@ import Swal from 'sweetalert2';
   styleUrl: './shipping.component.css',
 })
 export class ShippingComponent {
-  shippings!: Shipping[];
-  toUpdate!: Shipping;
+  shippings: Shipping[] = [];
+  edit: Shipping = {} as Shipping;
 
   constructor(private shippingService: ShippingService) {
     this.getCompany();
@@ -18,6 +18,7 @@ export class ShippingComponent {
 
   getCompany() {
     this.shippingService.getAllShippings().subscribe((res) => {
+      // console.log(res)
       this.shippings = res;
     });
   }
@@ -46,8 +47,12 @@ export class ShippingComponent {
     });
   }
 
+  editShipping(shipping: Shipping){
+    this.edit = shipping
+  }
+
   closeEditForm() {
-    this.toUpdate = undefined!;
+    // this.toUpdate = undefined!;
     window.location.reload();
   }
 }

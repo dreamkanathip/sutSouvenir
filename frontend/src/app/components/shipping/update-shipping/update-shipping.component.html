@@ -1,24 +1,70 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" style="font-weight: bold">
+        แก้ไขข้อมูลบริษัทขนส่ง
+      </h2>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
 
-      <div class="modal-body" >
-            <form [formGroup]="shippingData">
-                <div class="bank form-group">
-                    ชื่อบริษัทขนส่ง: <input formControlName="company" [value]="shipping">
-                </div>
-                <div class="name form-group">
-                    ค่าธรรมเนียม: <input formControlName="fees" [value]="shipping">
-                </div>
-            </form>
-      </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row main-row">
+          <div class="col-md-12 right">
+            <div>
+              <div class="input-box p-4">
+                <header class="header">จัดการข้อมูลบริษัทขนส่ง</header>
+                <form [formGroup]="form" (ngSubmit)="updateShipping()">
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="company"
+                      formControlName="company"
+                      required
+                    />
+                    <label for="company">ชื่อบริษัทขนส่ง</label>
+                  </div>
+                  <div class="input-field form-group">
+                    <input
+                      type="text"
+                      class="input"
+                      id="fees"
+                      formControlName="fees"
+                      required
+                    />
+                    <label for="fees">ค่าธรรมเนียม</label>
+                  </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" (click)="updateShipping()">Save changes</button>
+                  <div class="button-group">
+                    <button
+                      type="submit"
+                      class="submit"
+                      [disabled]="form.invalid"
+                    >
+                      แก้ไขบริษัท
+                    </button>
+                    <button
+                      type="button"
+                      class="cancel"
+                      (click)="goToShipping()"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      ย้อนกลับ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
