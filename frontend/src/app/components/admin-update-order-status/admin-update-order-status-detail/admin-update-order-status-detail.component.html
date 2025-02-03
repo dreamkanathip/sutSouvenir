@@ -135,7 +135,7 @@
         <button type="button" class="btn btn-primary" 
             style="font-size: 20px; background-color: #F36523; border: none;"
             (click)="confirmOrder()"
-            *ngIf="order?.orderStatus !== 'PROCESSED'"
+            *ngIf="order?.orderStatus === 'NOT_PROCESSED'"
         >
             ยืนยันการชำระเงิน
         </button>
