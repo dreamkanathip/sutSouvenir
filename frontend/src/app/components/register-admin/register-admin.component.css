@@ -254,3 +254,9 @@ input[type="radio"] {
 input[type="radio"]:checked + .gender-option-label {
   color: #f26522; /* เปลี่ยนสีของ label เมื่อเลือก */
 }
+.error {
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  top: 55px; /* Adjust position so it doesn't overlap the icon */
+}

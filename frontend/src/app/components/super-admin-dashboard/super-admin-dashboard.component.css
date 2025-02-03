@@ -65,7 +65,7 @@
   vertical-align: middle;
   padding: 8px 10px;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: bold;
   border-bottom: 1px solid #ddd;
 }
 
@@ -140,7 +140,13 @@
 }
 
 .card-body {
-  padding: 15px;
+  max-height: 400px; /* กำหนดความสูงสูงสุด */
+  overflow-y: auto; /* เพิ่มแถบเลื่อนแนวตั้ง (vertical scroll) */
+  overflow-x: hidden; /* ป้องกันไม่ให้เกิดแถบเลื่อนแนวนอน */
+  padding: 15px; /* เพิ่มช่องว่างภายใน */
+  border: 1px solid #ddd; /* เพิ่มเส้นขอบเล็กน้อยเพื่อความสวยงาม */
+  background-color: #fff; /* พื้นหลังสีขาว */
+  border-radius: 8px; /* ทำให้มุมโค้งมน */
 }
 
 /* Pagination Controls */

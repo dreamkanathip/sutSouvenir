@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="register-admin.component.css" />
-
+<!-- Modal for Admin Registration -->
 <div class="modal-dialog modal-lg modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
@@ -49,6 +48,15 @@
                       required
                     />
                     <label for="registerPage-firstname">ชื่อ</label>
+                    <span
+                      *ngIf="
+                        form.get('firstName')?.invalid &&
+                        form.get('firstName')?.touched
+                      "
+                      class="error"
+                    >
+                      กรุณากรอกชื่อ
+                    </span>
                   </div>
 
                   <!-- นามสกุล -->
@@ -61,6 +69,15 @@
                       required
                     />
                     <label for="registerPage-lastname">นามสกุล</label>
+                    <span
+                      *ngIf="
+                        form.get('lastName')?.invalid &&
+                        form.get('lastName')?.touched
+                      "
+                      class="error"
+                    >
+                      กรุณากรอกนามสกุล
+                    </span>
                   </div>
 
                   <!-- อีเมล -->
@@ -74,6 +91,14 @@
                       autocomplete="off"
                     />
                     <label for="registerPage-email">อีเมล</label>
+                    <span
+                      *ngIf="
+                        form.get('email')?.invalid && form.get('email')?.touched
+                      "
+                      class="error"
+                    >
+                      กรุณากรอกอีเมลให้ถูกต้อง
+                    </span>
                   </div>
 
                   <!-- รหัสผ่าน -->
@@ -86,6 +111,15 @@
                       required
                     />
                     <label for="registerPage-password">รหัสผ่าน</label>
+                    <span
+                      *ngIf="
+                        form.get('password')?.invalid &&
+                        form.get('password')?.touched
+                      "
+                      class="error"
+                    >
+                      กรุณากรอกรหัสผ่าน
+                    </span>
                   </div>
 
                   <!-- เพศ -->
@@ -120,6 +154,15 @@
                         >
                       </div>
                     </div>
+                    <span
+                      *ngIf="
+                        form.get('gender')?.invalid &&
+                        form.get('gender')?.touched
+                      "
+                      class="error"
+                    >
+                      กรุณาเลือกเพศ
+                    </span>
                   </div>
 
                   <!-- บทบาท -->
