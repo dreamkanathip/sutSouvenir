@@ -21,6 +21,8 @@ export interface Product {
   //   bookmarks:    Bookmark[],
   reviews: ReviewModel[];
   images: Images[];
+  imageKey?: string; // imageKey ที่ได้จาก API
+  imageUrl?: string; // เพิ่ม imageUrl เพื่อใช้ในการแสดงภาพ
 }
 
 export interface Images {

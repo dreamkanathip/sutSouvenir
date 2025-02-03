@@ -215,3 +215,10 @@ body.modal-open::before {
   justify-content: center; /* จัดตำแหน่งแนวนอน */
   align-items: center; /* จัดตำแหน่งแนวตั้ง */
 }
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover; /* ให้รูปไม่บิดเบี้ยว */
+  border-radius: 8px; /* เพิ่มความโค้งมุม */
+  border: 1px solid #ccc; /* เพิ่มกรอบบาง ๆ */
+}

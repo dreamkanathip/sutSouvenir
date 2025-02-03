@@ -15,7 +15,7 @@ export class AddProductComponent implements OnInit {
   form!: FormGroup;
   categories: any[] = []; // ตัวแปรเก็บข้อมูลหมวดหมู่
   selectedFile: File[] = [];
-  imagePreview: string[] | ArrayBuffer[] = []
+  imagePreview: string[] | ArrayBuffer[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -28,8 +28,8 @@ export class AddProductComponent implements OnInit {
     // สร้างฟอร์ม
     this.form = this.fb.group({
       title: ['', [Validators.required]],
-      quantity: [ [Validators.required, Validators.min(1)]],
-      price: [ [Validators.required, Validators.min(1)]],
+      quantity: [[Validators.required, Validators.min(1)]],
+      price: [[Validators.required, Validators.min(1)]],
       description: ['', [Validators.required]],
       category: ['', [Validators.required]], // ฟอร์มสำหรับ category
     });
@@ -42,8 +42,8 @@ export class AddProductComponent implements OnInit {
       (error) => {
         console.error('ไม่สามารถดึงข้อมูลหมวดหมู่ได้:', error);
         const customSwal = Swal.mixin({
-          customClass:{
-            popup: "title-swal",
+          customClass: {
+            popup: 'title-swal',
           },
         });
         customSwal.fire({
@@ -63,7 +63,7 @@ export class AddProductComponent implements OnInit {
   onImageAdd(event: any) {
     const file = event.target.files[0];
     if (file) {
-      console.log("file")
+      console.log('file');
       this.selectedFile.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -73,14 +73,14 @@ export class AddProductComponent implements OnInit {
     }
   }
   removeFile(index: number) {
-    this.selectedFile.splice(index, 1)
+    this.selectedFile.splice(index, 1);
   }
   // ฟังก์ชันสำหรับการ submit
-  
+
   async submit() {
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
+      customClass: {
+        popup: 'title-swal',
       },
     });
 
@@ -105,53 +105,62 @@ export class AddProductComponent implements OnInit {
       quantity: this.form.value.quantity,
       categoryId: this.form.value.category, // ใช้ categoryId แทน category name
     };
-    
-    customSwal.fire({
-      title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
-      showCancelButton: true,
-      confirmButtonText: 'บันทึก',
-      icon: 'warning',
-    }).then( async (result) => {
-      if (result.isConfirmed) {
-        const newProduct = await firstValueFrom(this.productManagementService.addProduct(formData))
-        const productId = newProduct.id
 
-        const uploadImage = this.selectedFile.map((file) => {
-          
-          const data = new FormData();
+    customSwal
+      .fire({
+        title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        icon: 'warning',
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const newProduct = await firstValueFrom(
+            this.productManagementService.addProduct(formData)
+          );
+          const productId = newProduct.id;
 
-          data.append('image', file, file.name);
-          data.append('productId', productId)
-          return firstValueFrom(this.productManagementService.uploadProductImage(data))
-        })
+          const uploadImage = this.selectedFile.map((file) => {
+            const data = new FormData();
 
-        await Promise.all(uploadImage);
-
-        if (uploadImage) {
-          customSwal.fire({
-            icon: 'success',
-            title: 'สำเร็จ',
-            text: 'สินค้าถูกบันทึกแล้ว!',
-          }).then(() => {
-            this.selectedFile = []
-            this.imagePreview = []
-            this.form.reset({
-              title: '',
-              quantity:'',
-              price: '',
-              description: '',
-              category: null, // ตั้งค่าเป็น null แทนที่จะเป็น ''
-            });
+            data.append('image', file, file.name);
+            data.append('productId', productId);
+            return firstValueFrom(
+              this.productManagementService.uploadProductImage(data)
+            );
           });
-        } else {
-          console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า');
-          customSwal.fire({
+
+          await Promise.all(uploadImage);
+
+          if (uploadImage) {
+            customSwal
+              .fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: 'สินค้าถูกบันทึกแล้ว!',
+              })
+              .then(() => {
+                this.selectedFile = [];
+                this.imagePreview = [];
+                this.form.reset({
+                  title: '',
+                  quantity: '',
+                  price: '',
+                  description: '',
+                  category: null, // ตั้งค่าเป็น null แทนที่จะเป็น ''
+                });
+                // รีเฟรชหน้า
+                window.location.reload();
+              });
+          } else {
+            console.error('เกิดข้อผิดพลาดในการบันทึกสินค้า');
+            customSwal.fire({
               icon: 'error',
               title: 'ข้อผิดพลาด',
               text: 'ไม่สามารถบันทึกสินค้าได้!',
             });
+          }
         }
-      }
-    });
+      });
   }
 }
