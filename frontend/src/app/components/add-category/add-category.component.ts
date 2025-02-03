@@ -36,53 +36,56 @@ export class AddCategoryComponent implements OnInit {
       name: this.form.value.name, // เก็บข้อมูลชื่อหมวดหมู่
     };
     const customSwal = Swal.mixin({
-      customClass:{
-        popup: "title-swal",
-        confirmButton: "text-swal",
-        cancelButton: "text-swal",
+      customClass: {
+        popup: 'title-swal',
+        confirmButton: 'text-swal',
+        cancelButton: 'text-swal',
       },
     });
 
-    customSwal.fire({
-      title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
-      showCancelButton: true,
-      confirmButtonText: 'บันทึก',
-      icon: 'warning',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.categoryService.addCategory(formData).subscribe(
-          () => {
-            customSwal.fire({
-              icon: 'success',
-              title: 'สำเร็จ',
-              text: 'หมวดหมู่ถูกบันทึกแล้ว!',
-            }).then(() => {
-              // รีเซ็ตฟอร์มหลังจากบันทึกสำเร็จ
-              this.form.reset({
-                name: '', // ตั้งค่าเป็นค่าว่างหลังจากบันทึก
+    customSwal
+      .fire({
+        title: 'คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: 'บันทึก',
+        icon: 'warning',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.categoryService.addCategory(formData).subscribe(
+            () => {
+              customSwal
+                .fire({
+                  icon: 'success',
+                  title: 'สำเร็จ',
+                  text: 'หมวดหมู่ถูกบันทึกแล้ว!',
+                })
+                .then(() => {
+                  // รีเซ็ตฟอร์มหลังจากบันทึกสำเร็จ
+                  this.form.reset({
+                    name: '', // ตั้งค่าเป็นค่าว่างหลังจากบันทึก
+                  });
+
+                  // รีเฟรชหน้า
+                  window.location.reload(); // เพิ่มการรีเฟรชหน้า
+                });
+            },
+            (error) => {
+              console.error('เกิดข้อผิดพลาดในการบันทึกหมวดหมู่:', error);
+              customSwal.fire({
+                icon: 'error',
+                title: 'ข้อผิดพลาด',
+                text: 'ไม่สามารถบันทึกหมวดหมู่ได้!',
               });
-              this.goToCategories(); // รีเฟรชหน้าหมวดหมู่
-            });
-          },
-          (error) => {
-            console.error('เกิดข้อผิดพลาดในการบันทึกหมวดหมู่:', error);
-            customSwal.fire({
-              icon: 'error',
-              title: 'ข้อผิดพลาด',
-              text: 'ไม่สามารถบันทึกหมวดหมู่ได้!',
-            });
-          }
-        );
-      }
-    });
+            }
+          );
+        }
+      });
   }
 
+  // ฟังก์ชันสำหรับการย้อนกลับไปหน้าหมวดหมู่
   goToCategories(): void {
-    // รีเฟรชหน้าหมวดหมู่โดยนำทางไปยังหน้าเดียวกัน
-    this.router
-      .navigateByUrl('/admin/show/category', { skipLocationChange: true })
-      .then(() => {
-        this.router.navigate([decodeURIComponent(this.router.url)]); // รีเฟรชหน้าโดยตรง
-      });
+    // นำทางไปยังหน้าหมวดหมู่
+    this.router.navigate(['/admin/show/category']);
   }
 }

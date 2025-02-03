@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
-import { Product } from './../../interfaces/products/products.model';
+import { Product, Images } from './../../interfaces/products/products.model';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class ProductManagementComponent implements OnInit {
   pagedProducts: Product[] = []; // ข้อมูลสินค้าสำหรับหน้าที่กำลังแสดง
   editMode: boolean = false; // สถานะการแก้ไขสินค้า
   selectedProduct: Product = {} as Product; // สินค้าที่ถูกเลือกเพื่อแก้ไข
+  productImages: { id: number; url: string }[] = [];
 
   constructor(
     private productManagementService: ProductManagementService,
@@ -30,11 +31,19 @@ export class ProductManagementComponent implements OnInit {
     this.loadProducts(); // เรียกข้อมูลสินค้าเมื่อโหลดหน้าจอ
   }
 
-  // โหลดข้อมูลสินค้าทั้งหมด
   loadProducts(): void {
     this.productManagementService.getAllProduct().subscribe(
       (data) => {
-        this.products = data;
+        this.products = data.map((product) => {
+          const imageUrl = product.imageKey
+            ? `https://sutsouvenir-seniorproject.s3.ap-southeast-1.amazonaws.com/${product.imageKey}`
+            : 'path_to_default_image'; // ใช้ default image หากไม่มี imageKey
+          return {
+            ...product,
+            imageUrl: imageUrl,
+          };
+        });
+
         this.loadPage(this.currentPage); // แสดงหน้าปัจจุบัน
       },
       (error) => {
@@ -246,5 +255,11 @@ export class ProductManagementComponent implements OnInit {
   // ไปหน้าเพิ่มสินค้า
   navigateToAddProduct(): void {
     this.router.navigate(['/admin/add/product']);
+  }
+  getImageUrl(id: number): string {
+    if (id) {
+      return `http://localhost:5000/api/productImage/${id}`;
+    }
+    return 'path_to_default_image'; // In case no image id is available, provide a default image URL.
   }
 }
