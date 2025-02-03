@@ -64,6 +64,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import localeTh from '@angular/common/locales/th'; // นำเข้า locale ไทย
 import { registerLocaleData } from '@angular/common';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { EditCategoryComponent } from './components/category/edit-category/edit-category.component';
 
 registerLocaleData(localeTh); // ลงทะเบียน locale ไทย
 
@@ -112,6 +113,7 @@ registerLocaleData(localeTh); // ลงทะเบียน locale ไทย
     UserSidenavComponent,
     AdminUpdateOrderStatusDetailComponent,
     ImgValidateDirective,
+    EditCategoryComponent,
   ],
   imports: [
     BrowserModule,

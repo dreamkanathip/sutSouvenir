@@ -23,6 +23,8 @@ export class CategoryComponent implements OnInit {
   selectedCategory: Category = {} as Category;
   editMode: boolean = false; // เพิ่มตัวแปร editMode
 
+  edit: Category = {} as Category;
+
   constructor(
     private categoryService: CategoryService,
     private router: Router
@@ -127,6 +129,10 @@ export class CategoryComponent implements OnInit {
     } else {
       customSwal.fire('Please enter a category name');
     }
+  }
+
+  editCategory(category: Category): void {
+    this.edit = category;
   }
 
   // ฟังก์ชันแก้ไขหมวดหมู่

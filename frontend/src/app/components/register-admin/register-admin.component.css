@@ -9,6 +9,10 @@
   min-height: 100vh;
 }
 
+.modal-title {
+  font-size: 24px;
+}
+
 .header {
   /* margin-bottom: 20px; */
   font-size: 19px;
@@ -91,6 +95,7 @@
   position: relative;
   padding: 0 10px;
   margin-bottom: 20px;
+  font-size: 20px;
 }
 
 .input {

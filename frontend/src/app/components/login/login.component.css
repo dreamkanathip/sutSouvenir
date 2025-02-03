@@ -30,7 +30,7 @@
   display: flex; /* ใช้ Flexbox */
   justify-content: center; /* จัดให้อยู่กลางในแนวนอน */
   align-items: flex-start; /* จัดให้อยู่บนสุดในแนวตั้ง */
-  font-size: 19px;
+  font-size: 24px;
   margin-top: 60px; /* เพิ่มระยะห่างจากขอบด้านบน */
   text-align: center; /* จัดข้อความให้อยู่กลาง */
   height: auto; /* ปรับความสูงอัตโนมัติตามเนื้อหา */
@@ -140,6 +140,7 @@ i {
   outline: none;
   color: #40414a;
   box-sizing: border-box; /* รวม padding และ border ไว้ในขนาดของ input */
+  font-size: 20px;
 }
 
 .input-box .input-field label {
@@ -154,7 +155,7 @@ i {
 .input-field .input:focus ~ label,
 .input-field .input:valid ~ label {
   top: -10px;
-  font-size: 13px;
+  font-size: 14px;
   color: #5d5076;
 }
 
@@ -170,6 +171,7 @@ i {
   border: none;
   border-radius: 5px;
   transition: 0.4s;
+  font-size: 20px;
 }
 
 .submit:hover {
@@ -179,7 +181,7 @@ i {
 
 .signin {
   text-align: center;
-  font-size: small;
+  font-size: 18px;
   margin-top: 25px;
 }
 

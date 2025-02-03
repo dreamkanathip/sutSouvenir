@@ -242,3 +242,33 @@ body.modal-open::before {
   justify-content: center;
   align-items: center;
 }
+
+.manage {
+  gap: 10px;
+}
+
+.manage .btn {
+  margin-right: 10px;
+}
+
+.manage .btn:last-child {
+  margin-right: 0;
+}
+
+.table .edit-btn {
+  background: #ffffff;
+  color: black;
+  border: 2px solid grey;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 8px 16px; /* เพิ่ม padding เพื่อให้ปุ่มดูใหญ่ขึ้นเล็กน้อย */
+  font-size: 14px; /* ขนาดฟอนต์ในปุ่ม */
+  margin: 0 auto; /* จัดให้ปุ่มอยู่กลาง */
+  width: auto; /* ปรับความกว้างให้เหมาะสมกับขนาดปุ่ม */
+  height: 40px; /* ความสูงของปุ่ม */
+}
+
+.table .edit-btn:hover {
+  background: #F36523;
+  color: #fff;
+  border: 2px solid #F36523;
+}
