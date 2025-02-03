@@ -36,15 +36,6 @@
                   <td>{{ bank.branch }}</td>
                   <td>
                     <button
-                      class="btn btn-primary edit-btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editDestBankModal"
-                      (click)="openDestBank()"
-                      *ngIf="bank.name"
-                    >
-                      <i class="bx bx-edit"></i>
-                    </button>
-                    <button
                       class="btn btn-danger"
                       (click)="deleteDestBank(bank.id)"
                     >
