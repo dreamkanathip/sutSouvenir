@@ -21,7 +21,6 @@ import { Product } from '../../interfaces/products/products.model';
   styleUrl: './admin-dashboard.component.css',
 })
 export class AdminDashboardComponent implements AfterViewInit, OnInit {
-
   startDate: string = '';
   endDate: string = '';
   selectedRange: string = 'allTime';
@@ -32,16 +31,24 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   title = 'ng2-charts-demo';
 
   products: Product[] = [];
-  emptyProduct: Product[] = []
-  lowProduct: Product[] = []
+  emptyProduct: Product[] = [];
+  lowProduct: Product[] = [];
 
-  productQuantityWarning: number = 10
-
+  productQuantityWarning: number = 10;
 
   allOrders: Order[] = [];
-  orderCount: { productId: number, title: string, count: number, price: number }[] = [];
+  orderCount: {
+    productId: number;
+    title: string;
+    count: number;
+    price: number;
+  }[] = [];
   orderTotal: number = 0;
-  orderStatusCounts: { PENDING: number, NOT_PROCESSED: number, PROCESSED: number } = { PENDING: 0, NOT_PROCESSED: 0, PROCESSED: 0 };
+  orderStatusCounts: {
+    PENDING: number;
+    NOT_PROCESSED: number;
+    PROCESSED: number;
+  } = { PENDING: 0, NOT_PROCESSED: 0, PROCESSED: 0 };
 
   public pieChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
@@ -81,9 +88,10 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     ],
   };
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, 
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private orderService: OrderService,
-    private homepageService: HomepageService,
+    private homepageService: HomepageService
   ) {
     this.defaultDateRange();
     Chart.register(...registerables, ChartDataLabels);
@@ -149,7 +157,9 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
   getOrders() {
     this.orderService.getOrders().subscribe((orders) => {
-      this.allOrders = orders.filter(order => order.orderStatus !== 'CANCELLED');
+      this.allOrders = orders.filter(
+        (order) => order.orderStatus !== 'CANCELLED'
+      );
       this.calculateSales();
       this.countProductOrders();
       this.orderStatusCounts = this.countOrdersByStatus();
@@ -158,9 +168,16 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
   getProducts() {
     this.homepageService.getAllProducts().subscribe((products) => {
-      this.products = products.map(product => ({ ...product, orderCount: 0 }));
-      this.emptyProduct = products.filter(product => product.quantity == 0);
-      this.lowProduct = products.filter(product => product.quantity <= this.productQuantityWarning && product.quantity != 0)
+      this.products = products.map((product) => ({
+        ...product,
+        orderCount: 0,
+      }));
+      this.emptyProduct = products.filter((product) => product.quantity == 0);
+      this.lowProduct = products.filter(
+        (product) =>
+          product.quantity <= this.productQuantityWarning &&
+          product.quantity != 0
+      );
       this.countProductOrders();
     });
   }
@@ -170,16 +187,21 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     const endDate = new Date(this.endDate);
     this.orderTotal = 0;
 
-    const PaidOrder = this.allOrders.filter((order) => order.orderStatus !== "NOT_PROCESSED" && order.orderStatus !== "PENDING");
+    const PaidOrder = this.allOrders.filter(
+      (order) =>
+        order.orderStatus !== 'NOT_PROCESSED' && order.orderStatus !== 'PENDING'
+    );
     // console.log("Paid:", PaidOrder)
 
     // console.log("Start:", startDate)
     // console.log("End:", endDate)
-  
+
     PaidOrder.forEach((order) => {
       const orderDate = new Date(order.createdAt);
       // console.log("Now:", orderDate)
       if (orderDate >= startDate && orderDate <= endDate) {
+        this.orderTotal += order.cartTotal;
+      } else if (this.selectedRange === 'allTime') {
         this.orderTotal += order.cartTotal;
       }
     });
@@ -191,7 +213,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       NOT_PROCESSED: 0,
       PROCESSED: 0,
     };
-  
+
     this.allOrders.forEach((order) => {
       if (order.orderStatus === 'PENDING') {
         statusCounts.PENDING++;
@@ -201,15 +223,18 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
         statusCounts.PROCESSED++;
       }
     });
-  
+
     return statusCounts;
   }
 
   countProductOrders() {
     const productOrderCounts: { [key: number]: number } = {};
 
-    const PaidOrder = this.allOrders.filter((order) => order.orderStatus !== "NOT_PROCESSED" && order.orderStatus !== "PENDING");
-  
+    const PaidOrder = this.allOrders.filter(
+      (order) =>
+        order.orderStatus !== 'NOT_PROCESSED' && order.orderStatus !== 'PENDING'
+    );
+
     PaidOrder.forEach((order) => {
       order.products.forEach((product) => {
         if (productOrderCounts[product.productId]) {
@@ -219,12 +244,17 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
         }
       });
     });
-  
-    this.orderCount = Object.entries(productOrderCounts).map(([productId, count]: [string, number]) => ({
+
+    this.orderCount = Object.entries(productOrderCounts).map(
+      ([productId, count]: [string, number]) => ({
         productId: Number(productId),
-        title: this.products.find((product) => product.id === Number(productId))?.title || '',
+        title:
+          this.products.find((product) => product.id === Number(productId))
+            ?.title || '',
         count,
-        price: this.products.find((product) => product.id === Number(productId))?.price || 0,
+        price:
+          this.products.find((product) => product.id === Number(productId))
+            ?.price || 0,
       })
     );
 
@@ -239,7 +269,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   defaultDateRange() {
     const today = new Date();
     let startDate = new Date();
-    let endDate = new Date()
+    let endDate = new Date();
 
     switch (this.selectedRange) {
       case 'day':
@@ -273,9 +303,11 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   calculateChartData() {
     const chartData: ChartData<'doughnut', number[], string | string[]> = {
       labels: this.orderCount.slice(0, 3).map((product) => product.title),
-      datasets: [{
-        data: this.orderCount.slice(0, 3).map((product) => product.count)
-      }],
+      datasets: [
+        {
+          data: this.orderCount.slice(0, 3).map((product) => product.count),
+        },
+      ],
     };
     this.pieChartData = chartData;
   }
@@ -293,7 +325,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       const customSwal = Swal.mixin({
         customClass: {
           title: 'title-swal',
-          confirmButton: "text-swal",
+          confirmButton: 'text-swal',
         },
       });
       customSwal
@@ -312,8 +344,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     }
   }
 
-    updateDatePickerLimits() {
-      this.endDatePicker.set('maxDate', Date.now());
-      this.startDatePicker.set('maxDate', Date.now());
-    }
+  updateDatePickerLimits() {
+    this.endDatePicker.set('maxDate', Date.now());
+    this.startDatePicker.set('maxDate', Date.now());
+  }
 }

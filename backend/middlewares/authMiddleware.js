@@ -10,19 +10,19 @@ const authenticateToken = async (req, res, next) => {
     if (!token) {
       // หากไม่มี token
       const token = req.cookies.jwt;
-      if(!token) {
-        return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });        
+      if (!token) {
+        return res.status(403).json({ message: "Token ไม่ได้ถูกส่งมา" });
       }
     }
 
     // ตรวจสอบ token ว่าถูกต้องหรือไม่
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-     // ใช้ JWT_SECRET ในการตรวจสอบ
-     const user = await prisma.user.findFirst({
+    // ใช้ JWT_SECRET ในการตรวจสอบ
+    const user = await prisma.user.findFirst({
       where: {
-        id: Number(decoded.id)
-      }
-     })
+        id: Number(decoded.id),
+      },
+    });
     req.user = user; // เก็บข้อมูล user ที่ได้จาก token ไว้ใน req.user
     next(); // ไปที่ middleware หรือ route ถัดไป
   } catch (err) {
@@ -53,7 +53,7 @@ const authenticateRole = (roles) => {
   };
 };
 
-// ใช้ authenticateRole กับ role ต่างๆ
+// ใช้ authenticateRole กับ role ต่างๆ ที่อนุญาติให้เข้าถึง api ใน route เช่น auth admin มีแค่ role admin และ super admin เท่านั้นที่เข้าถึง route ได้
 const authenticateAdmin = authenticateRole(["ADMIN", "SUPERADMIN"]);
 const authenticateUser = authenticateRole(["USER"]);
 const authenticateSuperAdmin = authenticateRole(["SUPERADMIN"]);
