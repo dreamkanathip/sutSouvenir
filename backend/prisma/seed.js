@@ -7,18 +7,14 @@ const prismaClient = new PrismaClient();
 
 async function main() {
   const superadminEmail = "superadmin@gmail.com";
-  const superadminPassword = "superadmin"; // รหัสผ่านที่คุณต้องการใช้
+  const superadminPassword = "superadmin";
 
-  // ตรวจสอบว่า superadmin มีอยู่แล้วหรือไม่
   const existingSuperadmin = await prismaClient.user.findUnique({
     where: { email: superadminEmail },
   });
 
   if (!existingSuperadmin) {
-    // เข้ารหัสรหัสผ่าน
     const hashedPassword = await bcrypt.hash(superadminPassword, 10);
-
-    // สร้าง superadmin
     const superadmin = await prismaClient.user.create({
       data: {
         firstName: "Super",

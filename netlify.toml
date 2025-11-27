@@ -1,0 +1,15 @@
+[build]
+  # บอก Netlify ว่าโปรเจกต์เราอยู่ในโฟลเดอร์ frontend
+  base = "frontend"
+
+  # โฟลเดอร์ที่เก็บไฟล์เว็บหลัง Build เสร็จ (Angular 17+ จะมี /browser ต่อท้าย)
+  publish = "dist/frontend/browser"
+
+  # คำสั่ง Build
+  command = "npm install && npm run build"
+
+# แก้ปัญหาหน้าเว็บพังเวลากด Refresh (สำคัญมากสำหรับ Angular)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

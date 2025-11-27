@@ -6,7 +6,7 @@ const {
   authenticateToken,
   authenticateAdmin,
   authenticateUser,
-  authenticateSuperAdmin, // เพิ่มการยืนยันตัวตนสำหรับ SuperAdmin
+  authenticateSuperAdmin,
 } = require("../middlewares/authMiddleware");
 
 // Route สำหรับการลงทะเบียน
@@ -41,8 +41,8 @@ router.get(
 router.get(
   "/superadmin/users",
   authenticateToken,
-  authenticateSuperAdmin, // เช็คว่าเป็น SuperAdmin หรือไม่
-  userController.getUser // ฟังก์ชันนี้จะต้องดึงข้อมูลผู้ใช้ทั้งหมด
+  authenticateSuperAdmin,
+  userController.getUser
 );
 
 module.exports = router;
